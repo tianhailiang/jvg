@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <router-link to="/interlocution">interlocution</router-link>
     <router-view/>
   </div>
 </template>
