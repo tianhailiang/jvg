@@ -1,16 +1,24 @@
 <template>
 <div>
-    <div>jjl</div>
-    <mainnav></mainnav>
+    <div>
+        <topnav></topnav>
+    </div>
+    <div>
+        <div>
+            <side-nav></side-nav>
+        </div>
+    </div>
     
 </div>
 </template>
 <script>
-import mainnav from '../components/nav.vue'
+import topnav from '../components/nav.vue'
+import SideNav from '../components/SideNav.vue'
 
 export default {
   components: {
-    mainnav
+    topnav,
+    SideNav
   }
 }
 </script>
