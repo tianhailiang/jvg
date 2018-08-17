@@ -1,11 +1,13 @@
 <template>
-  <div class="home">
-    123
+  <div >
+    <div class="nav" >
+      课题列表
+    </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'home',
+  name: 'interlocution',
   components: {
 
   },
@@ -15,4 +17,10 @@ export default {
 }
 </script>
 <style scoped>
+  .nav{
+    width:100%;
+    height:40px;
+    font-size: 18px;
+    line-height: 40px;
+  }
 </style>
