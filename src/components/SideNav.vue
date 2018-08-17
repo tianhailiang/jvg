@@ -1,0 +1,135 @@
+<template>
+  <el-menu class="" router>
+    <el-menu-item index="1">首页</el-menu-item>
+    <el-menu-item index="2">系统管理</el-menu-item>
+    <el-submenu index="3">
+      <template slot="title">用户管理</template>
+        <el-submenu index="3-1">
+          <template slot="title" index="">人员列表</template>
+          <el-menu-item index="">用户添加编辑页</el-menu-item>
+          <el-menu-item index="">删除提示窗口</el-menu-item>
+          <el-menu-item index="">禁用编辑窗口</el-menu-item>
+        </el-submenu>
+        <el-submenu index="3-2">
+          <template slot="title" index="">实名认证列表</template>
+          <el-menu-item index="">实名认证信息详情页</el-menu-item>
+          <el-menu-item index="">撤销提示窗口</el-menu-item>
+        </el-submenu>
+    </el-submenu>
+    <el-menu-item index="4">商品管理</el-menu-item>
+    <el-submenu index="5">
+      <template slot="title">文章管理</template>
+        <el-submenu index="5-1">
+          <template slot="title" index="">文章列表</template>
+          <el-menu-item index="">删除提示窗口</el-menu-item>
+          <el-menu-item index="">禁用编辑窗口</el-menu-item>
+        </el-submenu>
+      <el-menu-item index="">文章详情</el-menu-item>
+        <el-submenu index="5-2">
+          <template slot="title" index="">文章审核管理</template>
+          <el-menu-item index="">不通过编辑窗口</el-menu-item>
+        </el-submenu>
+        <el-submenu index="5-3">
+          <template slot="title" index="">文章打赏列表</template>
+          <el-menu-item index="">文章打赏详情</el-menu-item>
+        </el-submenu>
+        <el-submenu index="5-4">
+          <template slot="title" index="">文章评论列表</template>
+          <el-menu-item index="">删除提示窗口</el-menu-item>
+          <el-menu-item index="">文章评论详情</el-menu-item>
+        </el-submenu>
+    </el-submenu>
+    <el-submenu index="6">
+      <template slot="title">问答管理</template>
+      <el-menu-item index="">话题列表</el-menu-item>
+        <el-submenu index="61">
+          <template slot="title" index="">话题详情</template>
+          <el-menu-item index="">问答列表查看</el-menu-item>
+          <el-menu-item index="">问答详情查看</el-menu-item>
+        </el-submenu>
+      <el-menu-item index="">问答列表</el-menu-item>
+        <el-submenu index="62">
+          <template slot="title" index="">问答详情</template>
+          <el-menu-item index="">答案/回复列表</el-menu-item>
+        </el-submenu>
+      <el-menu-item index="">删除提示窗口</el-menu-item>
+    </el-submenu>
+    <el-submenu index="7">
+      <template slot="title">标签管理</template>
+        <el-submenu index="7-1">
+          <template slot="title" index="">标签列表页</template>
+          <el-menu-item index="">标签新建/编辑</el-menu-item>
+          <el-menu-item index="">标签排序</el-menu-item>
+        </el-submenu>
+    </el-submenu>
+    <el-menu-item index="8">类目管理</el-menu-item>
+    <el-menu-item index="9">财务管理</el-menu-item>
+    <el-submenu index="10">
+      <template slot="title">运营管理</template>
+        <el-submenu index="10-1">
+          <template slot="title">广告管理</template>
+          <el-submenu index="10-1-1">
+            <template slot="title" index="">广告位列表</template>
+            <el-menu-item index="">删除提示窗口</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="">广告位详情</el-menu-item>
+        </el-submenu>
+    </el-submenu>
+    <el-menu-item index="11">媒资管理</el-menu-item>
+    <el-menu-item index="12">数据中心</el-menu-item>
+
+    <el-submenu index="13">
+      <template slot="title">机构院校管理</template>
+        <el-submenu index="13-1">
+          <template slot="title" index="">机构院校列表</template>
+          <el-menu-item index="">机构院校新增/编辑页</el-menu-item>
+          <el-menu-item index="">删除提示窗口</el-menu-item>
+          <el-menu-item index="">禁用编辑窗口</el-menu-item>
+        </el-submenu>
+        <el-submenu index="13-2">
+          <template slot="title" index="">机构院校审核列表</template>
+          <el-menu-item index="">机构院校审核详情页</el-menu-item>
+        </el-submenu>
+    </el-submenu>
+    <el-submenu index="14">
+      <template slot="title">关注管理</template>
+      <el-menu-item index="">关注管理列表</el-menu-item>
+    </el-submenu>
+    <el-submenu index="15">
+      <template slot="title">私信管理</template>
+      <el-menu-item index="">私信列表</el-menu-item>
+    </el-submenu>
+    <el-submenu index="16">
+      <template slot="title">课程管理</template>
+      <el-menu-item index="">课程列表</el-menu-item>
+      <el-menu-item index="">课程详情页</el-menu-item>
+        <el-submenu index="16-1">
+          <template slot="title" index="">课程评论列表</template>
+          <el-menu-item index="">课程评论详情页</el-menu-item>
+        </el-submenu>
+      <el-menu-item index="">课程审批管理</el-menu-item>
+      <el-menu-item index="">删除提示窗口</el-menu-item>
+      <el-menu-item index="">冻结编辑窗口</el-menu-item>
+    </el-submenu>
+    <el-submenu index="17">
+      <template slot="title">出版物管理</template>
+      <el-menu-item index="">出版物列表</el-menu-item>
+      <el-menu-item index="">出版物详情页</el-menu-item>
+        <el-submenu index="17-1">
+          <template slot="title" index="">出版物评论列表</template>
+          <el-menu-item index="">出版物评论详情页</el-menu-item>
+        </el-submenu>
+      <el-menu-item index="">出版物审批管理</el-menu-item>
+      <el-menu-item index="">删除提示窗口</el-menu-item>
+      <el-menu-item index="">冻结编辑窗口</el-menu-item>
+    </el-submenu>
+    <el-submenu index="18">
+      <template slot="title">订单管理</template>
+      <el-menu-item index="">订单列表</el-menu-item>
+      <el-menu-item index="">订单详情页</el-menu-item>
+      <el-menu-item index="">订单退款列表</el-menu-item>
+      <el-menu-item index="">订单退款详情</el-menu-item>
+    </el-submenu>
+  </el-menu>
+  
+</template>

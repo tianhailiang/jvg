@@ -16,6 +16,11 @@ export default new Router({
       path: '/interlocution',
       name: 'interlocution',
       component: () => import(/* webpackChunkName: "about" */ './views/Interlocution.vue')
+    },
+    {
+      path: '/courseList', //课程列表
+      name: 'courseList',
+      component: () => import(/* webpackChunkName: "about" */ './views/courseList.vue')
     }
   ]
 })
