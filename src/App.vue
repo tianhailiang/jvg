@@ -53,6 +53,11 @@ html, body {
    fill: currentColor;
    overflow: hidden;
 }
+.main_content{
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+}
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
