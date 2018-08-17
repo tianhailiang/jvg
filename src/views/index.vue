@@ -1,14 +1,16 @@
 <template>
 <div>
-    <nav/>
+    <div>jjl</div>
+    <mainnav></mainnav>
+    
 </div>
 </template>
 <script>
-import nav from '../components/nav.vue'
+import mainnav from '../components/nav.vue'
 
 export default {
   components: {
-    nav
+    mainnav
   }
 }
 </script>
