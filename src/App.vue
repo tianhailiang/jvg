@@ -1,20 +1,9 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-link to="/interlocution">interlocution</router-link>
+    <router-view/>
   </div>
 </template>
-
-<script>
-import index from './views/index.vue'
-
-export default {
-  name: 'app',
-  components: {
-    index
-  }
-}
-</script>
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
