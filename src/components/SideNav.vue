@@ -46,7 +46,7 @@
       </el-menu-item-group>
     </el-submenu>
     <el-menu-item index="">私信管理</el-menu-item>
-    <el-menu-item index="">课程管理</el-menu-item>
+    <el-menu-item index="courseList">课程管理</el-menu-item>
     <el-menu-item index="">出版物管理</el-menu-item>
     <el-menu-item index="">订单管理</el-menu-item>
   </el-menu>
