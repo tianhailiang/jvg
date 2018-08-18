@@ -1,18 +1,18 @@
 <template>
-<el-row>
-    <div class="nav_top">
+<div>
+    <div>
         <top-nav></top-nav>
     </div>
     <div>
-        <div class="nav_left">
+        <div>
             <side-nav></side-nav>
         </div>
+        <router-view></router-view>
     </div>
-    
-</el-row>
+</div>
 </template>
 <script>
-import TopNav from '@/components/nav.vue'
+import TopNav from '@/components/Nav.vue'
 import SideNav from '@/components/SideNav.vue'
 
 export default {
@@ -23,13 +23,5 @@ export default {
 }
 </script>
 <style>
-.nav_top{
-    margin: 20px;
-}
-.nav_left{
-    width: 300px;
-    border: 1px solid #eee;
-    padding: 10px;
-    float: left;
-}
+
 </style>

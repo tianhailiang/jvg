@@ -1,6 +1,6 @@
 <template>
-  <el-menu class="" router>
-    <el-menu-item index="1">首页</el-menu-item>
+  <el-menu class="nav_left" router>
+    <el-menu-item index="/main">首页</el-menu-item>
     <el-menu-item index="2">系统管理</el-menu-item>
     <el-submenu index="3">
       <template slot="title">用户管理</template>
@@ -131,5 +131,13 @@
       <el-menu-item index="">订单退款详情</el-menu-item>
     </el-submenu>
   </el-menu>
-  
 </template>
+<style scoped>
+.nav_left{
+    width: 300px;
+    border: 1px solid #eee;
+    padding: 10px;
+    float: left;
+    margin-left: 20px;
+}
+</style>

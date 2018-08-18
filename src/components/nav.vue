@@ -1,5 +1,5 @@
 <template>
-    <el-row>
+    <el-row class="nav_top">
         <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1"><div class="grid-content bg-purple-light"><img src="@/assets/logo_common_black.png" alt=""></div></el-col>
         <el-col :span="5"><div class="grid-content bg-purple-light title">金吉列大学长管理后台</div></el-col>
         <el-row type="flex" class="row-bg" justify="end">
@@ -15,11 +15,12 @@
 export default {
 }
 </script>
-<style>
-
+<style scoped>
+.nav_top{
+    margin: 20px;
+}
 .title{
     color: #2c3e50;
     line-height: 60px;
-    
 }
 </style>
