@@ -65,12 +65,12 @@
                   </el-col>
                   <el-col :span="6">
                       <el-form-item label="评论类型">
-                          <el-select placeholder="全部">
-                              <el-option label="全部"  value="shanghai"></el-option>
-                              <el-option label="好评" value="beijing"></el-option>
-                              <el-option label="中评" value="beijing"></el-option>
-                              <el-option label="差评" value="beijing"></el-option>
-                            </el-select>
+                        <el-select v-model="value" placeholder="全部">
+                          <el-option v-for="item in options" 
+                            :label="item.label" 
+                            :value="item.label">
+                          </el-option>
+                        </el-select>
                       </el-form-item>
                   </el-col>
                   <el-col :span="3">
@@ -109,9 +109,10 @@
 </template>
 <script>
     export default {
-      name:'courseList',
+      name:'courseCommentDetail',
       data () {
           return {
+              value:'',
               tableData3:[{
                   date: '20160502',
                   name: '张三',
@@ -124,10 +125,15 @@
                   date: '20160502',
                   name: '王五',
                   address: '删除'
-              }]
+              }],
+              options: [
+                {value: '选项1',label: '好评'},
+                {value: '选项2',label: '中评'},
+                {value: '选项3',label: '差评'}
+              ]
+            }
           }
-      }
-    }
+        }
   </script>
 <style>
   .coursecomment-detail{
