@@ -29,7 +29,7 @@
                       <el-option label="直播中" value="beijing"></el-option>
                       <el-option label="未开始" value="beijing"></el-option>
                       <el-option label="已结束" value="beijing"></el-option>
-                    </el-select>
+                  </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -37,36 +37,26 @@
                   <el-input placeholder="讲师名称"></el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="6">
-              <el-form-item label="销售状态">
-                  <el-select placeholder="销售状态">
+          <el-col :span="12">
+              <el-form-item label="审核状态">
+                  <el-select placeholder="审核状态">
                       <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="直播中" value="beijing"></el-option>
-                      <el-option label="未开始" value="beijing"></el-option>
-                      <el-option label="已结束" value="beijing"></el-option>
+                      <el-option label="通过" value="beijing"></el-option>
+                      <el-option label="未通过" value="beijing"></el-option>
+                      <el-option label="已待审核" value="beijing"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
-          <el-col :span="6">
-              <el-form-item label="直播状态">
-                <el-select placeholder="直播状态">
-                    <el-option label="全部"  value="shanghai"></el-option>
-                    <el-option label="直播中" value="beijing"></el-option>
-                    <el-option label="未开始" value="beijing"></el-option>
-                    <el-option label="已结束" value="beijing"></el-option>
-                  </el-select>
-              </el-form-item>
-          </el-col>
-          <el-col :span="6">
+          <el-col :span="3">
               <el-button size="small" type="primary">搜索</el-button>
-              <el-button size="small" type="primary">创建课程</el-button>
           </el-col>
       </el-form>
     </el-row>
     <!-- 表格 -->
     <el-table :data="tableData3">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="date" label="日期" width="120"></el-table-column>
+        <el-table-column prop="date" label="课程ID" width="120"></el-table-column>
+        <el-table-column prop="name" label="课程标题" width="120"></el-table-column>
         <el-table-column prop="name" label="讲师名称" width="120"></el-table-column>
         <el-table-column prop="name" label="频道" width="120"></el-table-column>
         <el-table-column prop="name" label="课程分类" width="120"></el-table-column>
@@ -74,8 +64,7 @@
         <el-table-column prop="name" label="教学模式" width="120"></el-table-column>
         <el-table-column prop="name" label="课程价格" width="120"></el-table-column>
         <el-table-column prop="name" label="直播时间" width="120"></el-table-column>
-        <el-table-column prop="name" label="销售状态" width="120"></el-table-column>
-        <el-table-column prop="name" label="直播状态" width="120"></el-table-column>
+        <el-table-column prop="name" label="审核状态" width="120"></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip></el-table-column>
     </el-table>
     <div style="height:30px"></div>
@@ -88,8 +77,7 @@
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary">批量删除</el-button>
-            <el-button size="small" type="primary">批量冻结</el-button>
+            <el-button size="small" type="primary">批量通过</el-button>
         </el-col>
     </el-row>
   </section>
@@ -100,13 +88,17 @@
     data () {
         return {
             tableData3:[{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '冻结'
+                date: '20160502',
+                name: '张三',
+                address: '查看'
             },{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '冻结'
+                date: '20160502',
+                name: '李四',
+                address: '查看'
+            },{
+                date: '20160502',
+                name: '王五',
+                address: '查看'
             }]
         }
     }
