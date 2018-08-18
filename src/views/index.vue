@@ -3,12 +3,12 @@
     <div>
         <top-nav></top-nav>
     </div>
-    <div>
+    <el-row>
         <div>
             <side-nav></side-nav>
         </div>
         <router-view></router-view>
-    </div>
+    </el-row>
 </div>
 </template>
 <script>

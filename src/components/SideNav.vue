@@ -1,11 +1,13 @@
 <template>
+  
   <el-menu class="nav_left" router>
     <el-menu-item index="/main">首页</el-menu-item>
     <el-menu-item index="2">系统管理</el-menu-item>
     <el-submenu index="3">
       <template slot="title">用户管理</template>
         <el-submenu index="3-1">
-          <template slot="title" index="">人员列表</template>
+          <template slot="title">人员列表</template>
+          <el-menu-item index="/personnel">人员列表</el-menu-item>
           <el-menu-item index="">用户添加编辑页</el-menu-item>
           <el-menu-item index="">删除提示窗口</el-menu-item>
           <el-menu-item index="">禁用编辑窗口</el-menu-item>
@@ -131,10 +133,11 @@
       <el-menu-item index="">订单退款详情</el-menu-item>
     </el-submenu>
   </el-menu>
+  
 </template>
 <style scoped>
 .nav_left{
-    width: 300px;
+    width: 250px;
     border: 1px solid #eee;
     padding: 10px;
     float: left;
