@@ -10,7 +10,7 @@ li { list-style: none; }
 img { border: none; }
 input,
 select,
-textarea { 
+textarea{
   outline: none; border: none; background: none; border-radius: 0;
   -webkit-border-radius: 0;
   -webkit-appearance: none;
@@ -45,13 +45,18 @@ FontAwesome, sans-serif;color:#030000; overflow-x:hidden;
 }
 html, body {
   width: 100%;
-  height: 100%; 
+  height: 100%;
 }
 .icon {
    width: 1em; height: 1em;
    vertical-align: -0.15em;
    fill: currentColor;
    overflow: hidden;
+}
+.main_content{
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
 }
 #app {
   -webkit-font-smoothing: antialiased;
