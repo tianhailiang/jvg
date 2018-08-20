@@ -49,7 +49,7 @@
       ref="multipleTable"
       :data="tableData3"
       tooltip-effect="dark"
-      style="width: 100%"
+      style="max-width:100%;width: 1035px"
       @selection-change="handleSelectionChange" border>
       <el-table-column
         type="selection" 

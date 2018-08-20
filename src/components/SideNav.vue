@@ -1,5 +1,4 @@
 <template>
-  
   <el-menu class="nav_left" router>
     <el-menu-item index="/main">首页</el-menu-item>
     <el-menu-item index="2">系统管理</el-menu-item>
@@ -43,17 +42,17 @@
     </el-submenu>
     <el-submenu index="6">
       <template slot="title">问答管理</template>
-      <el-menu-item index="">话题列表</el-menu-item>
-        <el-submenu index="61">
-          <template slot="title" index="">话题详情</template>
-          <el-menu-item index="">问答列表查看</el-menu-item>
-          <el-menu-item index="">问答详情查看</el-menu-item>
-        </el-submenu>
+      <el-menu-item index="/interlocution">话题列表</el-menu-item>
+      <el-submenu index="61">
+        <template slot="title" index="">话题详情</template>
+        <el-menu-item index="">问答列表查看</el-menu-item>
+        <el-menu-item index="">问答详情查看</el-menu-item>
+      </el-submenu>
       <el-menu-item index="">问答列表</el-menu-item>
-        <el-submenu index="62">
-          <template slot="title" index="">问答详情</template>
-          <el-menu-item index="">答案/回复列表</el-menu-item>
-        </el-submenu>
+      <el-submenu index="62">
+        <template slot="title" index="">问答详情</template>
+        <el-menu-item index="">答案/回复列表</el-menu-item>
+      </el-submenu>
       <el-menu-item index="">删除提示窗口</el-menu-item>
     </el-submenu>
     <el-submenu index="7">
@@ -133,7 +132,6 @@
       <el-menu-item index="">订单退款详情</el-menu-item>
     </el-submenu>
   </el-menu>
-  
 </template>
 <style scoped>
 .nav_left{
