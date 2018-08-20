@@ -88,7 +88,7 @@
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary">批量删除</el-button>
+            <el-button size="small" type="primary" @click="openMadel">批量删除</el-button>
             <el-button size="small" type="primary">批量冻结</el-button>
         </el-col>
     </el-row>
@@ -108,6 +108,25 @@
                 name: '王小虎',
                 address: '冻结'
             }]
+        }
+    },
+    methods: {
+        openMadel() {
+            this.$confirm('请确认是否继续删除', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })   
+        })
         }
     }
   }
