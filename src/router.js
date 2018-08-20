@@ -15,7 +15,6 @@ export default new Router({
     },
     {
       path: '/main',
-      name: 'index',
       component: index,
       children:
       [
@@ -28,36 +27,46 @@ export default new Router({
           path: '/personnel',
           name: 'personnel',
           component: () => import('./views/Personnel.vue')
+        },
+        {
+          path: '/interlocution', /* 问答管理模块 话题列表 */
+          name: 'interlocution',
+          component: () => import(/* webpackChunkName: "about" */ './views/Interlocution.vue')
+        },
+        {
+          path: '/private_letter', /* 私信管理模块 私信列表 */
+          name: 'private_letter',
+          component: () => import(/* webpackChunkName: "about" */ './views/Private_letter_list.vue')
+        },
+        {
+          path: '/article', /* 文章管理模块 文章列表 */
+          name: 'article',
+          component: () => import(/* webpackChunkName: "about" */ './views/ArticleList.vue')
         }
       ]
     },
     {
-      path: '/interlocution',
-      name: 'interlocution',
-      component: () => import(/* webpackChunkName: "about" */ './views/Interlocution.vue')
-    },
-    {
-      path: '/courseList', //课程列表
+      path: '/courseList', /* 课程列表 */
       name: 'courseList',
       component: () => import(/* webpackChunkName: "about" */ './views/courseList.vue')
     },
     {
-      path: '/courseReview', //课程审核
+      path: '/courseReview', /* 课程审核 */
       name: 'courseReview',
       component: () => import(/* webpackChunkName: "about" */ './views/courseReview.vue')
     },
     {
-      path: '/courseComment', //课程评论
+      path: '/courseComment', /* 课程评论 */
       name: 'courseComment',
       component: () => import(/* webpackChunkName: "about" */ './views/courseComment.vue')
     },
     {
-      path: '/courseDetail', //课程详情
+      path: '/courseDetail', /* 课程详情 */
       name: 'courseDetail',
       component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
     },
     {
-      path: '/courseCommentDetail', //课程评论详情
+      path: '/courseCommentDetail', /* 课程评论详情 */
       name: 'courseCommentDetail',
       component: () => import(/* webpackChunkName: "about" */ './views/courseCommentDetail.vue')
     },
