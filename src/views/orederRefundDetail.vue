@@ -167,7 +167,7 @@
   </template>
   <script>
     export default {
-      name: '',
+      name: 'orederRefundDetail',
       data () {
         return {
           priceData: [

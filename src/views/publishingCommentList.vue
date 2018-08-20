@@ -53,7 +53,7 @@
   </template>
   <script>
     export default {
-      name:'courseList',
+      name:'publishingCommentList',
       data () {
           return {
               tableData3:[{

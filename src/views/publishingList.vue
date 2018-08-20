@@ -110,7 +110,7 @@
   </template>
   <script>
     export default {
-      name:'courseList',
+      name:'publishingList',
       data () {
           return {
               tableData3:[{

@@ -118,7 +118,7 @@
   </template>
   <script>
     export default {
-      name: '',
+      name: 'orderList',
       data () {
         return {
           priceData: [
