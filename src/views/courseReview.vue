@@ -77,9 +77,31 @@
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary">批量通过</el-button>
+            <el-button size="small" type="primary" @click="dialogVisible = true">批量通过</el-button>
         </el-col>
     </el-row>
+    <!-- 模态框 -->
+  <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+    <el-form label-width="100px" class="demo-ruleForm">
+        <el-form-item label="课程ID">
+          <el-input type="text" size="mini"></el-input>
+        </el-form-item>
+        <el-form-item label="课程标题">
+            <el-input type="text" size="mini"></el-input>
+        </el-form-item>
+        <el-form-item label="发布用户名">
+            <el-input type="text" size="mini"></el-input>
+        </el-form-item>
+        <el-form-item label="原因">
+          <el-input type="textarea" size="mini"></el-input>
+        </el-form-item>
+    </el-form>
+    <span>提示：用户重新申请审核</span>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    </span>
+</el-dialog>
   </section>
 </template>
 <script>
@@ -99,7 +121,8 @@
                 date: '20160502',
                 name: '王五',
                 address: '查看'
-            }]
+            }],
+            dialogVisible: false
         }
     }
   }

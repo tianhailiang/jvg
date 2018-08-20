@@ -62,9 +62,34 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/courseCommentDetail.vue')
     },
     {
-      path: '/orderManagement', //订单管理
-      name: 'orderManagement',
-      component: () => import(/* webpackChunkName: "about" */ './views/orderManagement.vue')
+      path: '/orderList', /* 订单列表 */
+      name: 'orderList',
+      component: () => import(/* webpackChunkName: "about" */ './views/orderList.vue')
+    },
+    {
+      path: '/orderRefund', /* 订单退款 */
+      name: 'orderRefund',
+      component: () => import(/* webpackChunkName: "about" */ './views/orderRefund.vue')
+    },
+    {
+      path: '/orederRefundDetail', /* 订单退款详情 */
+      name: 'orederRefundDetail',
+      component: () => import(/* webpackChunkName: "about" */ './views/orederRefundDetail.vue')
+    },
+    {
+      path: '/orderDetail', /* 订单详情 */
+      name: 'orderDetail',
+      component: () => import(/* webpackChunkName: "about" */ './views/orderDetail.vue')
+    },
+    {
+      path: '/publishingList', /* 出版物列表 */
+      name: 'publishingList',
+      component: () => import(/* webpackChunkName: "about" */ './views/publishingList.vue')
+    },
+    {
+      path: '/publishingCommentList', /* 出版物评论列表 */
+      name: 'publishingCommentList',
+      component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentList.vue')
     }
   ]
 })
