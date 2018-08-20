@@ -1,5 +1,5 @@
 <template>
-  <el-menu class="nav_left" router>
+  <el-menu class="nav_left" router :default-active="activeIndex">
     <el-menu-item index="/main">首页</el-menu-item>
     <el-menu-item index="2">系统管理</el-menu-item>
     <el-submenu index="3">
@@ -43,13 +43,13 @@
     <el-submenu index="6">
       <template slot="title">问答管理</template>
       <el-menu-item index="/interlocution">话题列表</el-menu-item>
-      <el-submenu index="61">
+      <el-submenu index="6-2">
         <template slot="title" index="">话题详情</template>
         <el-menu-item index="">问答列表查看</el-menu-item>
         <el-menu-item index="">问答详情查看</el-menu-item>
       </el-submenu>
       <el-menu-item index="">问答列表</el-menu-item>
-      <el-submenu index="62">
+      <el-submenu index="6-3">
         <template slot="title" index="">问答详情</template>
         <el-menu-item index="">答案/回复列表</el-menu-item>
       </el-submenu>
@@ -98,7 +98,7 @@
     </el-submenu>
     <el-submenu index="15">
       <template slot="title">私信管理</template>
-      <el-menu-item index="">私信列表</el-menu-item>
+      <el-menu-item index="/private_letter">私信列表</el-menu-item>
     </el-submenu>
     <el-submenu index="16">
       <template slot="title">课程管理</template>
@@ -133,12 +133,25 @@
     </el-submenu>
   </el-menu>
 </template>
+<script>
+export default {
+  name: 'sideNav',
+  data () {
+    return {
+      activeIndex:'/main'
+    }
+  },
+  mounted () {
+    this.activeIndex = window.location.href.split('http://localhost:8080')[1]
+  }
+}
+</script>
 <style scoped>
 .nav_left{
-    width: 250px;
-    border: 1px solid #eee;
-    padding: 10px;
-    float: left;
-    margin-left: 20px;
+  width: 250px;
+  border: 1px solid #eee;
+  padding: 10px;
+  float: left;
+  margin-left: 20px;
 }
 </style>

@@ -110,10 +110,19 @@
       </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage3"
+      :page-size="100"
+      layout="prev, pager, next, jumper"
+      :total="1000" style="text-align:center;margin-top:20px">
+    </el-pagination>
   </div>
 </template>
 <script>
 export default {
+  name: 'Interlocution',
   data () {
     return {
       formInline: {
@@ -200,7 +209,8 @@ export default {
         tag: '时讯，非时讯',
         time: '2018.01.01',
       }],
-      multipleSelection: []
+      multipleSelection: [],
+      currentPage3: 5,
     }
   },
   methods: {
@@ -224,6 +234,12 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   }
 }

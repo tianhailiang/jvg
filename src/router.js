@@ -15,7 +15,6 @@ export default new Router({
     },
     {
       path: '/main',
-      name: 'index',
       component: index,
       children:
       [
@@ -33,6 +32,11 @@ export default new Router({
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
           component: () => import(/* webpackChunkName: "about" */ './views/Interlocution.vue')
+        },
+        {
+          path: '/private_letter', /* 私信管理模块 私信列表 */
+          name: 'private_letter',
+          component: () => import(/* webpackChunkName: "about" */ './views/Private_letter_list.vue')
         }
       ]
     },
