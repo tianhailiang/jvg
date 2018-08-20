@@ -88,10 +88,32 @@
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary">批量删除</el-button>
-            <el-button size="small" type="primary">批量冻结</el-button>
+            <el-button size="small" type="primary" @click="openMadel">批量删除</el-button>
+            <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
         </el-col>
     </el-row>
+    <!--  -->
+    <el-dialog title="冻结编辑提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+        <el-form label-width="100px" class="demo-ruleForm">
+            <el-form-item label="课程ID">
+              <el-input type="text" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="课程标题">
+                <el-input type="text" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="发布用户名">
+                <el-input type="text" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="冻结原因">
+              <el-input type="textarea" size="mini"></el-input>
+            </el-form-item>
+        </el-form>
+        <span>提示：冻结后该课程在前端无法显示</span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+    </el-dialog>
   </section>
 </template>
 <script>
@@ -107,8 +129,28 @@
                 date: '2016-05-02',
                 name: '王小虎',
                 address: '冻结'
-            }]
+            }],
+            dialogVisible: false
         }
+    },
+    methods: {
+        openMadel() {
+            this.$confirm('请确认是否继续删除', '删除提示窗口', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })   
+        })
+      }
     }
   }
 </script>

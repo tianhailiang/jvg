@@ -1,5 +1,5 @@
 <template>
-  <el-menu class="nav_left" router>
+  <el-menu class="nav_left" router :default-active="activeIndex">
     <el-menu-item index="/main">首页</el-menu-item>
     <el-menu-item index="2">系统管理</el-menu-item>
     <el-submenu index="3">
@@ -18,39 +18,35 @@
     <el-menu-item index="4">商品管理</el-menu-item>
     <el-submenu index="5">
       <template slot="title">文章管理</template>
-        <el-submenu index="5-1">
-          <template slot="title" index="">文章列表</template>
-          <el-menu-item index="">删除提示窗口</el-menu-item>
-          <el-menu-item index="">禁用编辑窗口</el-menu-item>
-        </el-submenu>
+      <el-menu-item index="/article">文章列表</el-menu-item>
       <el-menu-item index="">文章详情</el-menu-item>
-        <el-submenu index="5-2">
-          <template slot="title" index="">文章审核管理</template>
-          <el-menu-item index="">不通过编辑窗口</el-menu-item>
-        </el-submenu>
-        <el-submenu index="5-3">
-          <template slot="title" index="">文章打赏列表</template>
-          <el-menu-item index="">文章打赏详情</el-menu-item>
-        </el-submenu>
-        <el-submenu index="5-4">
-          <template slot="title" index="">文章评论列表</template>
-          <el-menu-item index="">删除提示窗口</el-menu-item>
-          <el-menu-item index="">文章评论详情</el-menu-item>
-        </el-submenu>
+      <el-submenu index="5-2">
+        <template slot="title" index="">文章审核管理</template>
+        <el-menu-item index="">不通过编辑窗口</el-menu-item>
+      </el-submenu>
+      <el-submenu index="5-3">
+        <template slot="title" index="">文章打赏列表</template>
+        <el-menu-item index="">文章打赏详情</el-menu-item>
+      </el-submenu>
+      <el-submenu index="5-4">
+        <template slot="title" index="">文章评论列表</template>
+        <el-menu-item index="">删除提示窗口</el-menu-item>
+        <el-menu-item index="">文章评论详情</el-menu-item>
+      </el-submenu>
     </el-submenu>
     <el-submenu index="6">
       <template slot="title">问答管理</template>
-      <el-menu-item index="">话题列表</el-menu-item>
-        <el-submenu index="61">
-          <template slot="title" index="">话题详情</template>
-          <el-menu-item index="">问答列表查看</el-menu-item>
-          <el-menu-item index="">问答详情查看</el-menu-item>
-        </el-submenu>
+      <el-menu-item index="/interlocution">话题列表</el-menu-item>
+      <el-submenu index="6-2">
+        <template slot="title" index="">话题详情</template>
+        <el-menu-item index="">问答列表查看</el-menu-item>
+        <el-menu-item index="">问答详情查看</el-menu-item>
+      </el-submenu>
       <el-menu-item index="">问答列表</el-menu-item>
-        <el-submenu index="62">
-          <template slot="title" index="">问答详情</template>
-          <el-menu-item index="">答案/回复列表</el-menu-item>
-        </el-submenu>
+      <el-submenu index="6-3">
+        <template slot="title" index="">问答详情</template>
+        <el-menu-item index="">答案/回复列表</el-menu-item>
+      </el-submenu>
       <el-menu-item index="">删除提示窗口</el-menu-item>
     </el-submenu>
     <el-submenu index="7">
@@ -96,7 +92,7 @@
     </el-submenu>
     <el-submenu index="15">
       <template slot="title">私信管理</template>
-      <el-menu-item index="">私信列表</el-menu-item>
+      <el-menu-item index="/private_letter">私信列表</el-menu-item>
     </el-submenu>
     <el-submenu index="16">
       <template slot="title">课程管理</template>
@@ -131,12 +127,25 @@
     </el-submenu>
   </el-menu>
 </template>
+<script>
+export default {
+  name: 'sideNav',
+  data () {
+    return {
+      activeIndex:'/main'
+    }
+  },
+  mounted () {
+    this.activeIndex = window.location.href.split('http://localhost:8080')[1]
+  }
+}
+</script>
 <style scoped>
 .nav_left{
-    width: 250px;
-    border: 1px solid #eee;
-    padding: 10px;
-    float: left;
-    margin-left: 20px;
+  width: 250px;
+  border: 1px solid #eee;
+  padding: 10px;
+  float: left;
+  margin-left: 20px;
 }
 </style>
