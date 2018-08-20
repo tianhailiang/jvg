@@ -22,12 +22,12 @@ export default new Router({
         {
           path: '',
           name: '首页右侧',
-          component: () => import(/* webpackChunkName: "about" */ './views/main.vue')
+          component: () => import('./views/main.vue')
         },
         {
           path: '/personnel',
           name: 'personnel',
-          component: () => import(/* webpackChunkName: "about" */ './views/Personnel.vue')
+          component: () => import('./views/Personnel.vue')
         }
       ]
     },
