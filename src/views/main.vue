@@ -149,7 +149,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .chart-title{
     margin-left: 10px;
     background: #eee;

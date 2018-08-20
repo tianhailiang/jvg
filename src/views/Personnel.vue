@@ -1,6 +1,6 @@
 <template>
     <section class="personnel">
-        <el-col :span='13' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">人员管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
@@ -74,9 +74,9 @@
           </el-col>
         </el-form>
 
-        <!-- <el-col :span='18.5' style="margin-left: 10px;margin-bottom: 20px;"> -->
-            <div style="float: right;">
-            <el-table :data="tableData3" stripe>
+        <el-col :span='18.5' style="margin-left: 10px;margin-bottom: 20px;">
+            <!-- <div style="float: right;"> -->
+            <el-table :data="tableData3" stripe width="100%">
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
                 <el-table-column prop="date" label="用户id" width="90"></el-table-column>
                 <el-table-column prop="name" label="用户/联系人姓名" width="90"></el-table-column>
@@ -90,8 +90,8 @@
                 <el-table-column prop="name" label="注册频道" width="90"></el-table-column>
                 <el-table-column prop="address" label="操作" show-overflow-tooltip></el-table-column>
             </el-table>
-            </div>
-        <!-- </el-col> -->
+            <!-- </div> -->
+        </el-col>
         <div style="height:30px"></div>
 
         <el-col :span="18" style="text-align: center;">
@@ -105,13 +105,46 @@
                 <el-button size="small" type="primary">批量删除</el-button>
             </el-col>
         </el-col>
+        <!-- 删除窗口 -->
+        <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
+            <p style="font-size: 30px;">请确认删除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow = false">取 消</el-button>
+                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 禁用编辑窗口 -->
+        <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
+            <el-form >
+                <el-form-item label="用户/联系人名称：" :label-width="formLabelWidth">
+                    <el-input auto-complete="off" placeholder="xxxxxx" disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="用户/联系人手机：" :label-width="formLabelWidth">
+                    <el-input auto-complete="off" placeholder="13912xxxx34" disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="禁用原因：" :label-width="formLabelWidth">
+                    <el-input type="textarea" placeholder="请录入禁用原因" :rows="5"></el-input>
+                </el-form-item>
+            </el-form>
+            <p style="font-size: 20px;">提示：禁用后该用户将无法登陆平台</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow1 = false">取 消</el-button>
+                <el-button type="primary" @click="isDialogShow1 = false">确 定</el-button>
+            </span>
+        </el-dialog>
     </section>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      isDialogShow: false,
+      isDialogShow1: false
+    }
+  }
 }
 </script>
-<style>
+<style scoped>
 .personnel{
     margin-left: 10px;
 }

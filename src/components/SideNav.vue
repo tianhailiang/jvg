@@ -1,5 +1,4 @@
 <template>
-  
   <el-menu class="nav_left" router>
     <el-menu-item index="/main">首页</el-menu-item>
     <el-menu-item index="2">系统管理</el-menu-item>
@@ -8,14 +7,12 @@
         <el-submenu index="3-1">
           <template slot="title">人员列表</template>
           <el-menu-item index="/personnel">人员列表</el-menu-item>
-          <el-menu-item index="">用户添加编辑页</el-menu-item>
-          <el-menu-item index="">删除提示窗口</el-menu-item>
-          <el-menu-item index="">禁用编辑窗口</el-menu-item>
+          <el-menu-item index="/userEditors">用户添加编辑页</el-menu-item>
         </el-submenu>
         <el-submenu index="3-2">
           <template slot="title" index="">实名认证列表</template>
-          <el-menu-item index="">实名认证信息详情页</el-menu-item>
-          <el-menu-item index="">撤销提示窗口</el-menu-item>
+          <el-menu-item index="/realName">实名认证列表</el-menu-item>
+          <el-menu-item index="/realNameDetails">实名认证信息详情页</el-menu-item>
         </el-submenu>
     </el-submenu>
     <el-menu-item index="4">商品管理</el-menu-item>
@@ -83,19 +80,19 @@
     <el-submenu index="13">
       <template slot="title">机构院校管理</template>
         <el-submenu index="13-1">
-          <template slot="title" index="">机构院校列表</template>
-          <el-menu-item index="">机构院校新增/编辑页</el-menu-item>
-          <el-menu-item index="">删除提示窗口</el-menu-item>
-          <el-menu-item index="">禁用编辑窗口</el-menu-item>
+          <template slot="title">机构院校列表</template>
+          <el-menu-item index="/institutions">机构院校列表</el-menu-item>
+          <el-menu-item index="/institutionsEditors">机构院校新增/编辑页</el-menu-item>
         </el-submenu>
         <el-submenu index="13-2">
           <template slot="title" index="">机构院校审核列表</template>
-          <el-menu-item index="">机构院校审核详情页</el-menu-item>
+          <el-menu-item index="/institutionsExamine">机构院校审核列表</el-menu-item>
+          <el-menu-item index="/institutionsDetails">机构院校审核详情页</el-menu-item>
         </el-submenu>
     </el-submenu>
     <el-submenu index="14">
       <template slot="title">关注管理</template>
-      <el-menu-item index="">关注管理列表</el-menu-item>
+      <el-menu-item index="/follow">关注管理列表</el-menu-item>
     </el-submenu>
     <el-submenu index="15">
       <template slot="title">私信管理</template>
@@ -133,7 +130,6 @@
       <el-menu-item index="">订单退款详情</el-menu-item>
     </el-submenu>
   </el-menu>
-  
 </template>
 <style scoped>
 .nav_left{

@@ -66,7 +66,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .login-m{
     margin: 50px 20px;
 }
