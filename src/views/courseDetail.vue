@@ -272,7 +272,7 @@
       }
     }
   </script>
-  <style>
+  <style scoped>
   .center-box{
     display: flex;
     justify-content: center;

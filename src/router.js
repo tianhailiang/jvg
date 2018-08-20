@@ -60,6 +60,11 @@ export default new Router({
       path: '/courseCommentDetail', //课程评论详情
       name: 'courseCommentDetail',
       component: () => import(/* webpackChunkName: "about" */ './views/courseCommentDetail.vue')
+    },
+    {
+      path: '/orderManagement', //订单管理
+      name: 'orderManagement',
+      component: () => import(/* webpackChunkName: "about" */ './views/orderManagement.vue')
     }
   ]
 })
