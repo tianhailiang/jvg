@@ -37,6 +37,11 @@ export default new Router({
           path: '/private_letter', /* 私信管理模块 私信列表 */
           name: 'private_letter',
           component: () => import(/* webpackChunkName: "about" */ './views/Private_letter_list.vue')
+        },
+        {
+          path: '/article', /* 文章管理模块 文章列表 */
+          name: 'article',
+          component: () => import(/* webpackChunkName: "about" */ './views/ArticleList.vue')
         }
       ]
     },
