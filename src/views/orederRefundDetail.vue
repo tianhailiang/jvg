@@ -170,10 +170,18 @@
       name: 'orederRefundDetail',
       data () {
         return {
+          formInline:{},
           priceData: [
+            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
+            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
+            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
+            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
             {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200}
           ]
         }
+      },
+      methods: {
+        
       }
     }
   </script>

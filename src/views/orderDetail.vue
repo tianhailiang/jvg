@@ -150,7 +150,14 @@
     name: '',
     data () {
       return {
+        formInline:{},
         priceData: [
+          {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200},
+          {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200},
+          {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200},
+          {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200},
+          {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200},
+          {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200},
           {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200}
         ]
       }

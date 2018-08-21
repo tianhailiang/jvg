@@ -1,5 +1,5 @@
 <template>
-  <section class="coursecomment-detail">
+    <section class="coursecomment-detail">
       <el-row :gutter="20">
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
               <el-col :span="6">
@@ -90,7 +90,11 @@
                 <el-table-column prop="name" label="回复时间" width="120"></el-table-column>
                 <el-table-column prop="name" label="回复渠道" width="120"></el-table-column>
                 <el-table-column prop="name" label="评论类型" width="120"></el-table-column>
-                <el-table-column prop="address" label="操作" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="address" label="操作" show-overflow-tooltip>
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="danger">删除</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <div style="height:30px"></div>
             <!-- 分页 -->
