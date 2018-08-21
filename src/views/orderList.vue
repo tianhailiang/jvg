@@ -116,25 +116,24 @@
       </div>
     </section>
   </template>
-  <script>
-    export default {
-      name: 'orderList',
-      data () {
-        return {
-          priceData: [
-            {date:'001',name:'js语言精粹',price:10,number:20,totalprice:200},
-            {date:'002',name:'js语言精粹',price:10,number:20,totalprice:200},
-            {date:'003',name:'js语言精粹',price:10,number:20,totalprice:200},
-            {date:'004',name:'js语言精粹',price:10,number:20,totalprice:200}
-          ]
-        }
+<script>
+export default {
+    name: 'orderList',
+    data () {
+    return {
+        priceData: [
+        {date: '001',name: 'js语言精粹',price: 10,number: 20,totalprice: 200},
+        {date: '002',name: 'js语言精粹',price: 10,number: 20,totalprice: 200},
+        {date: '003',name: 'js语言精粹',price: 10,number: 20,totalprice: 200},
+        {date: '004',name: 'js语言精粹',price: 10,number: 20,totalprice: 200}
+        ]
       }
     }
-  </script>
-  <style scoped>
-    .row-container{
-      display: flex;
-      justify-content:center;
-    }
-  </style>
-  
+}
+</script>
+<style scoped>
+.row-container {
+    display: flex;
+    justify-content:center;
+}
+</style>

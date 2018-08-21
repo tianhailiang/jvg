@@ -22,10 +22,13 @@
         <el-row :gutter="20">
             <el-col :span="5">
                 <el-form-item label="课程分类">
-                    <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="托福" value="beijing"></el-option>
-                        <el-option label="GRE" value="beijing"></el-option>
+                    <el-select placeholder="全部" v-model="value">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
                     </el-select>
                 </el-form-item>
             </el-col>
@@ -262,7 +265,12 @@
             type: [],
             resource: '',
             desc: ''
-          }
+          },
+          options:[
+            {value: '选项1',label: '托福'},
+            {value: '选项2',label: 'GRE'}
+           ],
+          value: ''
         }
       },
       methods: {
@@ -272,7 +280,7 @@
       }
     }
   </script>
-  <style scoped>
+  <style>
   .center-box{
     display: flex;
     justify-content: center;

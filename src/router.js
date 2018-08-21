@@ -116,7 +116,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/orderList.vue')
     },
     {
-      path: '/orderRefund', /* 订单退款 */
+      path: '/orderRefund', /* 订单退款列表 */
       name: 'orderRefund',
       component: () => import(/* webpackChunkName: "about" */ './views/orderRefund.vue')
     },
@@ -139,6 +139,26 @@ export default new Router({
       path: '/publishingCommentList', /* 出版物评论列表 */
       name: 'publishingCommentList',
       component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentList.vue')
+    },
+    {
+      path: '/publishingCommentDetail', /* 出版物评论详情 */
+      name: 'publishingCommentDetail',
+      component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentDetail.vue')
+    },
+    {
+      path: '/publishingDetail', /* 出版物详情 */
+      name: 'publishingDetail',
+      component: () => import(/* webpackChunkName: "about" */ './views/publishingDetail.vue')
+    },
+    {
+      path: '/publishingReview', /* 出版物审核 */
+      name: 'publishingReview',
+      component: () => import(/* webpackChunkName: "about" */ './views/publishingReview.vue')
+    },
+    {
+      path: '/advertList', /* 广告位列表 */
+      name: 'advertList',
+      component: () => import(/* webpackChunkName: "about" */ './views/advertList.vue')
     }
   ]
 })
