@@ -41,7 +41,7 @@ export default new Router({
         {
           path: '/realNameDetails',
           name: 'realNameDetails',
-          component: () => import('./views/realNameDetails.vue')
+          component: () => import('@/views/realNameDetails.vue')
         },
         {
           path: '/institutions',
@@ -51,7 +51,7 @@ export default new Router({
         {
           path: '/institutionsEditors',
           name: 'institutionsEditors',
-          component: () => import('./views/institutionsEditors.vue')
+          component: () => import('@/views/institutionsEditors.vue')
         },
         {
           path: '/institutionsExamine',

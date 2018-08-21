@@ -19,9 +19,9 @@
                   <el-input placeholder="请输入联系人姓名"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="2.5">
-              <el-form-item label="状态：" label-width="55px">
-                  <el-select placeholder="正常" style="width: 80px;">
+            <el-col :span="3">
+              <el-form-item label="状态：" label-width="80px">
+                  <el-select v-model="region" placeholder="正常" style="width: 80px;">
                       <el-option label="正常"  value="shanghai"></el-option>
                       <el-option label="禁用" value="beijing"></el-option>
                     </el-select>
@@ -29,7 +29,7 @@
             </el-col>
             <el-col :span="3.5">
               <el-form-item label="所属国家：" label-width="100px">
-                  <el-select placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" value="beijing"></el-option>
                       <el-option label="中国" value="beijing"></el-option>
                       <el-option label="澳大利亚" value="beijing"></el-option>
@@ -41,9 +41,9 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="2.5">
-              <el-form-item label="类别：" label-width="55px">
-                  <el-select placeholder="全部" style="width: 100px;">
+            <el-col :span="3.5">
+              <el-form-item label="类别：" label-width="80px">
+                  <el-select v-model="region" placeholder="全部" style="width: 100px;">
                       <el-option label="全部" value="beijing"></el-option>
                       <el-option label="机构" value="beijing"></el-option>
                       <el-option label="院校" value="beijing"></el-option>
@@ -52,7 +52,7 @@
             </el-col>
             <el-col :span="3.5">
               <el-form-item label="机构院校性质：" label-width="120px">
-                  <el-select placeholder="全部" style="width: 100px;">
+                  <el-select v-model="region" placeholder="全部" style="width: 120px;">
                       <el-option label="全部" value="beijing"></el-option>
                       <el-option label="语培" value="beijing"></el-option>
                       <el-option label="K12" value="beijing"></el-option>
@@ -61,14 +61,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="10">
-                <el-form-item label="注册年份：" label-width="100px">
-                    <el-col :span="1.5">
-                        <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="0.5">--</el-col>
-                    <el-col :span="1.5">
-                        <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
-                    </el-col>
+                <el-form-item>
+                    <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">注册年份：</span>
+                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small"></el-date-picker>
                 </el-form-item>
             </el-col>
             <el-col :span="3">
@@ -76,20 +71,26 @@
               <el-button size="small" type="primary">新增</el-button>
           </el-col>
         </el-form>
-        <el-col :span='18.5' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData3" stripe width="100%">
+            <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
-                <el-table-column prop="date" label="机构院校id" width="90"></el-table-column>
-                <el-table-column prop="name" label="机构院校名称" width="90"></el-table-column>
-                <el-table-column prop="name" label="所属国家" width="90"></el-table-column>
-                <el-table-column prop="name" label="联系人手机号" width="90"></el-table-column>
-                <el-table-column prop="name" label="联系人姓名" width="90"></el-table-column>
-                <el-table-column prop="name" label="类别" width="90"></el-table-column>
-                <el-table-column prop="name" label="机构院校性质" width="90"></el-table-column>
-                <el-table-column prop="name" label="状态" width="90"></el-table-column>
-                <el-table-column prop="name" label="注册时间" width="90"></el-table-column>
-                <el-table-column prop="address" label="操作" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="collegesId" label="机构院校id" width="90" align="center"></el-table-column>
+                <el-table-column prop="collegesName" label="机构院校名称" width="90" align="center"></el-table-column>
+                <el-table-column prop="country" label="所属国家" width="90" align="center"></el-table-column>
+                <el-table-column prop="phone" label="联系人手机号" width="90" align="center"></el-table-column>
+                <el-table-column prop="userName" label="联系人姓名" width="90" align="center"></el-table-column>
+                <el-table-column prop="category" label="类别" width="90" align="center"></el-table-column>
+                <el-table-column prop="collegesNature" label="机构院校性质" width="90" align="center"></el-table-column>
+                <el-table-column prop="state" label="状态" width="90" align="center"></el-table-column>
+                <el-table-column prop="registertime" label="注册时间" width="90" align="center"></el-table-column>
+                <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
+                    <template slot-scope="scope">
+                        <el-button type="danger" size="small">编辑</el-button>
+                        <el-button type="danger" size="small">禁用</el-button>
+                        <el-button type="danger" size="small">删除</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <!-- </div> -->
         </el-col>
@@ -139,8 +140,54 @@
 export default {
   data () {
     return {
+      region: '',
       isDialogShow: false,
-      isDialogShow1: false
+      isDialogShow1: false,
+      tableData: [{
+        phone: '15200000001',
+        collegesId: '15242',
+        collegesName: 'hhhh哈哈',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        registertime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }, {
+        phone: '15200000001',
+        collegesId: '15242',
+        collegesName: 'hhhh哈哈',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        registertime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }, {
+        phone: '15200000001',
+        collegesId: '15242',
+        collegesName: 'hhhh哈哈',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        registertime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }, {
+        phone: '15200000001',
+        collegesId: '15242',
+        collegesName: 'hhhh哈哈',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        registertime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }]
     }
   }
 }

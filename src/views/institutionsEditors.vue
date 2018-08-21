@@ -1,36 +1,40 @@
 <template>
-    <section class="personnel">
+    <div class="personnel">
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">新增/编辑机构院校</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="95px" size="mini">
         <el-col :span="6">
-            <el-form-item label="※类型：">
-                <el-select placeholder="机构" style="width: 100px;">
+            <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※类型：</p>
+            <el-form-item>
+                <el-select v-model="region" placeholder="机构" style="width: 100px;">
                     <el-option label="机构" value="beijing"></el-option>
                     <el-option label="院校" value="beijing"></el-option>
                 </el-select>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="机构院校id：" >
-                <el-input placeholder="请输入机构院校id" disabled="true"></el-input>
+            <el-form-item label="机构院校id：">
+                <el-input placeholder="请输入机构院校id" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="※名称：" >
+            <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※名称：</p>
+            <el-form-item >
                 <el-input placeholder="请输入用户姓名"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="※联系人：" >
+            <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※联系人：</p>
+            <el-form-item >
                 <el-input placeholder="请输入联系人姓名"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="10">
-            <el-form-item label="※联系人手机号：" style="color: #C13232;">
+            <p style="width: 110px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※联系人手机号：</p>
+            <el-form-item style="color: #C13232;">
                 <el-col :span="8">
-                <el-select placeholder="+86" style="width: 80px;float: left;">
+                <el-select v-model="region" placeholder="+86" style="width: 80px;float: left;">
                     <el-option label="+86" value="beijing"></el-option>
                     <el-option label="+81" value="beijing"></el-option>
                 </el-select>
@@ -41,23 +45,24 @@
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="联系电话：" >
+            <el-form-item label="联系电话：">
                 <el-input placeholder="请输入用户电话"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="邮箱：" >
+            <el-form-item label="邮箱：">
                 <el-input placeholder="请输入邮箱"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="全球排名：" >
+            <el-form-item label="全球排名：">
                 <el-input placeholder="请输入院校在全球排名"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="※所在国家：">
-                <el-select placeholder="中国" style="width: 100px;">
+            <p style="width: 93px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※所属国家：</p>
+            <el-form-item>
+                <el-select v-model="region" placeholder="中国" style="width: 100px;">
                     <el-option label="中国" value="beijing"></el-option>
                       <el-option label="澳大利亚" value="beijing"></el-option>
                       <el-option label="美国" value="beijing"></el-option>
@@ -69,8 +74,9 @@
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="※机构院校性质：">
-                <el-select placeholder="全部" style="width: 100px;">
+            <p style="width: 110px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※机构院校性质：</p>
+            <el-form-item>
+                <el-select v-model="region" placeholder="全部" style="width: 100px;">
                     <el-option label="全部" value="beijing"></el-option>
                       <el-option label="语言培训" value="beijing"></el-option>
                       <el-option label="K12" value="beijing"></el-option>
@@ -79,53 +85,53 @@
             </el-form-item>
         </el-col>
         <el-col :span="10">
-            <el-form-item label="联系地址：" >
+            <el-form-item label="联系地址：">
                 <el-input placeholder="请输入用户城市、省份、区域" style="width: 400px;"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="10">
-            <el-form-item label="机构院校类型：" >
+            <el-form-item label="机构院校类型：" label-width="120px">
                 <el-input placeholder="请输入机构院校类型" style="width: 400px;"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="10">
-            <el-form-item label="官网：" >
+            <el-form-item label="官网：">
                 <el-input placeholder="如果机构院校有官网的，可输入URL" style="width: 400px;"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="10">
-            <el-form-item label="机构院校介绍：" >
+            <el-form-item label="机构院校介绍：" label-width="120px">
                 <el-input type="textarea" :rows="5" placeholder="请输入机构院校介绍" style="width: 400px;"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="18">
-            <el-form-item label="机构院校logo：" >
+            <el-form-item label="机构院校logo：" label-width="130px">
                 <div class="shangchuan"><i>+</i></div>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="创立时间：" >
+            <el-form-item label="创立时间：">
                 <el-input placeholder="请输入机构院校创立年月日"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="注册时间：" >
-                <el-input placeholder="请输入注册时间" disabled="true"></el-input>
+            <el-form-item label="注册时间：">
+                <el-input placeholder="请输入注册时间" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="法人：" >
+            <el-form-item label="法人：">
                 <el-input placeholder="请输入机构院校法人"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="审核状态：" >
-                <el-input placeholder="请输入审核状态" disabled="true"></el-input>
+            <el-form-item label="审核状态：">
+                <el-input placeholder="请输入审核状态" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="创建人员：" >
-                <el-input placeholder="请输入创建人员" disabled="true"></el-input>
+            <el-form-item label="创建人员：">
+                <el-input placeholder="请输入创建人员" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="18" style='text-align: center;'>
@@ -135,10 +141,15 @@
             </el-form-item>
         </el-col>
         </el-form>
-    </section>
+    </div>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      region: ''
+    }
+  }
 }
 </script>
 <style scoped>
