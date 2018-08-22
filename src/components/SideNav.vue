@@ -19,7 +19,6 @@
     <el-submenu index="5">
       <template slot="title">文章管理</template>
       <el-menu-item index="/article">文章列表</el-menu-item>
-      <el-menu-item index="">文章详情</el-menu-item>
       <el-submenu index="5-2">
         <template slot="title" index="">文章审核管理</template>
         <el-menu-item index="">不通过编辑窗口</el-menu-item>
@@ -137,6 +136,9 @@ export default {
   },
   mounted () {
     this.activeIndex = window.location.href.split('http://localhost:8080')[1]
+    if(this.activeIndex.includes('article')){
+      this.activeIndex = '/article' /* 文章列表和文章详情匹配一个路由 */
+    }
   }
 }
 </script>

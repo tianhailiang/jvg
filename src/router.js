@@ -71,17 +71,22 @@ export default new Router({
         {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
-          component: () => import(/* webpackChunkName: "about" */ './views/Interlocution.vue')
+          component: () => import('./views/Interlocution.vue')
         },
         {
           path: '/private_letter', /* 私信管理模块 私信列表 */
           name: 'private_letter',
-          component: () => import(/* webpackChunkName: "about" */ './views/Private_letter_list.vue')
+          component: () => import('./views/Private_letter_list.vue')
         },
         {
           path: '/article', /* 文章管理模块 文章列表 */
           name: 'article',
-          component: () => import(/* webpackChunkName: "about" */ './views/ArticleList.vue')
+          component: () => import('./views/ArticleList.vue')
+        },
+        {
+          path: '/article/:id', /* 文章管理模块 文章详情 */
+          name: 'articleDetail',
+          component: () => import('./views/ArticleDetail.vue')
         }
       ]
     },
