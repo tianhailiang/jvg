@@ -208,6 +208,5 @@ export default {
   margin-right:100px;
 }
 .chart-r{
-  
 }
 </style>

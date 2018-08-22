@@ -20,53 +20,53 @@ export default new Router({
       [
         {
           path: '',
-          name: '首页右侧',
-          component: () => import('./views/main.vue')
+          name: '首页',
+          component: () => import('@/views/main.vue')
         },
         {
           path: '/personnel',
-          name: 'personnel',
-          component: () => import('./views/Personnel.vue')
+          name: '人员管理',
+          component: () => import('@/views/Personnel.vue')
         },
         {
           path: '/userEditors',
-          name: 'userEditors',
-          component: () => import('./views/userEditors.vue')
+          name: '添加/编辑用户',
+          component: () => import('@/views/userEditors.vue')
         },
         {
           path: '/realName',
-          name: 'realName',
-          component: () => import('./views/realName.vue')
+          name: '实名认证管理',
+          component: () => import('@/views/realName.vue')
         },
         {
           path: '/realNameDetails',
-          name: 'realNameDetails',
+          name: '实名认证详情审核',
           component: () => import('@/views/realNameDetails.vue')
         },
         {
           path: '/institutions',
-          name: 'institutions',
-          component: () => import('./views/institutions.vue')
+          name: '机构院校管理',
+          component: () => import('@/views/institutions.vue')
         },
         {
           path: '/institutionsEditors',
-          name: 'institutionsEditors',
+          name: '新增/编辑机构院校',
           component: () => import('@/views/institutionsEditors.vue')
         },
         {
           path: '/institutionsExamine',
-          name: 'institutionsExamine',
-          component: () => import('./views/institutionsExamine.vue')
+          name: '机构院校审核管理',
+          component: () => import('@/views/institutionsExamine.vue')
         },
         {
           path: '/institutionsDetails',
-          name: 'institutionsDetails',
-          component: () => import('./views/institutionsDetails.vue')
+          name: '机构院校审核详情页',
+          component: () => import('@/views/institutionsDetails.vue')
         },
         {
           path: '/follow',
-          name: 'follow',
-          component: () => import('./views/follow.vue')
+          name: '关注管理',
+          component: () => import('@/views/follow.vue')
         },
         {
           path: '/interlocution', /* 问答管理模块 话题列表 */

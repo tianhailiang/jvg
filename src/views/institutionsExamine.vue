@@ -22,39 +22,39 @@
           <el-col :span="3">
               <el-form-item label="状态：" label-width="80px">
                   <el-select v-model="region" placeholder="正常" style="width: 80px;">
-                      <el-option label="正常"  value="shanghai"></el-option>
-                      <el-option label="禁用" value="beijing"></el-option>
+                      <el-option label="正常" :value="0" :key="0"></el-option>
+                      <el-option label="禁用" :value="1" :key="1"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="3.5">
               <el-form-item label="所属国家：" label-width="100px">
                   <el-select v-model="region" placeholder="中国" style="width: 100px;">
-                      <el-option label="中国" value="beijing"></el-option>
-                      <el-option label="澳大利亚" value="beijing"></el-option>
-                      <el-option label="美国" value="beijing"></el-option>
-                      <el-option label="英国" value="beijing"></el-option>
-                      <el-option label="马拉西亚" value="beijing"></el-option>
-                      <el-option label="新加坡" value="beijing"></el-option>
-                      <el-option label="俄罗斯" value="beijing"></el-option>
+                      <el-option label="中国" :value="0" :key="0"></el-option>
+                      <el-option label="澳大利亚" :value="1" :key="1"></el-option>
+                      <el-option label="美国" :value="2" :key="2"></el-option>
+                      <el-option label="英国" :value="3" :key="3"></el-option>
+                      <el-option label="马拉西亚" :value="4" :key="4"></el-option>
+                      <el-option label="新加坡" :value="5" :key="5"></el-option>
+                      <el-option label="俄罗斯" :value="6" :key="6"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="3.5">
                 <el-form-item label="类型：" label-width="80px">
                 <el-select v-model="region" placeholder="机构" style="width: 100px;">
-                    <el-option label="机构" value="beijing"></el-option>
-                    <el-option label="院校" value="beijing"></el-option>
+                    <el-option label="机构" :value="0" :key="0"></el-option>
+                    <el-option label="院校" :value="1" :key="1"></el-option>
                 </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="3.5">
               <el-form-item label="审核状态：" label-width="100px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="未通过" value="beijing"></el-option>
-                      <el-option label="已审核" value="beijing"></el-option>
-                      <el-option label="待审核" value="beijing"></el-option>
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="未通过" :value="1" :key="1"></el-option>
+                      <el-option label="已审核" :value="2" :key="2"></el-option>
+                      <el-option label="待审核" :value="3" :key="3"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
@@ -77,7 +77,7 @@
                 <el-table-column prop="registerTime" label="注册时间" align="center"></el-table-column>
                 <el-table-column label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button type="danger" size="small">查看</el-button>
+                        <el-button @click="onExamineClick(scope.$index)" type="danger" size="small">审核</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -91,9 +91,6 @@
             </el-col>
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
-            </el-col>
-            <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量删除</el-button>
             </el-col>
         </el-col>
     </section>
@@ -148,6 +145,11 @@ export default {
         country: '美国',
         category: '院校'
       }]
+    }
+  },
+  methods: {
+    onExamineClick (index) {
+      this.$router.replace({ path: '/institutionsDetails' })
     }
   }
 }

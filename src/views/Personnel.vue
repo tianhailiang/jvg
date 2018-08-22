@@ -90,8 +90,8 @@
                 <el-table-column prop="channel" label="注册频道" width="80" align="center"></el-table-column>
                 <el-table-column width="250" align="center" label="操作" show-overflow-tooltip fixed="right">
                     <template slot-scope="scope">
-                        <el-button @click="onEditClick" type="danger" size="small">编辑</el-button>
-                        <el-button type="danger" size="small">禁用</el-button>
+                        <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                        <el-button @click="onDisableClik(scope.$index)" type="danger" size="small">禁用</el-button>
                         <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
                     </template>
                 </el-table-column>
@@ -108,7 +108,7 @@
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
             <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量删除</el-button>
+                <el-button @click="onDelClick" size="small" type="primary">批量删除</el-button>
             </el-col>
         </el-col>
         <!-- 删除窗口 -->
@@ -123,10 +123,10 @@
         <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
             <el-form >
                 <el-form-item label="用户/联系人名称：">
-                    <el-input auto-complete="off" placeholder="xxxxxx" disabled="true"></el-input>
+                    <el-input auto-complete="off" placeholder="xxxxxx" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="用户/联系人手机：">
-                    <el-input auto-complete="off" placeholder="13912xxxx34" disabled="true"></el-input>
+                    <el-input auto-complete="off" placeholder="13912xxxx34" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="禁用原因：">
                     <el-input type="textarea" placeholder="请录入禁用原因" :rows="5"></el-input>
@@ -196,11 +196,14 @@ export default {
     }
   },
   methods: {
-    onEditClick () {
-      console.log('1')
+    onEditClick (index) {
+      this.$router.replace({ path: '/userEditors' })
     },
     onDelClick () {
-      console.log('2')
+      this.isDialogShow = true
+    },
+    onDisableClik (index) {
+      this.isDialogShow1 = true
     }
   }
 }
