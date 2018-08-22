@@ -54,25 +54,25 @@
       <el-col :span="6"><div class="grid-content bg-purple">
         <el-form-item label="订单类型">
             <el-select placeholder="全部">
-                <el-option label="全部"  value="shanghai"></el-option>
-                <el-option label="课程订单" value="beijing"></el-option>
-                <el-option label="出版物订单" value="beijing"></el-option>
-                <el-option label="VIP" value="beijing"></el-option>
-                <el-option label="打赏订单" value="beijing"></el-option>
-                <el-option label="悬赏订单" value="beijing"></el-option>
+                <el-option label="全部"  value="全部"></el-option>
+                <el-option label="课程订单" value="课程订单"></el-option>
+                <el-option label="出版物订单" value="出版物订单"></el-option>
+                <el-option label="VIP" value="VIP"></el-option>
+                <el-option label="打赏订单" value="打赏订单"></el-option>
+                <el-option label="悬赏订单" value="悬赏订单"></el-option>
             </el-select>
         </el-form-item>
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="支付方式">
               <el-select placeholder="全部">
-                  <el-option label="全部"  value="shanghai"></el-option>
-                  <el-option label="微信" value="beijing"></el-option>
-                  <el-option label="支付宝" value="beijing"></el-option>
-                  <el-option label="银联" value="beijing"></el-option>
+                  <el-option label="全部"  value="全部"></el-option>
+                  <el-option label="微信" value="微信"></el-option>
+                  <el-option label="支付宝" value="支付宝"></el-option>
+                  <el-option label="银联" value="银联"></el-option>
               </el-select>
-          </el-form-item>
-        </div></el-col>
+          </el-form-item></div>
+    </el-col>
       </el-form>
     </el-row>
     <el-row :gutter="20">
@@ -81,44 +81,45 @@
         </div></el-col>
     </el-row>
     <!--  -->
-    <el-table :data=tableData :summary-method="getSummaries" show-summary>
-        <el-table-column prop="index" label="NO" width="150"></el-table-column>
+    <el-table :data=tableData border>
+        <el-table-column prop="index" label="NO" width="120"></el-table-column>
         <el-table-column prop="date" label="退款单号" width="150"></el-table-column>
         <el-table-column prop="date" label="订单号" width="150"></el-table-column>
         <el-table-column prop="name" label="卖家名称" width="150"></el-table-column>
         <el-table-column prop="name" label="买家名称" width="150"></el-table-column>
         <el-table-column prop="name" label="退款理由" width="150"></el-table-column>
-        <el-table-column prop="name" label="退款状态" width="150"></el-table-column>
+        <el-table-column prop="tuiname" label="退款状态" width="150"></el-table-column>
         <el-table-column prop="pricetype" label="支付方式" width="150"></el-table-column>
         <el-table-column prop="address" label="购买渠道"></el-table-column>
-        <el-table-column prop="address" label="操作"></el-table-column>
+        <el-table-column prop="address" label="操作">
+            <template slot-scope="scope">
+                <el-button size="mini" type="danger">同意</el-button>
+              </template>
+        </el-table-column>
     </el-table>
     <div class="page-line" style="height:30px"></div>
     <div class="row-container">
         <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
         <el-button size="small" type="primary">确定</el-button>
+        <el-button size="small" type="primary" style="margin-left:200px">导出</el-button>
     </div>
   </section>
 </template>
 <script>
-  export default {
-    name: "orderRefund",
-    data () {
-      return {
-        tableData: [
-          { date: '20160502',
-            index: 1,
-            name: '张三',
-            address: '89',
-            pricetype: '支付宝'
-          }
-        ]
-      }
-    },
-    methods: {
-
+export default {
+  name: '',
+  data() {
+    return {
+      tableData: [
+        {date: '20160502',index: 1,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'},
+        {date: '20160502',index: 3,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'},
+        {date: '20160502',index: 4,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'},
+        {date: '20160502',index: 5,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'}
+      ]
     }
-  }
+  },
+  methods: {}
+}
 </script>
 <style>
   .order-refund .el-form-item--mini .el-form-item__content{

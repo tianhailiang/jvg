@@ -7,7 +7,7 @@
         <el-col :span="1"><div class="grid-content bg-purple-light title">|</div></el-col>
         <el-col :span="3"><a href="javaScript:viod"><div class="grid-content bg-purple-light title">我的消息</div></a></el-col>
         <el-col :span="1"><div class="grid-content bg-purple-light title">|</div></el-col>
-        <el-col :span="3"><a href="javaScript:viod"><div class="grid-content bg-purple-light title">安全退出</div></a></el-col>
+        <el-col :span="3"><a href="/"><div class="grid-content bg-purple-light title">安全退出</div></a></el-col>
         </el-row>
     </el-row>
 </template>

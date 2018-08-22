@@ -16,7 +16,7 @@
             </el-col>
             <el-col :span="2.5">
               <el-form-item label="类别：" label-width="55px">
-                  <el-select placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部"  value="shanghai"></el-option>
                       <el-option label="机构" value="beijing"></el-option>
                       <el-option label="院校" value="beijing"></el-option>
@@ -28,16 +28,16 @@
               <el-button size="small" type="primary">搜索</el-button>
             </el-col>
         </el-form>
-        <el-col :span='18.5' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData3" stripe width="100%">
-                <el-table-column type="selection" label="NO" width="55"></el-table-column>
-                <el-table-column prop="date" label="被关注id" width="90"></el-table-column>
-                <el-table-column prop="name" label="被关注名称" width="90"></el-table-column>
-                <el-table-column prop="name" label="类型" width="90"></el-table-column>
-                <el-table-column prop="name" label="关注id" width="90"></el-table-column>
-                <el-table-column prop="name" label="关注名称" width="90"></el-table-column>
-                <el-table-column prop="name" label="注册时间" width="90"></el-table-column>
+            <el-table :data="tableData" stripe width="100%" border>
+                <el-table-column type="index" label="NO" align="center"></el-table-column>
+                <el-table-column prop="coverFollowId" label="被关注id" align="center"></el-table-column>
+                <el-table-column prop="coverFollowName" label="被关注名称" align="center"></el-table-column>
+                <el-table-column prop="category" label="类型" align="center"></el-table-column>
+                <el-table-column prop="followId" label="关注id" align="center"></el-table-column>
+                <el-table-column prop="followName" label="关注名称" align="center"></el-table-column>
+                <el-table-column prop="followTime" label="注册时间" align="center"></el-table-column>
             </el-table>
             <!-- </div> -->
         </el-col>
@@ -58,6 +58,56 @@
 </template>
 <script>
 export default {
+  data () {
+    return {
+      region: '',
+      tableData: [{
+        phone: '15200000001',
+        coverFollowId: '15242',
+        coverFollowName: 'hhhh哈哈',
+        followId: '15200000001',
+        followName: 'aaaa呵呵',
+        followTime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }, {
+        phone: '15200000001',
+        coverFollowId: '15242',
+        coverFollowName: 'hhhh哈哈',
+        followId: '15200000001',
+        followName: 'aaaa呵呵',
+        followTime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }, {
+        phone: '15200000001',
+        coverFollowId: '15242',
+        coverFollowName: 'hhhh哈哈',
+        followId: '15200000001',
+        followName: 'aaaa呵呵',
+        followTime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }, {
+        phone: '15200000001',
+        coverFollowId: '15242',
+        coverFollowName: 'hhhh哈哈',
+        followId: '15200000001',
+        followName: 'aaaa呵呵',
+        followTime: '2018-8-29 00:00:00',
+        collegesNature: '私立研究型大学',
+        state: '正常',
+        country: '美国',
+        category: '院校'
+      }]
+    }
+  }
 }
 </script>
 <style scoped>

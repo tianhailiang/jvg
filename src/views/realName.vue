@@ -16,7 +16,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="用户角色：">
-                  <el-select placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部"  value="shanghai"></el-option>
                       <el-option label="普通个人" value="beijing"></el-option>
                       <el-option label="个人讲师" value="beijing"></el-option>
@@ -40,7 +40,7 @@
             </el-col>
             <el-col :span="5">
               <el-form-item label="审核状态：" >
-                  <el-select placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部"  value="shanghai"></el-option>
                       <el-option label="未审核" value="beijing"></el-option>
                       <el-option label="已审核" value="beijing"></el-option>
@@ -52,18 +52,22 @@
               <el-button size="small" type="primary">搜索</el-button>
           </el-col>
         </el-form>
-        <el-col :span='18.5' style="margin-left: 10px;margin-bottom: 20px;text-align: center;">
+        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;text-align: center;">
         <!-- <div style="float: right;"> -->
-            <el-table :data="tableData3" stripe width="100%">
-                <el-table-column type="selection" label="全部" width="55"></el-table-column>
-                <el-table-column prop="date" label="用户id" width="90"></el-table-column>
-                <el-table-column prop="name" label="用户姓名" width="90"></el-table-column>
-                <el-table-column prop="name" label="用户手机" width="90"></el-table-column>
-                <el-table-column prop="name" label="角色" width="90"></el-table-column>
-                <el-table-column prop="name" label="性别" width="90"></el-table-column>
-                <el-table-column prop="name" label="证件号" width="90"></el-table-column>
-                <el-table-column prop="name" label="状态" width="90"></el-table-column>
-                <el-table-column prop="address" label="操作" show-overflow-tooltip></el-table-column>
+            <el-table :data="tableData" stripe width="100%" border>
+                <el-table-column type="selection" label="全部" width="55" align="center"></el-table-column>
+                <el-table-column prop="userId" label="用户id" align="center"></el-table-column>
+                <el-table-column prop="userName" label="用户姓名" align="center"></el-table-column>
+                <el-table-column prop="phone" label="用户手机" align="center"></el-table-column>
+                <el-table-column prop="userClassify" label="角色" align="center"></el-table-column>
+                <el-table-column prop="sex" label="性别" align="center"></el-table-column>
+                <el-table-column prop="certificate" label="证件号" align="center"></el-table-column>
+                <el-table-column prop="state" label="状态" align="center"></el-table-column>
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="danger" size="small">审核</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
         <!-- </div> -->
         </el-col>
@@ -84,7 +88,7 @@
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
             <p style="font-size: 20px;">请确认是否进行撤销处理</p>
             <el-form >
-                <el-form-item label="禁用原因：" :label-width="formLabelWidth">
+                <el-form-item label="禁用原因：">
                     <el-input type="textarea" placeholder="请录入禁用原因" :rows="5"></el-input>
                 </el-form-item>
             </el-form>
@@ -100,7 +104,41 @@
 export default {
   data () {
     return {
-      isDialogShow: false
+      region: '',
+      isDialogShow: false,
+      tableData: [{
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        state: '正常',
+        certificate: '110110110110110110'
+      }, {
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        state: '正常',
+        certificate: '110110110110110110'
+      }, {
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        state: '正常',
+        certificate: '110110110110110110'
+      }, {
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        state: '正常',
+        certificate: '110110110110110110'
+      }]
     }
   }
 }
