@@ -103,18 +103,18 @@
       <el-table :data="tableData3">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="num" label="广告位ID" width="120"></el-table-column>
-          <el-table-column prop="name" label="广告位名称" width="120"></el-table-column>
-          <el-table-column prop="name" label="广告位模板" width="120"></el-table-column>
-          <el-table-column prop="name" label="广告位类型" width="120"></el-table-column>
-          <el-table-column prop="name" label="广告位状态" width="120"></el-table-column>
-          <el-table-column prop="name" label="所有权" width="120"></el-table-column>
-          <el-table-column prop="name" label="位置类型" width="120"></el-table-column>
-          <el-table-column prop="name" label="创建时间" width="120"></el-table-column>
-          <el-table-column prop="name" label="渠道" width="120"></el-table-column>
-          <el-table-column prop="name" label="业务频道" width="120"></el-table-column>
+          <el-table-column prop="name1" label="广告位名称" width="120"></el-table-column>
+          <el-table-column prop="name2" label="广告位模板" width="120"></el-table-column>
+          <el-table-column prop="name3" label="广告位类型" width="120"></el-table-column>
+          <el-table-column prop="name4" label="广告位状态" width="120"></el-table-column>
+          <el-table-column prop="name5" label="所有权" width="120"></el-table-column>
+          <el-table-column prop="name6" label="位置类型" width="120"></el-table-column>
+          <el-table-column prop="name7" label="创建时间" width="120"></el-table-column>
+          <el-table-column prop="name8" label="渠道" width="120"></el-table-column>
+          <el-table-column prop="name9" label="业务频道" width="120"></el-table-column>
           <el-table-column prop="address" label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
-                  <el-button size="mini" type="danger" @click="openMadel">冻结</el-button>
+                  <el-button size="mini" type="danger" @click="dialogVisible = true">冻结</el-button>
                 </template>
               </el-table-column>
           </el-table-column>
@@ -130,9 +130,17 @@
           </el-col>
           <el-col :span="5">
               <el-button size="small" type="primary">批量删除</el-button>
-              <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
+              <el-button size="small" type="primary">批量冻结</el-button>
           </el-col>
       </el-row>
+      <!-- 模态框 -->
+      <el-dialog title="删除提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+            <span>请确认是否继续删除</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
   </section>
 </template>
 <script>
@@ -151,25 +159,17 @@
           {values: '选项3',label: '院校直通'},
           {values: '选项4',label: '留学'}
         ],
-        tableData3:[
-        {num:10000001,name:"留学首页轮播",name:"留学首页",
-        name:"轮播",name:"使用中",name:"平台",
-        name:"固定",name:"2018-08-12",name:"00:00:00",name:"PC"},
-        {num:10000001,name:"留学首页轮播",name:"留学首页",
-        name:"轮播",name:"使用中",name:"平台",
-        name:"固定",name:"2018-08-12",name:"00:00:00",name:"PC"},
-        {num:10000001,name:"留学首页轮播",name:"留学首页",
-        name:"轮播",name:"使用中",name:"平台",
-        name:"固定",name:"2018-08-12",name:"00:00:00",name:"PC"}
-        ],
-        value:"",
-        values: ""
-      }
+    tableData3:[
+      {num: 10000001, name1: '留学首页轮播', name2: '留学首页',name3: '轮播',name4: '使用中',name5: '平台',name6: '固定',name7: '2018-08-12',name8: '00:00:00',name9: 'PC'}],
+      value: '',
+      values: '',
+      dialogVisible: false
     }
   }
+}
 </script>
 <style>
-  .advert-container .el-form-item__label{
-    width:auto !important;
-  }
+.advert-container .el-form-item__label{
+  width:auto !important;
+}
 </style>
