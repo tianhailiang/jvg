@@ -87,7 +87,18 @@ export default new Router({
           path: '/article/:id', /* 文章管理模块 文章详情 */
           name: 'articleDetail',
           component: () => import('./views/ArticleDetail.vue')
+        },
+        {
+          path: '/examine', /* 文章管理模块 文章审核列表 */
+          name: 'examine',
+          component: () => import('./views/ArticleExamine.vue')
+        },
+        {
+          path: '/reward', /* 文章管理模块 文章打赏列表 */
+          name: 'reward',
+          component: () => import('./views/ArticleRewardList.vue')
         }
+
       ]
     },
     {

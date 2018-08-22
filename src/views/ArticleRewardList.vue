@@ -1,19 +1,19 @@
 <template>
   <div >
     <div class="nav" >
-      文章列表
+      文章打赏列表
     </div>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
       <el-form-item label="文章ID">
         <el-input v-model="formInline.articleId" size="small"></el-input>
       </el-form-item>
       <el-form-item label="文章标题">
         <el-input v-model="formInline.title" size="small"></el-input>
       </el-form-item>
-      <el-form-item label="用户分类">
-        <el-select v-model="formInline.userClassify" size="small" >
+      <el-form-item label="用户角色">
+        <el-select v-model="formInline.userRole" size="small" >
           <el-option
-          v-for="item in formInline.userClassifyList"
+          v-for="item in formInline.userRoleList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -44,11 +44,10 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
-      @selection-change="handleSelectionChange" border>
+      style="max-width:100%;width: 1035px" border>
       <el-table-column
-        type="selection"
-        label="全部"
+        type="index"
+        label="NO"
         width="55" >
       </el-table-column>
       <el-table-column
@@ -83,8 +82,8 @@
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="userClassify"
-        label="用户分类"
+        prop="userRole"
+        label="发布人角色"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
@@ -98,53 +97,45 @@
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        label="操作"
-        align="center" width="160">
-        <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">{{scope.row.editTxt}}</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-       </template>
+        prop="rewardNumber"
+        label="打赏数"
+        width="120" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="rewardMoney"
+        label="打赏金额"
+        width="120" align="center" >
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
+      :current-page.sync="currentPage"
       :page-size="100"
       layout="prev, pager, next, jumper"
       :total="1000" style="text-align:center;margin-top:20px">
     </el-pagination>
-    <!-- 禁用编辑窗口 -->
-    <ForbiddenDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
   </div>
 </template>
+
 <script>
-import ForbiddenDialog from '@/components/ForbiddenDialog.vue'
 export default {
-  name: 'articleList',
+  name: 'examine',
   data () {
     return {
       formInline: {
         articleId: '',
         title: '',
-        userClassify: '0',
-        userClassifyList: [{
+        userRole: '0',
+        userRoleList: [{
           value: '0',
           label: '全部'
         }, {
           value: '1',
-          label: '人员'
+          label: '普通个人'
         }, {
           value: '2',
-          label: '机构'
-        }, {
-          value: '3',
-          label: '院校'
+          label: '讲师'
         }],
         state: '0',
         stateList: [{
@@ -167,83 +158,40 @@ export default {
         describe: '美国留学非常好啊',
         userId: '15242755275',
         userName: 'thl1',
-        userClassify: '人员',
+        userRole: '人员',
         time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+        state: '禁用',
+        rewardNumber: '1000',
+        rewardMoney: '10000'
       }, {
         articleId: '100002',
         title: '美国留学2',
         describe: '美国留学非常好啊',
         userId: '15242755275',
         userName: 'thl2',
-        userClassify: '人员',
+        userRole: '人员',
         time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+        state: '禁用',
+        rewardNumber: '1000',
+        rewardMoney: '10000'
       }, {
         articleId: '100003',
         title: '美国留学3',
         describe: '美国留学非常好啊',
         userId: '15242755275',
         userName: 'thl3',
-        userClassify: '人员',
+        userRole: '人员',
         time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+        state: '禁用',
+        rewardNumber: '1000',
+        rewardMoney: '10000'
       }],
-      multipleSelection: [],
-      currentPage3: 1,
-      dialogFormVisible: false,
-      dialogForm: {
-        articleId: '',
-        title: ''
-      }
+      currentPage: 1
     }
-  },
-  components: {
-    ForbiddenDialog
   },
   methods: {
     onSubmit (e) {
       console.log('submit!')
-    },
-    toggleSelection (rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
-      }
-    },
-    handleSelectionChange (val) {
-      this.multipleSelection = val
-    },
-    handleEdit (index, row) {
-      console.log(index, row)
-      if(row.editTxt=='禁用'){
-        this.dialogFormVisible = true
-        this.dialogForm = row
-      }
-    },
-    handleDelete (index, row) {
-      console.log(index, row)
-      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });          
-      });
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -257,17 +205,12 @@ export default {
   }
 }
 </script>
+
 <style scoped>
   .nav{
     width:100%;
     height:40px;
     font-size: 18px;
     line-height: 40px;
-  }
-  .demo-form-inline{
-    border:1px solid #dcdcdc;
-  }
-  .demonstration{
-    margin-right:10px;
   }
 </style>

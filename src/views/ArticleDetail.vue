@@ -63,11 +63,79 @@
         <div style="min-width:120px" v-html="artcileContent">
         </div>
       </el-form-item>
+      <el-form-item label="文章图片：">
+        <ul class="article-ul">
+          <li v-for="item in imageList" >
+            <img :src="item" />
+          </li>
+        </ul>
+      </el-form-item>
+      <el-form-item label="文章统计：" >
+        <el-table
+          :data="tableData" border >
+          <el-table-column
+            prop="viewNumber"
+            label="浏览数" align="center"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            prop="forwardNumber"
+            label="转发数" align="center"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            prop="shareNumber"
+            label="分享数" align="center" width="80">
+          </el-table-column>
+          <el-table-column
+            prop="collectionNumber"
+            label="收藏数" align="center" width="80">
+          </el-table-column>
+          <el-table-column
+            label="评论数"
+            align="center" width="80">
+            <template slot-scope="scope">
+              <el-button
+              size="mini"
+              @click="goComment(scope.$index, scope.row)">
+                {{scope.row.commentNumber}}
+              </el-button>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="fabulousNumber"
+            label="点赞数" align="center" width="80">
+          </el-table-column>
+          <el-table-column
+            label="打赏数"
+            align="center" width="80">
+            <template slot-scope="scope">
+              <el-button
+              size="mini"
+              @click="goReward(scope.$index, scope.row)">
+                {{scope.row.rewardNumber}}
+              </el-button>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="rewardMoney"
+            label="打赏金额" align="center" width="80">
+          </el-table-column>
+        </el-table>
+      </el-form-item>
+      <div class="btn-box" >
+        <el-button @click="forbidden()">禁用</el-button>
+        <el-button @click="handleDelete">删除</el-button>
+        <el-button @click="cancel">取消</el-button>
+      </div>
     </el-form>
+    <!-- 禁用编辑窗口 -->
+    <ForbiddenDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
   </div>
 </template>
 
 <script>
+import ForbiddenDialog from '@/components/ForbiddenDialog.vue'
 export default {
   name: 'ArticleDetail',
   data () {
@@ -83,17 +151,83 @@ export default {
       userNickname: '123',
       userRole: '123',
       state: '123',
-      artcileContent: '<p>一直以来，金融学都是中国学生赴美留学的热门专业，一方面是因为商科专业大都有着良好的就业前景和薪资水平</p>'
+      artcileContent: '<p>一直以来，金融学都是中国学生赴美留学的热门专业，一方面是因为商科专业大都有着良好的就业前景和薪资水平</p>',
+      imageList: ['http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150'],
+      tableData: [{
+        viewNumber: 100,
+        forwardNumber: 100,
+        shareNumber: 1001,
+        collectionNumber: 100,
+        commentNumber: 1001,
+        fabulousNumber: 100,
+        rewardNumber: 100,
+        rewardMoney: 200
+      }],
+      dialogFormVisible: false,
+      dialogForm: {
+        articleId: '',
+        title: ''
+      }
+    }
+  },
+  components: {
+    ForbiddenDialog
+  },
+  methods: {
+    goComment (index, row) {
+
+    },
+    goReward (index, row) {
+
+    },
+    forbidden () {
+      this.dialogFormVisible = true
+    },
+    handleDelete () {
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });
+    },
+    cancel () {
+      this.$router.push({name: 'article'})
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
   .nav{
     width:100%;
     height:40px;
     font-size: 18px;
     line-height: 40px;
+  }
+  .article-ul{
+    border:1px solid #dcdcdc;
+    display: flex;
+    width:850px;
+    flex-wrap: wrap;
+  }
+  .article-ul li{
+    width:150px;
+    height:150px;
+    margin:10px;
+    margin-right:0;
+  }
+  .btn-box{
+    display: flex;
+    justify-content: center;
   }
 </style>

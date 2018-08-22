@@ -19,14 +19,8 @@
     <el-submenu index="5">
       <template slot="title">文章管理</template>
       <el-menu-item index="/article">文章列表</el-menu-item>
-      <el-submenu index="5-2">
-        <template slot="title" index="">文章审核管理</template>
-        <el-menu-item index="">不通过编辑窗口</el-menu-item>
-      </el-submenu>
-      <el-submenu index="5-3">
-        <template slot="title" index="">文章打赏列表</template>
-        <el-menu-item index="">文章打赏详情</el-menu-item>
-      </el-submenu>
+      <el-menu-item index="/examine">文章审核管理</el-menu-item>
+      <el-menu-item index="/reward">文章打赏列表</el-menu-item>
       <el-submenu index="5-4">
         <template slot="title" index="">文章评论列表</template>
         <el-menu-item index="">删除提示窗口</el-menu-item>
