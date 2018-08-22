@@ -6,8 +6,8 @@
         <br/>
         <el-form :inline="true" class="demo-form-inline" label-width="95px" size="mini">
             <el-col :span="6">
-              <el-form-item label="用户类型：" label-width="95px">
-                  <el-select placeholder="个人用户" style="width: 120px;">
+              <el-form-item   label="用户类型：" label-width="95px">
+                  <el-select v-model="region" placeholder="个人用户" style="width: 120px;">
                       <el-option label="普通个人" value="beijing"></el-option>
                       <el-option label="个人讲师" value="beijing"></el-option>
                       <el-option label="机构讲师" value="beijing"></el-option>
@@ -24,7 +24,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="*用户姓名：" style="color: #C13232;">
+              <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※用户姓名：</p>
+              <el-form-item>
                   <el-input placeholder="请输入用户姓名"></el-input>
               </el-form-item>
             </el-col>
@@ -34,9 +35,10 @@
               </el-form-item>
             </el-col>
             <el-col :span="10">
-              <el-form-item label="*手机号：" style="color: #C13232;">
+              <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※手机号：</p>
+              <el-form-item>
                   <el-col :span="8">
-                  <el-select placeholder="+86" style="width: 80px;float: left;">
+                  <el-select v-model="region" placeholder="+86" style="width: 80px;float: left;">
                       <el-option label="+86" value="beijing"></el-option>
                       <el-option label="+81" value="beijing"></el-option>
                   </el-select>
@@ -51,20 +53,14 @@
                   <el-input placeholder="请输入用户电话"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
               <el-form-item label="邮箱：" >
-                  <el-input placeholder="请输入邮箱"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="性别：" >
-                  <el-radio v-model="radio" label="1">男</el-radio>
-                  <el-radio v-model="radio" label="2">女</el-radio>
+                  <el-input placeholder="请输入邮箱" style="width: 300px;"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="所属国家：">
-                  <el-select placeholder="中国" style="width: 100px;">
+                  <el-select v-model="region" placeholder="中国" style="width: 100px;">
                       <el-option label="中国" value="beijing"></el-option>
                       <el-option label="澳大利亚" value="beijing"></el-option>
                       <el-option label="美国" value="beijing"></el-option>
@@ -75,6 +71,14 @@
                     </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="8">
+              <el-form-item label="性别：" style="display: inline-block;">
+                  <el-radio-group v-model="radio" size="mini">
+                  <el-radio v-model="radio" label="1">男</el-radio>
+                  <el-radio v-model="radio" label="2">女</el-radio>
+                  </el-radio-group>
+              </el-form-item>
+            </el-col>
             <el-col :span="10">
               <el-form-item label="所在位置：" >
                   <el-input placeholder="请输入用户城市、省份、区域" style="width: 400px;"></el-input>
@@ -82,7 +86,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="证件类型：">
-                  <el-select placeholder="身份证" style="width: 100px;">
+                  <el-select v-model="region" placeholder="身份证" style="width: 100px;">
                       <el-option label="身份证" value="beijing"></el-option>
                       <el-option label="护照" value="beijing"></el-option>
                     </el-select>
@@ -95,7 +99,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="注册频道：">
-                  <el-select placeholder="留学" style="width: 100px;">
+                  <el-select v-model="region" placeholder="留学" style="width: 100px;">
                       <el-option label="留学" value="beijing"></el-option>
                       <el-option label="语培" value="beijing"></el-option>
                       <el-option label="后台添加" value="beijing"></el-option>
@@ -104,7 +108,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="注册渠道：">
-                  <el-select placeholder="PC" style="width: 100px;">
+                  <el-select v-model="region" placeholder="PC" style="width: 100px;">
                       <el-option label="app-Andriod" value="beijing"></el-option>
                       <el-option label="app-ios" value="beijing"></el-option>
                       <el-option label="PC" value="beijing"></el-option>
@@ -114,8 +118,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="所属机构/院校：">
-                  <el-select placeholder="新加坡国立大学" style="width: 100px;">
+              <el-form-item label="所属机构/院校：" label-width="120px">
+                  <el-select v-model="region" placeholder="新加坡国立大学" style="width: 150px;">
                       <el-option label="新加坡国立大学" value="beijing"></el-option>
                       <el-option label="宾夕法尼亚大学" value="beijing"></el-option>
                       <el-option label="墨尔本大学" value="beijing"></el-option>
@@ -129,7 +133,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="禁用状态：">
-                  <el-select placeholder="正常" style="width: 100px;">
+                  <el-select v-model="region" placeholder="正常" style="width: 100px;">
                       <el-option label="正常" value="beijing"></el-option>
                       <el-option label="禁用" value="beijing"></el-option>
                     </el-select>
@@ -146,6 +150,12 @@
 </template>
 <script>
 export default {
+  data () {
+    return {
+      region: '',
+      radio: '1'
+    }
+  }
 }
 </script>
 <style scoped>

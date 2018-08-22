@@ -1,9 +1,9 @@
 <template>
-    <section class="personnel">
+    <div class="personnel">
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">人员管理</p>
         </el-col>
-        <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
+        <el-form :inline="true" class="demo-form-inline personnel" label-width="150px" size="mini">
           <el-col :span="6">
               <el-form-item label="用户/联系人名称：">
                   <el-input placeholder="请输入用户/联系人名称"></el-input>
@@ -21,50 +21,50 @@
           </el-col>
           <el-col :span="2.5">
               <el-form-item label="频道：" label-width="55px">
-                  <el-select placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="留学" value="beijing"></el-option>
-                      <el-option label="语培" value="beijing"></el-option>
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="留学" :value="1" :key="1"></el-option>
+                      <el-option label="语培" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="2.5">
               <el-form-item label="性别：" label-width="55px">
-                  <el-select placeholder="全部" style="width: 80px;">
-                      <el-option label="男"  value="shanghai"></el-option>
-                      <el-option label="女" value="beijing"></el-option>
-                      <el-option label="空" value="beijing"></el-option>
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                      <el-option label="男" :value="0" :key="0"></el-option>
+                      <el-option label="女" :value="1" :key="1"></el-option>
+                      <el-option label="空" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="2.5">
               <el-form-item label="认证：" label-width="55px">
-                  <el-select placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="未认证" value="beijing"></el-option>
-                      <el-option label="已认证" value="beijing"></el-option>
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="未认证" :value="1" :key="1"></el-option>
+                      <el-option label="已认证" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="4">
               <el-form-item label="用户角色：" label-width="95px">
-                  <el-select placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="普通个人" value="beijing"></el-option>
-                      <el-option label="个人讲师" value="beijing"></el-option>
-                      <el-option label="机构讲师" value="beijing"></el-option>
-                      <el-option label="院校讲师" value="beijing"></el-option>
-                      <el-option label="顾问" value="beijing"></el-option>
-                      <el-option label="大咖" value="beijing"></el-option>
-                      <el-option label="经纪人" value="beijing"></el-option>
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="普通个人" :value="1" :key="1"></el-option>
+                      <el-option label="个人讲师" :value="2" :key="2"></el-option>
+                      <el-option label="机构讲师" :value="3" :key="3"></el-option>
+                      <el-option label="院校讲师" :value="4" :key="4"></el-option>
+                      <el-option label="顾问" :value="5" :key="5"></el-option>
+                      <el-option label="大咖" :value="6" :key="6"></el-option>
+                      <el-option label="经纪人" :value="7" :key="7"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="2.5">
               <el-form-item label="状态：" label-width="55px">
-                  <el-select placeholder="正常" style="width: 80px;">
-                      <el-option label="正常"  value="shanghai"></el-option>
-                      <el-option label="禁用" value="beijing"></el-option>
+                  <el-select v-model="region" placeholder="正常" style="width: 80px;">
+                      <el-option label="正常" :value="0" :key="0"></el-option>
+                      <el-option label="禁用" :value="1" :key="1"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
@@ -74,21 +74,27 @@
           </el-col>
         </el-form>
 
-        <el-col :span='18.5' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData3" stripe width="100%">
-                <el-table-column type="selection" label="全部" width="55"></el-table-column>
-                <el-table-column prop="date" label="用户id" width="90"></el-table-column>
-                <el-table-column prop="name" label="用户/联系人姓名" width="90"></el-table-column>
-                <el-table-column prop="name" label="用户/联系人手机" width="90"></el-table-column>
-                <el-table-column prop="name" label="角色" width="90"></el-table-column>
-                <el-table-column prop="name" label="性别" width="90"></el-table-column>
-                <el-table-column prop="name" label="用户注册时间" width="90"></el-table-column>
-                <el-table-column prop="name" label="最近登录时间" width="90"></el-table-column>
-                <el-table-column prop="name" label="状态" width="90"></el-table-column>
-                <el-table-column prop="name" label="认证" width="90"></el-table-column>
-                <el-table-column prop="name" label="注册频道" width="90"></el-table-column>
-                <el-table-column prop="address" label="操作" show-overflow-tooltip></el-table-column>
+            <el-table :data="tableData" stripe width="100%" border>
+                <el-table-column type="selection" label="全部" width="55" align="center"></el-table-column>
+                <el-table-column prop="userId" label="用户ID" width="80" align="center"></el-table-column>
+                <el-table-column prop="userName" label="用户/联系人姓名" width="90" align="center"></el-table-column>
+                <el-table-column prop="phone" label="用户/联系人手机" width="120" align="center"></el-table-column>
+                <el-table-column prop="userClassify" label="角色" width="50" align="center"></el-table-column>
+                <el-table-column prop="sex" label="性别" width="40" align="center"></el-table-column>
+                <el-table-column prop="registertime" label="用户注册时间" width="100" align="center"></el-table-column>
+                <el-table-column prop="logintime" label="最近登录时间" width="100" align="center"></el-table-column>
+                <el-table-column prop="state" label="状态" width="50" align="center"></el-table-column>
+                <el-table-column prop="authentication" label="认证" width="70" align="center"></el-table-column>
+                <el-table-column prop="channel" label="注册频道" width="80" align="center"></el-table-column>
+                <el-table-column width="250" align="center" label="操作" show-overflow-tooltip fixed="right">
+                    <template slot-scope="scope">
+                        <el-button @click="onEditClick" type="danger" size="small">编辑</el-button>
+                        <el-button type="danger" size="small">禁用</el-button>
+                        <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <!-- </div> -->
         </el-col>
@@ -116,13 +122,13 @@
         <!-- 禁用编辑窗口 -->
         <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
             <el-form >
-                <el-form-item label="用户/联系人名称：" :label-width="formLabelWidth">
+                <el-form-item label="用户/联系人名称：">
                     <el-input auto-complete="off" placeholder="xxxxxx" disabled="true"></el-input>
                 </el-form-item>
-                <el-form-item label="用户/联系人手机：" :label-width="formLabelWidth">
+                <el-form-item label="用户/联系人手机：">
                     <el-input auto-complete="off" placeholder="13912xxxx34" disabled="true"></el-input>
                 </el-form-item>
-                <el-form-item label="禁用原因：" :label-width="formLabelWidth">
+                <el-form-item label="禁用原因：">
                     <el-input type="textarea" placeholder="请录入禁用原因" :rows="5"></el-input>
                 </el-form-item>
             </el-form>
@@ -132,14 +138,69 @@
                 <el-button type="primary" @click="isDialogShow1 = false">确 定</el-button>
             </span>
         </el-dialog>
-    </section>
+    </div>
 </template>
 <script>
 export default {
+  name: 'personnel',
   data () {
     return {
+      region: '',
       isDialogShow: false,
-      isDialogShow1: false
+      isDialogShow1: false,
+      tableData: [{
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242',
+        userName: 'hhhh哈哈',
+        userClassify: '普通个人',
+        registertime: '2018-8-29 00:00:00',
+        logintime: '2018-8-29 00:00:00',
+        state: '正常',
+        authentication: '已认证',
+        channel: '留学'
+      }, {
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242755275',
+        userName: 'hhhh哈哈',
+        userClassify: '人员',
+        registertime: '2018-8-29 00:00:00',
+        logintime: '2018-8-29 00:00:00',
+        state: '正常',
+        authentication: '已认证',
+        channel: '留学'
+      }, {
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242755275',
+        userName: 'hhhh哈哈',
+        userClassify: '人员',
+        registertime: '2018-8-29 00:00:00',
+        logintime: '2018-8-29 00:00:00',
+        state: '正常',
+        authentication: '已认证',
+        channel: '留学'
+      }, {
+        phone: '15200000001',
+        sex: '男',
+        userId: '15242755275',
+        userName: 'hhhh哈哈',
+        userClassify: '人员',
+        registertime: '2018-8-29 00:00:00',
+        logintime: '2018-8-29 00:00:00',
+        state: '正常',
+        authentication: '已认证',
+        channel: '留学'
+      }]
+    }
+  },
+  methods: {
+    onEditClick () {
+      console.log('1')
+    },
+    onDelClick () {
+      console.log('2')
     }
   }
 }

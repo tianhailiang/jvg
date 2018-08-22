@@ -31,12 +31,12 @@
         </el-col>
         <el-col :span='18' class="chart-k">
             <div>快捷入口</div>
-            <el-row :gutter="20" class="chart-r" style="margin-top: 30px;margin-left: 0px;">
+            <el-row :gutter="20" class="chart-r" style="margin-top: 30px;margin-left: 0px;cursor: pointer;">
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>用户</div></el-col>
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>课程</div></el-col>
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>财务</div></el-col>
             </el-row>
-            <el-row :gutter="20" class="chart-r" style="margin-top: 30px;margin-left: 0px;">
+            <el-row :gutter="20" class="chart-r" style="margin-top: 30px;margin-left: 0px;cursor: pointer;">
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>运营</div></el-col>
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>数据</div></el-col>
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>系统</div></el-col>
@@ -208,6 +208,6 @@ export default {
   margin-right:100px;
 }
 .chart-r{
-
+  
 }
 </style>

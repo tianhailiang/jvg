@@ -52,9 +52,15 @@
         width="55" >
       </el-table-column>
       <el-table-column
-        prop="articleId"
         label="文章ID"
-        width="80" align="center" >
+        align="center" width="120">
+        <template slot-scope="scope">
+          <el-button
+          size="mini"
+          @click="goDetail(scope.$index, scope.row)">
+            {{scope.row.articleId}}
+          </el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="title"
@@ -113,9 +119,12 @@
       layout="prev, pager, next, jumper"
       :total="1000" style="text-align:center;margin-top:20px">
     </el-pagination>
+    <!-- 禁用编辑窗口 -->
+    <ForbiddenDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
   </div>
 </template>
 <script>
+import ForbiddenDialog from '@/components/ForbiddenDialog.vue'
 export default {
   name: 'articleList',
   data () {
@@ -154,38 +163,46 @@ export default {
       userName: '',
       tableData: [{
         articleId: '100001',
-        title: '美国留学',
+        title: '美国留学1',
         describe: '美国留学非常好啊',
         userId: '15242755275',
-        userName: 'thl',
+        userName: 'thl1',
         userClassify: '人员',
         time: '2018-8-29 00:00:00',
         state: '正常',
         editTxt: '禁用'
       }, {
-        articleId: '100001',
-        title: '美国留学',
+        articleId: '100002',
+        title: '美国留学2',
         describe: '美国留学非常好啊',
         userId: '15242755275',
-        userName: 'thl',
+        userName: 'thl2',
         userClassify: '人员',
         time: '2018-8-29 00:00:00',
         state: '正常',
         editTxt: '禁用'
       }, {
-        articleId: '100001',
-        title: '美国留学',
+        articleId: '100003',
+        title: '美国留学3',
         describe: '美国留学非常好啊',
         userId: '15242755275',
-        userName: 'thl',
+        userName: 'thl3',
         userClassify: '人员',
         time: '2018-8-29 00:00:00',
         state: '正常',
         editTxt: '禁用'
       }],
       multipleSelection: [],
-      currentPage3: 1
+      currentPage3: 1,
+      dialogFormVisible: false,
+      dialogForm: {
+        articleId: '',
+        title: ''
+      }
     }
+  },
+  components: {
+    ForbiddenDialog
   },
   methods: {
     onSubmit (e) {
@@ -205,15 +222,37 @@ export default {
     },
     handleEdit (index, row) {
       console.log(index, row)
+      if(row.editTxt=='禁用'){
+        this.dialogFormVisible = true
+        this.dialogForm = row
+      }
     },
     handleDelete (index, row) {
       console.log(index, row)
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
+    },
+    goDetail (index,row) {
+      this.$router.push({name: 'articleDetail', params: {id: row.articleId}})
     }
   }
 }
