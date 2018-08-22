@@ -17,10 +17,10 @@
             <el-col :span="2.5">
               <el-form-item label="类别：" label-width="55px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="机构" value="beijing"></el-option>
-                      <el-option label="院校" value="beijing"></el-option>
-                      <el-option label="人员" value="beijing"></el-option>
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="机构" :value="1" :key="1"></el-option>
+                      <el-option label="院校" :value="2" :key="2"></el-option>
+                      <el-option label="人员" :value="3" :key="3"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
@@ -49,9 +49,6 @@
             </el-col>
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
-            </el-col>
-            <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量删除</el-button>
             </el-col>
         </el-col>
     </section>

@@ -5,7 +5,8 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="95px" size="mini">
         <el-col :span="6">
-            <el-form-item label="类型：">
+            <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※类型：</p>
+            <el-form-item>
                 <el-input placeholder="请输入机构院校类型" disabled></el-input>
             </el-form-item>
         </el-col>
@@ -15,17 +16,20 @@
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="名称：" >
+            <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※名称：</p>
+            <el-form-item>
                 <el-input placeholder="请输入用户姓名" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="联系人：" >
+            <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※联系人：</p>
+            <el-form-item>
                 <el-input placeholder="请输入联系人姓名" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="10">
-            <el-form-item label="联系人手机号：" label-width="110px" style="color: #C13232;">
+            <p style="width: 110px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※联系人手机号：</p>
+            <el-form-item>
                     <el-input placeholder="请输入用户手机号" disabled></el-input>
             </el-form-item>
         </el-col>
@@ -45,12 +49,14 @@
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="所在国家：">
+            <p style="width: 93px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※所属国家：</p>
+            <el-form-item>
                 <el-input placeholder="请输入所在国家" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="6">
-            <el-form-item label="机构院校性质：" label-width="110px">
+            <p style="width: 110px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※机构院校性质：</p>
+            <el-form-item>
                 <el-input placeholder="请输入机构院校性质" disabled></el-input>
             </el-form-item>
         </el-col>

@@ -22,41 +22,41 @@
             <el-col :span="3">
               <el-form-item label="状态：" label-width="80px">
                   <el-select v-model="region" placeholder="正常" style="width: 80px;">
-                      <el-option label="正常"  value="shanghai"></el-option>
-                      <el-option label="禁用" value="beijing"></el-option>
+                      <el-option label="正常" :value="0" :key="0"></el-option>
+                      <el-option label="禁用" :value="1" :key="1"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="3.5">
               <el-form-item label="所属国家：" label-width="100px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" value="beijing"></el-option>
-                      <el-option label="中国" value="beijing"></el-option>
-                      <el-option label="澳大利亚" value="beijing"></el-option>
-                      <el-option label="美国" value="beijing"></el-option>
-                      <el-option label="英国" value="beijing"></el-option>
-                      <el-option label="马拉西亚" value="beijing"></el-option>
-                      <el-option label="新加坡" value="beijing"></el-option>
-                      <el-option label="俄罗斯" value="beijing"></el-option>
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="中国" :value="1" :key="1"></el-option>
+                      <el-option label="澳大利亚" :value="2" :key="2"></el-option>
+                      <el-option label="美国" :value="3" :key="3"></el-option>
+                      <el-option label="英国" :value="4" :key="4"></el-option>
+                      <el-option label="马拉西亚" :value="5" :key="5"></el-option>
+                      <el-option label="新加坡" :value="6" :key="6"></el-option>
+                      <el-option label="俄罗斯" :value="7" :key="7"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="3.5">
               <el-form-item label="类别：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 100px;">
-                      <el-option label="全部" value="beijing"></el-option>
-                      <el-option label="机构" value="beijing"></el-option>
-                      <el-option label="院校" value="beijing"></el-option>
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="机构" :value="1" :key="1"></el-option>
+                      <el-option label="院校" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="3.5">
               <el-form-item label="机构院校性质：" label-width="120px">
                   <el-select v-model="region" placeholder="全部" style="width: 120px;">
-                      <el-option label="全部" value="beijing"></el-option>
-                      <el-option label="语培" value="beijing"></el-option>
-                      <el-option label="K12" value="beijing"></el-option>
-                      <el-option label="独立研究型大学" value="beijing"></el-option>
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="语培" :value="1" :key="1"></el-option>
+                      <el-option label="K12" :value="2" :key="2"></el-option>
+                      <el-option label="独立研究型大学" :value="3" :key="3"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
@@ -86,9 +86,9 @@
                 <el-table-column prop="registertime" label="注册时间" width="90" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button type="danger" size="small">编辑</el-button>
-                        <el-button type="danger" size="small">禁用</el-button>
-                        <el-button type="danger" size="small">删除</el-button>
+                        <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                        <el-button @click="onDisableClik(scope.$index)" type="danger" size="small">禁用</el-button>
+                        <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -188,6 +188,17 @@ export default {
         country: '美国',
         category: '院校'
       }]
+    }
+  },
+  methods: {
+    onEditClick (index) {
+      this.$router.replace({ path: '/institutionsEditors' })
+    },
+    onDisableClik (index) {
+      this.isDialogShow1 = true
+    },
+    onDelClick () {
+      this.isDialogShow = true
     }
   }
 }

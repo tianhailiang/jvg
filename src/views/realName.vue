@@ -17,14 +17,14 @@
             <el-col :span="6">
               <el-form-item label="用户角色：">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="普通个人" value="beijing"></el-option>
-                      <el-option label="个人讲师" value="beijing"></el-option>
-                      <el-option label="机构讲师" value="beijing"></el-option>
-                      <el-option label="院校讲师" value="beijing"></el-option>
-                      <el-option label="顾问" value="beijing"></el-option>
-                      <el-option label="大咖" value="beijing"></el-option>
-                      <el-option label="经纪人" value="beijing"></el-option>
+                      <el-option label="全部"  :value="0" :key="0"></el-option>
+                      <el-option label="普通个人" :value="1" :key="1"></el-option>
+                      <el-option label="个人讲师" :value="2" :key="2"></el-option>
+                      <el-option label="机构讲师" :value="3" :key="3"></el-option>
+                      <el-option label="院校讲师" :value="4" :key="4"></el-option>
+                      <el-option label="顾问" :value="5" :key="5"></el-option>
+                      <el-option label="大咖" :value="6" :key="6"></el-option>
+                      <el-option label="经纪人" :value="7" :key="7"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
@@ -41,10 +41,10 @@
             <el-col :span="5">
               <el-form-item label="审核状态：" >
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="未审核" value="beijing"></el-option>
-                      <el-option label="已审核" value="beijing"></el-option>
-                      <el-option label="撤销" value="beijing"></el-option>
+                      <el-option label="全部"  :value="0" :key="0"></el-option>
+                      <el-option label="未审核" :value="1" :key="1"></el-option>
+                      <el-option label="已审核" :value="2" :key="2"></el-option>
+                      <el-option label="撤销" :value="3" :key="3"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
@@ -65,7 +65,7 @@
                 <el-table-column prop="state" label="状态" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
-                        <el-button type="danger" size="small">审核</el-button>
+                        <el-button @click="onExamineClick(scope.$index)" type="danger" size="small">审核</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -81,7 +81,7 @@
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
             <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量撤销</el-button>
+                <el-button @click="onRevokeClick()" size="small" type="primary">批量撤销</el-button>
             </el-col>
         </el-col>
         <!-- 撤销窗口 -->
@@ -139,6 +139,14 @@ export default {
         state: '正常',
         certificate: '110110110110110110'
       }]
+    }
+  },
+  methods: {
+    onExamineClick (index) {
+      this.$router.replace({ path: '/realNameDetails' })
+    },
+    onRevokeClick () {
+      this.isDialogShow = true
     }
   }
 }

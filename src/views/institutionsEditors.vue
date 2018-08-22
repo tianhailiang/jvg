@@ -8,8 +8,8 @@
             <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※类型：</p>
             <el-form-item>
                 <el-select v-model="region" placeholder="机构" style="width: 100px;">
-                    <el-option label="机构" value="beijing"></el-option>
-                    <el-option label="院校" value="beijing"></el-option>
+                    <el-option label="机构" :value="0" :key="0"></el-option>
+                    <el-option label="院校" :value="1" :key="1"></el-option>
                 </el-select>
             </el-form-item>
         </el-col>
@@ -35,8 +35,8 @@
             <el-form-item style="color: #C13232;">
                 <el-col :span="8">
                 <el-select v-model="region" placeholder="+86" style="width: 80px;float: left;">
-                    <el-option label="+86" value="beijing"></el-option>
-                    <el-option label="+81" value="beijing"></el-option>
+                    <el-option label="+86" :value="0" :key="0"></el-option>
+                    <el-option label="+81" :value="1" :key="1"></el-option>
                 </el-select>
                 </el-col>
                 <el-col :span="15">
@@ -63,13 +63,13 @@
             <p style="width: 93px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※所属国家：</p>
             <el-form-item>
                 <el-select v-model="region" placeholder="中国" style="width: 100px;">
-                    <el-option label="中国" value="beijing"></el-option>
-                      <el-option label="澳大利亚" value="beijing"></el-option>
-                      <el-option label="美国" value="beijing"></el-option>
-                      <el-option label="英国" value="beijing"></el-option>
-                      <el-option label="马拉西亚" value="beijing"></el-option>
-                      <el-option label="新加坡" value="beijing"></el-option>
-                      <el-option label="俄罗斯" value="beijing"></el-option>
+                    <el-option label="中国" :value="0" :key="0"></el-option>
+                      <el-option label="澳大利亚" :value="1" :key="1"></el-option>
+                      <el-option label="美国" :value="2" :key="2"></el-option>
+                      <el-option label="英国" :value="3" :key="3"></el-option>
+                      <el-option label="马拉西亚" :value="4" :key="4"></el-option>
+                      <el-option label="新加坡" :value="5" :key="5"></el-option>
+                      <el-option label="俄罗斯" :value="6" :key="6"></el-option>
                 </el-select>
             </el-form-item>
         </el-col>
@@ -77,10 +77,10 @@
             <p style="width: 110px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※机构院校性质：</p>
             <el-form-item>
                 <el-select v-model="region" placeholder="全部" style="width: 100px;">
-                    <el-option label="全部" value="beijing"></el-option>
-                      <el-option label="语言培训" value="beijing"></el-option>
-                      <el-option label="K12" value="beijing"></el-option>
-                      <el-option label="私立研究型大学" value="beijing"></el-option>
+                    <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="语言培训" :value="1" :key="1"></el-option>
+                      <el-option label="K12" :value="2" :key="2"></el-option>
+                      <el-option label="私立研究型大学" :value="3" :key="3"></el-option>
                 </el-select>
             </el-form-item>
         </el-col>
