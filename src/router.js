@@ -71,7 +71,22 @@ export default new Router({
         {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
-          component: () => import('./views/Interlocution.vue')
+          component: () => import('./views/InterlocutionList.vue')
+        },
+        {
+          path: '/interlocution/:id', /* 问答管理模块 话题详情 */
+          name: 'interlocutionDetail',
+          component: () => import('./views/InterlocutionDetail.vue')
+        },
+        {
+          path: '/answer', /* 问答管理模块 问答列表 */
+          name: 'answer',
+          component: () => import('./views/AnswerList.vue')
+        },
+        {
+          path: '/answer/:id', /* 问答管理模块 问答详情 */
+          name: 'answerDetail',
+          component: () => import('./views/AnswerDetail.vue')
         },
         {
           path: '/private_letter', /* 私信管理模块 私信列表 */
@@ -222,6 +237,21 @@ export default new Router({
           path: '/advertSpaceDetail_item', /* 广告位详情（平台+类目+单页）*/
           name: 'advertSpaceDetail_item',
           component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail_item.vue')
+        },
+        {
+          path: '/reward/:id', /* 文章管理模块 文章打赏详情 */
+          name: 'rewardDetail',
+          component: () => import('./views/ArticleRewardDetail.vue')
+        },
+        {
+          path: '/comment', /* 文章管理模块 文章评论列表 */
+          name: 'comment',
+          component: () => import('./views/ArticleCommentList.vue')
+        },
+        {
+          path: '/comment/:id', /* 文章管理模块 文章评论详情 */
+          name: 'commentDeatil',
+          component: () => import('./views/ArticleCommentDetail.vue')
         }
       ]
     }

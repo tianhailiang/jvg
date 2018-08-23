@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="禁用编辑窗口" :visible.sync="dialogFormVisible">
+  <el-dialog title="禁用编辑窗口" :visible.sync="dialogFormVisible" :before-close="handleClose">
     <el-form >
       <el-form-item label="文章ID：" :label-width="formLabelWidth">
         {{dialogForm.articleId}}
@@ -31,6 +31,11 @@ export default {
     return {
       reason: '',
       formLabelWidth: '120px'
+    }
+  },
+  methods: {
+    handleClose (done) {
+      this.$emit('update:dialogFormVisible',false)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div >
     <div class="nav" >
-      文章打赏列表
+      文章评论列表
     </div>
     <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
       <el-form-item label="文章ID">
@@ -10,10 +10,10 @@
       <el-form-item label="文章标题">
         <el-input v-model="formInline.title" size="small"></el-input>
       </el-form-item>
-      <el-form-item label="用户角色">
-        <el-select v-model="formInline.userRole" size="small" >
+      <el-form-item label="用户分类">
+        <el-select v-model="formInline.userClassify" size="small" >
           <el-option
-          v-for="item in formInline.userRoleList"
+          v-for="item in formInline.userClassifyList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -44,7 +44,8 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px" border>
+      style="max-width:100%;width: 1035px"
+      border>
       <el-table-column
         type="index"
         label="NO"
@@ -65,11 +66,6 @@
         prop="title"
         label="文章标题"
         width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="describe"
-        label="文章描述（简述）"
-        width="200" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="userId"
@@ -97,13 +93,8 @@
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="rewardNumber"
-        label="打赏数"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="rewardMoney"
-        label="打赏金额"
+        prop="commentNumber"
+        label="评论数"
         width="120" align="center" >
       </el-table-column>
     </el-table>
@@ -117,25 +108,27 @@
     </el-pagination>
   </div>
 </template>
-
 <script>
 export default {
-  name: 'examine',
+  name: 'articleList',
   data () {
     return {
       formInline: {
         articleId: '',
         title: '',
-        userRole: '0',
-        userRoleList: [{
+        userClassify: '0',
+        userClassifyList: [{
           value: '0',
           label: '全部'
         }, {
           value: '1',
-          label: '普通个人'
+          label: '人员'
         }, {
           value: '2',
-          label: '讲师'
+          label: '机构'
+        }, {
+          value: '3',
+          label: '院校'
         }],
         state: '0',
         stateList: [{
@@ -158,33 +151,36 @@ export default {
         describe: '美国留学非常好啊',
         userId: '15242755275',
         userName: 'thl1',
-        userRole: '人员',
+        userClassify: '人员',
         time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
-        rewardMoney: '10000'
+        state: '正常',
+        editTxt: '禁用',
+        userRole: '个人',
+        commentNumber: '1000'
       }, {
         articleId: '100002',
         title: '美国留学2',
         describe: '美国留学非常好啊',
         userId: '15242755275',
         userName: 'thl2',
-        userRole: '人员',
+        userClassify: '人员',
         time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
-        rewardMoney: '10000'
+        state: '正常',
+        editTxt: '禁用',
+        userRole: '个人',
+        commentNumber: '1000'
       }, {
         articleId: '100003',
         title: '美国留学3',
         describe: '美国留学非常好啊',
         userId: '15242755275',
         userName: 'thl3',
-        userRole: '人员',
+        userClassify: '人员',
         time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
-        rewardMoney: '10000'
+        state: '正常',
+        editTxt: '禁用',
+        userRole: '个人',
+        commentNumber: '1000'
       }],
       currentPage: 1
     }
@@ -200,12 +196,11 @@ export default {
       console.log(`当前页: ${val}`)
     },
     goDetail (index,row) {
-      this.$router.push({name: 'rewardDetail', params: {id: row.articleId}})
+      this.$router.push({name: 'commentDeatil', params: {id: row.articleId}})
     }
   }
 }
 </script>
-
 <style scoped>
   .nav{
     width:100%;

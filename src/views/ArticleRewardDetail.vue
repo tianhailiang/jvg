@@ -1,7 +1,7 @@
 <template>
-  <div >
+  <div>
     <div class="nav" >
-      文章打赏列表
+      文章打赏详情
     </div>
     <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
       <el-form-item label="文章ID">
@@ -36,10 +36,17 @@
       <el-form-item label="用户名称">
         <el-input v-model="formInline.userName" size="small"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
-      </el-form-item>
     </el-form>
+    <div class="sum-box" >
+      <div style="margin-right:10px">
+        <i>打赏总数：</i>
+        <span>{{rewardSumNuber}}</span>
+      </div>
+      <div>
+        <i>打赏总金额：</i>
+        <span>{{rewardSumMoney}}</span>
+      </div>
+    </div>
     <el-table
       ref="multipleTable"
       :data="tableData"
@@ -51,54 +58,33 @@
         width="55" >
       </el-table-column>
       <el-table-column
-        label="文章ID"
+        prop="rewardOrderId"
+        label="打赏订单ID"
         align="center" width="120">
-        <template slot-scope="scope">
-          <el-button
-          size="mini"
-          @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.articleId}}
-          </el-button>
-        </template>
       </el-table-column>
       <el-table-column
-        prop="title"
-        label="文章标题"
-        width="120" align="center" show-overflow-tooltip>
+        prop="rewardPersonId"
+        label="打赏人ID"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="describe"
-        label="文章描述（简述）"
-        width="200" align="center" show-overflow-tooltip>
+        prop="rewardPersonName"
+        label="打赏人名称"
+        width="200" align="center">
       </el-table-column>
       <el-table-column
-        prop="userId"
-        label="发布用户ID"
+        prop="rewardTime"
+        label="打赏时间"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="userName"
-        label="发布用户姓名"
+        prop="rewardChannel"
+        label="打赏渠道"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="userRole"
-        label="发布人角色"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="time"
-        label="文章发布时间"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="state"
-        label="状态"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="rewardNumber"
-        label="打赏数"
+        prop="rewardPersonRole"
+        label="打赏人角色"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
@@ -120,8 +106,8 @@
 
 <script>
 export default {
-  name: 'examine',
-  data () {
+  name: 'ArticleRewardDetail',
+   data () {
     return {
       formInline: {
         articleId: '',
@@ -152,55 +138,42 @@ export default {
         userId: '',
         userName: ''
       },
+      rewardSumNuber: 1000,
+      rewardSumMoney: 10000,
       tableData: [{
-        articleId: '100001',
-        title: '美国留学1',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl1',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
+        rewardOrderId: '100001',
+        rewardPersonId: 'xxx',
+        rewardPersonName: 'thl',
+        rewardTime: '2018-8-29 00:00:00',
+        rewardChannel: 'PC',
+        rewardPersonRole: '人员',
         rewardMoney: '10000'
       }, {
-        articleId: '100002',
-        title: '美国留学2',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl2',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
+        rewardOrderId: '100001',
+        rewardPersonId: 'xxx',
+        rewardPersonName: 'thl',
+        rewardTime: '2018-8-29 00:00:00',
+        rewardChannel: 'PC',
+        rewardPersonRole: '人员',
         rewardMoney: '10000'
       }, {
-        articleId: '100003',
-        title: '美国留学3',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl3',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
+        rewardOrderId: '100001',
+        rewardPersonId: 'xxx',
+        rewardPersonName: 'thl',
+        rewardTime: '2018-8-29 00:00:00',
+        rewardChannel: 'PC',
+        rewardPersonRole: '人员',
         rewardMoney: '10000'
       }],
       currentPage: 1
     }
   },
   methods: {
-    onSubmit (e) {
-      console.log('submit!')
-    },
-    handleSizeChange (val) {
+     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
-    },
-    goDetail (index,row) {
-      this.$router.push({name: 'rewardDetail', params: {id: row.articleId}})
     }
   }
 }
@@ -212,5 +185,9 @@ export default {
     height:40px;
     font-size: 18px;
     line-height: 40px;
+  }
+  .sum-box{
+    display: flex;
+    justify-content: flex-end;
   }
 </style>
