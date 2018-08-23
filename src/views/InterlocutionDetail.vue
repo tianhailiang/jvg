@@ -1,11 +1,11 @@
 <template>
   <div >
     <div class="nav" >
-      课题列表
+      话题详情（新建/编辑）
     </div>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
       <el-form-item label="话题ID">
-        <el-input v-model="formInline.id" size="small"></el-input>
+        {{formInline.id}}
       </el-form-item>
       <el-form-item label="话题标题">
         <el-input v-model="formInline.title" size="small"></el-input>
@@ -30,24 +30,25 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
-        <span class="demonstration">创建时间</span>
-        <el-date-picker
-        v-model="formInline.timeVal"
-        type="datetimerange"
-        :picker-options="pickerOptions2"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期" size="small">
-        </el-date-picker>
+      <el-form-item label="创建时间">
+        {{formInline.timeVal}}
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+      <el-form-item label="话题内容">
+        <el-input v-model="formInline.describe" size="small" type="textarea" maxlength="100"></el-input>
       </el-form-item>
+      <el-form-item label="话题标签">
+        <el-input v-model="formInline.tag" size="small"></el-input>
+      </el-form-item>
+      <el-form-item label="创建人">
+        {{formInline.name}}
+      </el-form-item>
+      <el-button @click="addWenda">添加问答</el-button>
+      <el-button @click="onSubmit">提交</el-button>
+      <el-button @click="onSubmit">取消</el-button>
     </el-form>
     <el-table
       ref="multipleTable"
-      :data="tableData3"
+      :data="tableData"
       tooltip-effect="dark"
       style="max-width:100%;width: 1035px"
       @selection-change="handleSelectionChange" border>
@@ -57,52 +58,55 @@
         width="55" >
       </el-table-column>
       <el-table-column
-        prop="id"
-        label="话题id"
+        label="问答id"
         width="80" align="center" >
+        <template slot-scope="scope">
+          <el-button
+          size="mini"
+          @click="goDetail(scope.$index, scope.row)">
+            {{scope.row.id}}
+          </el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="title"
-        label="话题标题"
+        label="问答标题"
         width="120" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="describe"
-        label="话题内容"
+        label="问题内容"
         width="200" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="channel"
-        label="话题频道"
+        prop="bestAnswer"
+        label="最佳答案"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="classification"
-        label="话题分类"
+        prop="replayNumber"
+        label="回复数"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="tag"
-        label="话题标签"
-        width="120" align="center" show-overflow-tooltip>
+        prop="partakeNumber"
+        label="参与人数"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
         prop="name"
-        label="创建人"
+        label="问题创建人"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
         prop="time"
-        label="话题创建时间"
+        label="问题创建时间"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
         label="操作"
         align="center" width="160" >
         <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
         <el-button
           size="mini"
           type="danger"
@@ -113,14 +117,20 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
+      :current-page.sync="currentPage"
       :page-size="100"
       layout="prev, pager, next, jumper"
       :total="1000" style="text-align:center;margin-top:20px">
     </el-pagination>
+    <!-- 问答列表查看 -->
+    <InterlocutionListSee :dialogFormVisible.sync="dialogFormVisible" />
+    <!-- 问答详情查看 -->
+    <InterlocutionDetailSee :dialogFormVisible1.sync="dialogFormVisible1" />
   </div>
 </template>
 <script>
+import InterlocutionListSee from '@/components/InterlocutionListSee.vue'
+import InterlocutionDetailSee from '@/components/InterlocutionDetailSee.vue'
 export default {
   name: 'Interlocution',
   data () {
@@ -149,36 +159,12 @@ export default {
           value: '2',
           label: '雅思'
         }],
-        timeVal: ''
+        timeVal: '2018-8-23',
+        describe: '',
+        tag: '',
+        name: 'thl'
       },
-      pickerOptions2: {
-        shortcuts: [{
-          text: '最近一周',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一个月',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近三个月',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      },
-      tableData3: [{
+      tableData: [{
         date: '2016-05-03',
         name: '王小虎',
         id: '10001',
@@ -187,7 +173,10 @@ export default {
         channel: '语培',
         classification: '托福',
         tag: '时讯，非时讯',
-        time: '2018.01.01'
+        time: '2018.01.01',
+        bestAnswer: '你好啊',
+        replayNumber: '100',
+        partakeNumber: '200'
       }, {
         date: '2016-05-02',
         name: '王小虎',
@@ -197,7 +186,10 @@ export default {
         channel: '语培',
         classification: '托福',
         tag: '时讯，非时讯',
-        time: '2018.01.01'
+        time: '2018.01.01',
+        bestAnswer: '你好啊',
+        replayNumber: '100',
+        partakeNumber: '200'
       }, {
         date: '2016-05-02',
         name: '王小虎',
@@ -207,11 +199,19 @@ export default {
         channel: '语培',
         classification: '托福',
         tag: '时讯，非时讯',
-        time: '2018.01.01'
+        time: '2018.01.01',
+        bestAnswer: '你好啊',
+        replayNumber: '100',
+        partakeNumber: '200'
       }],
       multipleSelection: [],
-      currentPage3: 5
+      currentPage: 1,
+      dialogFormVisible: false,
+      dialogFormVisible1: false
     }
+  },
+  components: {
+    InterlocutionListSee, InterlocutionDetailSee
   },
   methods: {
     onSubmit (e) {
@@ -229,9 +229,6 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    handleEdit (index, row) {
-      console.log(index, row)
-    },
     handleDelete (index, row) {
       console.log(index, row)
     },
@@ -240,6 +237,12 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
+    },
+    addWenda () {
+      this.dialogFormVisible = true
+    },
+    goDetail () {
+      this.dialogFormVisible1 = true
     }
   }
 }
@@ -250,11 +253,5 @@ export default {
     height:40px;
     font-size: 18px;
     line-height: 40px;
-  }
-  .demo-form-inline{
-    border:1px solid #dcdcdc;
-  }
-  .demonstration{
-    margin-right:10px;
   }
 </style>

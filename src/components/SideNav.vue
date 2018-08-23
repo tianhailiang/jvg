@@ -21,26 +21,12 @@
       <el-menu-item index="/article">文章列表</el-menu-item>
       <el-menu-item index="/examine">文章审核管理</el-menu-item>
       <el-menu-item index="/reward">文章打赏列表</el-menu-item>
-      <el-submenu index="5-4">
-        <template slot="title" index="">文章评论列表</template>
-        <el-menu-item index="">删除提示窗口</el-menu-item>
-        <el-menu-item index="">文章评论详情</el-menu-item>
-      </el-submenu>
+      <el-menu-item index="/comment">文章评论列表</el-menu-item>
     </el-submenu>
     <el-submenu index="6">
       <template slot="title">问答管理</template>
       <el-menu-item index="/interlocution">话题列表</el-menu-item>
-      <el-submenu index="6-2">
-        <template slot="title" index="">话题详情</template>
-        <el-menu-item index="">问答列表查看</el-menu-item>
-        <el-menu-item index="">问答详情查看</el-menu-item>
-      </el-submenu>
-      <el-menu-item index="">问答列表</el-menu-item>
-      <el-submenu index="6-3">
-        <template slot="title" index="">问答详情</template>
-        <el-menu-item index="">答案/回复列表</el-menu-item>
-      </el-submenu>
-      <el-menu-item index="">删除提示窗口</el-menu-item>
+      <el-menu-item index="/answer">问答列表</el-menu-item>
     </el-submenu>
     <el-submenu index="7">
       <template slot="title">标签管理</template>
@@ -132,6 +118,18 @@ export default {
     this.activeIndex = window.location.href.split('http://localhost:8080')[1]
     if(this.activeIndex.includes('article')){
       this.activeIndex = '/article' /* 文章列表和文章详情匹配一个路由 */
+    }
+    if(this.activeIndex.includes('reward')){
+      this.activeIndex = '/reward' /* 打赏列表和打赏详情匹配一个路由 */
+    }
+    if(this.activeIndex.includes('comment')){
+      this.activeIndex = '/comment' /* 打赏列表和打赏详情匹配一个路由 */
+    }
+    if(this.activeIndex.includes('interlocution')){
+      this.activeIndex = '/interlocution' /* 话题列表和话题详情匹配一个路由 */
+    }
+    if(this.activeIndex.includes('answer')){
+      this.activeIndex = '/answer' /* 话题列表和话题详情匹配一个路由 */
     }
   }
 }
