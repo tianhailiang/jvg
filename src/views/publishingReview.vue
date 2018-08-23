@@ -1,5 +1,5 @@
 <template>
-  <section class="publishing-review-content">
+  <section class="publishing-review-content" style="overflow:hidden;max-width:1200px;">
         <el-row :gutter="20">
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
               <el-col :span="6">
@@ -69,21 +69,22 @@
   </section>
 </template>
 <script>
-  export default {
-    name: 'publishingReview',
-    data () {
-      return {
-        value: '',
-        tableData3: [
-          {date: '20180502',name: '张三',address: '查看'},
-          {date: '20160502',name: '张三',address: '查看'},
-          {date: '20180502',name: '张三',address: '查看'},
-          {date: '20160502',name: '张三',address: '查看'},
-          {date: '20180502',name: '张三',address: '查看'}
-        ]
-      }
+export default {
+  name: 'publishingReview',
+  data () {
+    return {
+      value: '',
+      tableData3: [
+        {date: '20180502',name: '张三', address: '查看'},
+        {date: '20160502',name: '张三', address: '查看'},
+        {date: '20160502',name: '张三', address: '查看'},
+        {date: '20160502',name: '张三', address: '查看'},
+        {date: '20160502',name: '张三', address: '查看'},
+        {date: '20160502',name: '张三', address: '查看'}
+      ]
     }
   }
+}
 </script>
 <style scoped>
   .row-container{

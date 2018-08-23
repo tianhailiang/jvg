@@ -1,5 +1,5 @@
 <template>
-  <section class="publishing-content">
+  <section class="publishing-content" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
           <el-col :span="6">
@@ -65,10 +65,7 @@
           <el-col :span="6">
               <el-form-item label="评论类型">
                 <el-select v-model="value" placeholder="全部">
-                  <el-option v-for="item in options" 
-                    :label="item.label" 
-                    :value="item.label">
-                  </el-option>
+                  <el-option v-for="item in options" :label="item.label" :value="item.label" :key="item.value"></el-option>
                 </el-select>
               </el-form-item>
           </el-col>
@@ -111,21 +108,26 @@
   </section>
 </template>
 <script>
-  export default {
-    name: 'publishingCommentDetail',
-    data() {
-      return {
-        value: '',
-        options: '',
-        tableData3: [
-          {date: '20160502',name: '张三',address: '删除'},
-          {date: '20160502',name: '张三',address: '删除'},
-          {date: '20160502',name: '张三',address: '删除'},
-          {date: '20160502',name: '张三',address: '删除'}
-        ]
-      }
+export default {
+  name: 'publishingCommentDetail',
+  data () {
+    return {
+      value: '',
+      options: [
+        {label: '选项一',value: 'APP'},
+        {label: '选项二',value: 'WAP'},
+        {label: '选项三',value: 'PC'}
+      ],
+      tableData3: [
+        {date: '20160502', name: '张三', address: '删除'},
+        {date: '20160502', name: '李四', address: '删除'},
+        {date: '20160502', name: '王五', address: '删除'},
+        {date: '20160502', name: '赵六', address: '删除'},
+        {date: '20160502', name: '张三', address: '删除'}
+      ]
     }
   }
+}
 </script>
 <style>
   .publishing-content .el-form-item--mini .el-form-item__label{

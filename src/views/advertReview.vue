@@ -1,5 +1,5 @@
 <template>
-  <section class="advert-review-content">
+  <section class="advert-review-content" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
       <el-form class="demo-form-inline" label-width="80px" size="mini">
       <el-col :span="5">
@@ -68,12 +68,12 @@
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple-light">
           <el-form-item label="业务频道">
-              <el-select placeholder="全部" v-model="values">
+              <el-select placeholder="全部" v-model="value">
                   <el-option
                     v-for="items in options2"
-                    :key="items.values"
+                    :key="items.value"
                     :label="items.label"
-                    :value="items.values">
+                    :value="items.value">
                   </el-option>
               </el-select>
           </el-form-item>
@@ -131,7 +131,7 @@
           <el-button size="small" type="primary">批量通过</el-button>
       </el-col>
     </el-row>
-    <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+    <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
         <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="广告ID">
             <el-input type="text" size="mini" :disabled="true"></el-input>
@@ -162,6 +162,11 @@ export default {
       options: [
         {value: '选项1', label: '留学首页'},
         {value: '选项2', label: '问答详情页'}
+      ],
+      options2: [
+        {value: '选项1', label: '留学首页'},
+        {value: '选项2', label: '留学首页'},
+        {value: '选项3', label: '留学首页'}
       ],
       value: '',
       dialogVisible: false,

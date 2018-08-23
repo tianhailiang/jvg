@@ -1,5 +1,5 @@
 <template>
-  <section class="courselist-tabel">
+  <section class="courselist-tabel" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
           <el-col :span="6">
@@ -105,25 +105,18 @@
   </section>
 </template>
 <script>
-  export default {
-    name:'courseList',
-    data () {
-        return {
-            tableData3:[{
-                date: '20160502',
-                name: '张三',
-                address: '查看'
-            },{
-                date: '20160502',
-                name: '李四',
-                address: '查看'
-            },{
-                date: '20160502',
-                name: '王五',
-                address: '查看'
-            }],
-            dialogVisible: false
-        }
+export default {
+  name: 'courseList',
+  data () {
+    return {
+      tableData3: [
+        {date: '20160502', name: '张三', address: '查看'},
+        {date: '20160502', name: '张三', address: '查看'},
+        {date: '20160502', name: '张三', address: '查看'},
+        {date: '20160502', name: '张三', address: '查看'}
+      ],
+      dialogVisible: false
     }
   }
+}
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <section class="publishinglist-tabel">
+    <section class="publishinglist-tabel" style="overflow:hidden;max-width:1200px;">
       <el-row :gutter="20">
         <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
             <el-col :span="6">
@@ -67,8 +67,7 @@
               <template slot-scope="scope">
                   <el-button size="mini" type="danger" @click="openMadel">冻结</el-button>
                 </template>
-              </el-table-column>
-          </el-table-column>      
+          </el-table-column>
       </el-table>
       <div style="height:30px"></div>
       <!-- 分页 -->
@@ -118,37 +117,38 @@
   </template>
 <script>
 export default {
-  name:'publishingList',
+  name: 'publishingList',
   data () {
     return {
-      tableData3:[
-        {date: '2016-05-02',name: '王小虎',type: '托福',address: '冻结',active: '冻结'},
-        {date: '2016-05-02',name: '王小虎',type: '托福',address: '冻结',active: '冻结'},
-        {date: '2016-05-02',name: '王小虎',type: '托福',address: '冻结',active: '冻结'},
-        {date: '2016-05-02',name: '王小虎',type: '托福',address: '冻结',active: '冻结'},
-        {date: '2016-05-02',name: '王小虎',type: '托福',address: '冻结',active: '冻结'}
+      tableData3: [
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'}
       ],
       dialogVisible: false
     }
   },
   methods: {
-    openMadel() {
-        this.$confirm('请确认是否继续删除', '删除提示窗口', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })   
+    openMadel () {
+      this.$confirm('请确认是否继续删除', '删除提示窗口', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
         })
-      }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    }
   }
 }
 </script>

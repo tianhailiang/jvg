@@ -97,134 +97,133 @@ export default new Router({
           path: '/reward', /* 文章管理模块 文章打赏列表 */
           name: 'reward',
           component: () => import('./views/ArticleRewardList.vue')
+        },
+        {
+          path: '/courseList', /* 课程列表 */
+          name: 'courseList',
+          component: () => import(/* webpackChunkName: "about" */ './views/courseList.vue')
+        },
+        {
+          path: '/courseReview', /* 课程审核 */
+          name: 'courseReview',
+          component: () => import(/* webpackChunkName: "about" */ './views/courseReview.vue')
+        },
+        {
+          path: '/courseComment', /* 课程评论 */
+          name: 'courseComment',
+          component: () => import(/* webpackChunkName: "about" */ './views/courseComment.vue')
+        },
+        {
+          path: '/courseDetail', /* 课程详情 */
+          name: 'courseDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
+        },
+        {
+          path: '/courseCommentDetail', /* 课程评论详情 */
+          name: 'courseCommentDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/courseCommentDetail.vue')
+        },
+        {
+          path: '/orderList', /* 订单列表 */
+          name: 'orderList',
+          component: () => import(/* webpackChunkName: "about" */ './views/orderList.vue')
+        },
+        {
+          path: '/orderRefund', /* 订单退款列表 */
+          name: 'orderRefund',
+          component: () => import(/* webpackChunkName: "about" */ './views/orderRefund.vue')
+        },
+        {
+          path: '/orederRefundDetail', /* 订单退款详情 */
+          name: 'orederRefundDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/orederRefundDetail.vue')
+        },
+        {
+          path: '/orderDetail', /* 订单详情 */
+          name: 'orderDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/orderDetail.vue')
+        },
+        {
+          path: '/publishingList', /* 出版物列表 */
+          name: 'publishingList',
+          component: () => import(/* webpackChunkName: "about" */ './views/publishingList.vue')
+        },
+        {
+          path: '/publishingCommentList', /* 出版物评论列表 */
+          name: 'publishingCommentList',
+          component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentList.vue')
+        },
+        {
+          path: '/publishingCommentDetail', /* 出版物评论详情 */
+          name: 'publishingCommentDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentDetail.vue')
+        },
+        {
+          path: '/publishingDetail', /* 出版物详情 */
+          name: 'publishingDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/publishingDetail.vue')
+        },
+        {
+          path: '/publishingReview', /* 出版物审核 */
+          name: 'publishingReview',
+          component: () => import(/* webpackChunkName: "about" */ './views/publishingReview.vue')
+        },
+        {
+          path: '/advertList', /* 广告位列表 */
+          name: 'advertList',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertList.vue')
+        },
+        {
+          path: '/advertListCopy', /* 广告列表 */
+          name: 'advertListCopy',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertListCopy.vue')
+        },
+        {
+          path: '/advertReview', /* 广告审核管理 */
+          name: 'advertReview',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertReview.vue')
+        },
+        {
+          path: '/advertDetail', /* 广告详情 */
+          name: 'advertDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertDetail.vue')
+        },
+        {
+          path: '/advertReplace', /* 广告替换 */
+          name: 'advertReplace',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertReplace.vue')
+        },
+        {
+          path: '/advertDetailPlatform_list', /* 广告详情平台列表 */
+          name: 'advertDetailPlatform_list',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertDetailPlatform_list.vue')
+        },
+        {
+          path: '/advertDetailPlatform_item', /* 广告详情平台类目 */
+          name: 'advertDetailPlatform_item',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertDetailPlatform_item.vue')
+        },
+        {
+          path: '/advertSelect', /* 广告详情平台类目 */
+          name: 'advertSelect',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertSelect.vue')
+        },
+        {
+          path: '/advertSpaceDetail', /* 广告位详情（平台+固定+单页轮播）*/
+          name: 'advertSpaceDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail.vue')
+        },
+        {
+          path: '/advertSpaceDetail_list', /* 广告位详情（平台+列表+单页）*/
+          name: 'advertSpaceDetail_list',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail_list.vue')
+        },
+        {
+          path: '/advertSpaceDetail_item', /* 广告位详情（平台+类目+单页）*/
+          name: 'advertSpaceDetail_item',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail_item.vue')
         }
-
       ]
-    },
-    {
-      path: '/courseList', /* 课程列表 */
-      name: 'courseList',
-      component: () => import(/* webpackChunkName: "about" */ './views/courseList.vue')
-    },
-    {
-      path: '/courseReview', /* 课程审核 */
-      name: 'courseReview',
-      component: () => import(/* webpackChunkName: "about" */ './views/courseReview.vue')
-    },
-    {
-      path: '/courseComment', /* 课程评论 */
-      name: 'courseComment',
-      component: () => import(/* webpackChunkName: "about" */ './views/courseComment.vue')
-    },
-    {
-      path: '/courseDetail', /* 课程详情 */
-      name: 'courseDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
-    },
-    {
-      path: '/courseCommentDetail', /* 课程评论详情 */
-      name: 'courseCommentDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/courseCommentDetail.vue')
-    },
-    {
-      path: '/orderList', /* 订单列表 */
-      name: 'orderList',
-      component: () => import(/* webpackChunkName: "about" */ './views/orderList.vue')
-    },
-    {
-      path: '/orderRefund', /* 订单退款列表 */
-      name: 'orderRefund',
-      component: () => import(/* webpackChunkName: "about" */ './views/orderRefund.vue')
-    },
-    {
-      path: '/orederRefundDetail', /* 订单退款详情 */
-      name: 'orederRefundDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/orederRefundDetail.vue')
-    },
-    {
-      path: '/orderDetail', /* 订单详情 */
-      name: 'orderDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/orderDetail.vue')
-    },
-    {
-      path: '/publishingList', /* 出版物列表 */
-      name: 'publishingList',
-      component: () => import(/* webpackChunkName: "about" */ './views/publishingList.vue')
-    },
-    {
-      path: '/publishingCommentList', /* 出版物评论列表 */
-      name: 'publishingCommentList',
-      component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentList.vue')
-    },
-    {
-      path: '/publishingCommentDetail', /* 出版物评论详情 */
-      name: 'publishingCommentDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentDetail.vue')
-    },
-    {
-      path: '/publishingDetail', /* 出版物详情 */
-      name: 'publishingDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/publishingDetail.vue')
-    },
-    {
-      path: '/publishingReview', /* 出版物审核 */
-      name: 'publishingReview',
-      component: () => import(/* webpackChunkName: "about" */ './views/publishingReview.vue')
-    },
-    {
-      path: '/advertList', /* 广告位列表 */
-      name: 'advertList',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertList.vue')
-    },
-    {
-      path: '/advertListCopy', /* 广告列表 */
-      name: 'advertListCopy',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertListCopy.vue')
-    },
-    {
-      path: '/advertReview', /* 广告审核管理 */
-      name: 'advertReview',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertReview.vue')
-    },
-    {
-      path: '/advertDetail', /* 广告详情 */
-      name: 'advertDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertDetail.vue')
-    },
-    {
-      path: '/advertReplace', /* 广告替换 */
-      name: 'advertReplace',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertReplace.vue')
-    },
-    {
-      path: '/advertDetailPlatform_list', /* 广告详情平台列表 */
-      name: 'advertDetailPlatform_list',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertDetailPlatform_list.vue')
-    },
-    {
-      path: '/advertDetailPlatform_item', /* 广告详情平台类目 */
-      name: 'advertDetailPlatform_item',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertDetailPlatform_item.vue')
-    },
-    {
-      path: '/advertSelect', /* 广告详情平台类目 */
-      name: 'advertSelect',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertSelect.vue')
-    },
-    {
-      path: '/advertSpaceDetail', /* 广告位详情（平台+固定+单页轮播）*/
-      name: 'advertSpaceDetail',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail.vue')
-    },
-    {
-      path: '/advertSpaceDetail_list', /* 广告位详情（平台+列表+单页）*/
-      name: 'advertSpaceDetail_list',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail_list.vue')
-    },
-    {
-      path: '/advertSpaceDetail_item', /* 广告位详情（平台+类目+单页）*/
-      name: 'advertSpaceDetail_item',
-      component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail_item.vue')
     }
   ]
 })

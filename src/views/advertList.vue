@@ -1,5 +1,5 @@
 <template>
-  <section class="advert-container">
+  <section class="advert-container" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
       <el-form class="demo-form-inline" label-width="80px" size="mini">
       <el-col :span="6">
@@ -12,43 +12,58 @@
       <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="名称">
               <el-input placeholder=""></el-input>
-          </el-form-item>  
+          </el-form-item>
       </div></el-col>
       <el-col :span="8"><div class="grid-content bg-purple">
           <el-form-item label="位置类型">
-              <el-select placeholder="全部">
-                  <el-option label="全部"  value="shanghai"></el-option>
+              <el-select placeholder="全部" v-model="values4">
+                  <!-- <el-option label="全部"  value="shanghai"></el-option>
                   <el-option label="固定" value="beijing"></el-option>
                   <el-option label="列表" value="beijing"></el-option>
-                  <el-option label="栏目" value="beijing"></el-option>
+                  <el-option label="栏目" value="beijing"></el-option> -->
+                  <el-option 
+                  v-for="items in options4"
+                  :key="items.value"
+                  :label="items.label"
+                  :value="items.value"></el-option>
               </el-select>
-          </el-form-item>  
+          </el-form-item>
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="广告类型">
-              <el-select placeholder="全部">
-                  <el-option label="全部"  value="shanghai"></el-option>
+              <el-select placeholder="全部" v-model="values4">
+                  <!-- <el-option label="全部"  value="shanghai"></el-option>
                   <el-option label="单页" value="beijing"></el-option>
-                  <el-option label="轮播" value="beijing"></el-option>
+                  <el-option label="轮播" value="beijing"></el-option> -->
+                  <el-option 
+                  v-for="items in options4"
+                  :key="items.value"
+                  :label="items.label"
+                  :value="items.value"></el-option>
               </el-select>
-          </el-form-item>  
+          </el-form-item>
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="广告状态">
-              <el-select placeholder="全部">
+              <el-select placeholder="全部" v-model="values4">
                   <el-option label="全部"  value="shanghai"></el-option>
                   <el-option label="使用中" value="beijing"></el-option>
                   <el-option label="未使用" value="beijing"></el-option>
                   <el-option label="冻结" value="beijing"></el-option>
               </el-select>
-          </el-form-item>  
+          </el-form-item>
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="所有权">
-              <el-select placeholder="全部">
-                  <el-option label="全部"  value="shanghai"></el-option>
+              <el-select placeholder="全部" v-model="values4">
+                  <!-- <el-option label="全部"  value="shanghai"></el-option>
                   <el-option label="平台" value="beijing"></el-option>
-                  <el-option label="用户" value="beijing"></el-option>
+                  <el-option label="用户" value="beijing"></el-option> -->
+                  <el-option 
+                  v-for="items in options4"
+                  :key="items.value"
+                  :label="items.label"
+                  :value="items.value"></el-option>
               </el-select>
           </el-form-item>
       </div></el-col>
@@ -59,13 +74,18 @@
         <el-form class="demo-form-inline" label-width="80px" size="mini">
         <el-col :span="6"><div class="grid-content bg-purple">
             <el-form-item label="渠道">
-                <el-select placeholder="全部">
-                    <el-option label="全部"  value="shanghai"></el-option>
+                <el-select placeholder="全部" v-model="values3">
+                    <!-- <el-option label="全部"  value="shanghai"></el-option>
                     <el-option label="APP" value="beijing"></el-option>
                     <el-option label="PC" value="beijing"></el-option>
-                    <el-option label="WAP" value="beijing"></el-option>
+                    <el-option label="WAP" value="beijing"></el-option> -->
+                    <el-option
+                    v-for="items in options3"
+                    :key="items.value"
+                    :label="items.label"
+                    :value="items.value"></el-option>
                 </el-select>
-            </el-form-item>  
+            </el-form-item>
         </div></el-col>
         <el-col :span="6"><div class="grid-content bg-purple-light">
             <el-form-item label="业务频道">
@@ -77,7 +97,7 @@
                     :value="items.values">
                   </el-option>
                 </el-select>
-            </el-form-item>  
+            </el-form-item>
         </div></el-col>
         <el-col :span="6"><div class="grid-content bg-purple">
             <el-form-item label="广告位模板">
@@ -89,7 +109,7 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-            </el-form-item>  
+            </el-form-item>
         </div></el-col>
       </el-form>
       </el-row>
@@ -100,7 +120,7 @@
             <el-button type="primary" size="medium">一键替换</el-button>
           </el-row>
       </div>
-      <el-table :data="tableData3">
+      <el-table :data="tableData3" style="width: 100%">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="num" label="广告位ID" width="120"></el-table-column>
           <el-table-column prop="name1" label="广告位名称" width="120"></el-table-column>
@@ -116,7 +136,6 @@
               <template slot-scope="scope">
                   <el-button size="mini" type="danger" @click="dialogVisible = true">冻结</el-button>
                 </template>
-              </el-table-column>
           </el-table-column>
       </el-table>
       <div style="height:30px;"></div>
@@ -134,7 +153,7 @@
           </el-col>
       </el-row>
       <!-- 模态框 -->
-      <el-dialog title="删除提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-dialog title="删除提示窗口" :visible.sync="dialogVisible" width="30%">
             <span>请确认是否继续删除</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
@@ -144,32 +163,46 @@
   </section>
 </template>
 <script>
-  export default {
-    name: 'advertList',
-    data() {
-      return {
-        options:[
-          {value: '选项1',label: '使用中'},
-          {value: '选项2',label: '冻结'},
-          {value: '选项3',label: '未使用'}
-        ],
-        options2:[
-          {values: '选项1',label: '移民'},
-          {values: '选项2',label: '语培'},
-          {values: '选项3',label: '院校直通'},
-          {values: '选项4',label: '留学'}
-        ],
-    tableData3:[
-      {num: 10000001, name1: '留学首页轮播', name2: '留学首页',name3: '轮播',name4: '使用中',name5: '平台',name6: '固定',name7: '2018-08-12',name8: '00:00:00',name9: 'PC'}],
+export default {
+  name: 'advertList',
+  data () {
+    return {
+      options: [
+        {value: '选项1', label: '使用中'},
+        {value: '选项2', label: '冻结'},
+        {value: '选项3', label: '未使用'}
+      ],
+      options2: [
+        {values: '选项1', label: '移民'},
+        {values: '选项2', label: '语培'},
+        {values: '选项3', label: '院校直通'},
+        {values: '选项4', label: '留学'}
+      ],
+      options3: [
+        {value: '选项1', label: '移民'},
+        {value: '选项2', label: '移民'},
+        {value: '选项3', label: '移民'},
+        {value: '选项4', label: '移民'}
+      ],
+      options4: [
+        {value: '选项1', label: '移民'},
+        {value: '选项2', label: '移民'},
+        {value: '选项3', label: '移民'},
+        {value: '选项4', label: '移民'}
+      ],
+      tableData3: [
+        {num: 10000001, name1: '留学首页轮播', name2: '留学首页', name3: '轮播', name4: '使用中', name5: '平台', name6: '固定', name7: '2018-08-12', name8: '00:00:00', name9: 'PC'}],
       value: '',
       values: '',
+      values3: '',
+      values4: '',
       dialogVisible: false
     }
   }
 }
 </script>
 <style>
-.advert-container .el-form-item__label{
+/* .advert-container .el-form-item__label{
   width:auto !important;
-}
+} */
 </style>

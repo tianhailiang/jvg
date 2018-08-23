@@ -1,5 +1,5 @@
 <template>
-    <section class="order-details" style="min-width:1200px;max-width:1200px;margin:0 auto;">
+    <section class="order-details" style="overflow:hidden;max-width:1200px;">
       <div class="order-details-item">
           <h3>订单基本信息</h3>
           <el-row :gutter="20">
@@ -27,7 +27,7 @@
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="订单编号">
                     <el-input type="text" :disabled="true"></el-input>
-                </el-form-item>  
+                </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="订单状态">
@@ -90,7 +90,7 @@
                       </el-form-item>
                     </div></el-col>
                     <el-col :span="6"><div class="grid-content bg-purple pay-purple">
-                        <el-form-item label="支付流水号"> 
+                        <el-form-item label="支付流水号">
                             <el-input type="text" :disabled="true"></el-input>
                         </el-form-item>
                       </div></el-col>
@@ -165,26 +165,24 @@
       </div>
     </section>
   </template>
-  <script>
-    export default {
-      name: 'orederRefundDetail',
-      data () {
-        return {
-          formInline:{},
-          priceData: [
-            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
-            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
-            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
-            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200},
-            {date:'001',name:'CSS禅意花园',price:10,number:20,totalprice:200}
-          ]
-        }
-      },
-      methods: {
-        
-      }
+<script>
+export default {
+  name: 'orederRefundDetail',
+  data () {
+    return {
+      formInline: {},
+      priceData: [
+        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200}
+      ]
     }
-  </script>
+  }
+}
+</script>
   <style>
     .order-details-item h3{
       margin-bottom: 12px;
@@ -218,5 +216,4 @@
     .pay-purple .el-form-item--mini .el-form-item__label{
       width:85px !important;
     }
-  </style>
-  
+</style>

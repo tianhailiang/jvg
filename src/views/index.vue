@@ -14,7 +14,6 @@
 <script>
 import TopNav from '@/components/Nav.vue'
 import SideNav from '@/components/SideNav.vue'
-
 export default {
   components: {
     TopNav,

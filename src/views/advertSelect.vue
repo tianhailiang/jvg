@@ -1,5 +1,5 @@
 <template>
-  <section class="advert-select">
+  <section class="advert-select" style="overflow:hidden;max-width:1200px;">
       <el-row :gutter="20">
           <el-form class="demo-form-inline" label-width="80px" size="mini">
           <el-col :span="5">
@@ -97,7 +97,6 @@
                 <el-button size="mini" type="danger">选择</el-button>
               </template>
             </el-table-column>
-        </el-table-column>
     </el-table>
     <div class="page-plane">
         <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
@@ -111,7 +110,7 @@ export default {
   data () {
     return {
       advertData: [
-        {id:'001', number: '1',name1: '测试'}
+        {id: '001', number: '1', name1: '测试'}
       ]
     }
   }

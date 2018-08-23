@@ -1,5 +1,5 @@
 <template>
-    <section class="publishinglist-tabel">
+    <section class="publishinglist-tabel" style="overflow:hidden;max-width:1200px;">
       <el-row :gutter="20">
         <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
             <el-col :span="5">
@@ -41,7 +41,7 @@
           <el-table-column prop="name" label="好评度"></el-table-column>
           <el-table-column prop="name" label="好评数"></el-table-column>
           <el-table-column prop="name" label="中评数"></el-table-column>
-          <el-table-column prop="active" label="差评"></el-table-column>    
+          <el-table-column prop="active" label="差评"></el-table-column>
       </el-table>
       <div style="height:30px"></div>
       <!-- 分页 -->
@@ -51,28 +51,21 @@
       </div>
     </section>
   </template>
-  <script>
-    export default {
-      name:'publishingCommentList',
-      data () {
-          return {
-              tableData3:[{
-                  date: '2016-05-02',
-                  name: '王小虎',
-                  type: '托福',
-                  address: '冻结',
-                  active: '冻结'
-              },{
-                  date: '2016-05-02',
-                  name: '王小虎',
-                  type: '托福',
-                  address: '冻结',
-                  active:'已下架'
-              }]
-          }
-      }
+<script>
+export default {
+  name: 'publishingCommentList',
+  data () {
+    return {
+      tableData3: [
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'}
+      ]
     }
-  </script>
+  }
+}
+</script>
   <style>
     .row-container{
       display: flex;
@@ -81,4 +74,4 @@
     .publishinglist-tabel .el-form--inline .el-form-item__content{
       position:absolute !important;
     }
-  </style>
+</style>

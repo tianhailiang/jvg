@@ -1,5 +1,5 @@
 <template>
-    <section class="advert-detail-content">
+    <section class="advert-detail-content" style="overflow:hidden;max-width:1200px;">
       <section class="advert-detail_head">
         <h3 style="margin:10px 0; text-indent:20px">广告位信息</h3>
         <div class="detail_head">

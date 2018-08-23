@@ -1,11 +1,11 @@
 <template>
-  <section class="order-refund">
+  <section class="order-refund" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
       <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="订单号">
               <el-input type="text"></el-input>
-          </el-form-item>  
+          </el-form-item>
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
         <el-form-item label="卖家名称">
@@ -38,7 +38,7 @@
                 <el-col :span="6">
                     <el-time-picker type="fixed-time" style="width: 100%;"></el-time-picker>
                 </el-col>
-            </div> 
+            </div>
         </el-form-item>
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
@@ -108,13 +108,13 @@
 <script>
 export default {
   name: '',
-  data() {
+  data () {
     return {
       tableData: [
-        {date: '20160502',index: 1,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'},
-        {date: '20160502',index: 3,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'},
-        {date: '20160502',index: 4,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'},
-        {date: '20160502',index: 5,name: '张三',address: '89',tuiname:'已退款',pricetype: '支付宝'}
+        {date: '20160502', index: 1, name: '张三', address: '89', tuiname: '已退款', pricetype: '支付宝'},
+        {date: '20160502', index: 3, name: '张三', address: '89', tuiname: '已退款', pricetype: '支付宝'},
+        {date: '20160502', index: 4, name: '张三', address: '89', tuiname: '已退款', pricetype: '支付宝'},
+        {date: '20160502', index: 5, name: '张三', address: '89', tuiname: '已退款', pricetype: '支付宝'}
       ]
     }
   },

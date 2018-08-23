@@ -1,5 +1,5 @@
 <template>
-  <section class="courselist-tabel">
+  <section class="courselist-tabel" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
           <el-col :span="5"><div class="grid-content bg-purple">
@@ -55,24 +55,16 @@
   </section>
 </template>
 <script>
-  export default {
-    name:'courseList',
+export default {
+  name: 'courseComment',
     data () {
-        return {
-            tableData3:[{
-                date: '20160502',
-                name: '张三',
-                address: '89'
-            },{
-                date: '20160502',
-                name: '李四',
-                address: '10'
-            },{
-                date: '20160502',
-                name: '王五',
-                address: '55'
-            }]
-        }
+      return {
+        tableData3: [
+        {date: '20160502', name: '张三', address: '89'},
+        {date: '20160502', name: '张三', address: '89'},
+        {date: '20160502', name: '张三', address: '89'}
+      ]
     }
   }
+}
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <section class="coursecomment-detail">
+    <section class="coursecomment-detail" style="overflow:hidden;max-width:1200px;">
       <el-row :gutter="20">
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
               <el-col :span="6">
@@ -138,7 +138,7 @@
             }
           }
         }
-  </script>
+</script>
 <style>
   .coursecomment-detail{
     max-width: 1280px;

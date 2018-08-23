@@ -1,5 +1,5 @@
 <template>
-  <section class="publing-detail">
+  <section class="publing-detail" style="overflow:hidden;max-width:1200px;">
     <el-form ref="form" :model="form" label-width="80px" size="mini">
         <el-row :gutter="20">
             <el-col :span="6">
@@ -69,7 +69,6 @@
               <el-upload><el-button size="small" type="primary" style="position:absolute;right:-90px;top:0;">点击上传</el-button></el-upload>
           </div>
         </el-form-item>
-      </el-form-item>
         <el-form-item label="">
             <el-row :gutter="20">
                 <el-col :span="6">
@@ -149,36 +148,35 @@
     </section>
 </template>
 <script>
-    export default {
-      data() {
-        return {
-          form: {
-            name: '',
-            region: '',
-            date1: '',
-            date2: '',
-            delivery: false,
-            type: [],
-            resource: '',
-            desc: ''
-          },
-          radio2: 3,
-          dataGroup:[
-            {date: '101',name: '50',type: '4500',address: '40%',active: '80%'},
-            {date: '101',name: '50',type: '4500',address: '40%',active: '80%'},
-            {date: '101',name: '50',type: '4500',address: '40%',active: '80%'},
-            {date: '101',name: '50',type: '4500',address: '40%',active: '80%'},
-            {date: '101',name: '50',type: '4500',address: '40%',active: '80%'}
-          ]
-        }
+export default {
+  data () {
+    return {
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
       },
-      methods: {
-        onSubmit() {
-          console.log('submit!');
-        }
-      }
+      radio2: 3,
+      dataGroup: [
+        {date: '101', name: '50', type: '4500', address: '40%', active: '80%'},
+        {date: '101', name: '50', type: '4500', address: '40%', active: '80%'},
+        {date: '101', name: '50', type: '4500', address: '40%', active: '80%'},
+        {date: '101', name: '50', type: '4500', address: '40%', active: '80%'}
+      ]
     }
-  </script>
+  },
+  methods: {
+    onSubmit () {
+      console.log('submit!')
+    }
+  }
+}
+</script>
   <style scoped>
   .center-box{
     display: flex;
@@ -218,4 +216,4 @@
     font-size:18px;
     text-indent: 14px;
   }
-  </style>
+</style>

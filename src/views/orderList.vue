@@ -1,5 +1,5 @@
 <template>
-    <section class="order-list" style="min-width:1200px;max-width:1200px;margin:0 auto;">
+    <section class="order-list" style="overflow:hidden;max-width:1200px;">
       <div class="order-item">
         <el-row :gutter="20">
             <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
@@ -122,10 +122,11 @@ export default {
     data () {
     return {
         priceData: [
-        {date: '001',name: 'js语言精粹',price: 10,number: 20,totalprice: 200},
-        {date: '002',name: 'js语言精粹',price: 10,number: 20,totalprice: 200},
-        {date: '003',name: 'js语言精粹',price: 10,number: 20,totalprice: 200},
-        {date: '004',name: 'js语言精粹',price: 10,number: 20,totalprice: 200}
+        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
+        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200}
         ]
       }
     }

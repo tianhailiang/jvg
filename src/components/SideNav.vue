@@ -89,11 +89,11 @@
     </el-submenu>
     <el-submenu index="16">
       <template slot="title">课程管理</template>
-      <el-menu-item index="">课程列表</el-menu-item>
-      <el-menu-item index="">课程详情页</el-menu-item>
+      <el-menu-item index="/courseList">课程列表</el-menu-item>
+      <el-menu-item index="/courseDetail">课程详情页</el-menu-item>
         <el-submenu index="16-1">
           <template slot="title" index="">课程评论列表</template>
-          <el-menu-item index="">课程评论详情页</el-menu-item>
+          <el-menu-item index="/courseCommentDetail">课程评论详情页</el-menu-item>
         </el-submenu>
       <el-menu-item index="">课程审批管理</el-menu-item>
       <el-menu-item index="">删除提示窗口</el-menu-item>
@@ -101,11 +101,11 @@
     </el-submenu>
     <el-submenu index="17">
       <template slot="title">出版物管理</template>
-      <el-menu-item index="">出版物列表</el-menu-item>
-      <el-menu-item index="">出版物详情页</el-menu-item>
+      <el-menu-item index="/publishingList">出版物列表</el-menu-item>
+      <el-menu-item index="/publishingDetail">出版物详情页</el-menu-item>
         <el-submenu index="17-1">
-          <template slot="title" index="">出版物评论列表</template>
-          <el-menu-item index="">出版物评论详情页</el-menu-item>
+          <template slot="title" index="/publishingCommentList">出版物评论列表</template>
+          <el-menu-item index="/publishingCommentDetail">出版物评论详情页</el-menu-item>
         </el-submenu>
       <el-menu-item index="">出版物审批管理</el-menu-item>
       <el-menu-item index="">删除提示窗口</el-menu-item>
@@ -113,10 +113,10 @@
     </el-submenu>
     <el-submenu index="18">
       <template slot="title">订单管理</template>
-      <el-menu-item index="">订单列表</el-menu-item>
-      <el-menu-item index="">订单详情页</el-menu-item>
-      <el-menu-item index="">订单退款列表</el-menu-item>
-      <el-menu-item index="">订单退款详情</el-menu-item>
+      <el-menu-item index="/orderList">订单列表</el-menu-item>
+      <el-menu-item index="/orderDetail">订单详情页</el-menu-item>
+      <el-menu-item index="/orderRefund">订单退款列表</el-menu-item>
+      <el-menu-item index="/orederRefundDetail">订单退款详情</el-menu-item>
     </el-submenu>
   </el-menu>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <section class="course-detail">
+  <section class="course-detail" style="overflow:hidden;max-width:1200px;">
     <el-form ref="form" :model="form" label-width="80px" size="mini">
         <el-row :gutter="20">
             <el-col :span="5">
@@ -253,34 +253,35 @@
     </section>
 </template>
 <script>
-    export default {
-      data() {
-        return {
-          form: {
-            name: '',
-            region: '',
-            date1: '',
-            date2: '',
-            delivery: false,
-            type: [],
-            resource: '',
-            desc: ''
-          },
-          options:[
-            {value: '选项1',label: '托福'},
-            {value: '选项2',label: 'GRE'}
-           ],
-          value: ''
-        }
+export default {
+  name: 'courseDetail.vue',
+  data () {
+    return {
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
       },
-      methods: {
-        onSubmit() {
-          console.log('submit!');
-        }
-      }
+      options: [
+        {value: '选项1', label: '托福'},
+        {value: '选项2', label: 'GRE'}
+      ],
+      value: ''
     }
-  </script>
-  <style>
+  },
+  methods: {
+    onSubmit () {
+      console.log('submit!')
+    }
+  }
+}
+</script>
+<style>
   .center-box{
     display: flex;
     justify-content: center;
@@ -314,4 +315,4 @@
     top: 0;
     right: 0;
   }
-  </style>
+</style>
