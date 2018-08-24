@@ -94,13 +94,13 @@
           </el-row>
       </div>
       <div class="order-details-item" style="margin-bottom:30px;">
-          <el-table :data="priceData" border size="medium">
-            <el-table-column prop="date" label="商品信息" width="100"></el-table-column>
-            <el-table-column prop="price" label="单价" width="200"></el-table-column>
-            <el-table-column prop="number" label="数量" width="200"></el-table-column>
-            <el-table-column prop="name" label="商品名称" width="200"></el-table-column>
-            <el-table-column prop="totalprice" label="订单金额" width="200"></el-table-column>
-            <el-table-column prop="totalprice" label="订单状态" width="200"></el-table-column>
+        <el-table :data="priceData" border size="medium" :span-method="arraySpanMethod" :header-cell-style="{background:'#f0f9eb'}">
+            <el-table-column prop="date" label="商品信息" width="180"></el-table-column>
+            <el-table-column prop="price" label="单价" width="180"></el-table-column>
+            <el-table-column prop="number" label="数量" width="115"></el-table-column>
+            <el-table-column prop="name" label="商品名称" width="180"></el-table-column>
+            <el-table-column prop="totalprice" label="订单金额" width="115"></el-table-column>
+            <el-table-column prop="totalactive" label="订单状态" width="180"></el-table-column>
             <el-table-column prop="totalprice" label="操作" width="98">
                 <template slot-scope="scope">
                     <el-button size="mini" type="danger">订单详情</el-button>
@@ -122,19 +122,34 @@ export default {
     data () {
     return {
         priceData: [
-        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'js语言精粹', price: 10, number: 20, totalprice: 200}
+        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
+        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
+        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
+        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
+        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
+        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'}
         ]
+      }
+    },
+    methods: {
+        arraySpanMethod({ column, rowIndex, columnIndex }) {
+        if (rowIndex % 2 === 0) {
+          if (columnIndex === 0) {
+            return [1, 2];
+          } else if (columnIndex === 1) {
+            return [0, 0];
+          }
+        }
       }
     }
 }
 </script>
-<style scoped>
+<style>
 .row-container {
     display: flex;
     justify-content:center;
+}
+.el-table .warning-row {
+    background: oldlace;
 }
 </style>

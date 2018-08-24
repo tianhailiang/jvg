@@ -79,17 +79,17 @@
               </el-form>
             </el-row>
             <!-- 表格 -->
-            <el-table :data="tableData3">
+            <el-table :data="tableData3" border>
                 <el-table-column type="selection" width="55"></el-table-column>
-                <el-table-column prop="date" label="评论ID" width="120"></el-table-column>
-                <el-table-column prop="name" label="评论内容" width="120"></el-table-column>
-                <el-table-column prop="name" label="评论人" width="120"></el-table-column>
-                <el-table-column prop="name" label="评论时间" width="120"></el-table-column>
-                <el-table-column prop="name" label="评论渠道" width="120"></el-table-column>
-                <el-table-column prop="name" label="回复内容" width="120"></el-table-column>
-                <el-table-column prop="name" label="回复时间" width="120"></el-table-column>
-                <el-table-column prop="name" label="回复渠道" width="120"></el-table-column>
-                <el-table-column prop="name" label="评论类型" width="120"></el-table-column>
+                <el-table-column prop="date" label="评论ID" width="102"></el-table-column>
+                <el-table-column prop="name" label="评论内容" width="102"></el-table-column>
+                <el-table-column prop="name" label="评论人" width="102"></el-table-column>
+                <el-table-column prop="name" label="评论时间" width="102"></el-table-column>
+                <el-table-column prop="name" label="评论渠道" width="102"></el-table-column>
+                <el-table-column prop="name" label="回复内容" width="102"></el-table-column>
+                <el-table-column prop="name" label="回复时间" width="102"></el-table-column>
+                <el-table-column prop="name" label="回复渠道" width="102"></el-table-column>
+                <el-table-column prop="name" label="评论类型" width="102"></el-table-column>
                 <el-table-column prop="address" label="操作" show-overflow-tooltip>
                     <template slot-scope="scope">
                         <el-button size="mini" type="danger">删除</el-button>
@@ -99,10 +99,10 @@
             <div style="height:30px"></div>
             <!-- 分页 -->
             <el-row :gutter="20">
-                <el-col :span="9">
+                <el-col :span="11">
                     <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
                 </el-col>
-                <el-col :span="9">
+                <el-col :span="8">
                     <el-button size="small" type="primary">确定</el-button>
                 </el-col>
                 <el-col :span="5">

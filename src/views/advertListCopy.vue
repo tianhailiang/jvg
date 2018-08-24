@@ -126,10 +126,10 @@
         <div style="height:30px;"></div>
         <!-- 分页 -->
         <el-row :gutter="20">
-            <el-col :span="9">
+            <el-col :span="11">
                 <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
             </el-col>
-            <el-col :span="9">
+            <el-col :span="6">
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
             <el-col :span="5">

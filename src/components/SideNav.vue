@@ -81,7 +81,7 @@
           <template slot="title" index="">课程评论列表</template>
           <el-menu-item index="/courseCommentDetail">课程评论详情页</el-menu-item>
         </el-submenu>
-      <el-menu-item index="">课程审批管理</el-menu-item>
+      <el-menu-item index="/courseReview">课程审批管理</el-menu-item>
       <el-menu-item index="">删除提示窗口</el-menu-item>
       <el-menu-item index="">冻结编辑窗口</el-menu-item>
     </el-submenu>

@@ -80,11 +80,11 @@
     <div class="order-details-item" style="margin-bottom:12px;">
         <h3>商品信息</h3>
         <el-table :data="priceData" border size="medium">
-          <el-table-column prop="date" label="商品ID" width="239.5"></el-table-column>
-          <el-table-column prop="name" label="商品名称" width="239.5"></el-table-column>
-          <el-table-column prop="price" label="单价" width="239.5"></el-table-column>
-          <el-table-column prop="number" label="数量" width="239.5"></el-table-column>
-          <el-table-column prop="totalprice" label="小计金额" width="239.5"></el-table-column>
+          <el-table-column prop="date" label="商品ID" width="210"></el-table-column>
+          <el-table-column prop="name" label="商品名称" width="210"></el-table-column>
+          <el-table-column prop="price" label="单价" width="210"></el-table-column>
+          <el-table-column prop="number" label="数量" width="210"></el-table-column>
+          <el-table-column prop="totalprice" label="小计金额" width="210"></el-table-column>
       </el-table>
     </div>
     <div class="order-details-item order-details-item_2">

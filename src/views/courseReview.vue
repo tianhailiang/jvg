@@ -53,27 +53,31 @@
       </el-form>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="tableData3">
+    <el-table :data="tableData3" border>
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="date" label="课程ID" width="120"></el-table-column>
-        <el-table-column prop="name" label="课程标题" width="120"></el-table-column>
-        <el-table-column prop="name" label="讲师名称" width="120"></el-table-column>
-        <el-table-column prop="name" label="频道" width="120"></el-table-column>
-        <el-table-column prop="name" label="课程分类" width="120"></el-table-column>
-        <el-table-column prop="name" label="上课模式" width="120"></el-table-column>
-        <el-table-column prop="name" label="教学模式" width="120"></el-table-column>
-        <el-table-column prop="name" label="课程价格" width="120"></el-table-column>
-        <el-table-column prop="name" label="直播时间" width="120"></el-table-column>
-        <el-table-column prop="name" label="审核状态" width="120"></el-table-column>
-        <el-table-column prop="address" label="操作" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="date" label="课程ID" width="90"></el-table-column>
+        <el-table-column prop="name" label="课程标题" width="90"></el-table-column>
+        <el-table-column prop="name" label="讲师名称" width="90"></el-table-column>
+        <el-table-column prop="name" label="频道" width="90"></el-table-column>
+        <el-table-column prop="name" label="课程分类" width="90"></el-table-column>
+        <el-table-column prop="name" label="上课模式" width="90"></el-table-column>
+        <el-table-column prop="name" label="教学模式" width="90"></el-table-column>
+        <el-table-column prop="name" label="课程价格" width="90"></el-table-column>
+        <el-table-column prop="name" label="直播时间" width="90"></el-table-column>
+        <el-table-column prop="name" label="审核状态" width="90"></el-table-column>
+        <el-table-column prop="address" label="操作" show-overflow-tooltip>
+            <template slot-scope="scope">
+                <el-button size="mini" type="danger" @click="openMadel">查看</el-button>
+            </template>
+        </el-table-column>
     </el-table>
     <div style="height:30px"></div>
     <!-- 分页 -->
     <el-row :gutter="20">
-        <el-col :span="9">
+        <el-col :span="11">
             <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="8">
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
@@ -110,10 +114,10 @@ export default {
   data () {
     return {
       tableData3: [
-        {date: '20160502', name: '张三', address: '查看'},
-        {date: '20160502', name: '张三', address: '查看'},
-        {date: '20160502', name: '张三', address: '查看'},
-        {date: '20160502', name: '张三', address: '查看'}
+        {date: '2016', name: '张三', address: '查看'},
+        {date: '2016', name: '张三', address: '查看'},
+        {date: '2016', name: '张三', address: '查看'},
+        {date: '2016', name: '张三', address: '查看'}
       ],
       dialogVisible: false
     }

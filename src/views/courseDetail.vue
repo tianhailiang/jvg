@@ -2,17 +2,17 @@
   <section class="course-detail" style="overflow:hidden;max-width:1200px;">
     <el-form ref="form" :model="form" label-width="80px" size="mini">
         <el-row :gutter="20">
-            <el-col :span="5">
+            <el-col :span="6">
                 <el-form-item label="课程ID">
                     <el-input v-model="form.name" :disabled="true"></el-input>
                   </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
                 <el-form-item label="课程标题">
                     <el-input v-model="form.name"></el-input>
                   </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
                 <el-form-item label="讲师名称">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
@@ -20,7 +20,7 @@
         </el-row>
         <!--  -->
         <el-row :gutter="20">
-            <el-col :span="5">
+            <el-col :span="6">
                 <el-form-item label="课程分类">
                     <el-select placeholder="全部" v-model="value">
                         <el-option
@@ -32,7 +32,7 @@
                     </el-select>
                 </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
                 <el-form-item label="课程标签">
                     <el-select placeholder="全部">
                         <el-option label="全部"  value="shanghai"></el-option>
@@ -41,7 +41,7 @@
                     </el-select>
                   </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
                 <el-form-item label="课程特色">
                     <el-col :span="8">
                         <el-input type="text"></el-input>
@@ -57,7 +57,7 @@
         </el-row>
         <!--  -->
         <el-row :gutter="20">
-            <el-col :span="5">
+            <el-col :span="8">
                 <el-form-item label="上课模式">
                     <el-col :span="12">
                         <el-select placeholder="全部">
@@ -75,7 +75,7 @@
                     </el-col>
                 </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="8">
               <el-form-item label="课程价格">
                   <el-col :span="12">
                       <el-input v-model="form.name" :disabled=true placeholder="人民币"></el-input>

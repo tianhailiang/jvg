@@ -83,13 +83,13 @@
     <!--  -->
     <el-table :data=tableData border>
         <el-table-column prop="index" label="NO" width="120"></el-table-column>
-        <el-table-column prop="date" label="退款单号" width="150"></el-table-column>
-        <el-table-column prop="date" label="订单号" width="150"></el-table-column>
-        <el-table-column prop="name" label="卖家名称" width="150"></el-table-column>
-        <el-table-column prop="name" label="买家名称" width="150"></el-table-column>
-        <el-table-column prop="name" label="退款理由" width="150"></el-table-column>
-        <el-table-column prop="tuiname" label="退款状态" width="150"></el-table-column>
-        <el-table-column prop="pricetype" label="支付方式" width="150"></el-table-column>
+        <el-table-column prop="date" label="退款单号" width="110"></el-table-column>
+        <el-table-column prop="date" label="订单号" width="110"></el-table-column>
+        <el-table-column prop="name" label="卖家名称" width="110"></el-table-column>
+        <el-table-column prop="name" label="买家名称" width="110"></el-table-column>
+        <el-table-column prop="name" label="退款理由" width="110"></el-table-column>
+        <el-table-column prop="tuiname" label="退款状态" width="110"></el-table-column>
+        <el-table-column prop="pricetype" label="支付方式" width="110"></el-table-column>
         <el-table-column prop="address" label="购买渠道"></el-table-column>
         <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
