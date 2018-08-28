@@ -78,7 +78,7 @@
                             </el-select>
                         </el-form-item>
                     </div></el-col>
-                    <el-col :span="6"><div class="grid-content bg-purple advert_purple">
+                    <el-col :span="7"><div class="grid-content bg-purple advert_purple">
                             <el-form-item label="广告位模板">
                                 <el-select placeholder="全部" v-model="value">
                                     <el-option
@@ -105,18 +105,18 @@
         </el-row>
         <el-table :data="tableData3" border>
             <el-table-column type="selection" width="45"></el-table-column>
-            <el-table-column prop="num" label="广告位ID" width="100"></el-table-column>
-            <el-table-column prop="name1" label="广告名称" width="100"></el-table-column>
+            <el-table-column prop="num" label="广告位ID" width="90"></el-table-column>
+            <el-table-column prop="name1" label="广告名称" width="90"></el-table-column>
             <el-table-column prop="name1" label="广告位模板" width="110"></el-table-column>
             <el-table-column prop="name1" label="广告位类型" width="110"></el-table-column>
             <el-table-column prop="name2" label="所有权" width="90"></el-table-column>
-            <el-table-column prop="name3" label="开始时间" width="110"></el-table-column>
-            <el-table-column prop="name4" label="结束时间" width="110"></el-table-column>
+            <el-table-column prop="name3" label="开始时间" width="100"></el-table-column>
+            <el-table-column prop="name4" label="结束时间" width="100"></el-table-column>
             <el-table-column prop="name5" label="渠道" width="90"></el-table-column>
-            <el-table-column prop="name6" label="业务频道" width="100"></el-table-column>
+            <el-table-column prop="name6" label="业务频道" width="90"></el-table-column>
             <el-table-column prop="name7" label="状态" width="100"></el-table-column>
-            <el-table-column prop="name8" label="购买人名称" width="110"></el-table-column>
-            <el-table-column prop="name9" label="购买人" width="90"></el-table-column>
+            <el-table-column prop="name8" label="购买人名称" width="100"></el-table-column>
+            <el-table-column prop="name9" label="购买人" width="80"></el-table-column>
             <el-table-column prop="address" label="操作" show-overflow-tooltip>
                 <template slot-scope="scope">
                     <el-button size="mini" type="danger">冻结</el-button>
@@ -156,7 +156,7 @@ export default {
         {values: '选项4', label: '留学'}
       ],
       tableData3: [
-        {num: 10000001, name1: '留学首页', name2: '留学首页', name3: '轮播', name4: '使用中', name5: '平台', name6: '固定', name7: '2018-08-12', name8: '00:00:00', name9: 'PC'}],
+        {num: 10001, name1: '留学首页', name2: '留学首页', name3: '轮播', name4: '使用中', name5: '平台', name6: '固定', name7: '2018-08-12', name8: '00:00:00', name9: 'PC'}],
       value: '',
       values: ''
     }

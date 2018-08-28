@@ -32,24 +32,22 @@
                   </el-select>
               </el-form-item>
           </el-col>
-          <el-col :span="6">
-              <el-form-item label="讲师名称">
-                  <el-input placeholder="讲师名称"></el-input>
-              </el-form-item>
-          </el-col>
-          <el-col :span="12">
-              <el-form-item label="审核状态">
-                  <el-select placeholder="审核状态">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="通过" value="beijing"></el-option>
-                      <el-option label="未通过" value="beijing"></el-option>
-                      <el-option label="已待审核" value="beijing"></el-option>
+            <el-col :span="6">
+                <el-form-item label="审核状态">
+                    <el-select placeholder="审核状态">
+                        <el-option label="全部"  value="shanghai"></el-option>
+                        <el-option label="通过" value="beijing"></el-option>
+                        <el-option label="未通过" value="beijing"></el-option>
+                        <el-option label="已待审核" value="beijing"></el-option>
                     </el-select>
-              </el-form-item>
-          </el-col>
-          <el-col :span="3">
-              <el-button size="small" type="primary">搜索</el-button>
-          </el-col>
+                </el-form-item>
+            </el-col>
+            <el-col :span="6">
+                <el-form-item label="讲师名称">
+                    <el-input placeholder="讲师名称"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-button size="small" type="primary" style="margin-top:25px;">搜索</el-button>
       </el-form>
     </el-row>
     <!-- 表格 -->
@@ -67,7 +65,7 @@
         <el-table-column prop="name" label="审核状态" width="90"></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
             <template slot-scope="scope">
-                <el-button size="mini" type="danger" @click="openMadel">查看</el-button>
+                <el-button size="mini" type="danger">查看</el-button>
             </template>
         </el-table-column>
     </el-table>

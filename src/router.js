@@ -184,6 +184,16 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/publishingReview.vue')
         },
         {
+          path: '/helpSectionList', /* 帮助栏目列表 */
+          name: 'helpSectionList',
+          component: () => import(/* webpackChunkName: "about" */ './views/helpSectionList.vue')
+        },
+        {
+          path: '/helpProblemList', /* 帮助问题列表 */
+          name: 'helpProblemList',
+          component: () => import(/* webpackChunkName: "about" */ './views/helpProblemList.vue')
+        },
+        {
           path: '/advertList', /* 广告位列表 */
           name: 'advertList',
           component: () => import(/* webpackChunkName: "about" */ './views/advertList.vue')

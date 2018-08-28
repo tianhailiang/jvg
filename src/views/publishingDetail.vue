@@ -38,7 +38,7 @@
                   <el-input v-model="form.name"></el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="课程价格">
                 <el-col :span="12">
                     <el-input v-model="form.name" :disabled=true placeholder="人民币"></el-input>
@@ -107,7 +107,7 @@
         </div>
         <!--  -->
         <el-form-item label="统计">
-            <el-table border style="width: 100%" :size="medium" :data=dataGroup>
+            <el-table border style="width: 100%" :data=dataGroup>
             <el-table-column
               prop="date"
               label="浏览数"

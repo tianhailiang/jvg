@@ -45,24 +45,22 @@
                       </el-select>
                 </el-form-item>
             </el-col>
-            <el-col :span="6">
-                <el-button size="small" type="primary">搜索</el-button>
-            </el-col>
+            <el-button size="small" type="primary" style="margin-top:26px;">搜索</el-button>
         </el-form>
       </el-row>
       <!-- 表格 -->
       <el-table :data="tableData3">
-          <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="date" label="出版物ID" width="120"></el-table-column>
-          <el-table-column prop="name" label="出版物名称" width="120"></el-table-column>
-          <el-table-column prop="name" label="出版物介绍" width="120"></el-table-column>
-          <el-table-column prop="name" label="讲师名称" width="120"></el-table-column>
-          <el-table-column prop="name" label="频道" width="120"></el-table-column>
-          <el-table-column prop="type" label="分类" width="120"></el-table-column>
-          <el-table-column prop="name" label="类型" width="120"></el-table-column>
-          <el-table-column prop="name" label="价格" width="120"></el-table-column>
-          <el-table-column prop="name" label="创建时间" width="120"></el-table-column>
-          <el-table-column prop="active" label="销售状态" width="120"></el-table-column>
+          <el-table-column type="selection" width="45"></el-table-column>
+          <el-table-column prop="date" label="出版物ID" width="100"></el-table-column>
+          <el-table-column prop="name" label="出版物名称" width="100"></el-table-column>
+          <el-table-column prop="name" label="出版物介绍" width="100"></el-table-column>
+          <el-table-column prop="name" label="讲师名称" width="100"></el-table-column>
+          <el-table-column prop="name" label="频道" width="100"></el-table-column>
+          <el-table-column prop="type" label="分类" width="90"></el-table-column>
+          <el-table-column prop="name" label="类型" width="90"></el-table-column>
+          <el-table-column prop="name" label="价格" width="90"></el-table-column>
+          <el-table-column prop="name" label="创建时间" width="95"></el-table-column>
+          <el-table-column prop="active" label="销售状态" width="95"></el-table-column>
           <el-table-column prop="address" label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
                   <el-button size="mini" type="danger" @click="openMadel">冻结</el-button>
@@ -72,10 +70,10 @@
       <div style="height:30px"></div>
       <!-- 分页 -->
       <el-row :gutter="20">
-          <el-col :span="9">
+          <el-col :span="11">
               <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="7">
               <el-button size="small" type="primary">确定</el-button>
           </el-col>
           <el-col :span="5">
@@ -84,7 +82,7 @@
           </el-col>
       </el-row>
       <!-- 删除提示窗口 -->
-      <el-dialog title="删除提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-dialog title="删除提示窗口" :visible.sync="dialogVisible" width="30%">
           <span>请确认是否继续删除？</span>
           <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
@@ -92,7 +90,7 @@
           </span>
       </el-dialog>
         <!-- 冻结编辑窗口 -->
-        <el-dialog title="冻结编辑提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+        <el-dialog title="冻结编辑提示窗口" :visible.sync="dialogVisible" width="30%">
             <el-form label-width="100px" class="demo-ruleForm">
                 <el-form-item label="ID">
                   <el-input type="text" size="mini" :disabled="true"></el-input>
@@ -121,12 +119,12 @@ export default {
   data () {
     return {
       tableData3: [
-        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
-        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
-        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
-        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
-        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
-        {date: '2016-05-02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'}
+        {date: '001', name: '张三', type: '托福', address: '冻结', active: '冻结'},
+        {date: '001', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '001', name: '李四', type: '托福', address: '冻结', active: '冻结'},
+        {date: '001', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {date: '001', name: '赵六', type: '托福', address: '冻结', active: '冻结'},
+        {date: '001', name: '王小虎', type: '托福', address: '冻结', active: '冻结'}
       ],
       dialogVisible: false
     }
