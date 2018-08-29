@@ -108,6 +108,11 @@
       <el-menu-item index="/orderRefund">订单退款列表</el-menu-item>
       <el-menu-item index="/orederRefundDetail">订单退款详情</el-menu-item>
     </el-submenu>
+    <el-submenu index="19">
+        <template slot="title">帮助中心</template>
+        <el-menu-item index="/helpSectionList">帮助中心栏目列表</el-menu-item>
+        <el-menu-item index="/helpProblemList">帮助中心问题列表</el-menu-item>
+      </el-submenu>
   </el-menu>
 </template>
 <script>

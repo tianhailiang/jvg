@@ -4,19 +4,14 @@
           <h3>订单基本信息</h3>
           <el-row :gutter="20">
               <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
-                  <el-col :span="8"><div class="grid-content bg-purple">
+                  <el-col :span="6"><div class="grid-content bg-purple">
                       <el-form-item label="退款编号">
                         <el-input type="text" :disabled="true"></el-input>
                     </el-form-item> </div></el-col>
-                    <el-col :span="8"><div class="grid-content bg-purple">
+                    <el-col :span="6"><div class="grid-content bg-purple">
                         <el-form-item label="退款状态">
                           <el-input type="text" :disabled="true"></el-input>
                       </el-form-item> </div></el-col>
-                      <el-col :span="8"><div class="grid-content bg-purple">
-                        <el-form-item>
-                            <el-button type="primary">同意</el-button>
-                            <el-button type="primary">拒绝</el-button>
-                        </el-form-item> </div></el-col>
               </el-form>
           </el-row>
       </div>
@@ -92,8 +87,12 @@
                         <el-form-item label="支付流水号">
                             <el-input type="text" :disabled="true"></el-input>
                         </el-form-item>
-                      </div></el-col>
+                    </div></el-col>
             </el-form>
+            <div class="btn-plane-group">
+                <el-button type="primary" size="medium">同意</el-button>
+                <el-button type="primary" size="medium">拒绝</el-button>
+            </div>
           </el-row>
       </div>
       <div class="order-details-item" style="margin-bottom:12px;">
@@ -214,5 +213,9 @@ export default {
     }
     .pay-purple .el-form-item--mini .el-form-item__label{
       width:85px !important;
+    }
+    .btn-plane-group{
+        display: inline-block;
+        margin-top:20px;
     }
 </style>

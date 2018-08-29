@@ -12,7 +12,7 @@
                   <el-input type="text" :disabled="true"></el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
               <el-form-item label="出版物名称">
                   <el-input type="text" :disabled="true"></el-input>
               </el-form-item>
@@ -21,11 +21,6 @@
               <el-form-item label="好评度">
                   <el-input type="text" :disabled="true"></el-input>
               </el-form-item>
-          </el-col>
-          <el-col :span="6">
-              <div class="comment-total">
-                  <span>评论总数：<span class="comment-num">1000个</span></span>
-              </div>
           </el-col>
       </el-form>
     </el-row>
@@ -69,23 +64,24 @@
                 </el-select>
               </el-form-item>
           </el-col>
-          <el-col :span="3">
-              <el-button size="small" type="primary">搜索</el-button>
-          </el-col>
+            <el-button size="small" type="primary" style="margin-top:25px;">搜索</el-button>
+            <div class="comment-total">
+                <span>评论总数：<span class="comment-num">1000个</span></span>
+            </div>
       </el-form>
     </el-row>
     <!-- 表格 -->
     <el-table :data="tableData3">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="date" label="评论ID" width="120"></el-table-column>
-        <el-table-column prop="name" label="评论内容" width="120"></el-table-column>
-        <el-table-column prop="name" label="评论人" width="120"></el-table-column>
-        <el-table-column prop="name" label="评论时间" width="120"></el-table-column>
-        <el-table-column prop="name" label="评论渠道" width="120"></el-table-column>
-        <el-table-column prop="name" label="回复内容" width="120"></el-table-column>
-        <el-table-column prop="name" label="回复时间" width="120"></el-table-column>
-        <el-table-column prop="name" label="回复渠道" width="120"></el-table-column>
-        <el-table-column prop="name" label="评论类型" width="120"></el-table-column>
+        <el-table-column type="selection" width="45"></el-table-column>
+        <el-table-column prop="date" label="评论ID" width="105"></el-table-column>
+        <el-table-column prop="name" label="评论内容" width="105"></el-table-column>
+        <el-table-column prop="name" label="评论人" width="100"></el-table-column>
+        <el-table-column prop="name" label="评论时间" width="100"></el-table-column>
+        <el-table-column prop="name" label="评论渠道" width="100"></el-table-column>
+        <el-table-column prop="name" label="回复内容" width="105"></el-table-column>
+        <el-table-column prop="name" label="回复时间" width="105"></el-table-column>
+        <el-table-column prop="name" label="回复渠道" width="105"></el-table-column>
+        <el-table-column prop="name" label="评论类型" width="105"></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-button size="mini" type="danger">删除</el-button>
@@ -95,10 +91,10 @@
     <div style="height:30px"></div>
     <!-- 分页 -->
     <el-row :gutter="20">
-        <el-col :span="9">
+        <el-col :span="11">
             <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="7">
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
@@ -119,11 +115,11 @@ export default {
         {label: '选项三',value: 'PC'}
       ],
       tableData3: [
-        {date: '20160502', name: '张三', address: '删除'},
-        {date: '20160502', name: '李四', address: '删除'},
-        {date: '20160502', name: '王五', address: '删除'},
-        {date: '20160502', name: '赵六', address: '删除'},
-        {date: '20160502', name: '张三', address: '删除'}
+        {date: '502', name: '张三', address: '删除'},
+        {date: '502', name: '李四', address: '删除'},
+        {date: '502', name: '王五', address: '删除'},
+        {date: '502', name: '赵六', address: '删除'},
+        {date: '502', name: '张三', address: '删除'}
       ]
     }
   }
@@ -135,5 +131,9 @@ export default {
   }
   .comment-num{
     font-weight: 600;
+  }
+  .comment-total{
+      display: initial;
+      margin-left:18px;
   }
 </style>
