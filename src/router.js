@@ -69,6 +69,21 @@ export default new Router({
           component: () => import('@/views/follow.vue')
         },
         {
+          path: '/dataTemplate',
+          name: '数据看板',
+          component: () => import('@/views/dataTemplate.vue')
+        },
+        {
+          path: '/userAnalysis',
+          name: '用户分析',
+          component: () => import('@/views/userAnalysis.vue')
+        },
+        {
+          path: '/businessAnalysis',
+          name: '业务分析',
+          component: () => import('@/views/businessAnalysis.vue')
+        },
+        {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
           component: () => import('./views/InterlocutionList.vue')

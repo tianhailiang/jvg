@@ -104,6 +104,12 @@
       <el-menu-item index="/orderRefund">订单退款列表</el-menu-item>
       <el-menu-item index="/orederRefundDetail">订单退款详情</el-menu-item>
     </el-submenu>
+    <el-submenu index="19">
+      <template slot="title">数据中心</template>
+      <el-menu-item index="/dataTemplate">数据看板</el-menu-item>
+      <el-menu-item index="/userAnalysis">用户分析</el-menu-item>
+      <el-menu-item index="/businessAnalysis">业务分析</el-menu-item>
+    </el-submenu>
   </el-menu>
 </template>
 <script>
