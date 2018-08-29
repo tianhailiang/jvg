@@ -104,9 +104,29 @@ export default new Router({
           component: () => import('@/views/sensitive.vue')
         },
         {
-          path: '/seo',
+          path: '/seoList',
           name: 'seo管理',
           component: () => import('@/views/seo.vue')
+        },
+        {
+          path: '/journal',
+          name: '日志管理',
+          component: () => import('@/views/journal.vue')
+        },
+        {
+          path: '/whiteList',
+          name: '白名单管理',
+          component: () => import('@/views/whiteList.vue')
+        },
+        {
+          path: '/pageList',
+          name: '页面管理',
+          component: () => import('@/views/pageList.vue')
+        },
+        {
+          path: '/apiList',
+          name: 'API管理',
+          component: () => import('@/views/apiList.vue')
         },
         {
           path: '/interlocution', /* 问答管理模块 话题列表 */

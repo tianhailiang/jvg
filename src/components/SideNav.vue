@@ -4,7 +4,11 @@
     <el-submenu index="2">
       <template slot="title">系统管理</template>
       <el-menu-item index="/sensitive">敏感词管理</el-menu-item>
-      <el-menu-item index="/seo">SEO管理</el-menu-item>
+      <el-menu-item index="/seoList">SEO管理</el-menu-item>
+      <el-menu-item index="/journal">日志管理</el-menu-item>
+      <el-menu-item index="/whiteList">白名单管理</el-menu-item>
+      <el-menu-item index="/pageList">页面管理</el-menu-item>
+      <el-menu-item index="/apiList">API管理</el-menu-item>
     </el-submenu>
     <el-submenu index="3">
       <template slot="title">用户管理</template>
