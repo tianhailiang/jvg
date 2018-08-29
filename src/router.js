@@ -69,6 +69,21 @@ export default new Router({
           component: () => import('@/views/follow.vue')
         },
         {
+          path: '/dataTemplate',
+          name: '数据看板',
+          component: () => import('@/views/dataTemplate.vue')
+        },
+        {
+          path: '/userAnalysis',
+          name: '用户分析',
+          component: () => import('@/views/userAnalysis.vue')
+        },
+        {
+          path: '/businessAnalysis',
+          name: '业务分析',
+          component: () => import('@/views/businessAnalysis.vue')
+        },
+        {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
           component: () => import('./views/InterlocutionList.vue')
@@ -307,6 +322,16 @@ export default new Router({
           path: '/comment/:id', /* 文章管理模块 文章评论详情 */
           name: 'commentDeatil',
           component: () => import('./views/ArticleCommentDetail.vue')
+        },
+        {
+          path: '/notice', /* 运营管理模块 通知列表 */
+          name: 'notice',
+          component: () => import('./views/NoticeList.vue')
+        },
+        {
+          path: '/notice/:id', /* 运营管理模块 通知详情 */
+          name: 'noticeDetail',
+          component: () => import('./views/NoticeDetail.vue')
         }
       ]
     }
