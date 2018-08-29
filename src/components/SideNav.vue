@@ -114,7 +114,7 @@
       <el-menu-item index="/userAnalysis">用户分析</el-menu-item>
       <el-menu-item index="/businessAnalysis">业务分析</el-menu-item>
     </el-submenu>
-    <el-submenu index="19">
+    <el-submenu index="20">
         <template slot="title">帮助中心</template>
         <el-menu-item index="/helpSectionList">帮助中心栏目列表</el-menu-item>
         <el-menu-item index="/helpProblemList">帮助中心问题列表</el-menu-item>
