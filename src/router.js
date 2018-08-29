@@ -84,6 +84,31 @@ export default new Router({
           component: () => import('@/views/businessAnalysis.vue')
         },
         {
+          path: '/label',
+          name: '标签列表',
+          component: () => import('@/views/label.vue')
+        },
+        {
+          path: '/labelRelationship',
+          name: '标签关系列表',
+          component: () => import('@/views/labelRelationship.vue')
+        },
+        {
+          path: '/labelDegree',
+          name: '标签热度列表',
+          component: () => import('@/views/labelDegree.vue')
+        },
+        {
+          path: '/sensitive',
+          name: '敏感词管理',
+          component: () => import('@/views/sensitive.vue')
+        },
+        {
+          path: '/seo',
+          name: 'seo管理',
+          component: () => import('@/views/seo.vue')
+        },
+        {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
           component: () => import('./views/InterlocutionList.vue')

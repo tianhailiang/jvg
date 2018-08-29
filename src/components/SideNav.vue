@@ -1,7 +1,11 @@
 <template>
   <el-menu class="nav_left" router :default-active="activeIndex">
     <el-menu-item index="/main">首页</el-menu-item>
-    <el-menu-item index="2">系统管理</el-menu-item>
+    <el-submenu index="2">
+      <template slot="title">系统管理</template>
+      <el-menu-item index="/sensitive">敏感词管理</el-menu-item>
+      <el-menu-item index="/seo">SEO管理</el-menu-item>
+    </el-submenu>
     <el-submenu index="3">
       <template slot="title">用户管理</template>
         <el-submenu index="3-1">
@@ -30,11 +34,9 @@
     </el-submenu>
     <el-submenu index="7">
       <template slot="title">标签管理</template>
-        <el-submenu index="7-1">
-          <template slot="title" index="">标签列表页</template>
-          <el-menu-item index="">标签新建/编辑</el-menu-item>
-          <el-menu-item index="">标签排序</el-menu-item>
-        </el-submenu>
+      <el-menu-item index="/label">标签列表</el-menu-item>
+      <el-menu-item index="/labelRelationship">标签关系列表</el-menu-item>
+      <el-menu-item index="/labelDegree">标签热度列表</el-menu-item>
     </el-submenu>
     <el-menu-item index="8">类目管理</el-menu-item>
     <el-menu-item index="9">财务管理</el-menu-item>
