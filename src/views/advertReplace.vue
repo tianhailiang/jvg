@@ -79,6 +79,7 @@
                 </el-col>
           </el-form>
           </el-row>
+          <!--  -->
       <el-row :gutter="20">
         <el-col :span="14">
             <section class="advert-detail_left">

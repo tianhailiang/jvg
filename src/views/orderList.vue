@@ -87,26 +87,35 @@
                             </el-select>
                         </el-form-item>
                       </div></el-col>
-                      <el-col :span="6"><div class="grid-content bg-purple">
+                      <el-col :span="6"><div class="grid-content bg-purple" style="margin-top:20px;">
                           <el-button type="primary" size="medium">搜索</el-button>
                       </div></el-col>
             </el-form>
           </el-row>
       </div>
       <div class="order-details-item" style="margin-bottom:30px;">
-        <el-table :data="priceData" border size="medium" :span-method="arraySpanMethod" :header-cell-style="{background:'#f0f9eb'}">
-            <el-table-column prop="date" label="商品信息" width="180"></el-table-column>
-            <el-table-column prop="price" label="单价" width="180"></el-table-column>
-            <el-table-column prop="number" label="数量" width="115"></el-table-column>
-            <el-table-column prop="name" label="商品名称" width="180"></el-table-column>
-            <el-table-column prop="totalprice" label="订单金额" width="115"></el-table-column>
-            <el-table-column prop="totalactive" label="订单状态" width="180"></el-table-column>
+        <el-table :data="priceData" border size="medium" :header-cell-style="{background:'#f0f9eb'}">
+            <el-table-column prop="date" label="商品信息" width="190"></el-table-column>
+            <el-table-column prop="price" label="单价" width="190"></el-table-column>
+            <el-table-column prop="number" label="数量" width="190"></el-table-column>
+            <el-table-column prop="totalprice" label="订单金额" width="190"></el-table-column>
+            <el-table-column prop="totalactive" label="订单状态" width="190"></el-table-column>
             <el-table-column prop="totalprice" label="操作" width="98">
                 <template slot-scope="scope">
                     <el-button size="mini" type="danger">订单详情</el-button>
                   </template>
                 </el-table-column>
             </el-table-column>
+        </el-table>
+        <el-table :data="price" border size="medium" class="myel-tabel">
+            <el-table-column prop="dd" label="" width="150"></el-table-column>
+            <el-table-column prop="mj" label="" width="100"></el-table-column>
+            <el-table-column prop="mj2" label="" width="100"></el-table-column>
+            <el-table-column prop="time" label="" width="150"></el-table-column>
+            <el-table-column prop="type" label="" width="150"></el-table-column>
+            <el-table-column prop="moteh" label="" width="150"></el-table-column>
+            <el-table-column prop="ddp" label="" width="150"></el-table-column>
+            <el-table-column prop="buy" label="" width="100"></el-table-column>
         </el-table>
       </div>
       <!--  -->
@@ -122,25 +131,32 @@ export default {
     data () {
     return {
         priceData: [
-        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
-        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
-        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
-        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
-        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
-        {date: '001', name: 'js语言精粹', price: 5, number: 100, totalprice: 500, totalactive: '已付款'}
+        {date: '英语入门', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
+        {date: '俄语入门', price: 5, number: 100, totalprice: 500, totalactive: '已付款'}
+        ],
+        price: [
+        {
+            dd: '订单号：1000120001201808120001',
+            mj: '买家：XXX',
+            mj2: '卖家：XXX',
+            time: '下单时间：2018-08-12 00:00:00',
+            type: '订单类型：课程订单',
+            moteh: '支付方式：支付宝',
+            ddp: '订单频道：语培',
+            buy: '购买渠'}
         ]
       }
     },
     methods: {
-        arraySpanMethod({ column, rowIndex, columnIndex }) {
-        if (rowIndex % 2 === 0) {
-          if (columnIndex === 0) {
-            return [1, 2];
-          } else if (columnIndex === 1) {
-            return [0, 0];
-          }
-        }
-      }
+    //     arraySpanMethod({ column, rowIndex, columnIndex }) {
+    //     if (rowIndex % 2 === 0) {
+    //       if (columnIndex === 0) {
+    //         return [1, 2];
+    //       } else if (columnIndex === 1) {
+    //         return [0, 0];
+    //       }
+    //     }
+    //   }
     }
 }
 </script>
@@ -151,5 +167,8 @@ export default {
 }
 .el-table .warning-row {
     background: oldlace;
+}
+.myel-tabel table .has-gutter{
+    display: none !important;
 }
 </style>
