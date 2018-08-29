@@ -152,22 +152,16 @@
       }
     }
   </script>
-  <style scoped>
+<style scoped>
+@import '../assets/style/common_title.css';
   .help-content{
     overflow: hidden;
   }
   .page-content{
     margin-top:30px;
   }
-  .help-content > h3{
-    height: 30px;
-    line-height: 30px;
-    border-bottom: solid 1px #ccc;
-    text-indent: 20px;
-    margin-bottom: 15px;
-  }
   .btn-group {
     display: inline-block;
     margin-left: 20px;
   }
-  </style>
+</style>

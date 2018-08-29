@@ -48,6 +48,23 @@
           </el-submenu>
           <el-menu-item index="">广告位详情</el-menu-item>
         </el-submenu>
+        <el-submenu index="10-2">
+            <template slot="title">优惠券管理</template>
+            <el-menu-item index="/couponList">优惠券列表</el-menu-item>
+            <el-menu-item index="/couponDetails">优惠券详情</el-menu-item>
+            <el-menu-item index="/">优惠券审核管理</el-menu-item>
+          </el-submenu>
+        <el-submenu index="10-3">
+          <template slot="title">会员管理</template>
+          <el-menu-item index="/ruleManagement">VIP会员规则管理</el-menu-item>
+          <el-menu-item index="/integralRule">会员积分规则管理</el-menu-item>
+          <el-menu-item index="/membershipLevel">会员等级规则管理</el-menu-item>
+          <el-menu-item index="/lecturerPrestige">讲师声望值规则</el-menu-item>
+          <el-menu-item index="/lecturerStatistics">讲师声望值统计</el-menu-item>
+          <el-menu-item index="/memberList">会员列表</el-menu-item>
+          <el-menu-item index="/memberDetails">会员详情</el-menu-item>
+          <el-menu-item index="/">讲师声望值规则</el-menu-item>
+        </el-submenu>
     </el-submenu>
     <el-menu-item index="11">媒资管理</el-menu-item>
     <el-menu-item index="12">数据中心</el-menu-item>
