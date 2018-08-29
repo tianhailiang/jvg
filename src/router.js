@@ -252,6 +252,16 @@ export default new Router({
           path: '/comment/:id', /* 文章管理模块 文章评论详情 */
           name: 'commentDeatil',
           component: () => import('./views/ArticleCommentDetail.vue')
+        },
+        {
+          path: '/notice', /* 运营管理模块 通知列表 */
+          name: 'notice',
+          component: () => import('./views/NoticeList.vue')
+        },
+        {
+          path: '/notice/:id', /* 运营管理模块 通知详情 */
+          name: 'noticeDetail',
+          component: () => import('./views/NoticeDetail.vue')
         }
       ]
     }

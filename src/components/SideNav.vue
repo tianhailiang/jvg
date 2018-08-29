@@ -48,6 +48,10 @@
           </el-submenu>
           <el-menu-item index="">广告位详情</el-menu-item>
         </el-submenu>
+        <el-submenu index="10-2">
+          <template slot="title">通知管理</template>
+          <el-menu-item index="/notice">通知列表</el-menu-item>
+        </el-submenu>
     </el-submenu>
     <el-menu-item index="11">媒资管理</el-menu-item>
     <el-menu-item index="12">数据中心</el-menu-item>
@@ -130,6 +134,9 @@ export default {
     }
     if(this.activeIndex.includes('answer')){
       this.activeIndex = '/answer' /* 话题列表和话题详情匹配一个路由 */
+    }
+    if(this.activeIndex.includes('notice')){
+      this.activeIndex = '/notice' /* 通知列表和通知详情匹配一个路由 */
     }
   }
 }
