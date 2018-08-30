@@ -33,7 +33,7 @@
             </el-col>
             <el-col :span="4">
               <el-button size="small" type="primary">搜索</el-button>
-              <el-button size="small" type="primary">一键清除</el-button>
+              <el-button size="small" type="primary" @click="onDelClick()">一键清除</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -58,6 +58,14 @@
                 <el-button size="small" type="primary">批量删除</el-button>
             </el-col>
         </el-col>
+        <!-- 删除窗口 -->
+        <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
+            <p style="font-size: 30px;">请确认是否继续删除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow = false">取 消</el-button>
+                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>

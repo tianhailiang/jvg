@@ -56,8 +56,8 @@
             </el-col>
             <el-col :span="4">
               <el-button size="small" type="primary">搜索</el-button>
-              <el-button size="small" type="primary">新建</el-button>
-              <el-button size="small" type="primary">排序</el-button>
+              <el-button size="small" type="primary" @click="onEditClick('1')">新建</el-button>
+              <el-button size="small" type="primary" @click="onDisableClik">排序</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -309,9 +309,9 @@ export default {
   },
   methods: {
     onEditClick (index) {
-      this.$router.replace({ path: '/institutionsEditors' })
+      this.isDialogShow2 = true
     },
-    onDisableClik (index) {
+    onDisableClik () {
       this.isDialogShow1 = true
     },
     onDelClick () {

@@ -26,8 +26,8 @@
             <el-table-column prop="collegesId" label="关键字" align="center"></el-table-column>
             <el-table-column width="250" label="操作" show-overflow-tooltip align="center">
                 <template slot-scope="scope">
-                    <el-button @click="onEditClick(scope.$index)" type="primary" size="small">编辑</el-button>
-                    <el-button @click="onDelClick(scope.$index)" type="primary" size="small">删除</el-button>
+                    <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                    <el-button @click="onDelClick(scope.$index)" type="danger" size="small">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -143,12 +143,9 @@ export default {
   },
   methods: {
     onEditClick (index) {
-      this.$router.replace({ path: '/institutionsEditors' })
-    },
-    onDisableClik (index) {
       this.isDialogShow1 = true
     },
-    onDelClick () {
+    onDelClick (index) {
       this.isDialogShow = true
     }
   }

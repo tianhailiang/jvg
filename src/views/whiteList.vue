@@ -49,9 +49,9 @@
                 </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-button size="small" type="primary">添加</el-button>
+              <el-button size="small" type="primary" @click="onDisableClik">添加</el-button>
               <el-button size="small" type="primary">搜索</el-button>
-              <el-button size="small" type="primary">一键清除</el-button>
+              <el-button size="small" type="primary" @click="onDelClick">一键清除</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -67,9 +67,9 @@
                 <el-table-column prop="state" label="审核状态" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
-                        <el-button @click="onDelClick" type="danger" size="small">冻结</el-button>
-                        <el-button @click="onDelClick" type="danger" size="small">通过</el-button>
+                        <el-button type="danger" size="small">编辑</el-button>
+                        <el-button @click="onDisableClik" type="danger" size="small">冻结</el-button>
+                        <el-button @click="onTong" type="danger" size="small">通过</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -253,11 +253,14 @@ export default {
     }
   },
   methods: {
-    onEditClick (index) {
-      this.$router.replace({ path: '/institutionsEditors' })
+    onEditClick () {
+      this.isDialogShow1 = true
+    },
+    onTong () {
+      this.isDialogShow3 = true
     },
     onDisableClik (index) {
-      this.isDialogShow1 = true
+      this.isDialogShow2 = true
     },
     onDelClick () {
       this.isDialogShow = true

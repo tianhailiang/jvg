@@ -46,7 +46,7 @@
             </el-col>
             <el-col :span="4">
               <el-button size="small" type="primary">搜索</el-button>
-              <el-button size="small" type="primary">新建关系</el-button>
+              <el-button size="small" type="primary" @click="onDisableClik">新建关系</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -91,7 +91,7 @@
             </span>
         </el-dialog>
 
-        <!-- 标签排序 -->
+        <!-- 标签关系编辑 -->
         <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
             <p class="personnel-title">标签关系编辑</p>
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
@@ -256,7 +256,7 @@ export default {
     onEditClick (index) {
       this.isDialogShow1 = true
     },
-    onDisableClik (index) {
+    onDisableClik () {
       this.isDialogShow1 = true
     },
     onDelClick () {

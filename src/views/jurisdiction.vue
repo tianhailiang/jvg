@@ -50,7 +50,7 @@
                 <span>课程管理</span>
             </div>
             <div style="float: right;margin-bottom: 20px;">
-                <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                <el-button type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
             </div>
             <el-table v-show="isShowTab" :data="tableData" stripe width="100%" border>
@@ -60,7 +60,7 @@
                 <el-table-column prop="phone" label="菜单是否显示" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                        <el-button type="danger" size="small">编辑</el-button>
                         <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
                     </template>
                 </el-table-column>
@@ -74,7 +74,7 @@
                 <span>文章管理</span>
             </div>
             <div style="float: right;margin-bottom: 20px;">
-                <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                <el-button type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
             </div>
             <el-table v-show="isShowTab1" :data="tableData" stripe width="100%" border>
@@ -84,7 +84,7 @@
                 <el-table-column prop="phone" label="菜单是否显示" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                        <el-button type="danger" size="small">编辑</el-button>
                         <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
                     </template>
                 </el-table-column>

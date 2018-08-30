@@ -18,8 +18,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-button size="small" type="primary">追加业务类型</el-button>
-              <el-button size="small" type="primary">追加敏感词</el-button>
+              <el-button size="small" type="primary" @click="onDisableClik(1)">追加业务类型</el-button>
+              <el-button size="small" type="primary" @click="onEditClick(1)">追加敏感词</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -28,8 +28,8 @@
             <el-table-column prop="collegesId" label="敏感词" align="center"></el-table-column>
             <el-table-column width="250" label="操作" show-overflow-tooltip align="center">
                 <template slot-scope="scope">
-                    <el-button @click="onEditClick(scope.$index)" type="primary" size="small">编辑</el-button>
-                    <el-button @click="onDelClick(scope.$index)" type="primary" size="small">删除</el-button>
+                    <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
+                    <el-button @click="onDelClick(scope.$index)" type="danger" size="small">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -171,12 +171,12 @@ export default {
   },
   methods: {
     onEditClick (index) {
-      this.$router.replace({ path: '/institutionsEditors' })
+      this.isDialogShow2 = true
     },
     onDisableClik (index) {
       this.isDialogShow1 = true
     },
-    onDelClick () {
+    onDelClick (index) {
       this.isDialogShow = true
     }
   }
