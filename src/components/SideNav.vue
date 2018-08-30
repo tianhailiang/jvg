@@ -1,7 +1,15 @@
 <template>
   <el-menu class="nav_left" router :default-active="activeIndex">
     <el-menu-item index="/main">首页</el-menu-item>
-    <el-menu-item index="2">系统管理</el-menu-item>
+    <el-submenu index="2">
+      <template slot="title">系统管理</template>
+      <el-menu-item index="/sensitive">敏感词管理</el-menu-item>
+      <el-menu-item index="/seoList">SEO管理</el-menu-item>
+      <el-menu-item index="/journal">日志管理</el-menu-item>
+      <el-menu-item index="/whiteList">白名单管理</el-menu-item>
+      <el-menu-item index="/pageList">页面管理</el-menu-item>
+      <el-menu-item index="/apiList">API管理</el-menu-item>
+    </el-submenu>
     <el-submenu index="3">
       <template slot="title">用户管理</template>
         <el-submenu index="3-1">
@@ -30,11 +38,9 @@
     </el-submenu>
     <el-submenu index="7">
       <template slot="title">标签管理</template>
-        <el-submenu index="7-1">
-          <template slot="title" index="">标签列表页</template>
-          <el-menu-item index="">标签新建/编辑</el-menu-item>
-          <el-menu-item index="">标签排序</el-menu-item>
-        </el-submenu>
+      <el-menu-item index="/label">标签列表</el-menu-item>
+      <el-menu-item index="/labelRelationship">标签关系列表</el-menu-item>
+      <el-menu-item index="/labelDegree">标签热度列表</el-menu-item>
     </el-submenu>
     <el-menu-item index="8">类目管理</el-menu-item>
     <el-menu-item index="9">财务管理</el-menu-item>
@@ -57,10 +63,26 @@
         <el-menu-item index="/leave">留言答疑列表</el-menu-item>
         <el-menu-item index="/report">举报列表</el-menu-item>
       </el-submenu>
+      <el-submenu index="10-2">
+        <template slot="title">优惠券管理</template>
+        <el-menu-item index="/couponList">优惠券列表</el-menu-item>
+        <el-menu-item index="/couponDetails">优惠券详情</el-menu-item>
+        <el-menu-item index="/">优惠券审核管理</el-menu-item>
+      </el-submenu>
+      <el-submenu index="10-3">
+        <template slot="title">会员管理</template>
+        <el-menu-item index="/ruleManagement">VIP会员规则管理</el-menu-item>
+        <el-menu-item index="/integralRule">会员积分规则管理</el-menu-item>
+        <el-menu-item index="/membershipLevel">会员等级规则管理</el-menu-item>
+        <el-menu-item index="/lecturerPrestige">讲师声望值规则</el-menu-item>
+        <el-menu-item index="/lecturerStatistics">讲师声望值统计</el-menu-item>
+        <el-menu-item index="/memberList">会员列表</el-menu-item>
+        <el-menu-item index="/memberDetails">会员详情</el-menu-item>
+        <el-menu-item index="/">讲师声望值规则</el-menu-item>
+      </el-submenu>
     </el-submenu>
     <el-menu-item index="11">媒资管理</el-menu-item>
     <el-menu-item index="12">数据中心</el-menu-item>
-
     <el-submenu index="13">
       <template slot="title">机构院校管理</template>
         <el-submenu index="13-1">
@@ -114,10 +136,16 @@
       <el-menu-item index="/orederRefundDetail">订单退款详情</el-menu-item>
     </el-submenu>
     <el-submenu index="19">
+      <template slot="title">数据中心</template>
+      <el-menu-item index="/dataTemplate">数据看板</el-menu-item>
+      <el-menu-item index="/userAnalysis">用户分析</el-menu-item>
+      <el-menu-item index="/businessAnalysis">业务分析</el-menu-item>
+    </el-submenu>
+    <el-submenu index="20">
         <template slot="title">帮助中心</template>
         <el-menu-item index="/helpSectionList">帮助中心栏目列表</el-menu-item>
         <el-menu-item index="/helpProblemList">帮助中心问题列表</el-menu-item>
-      </el-submenu>
+    </el-submenu>
   </el-menu>
 </template>
 <script>

@@ -91,10 +91,13 @@
             <el-row>
               <el-col :span="10" :offset="3"><div class="grid-content bg-purple-dark">
                   <el-form-item label="渠道">
-                      <el-select placeholder="">
-                        <el-option label="APP" value="beijing"></el-option>
-                        <el-option label="PC" value="beijing"></el-option>
-                        <el-option label="WAP" value="beijing"></el-option>
+                      <el-select placeholder="" v-model="value">
+                        <el-option 
+                          v-for="(items, index) in qdData" 
+                          :key=index
+                          :label="items.label"
+                          :value="items.label">
+                        </el-option>
                       </el-select>
                   </el-form-item>
               </div></el-col>
@@ -124,12 +127,18 @@
     data () {
       return {
         tableData3: [{name: '李四'}],
+        qdData: [
+          {value: '选项一',label: 'APP'},
+          {value: '选项二',label: 'PC'},
+          {value: '选项三',label: 'WAP'}
+        ],
         form: {
           date1: '',
           date2: ''
         },
         dialogFormVisible: false,
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        value: ''
       }
     }
   }

@@ -1,0 +1,28 @@
+.member-content{
+  overflow: hidden;
+}
+.content-title{
+  height: 30px;
+  line-height: 30px;
+  border-bottom: solid 1px #ccc;
+  text-indent: 20px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+.button-group{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.create-gz{
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.customize .el-form-item{
+  margin-bottom: 0
+}
+.row-container{
+  display: flex;
+  justify-content: center;
+  margin-top:30px;
+}

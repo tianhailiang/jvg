@@ -69,6 +69,66 @@ export default new Router({
           component: () => import('@/views/follow.vue')
         },
         {
+          path: '/dataTemplate',
+          name: '数据看板',
+          component: () => import('@/views/dataTemplate.vue')
+        },
+        {
+          path: '/userAnalysis',
+          name: '用户分析',
+          component: () => import('@/views/userAnalysis.vue')
+        },
+        {
+          path: '/businessAnalysis',
+          name: '业务分析',
+          component: () => import('@/views/businessAnalysis.vue')
+        },
+        {
+          path: '/label',
+          name: '标签列表',
+          component: () => import('@/views/label.vue')
+        },
+        {
+          path: '/labelRelationship',
+          name: '标签关系列表',
+          component: () => import('@/views/labelRelationship.vue')
+        },
+        {
+          path: '/labelDegree',
+          name: '标签热度列表',
+          component: () => import('@/views/labelDegree.vue')
+        },
+        {
+          path: '/sensitive',
+          name: '敏感词管理',
+          component: () => import('@/views/sensitive.vue')
+        },
+        {
+          path: '/seoList',
+          name: 'seo管理',
+          component: () => import('@/views/seo.vue')
+        },
+        {
+          path: '/journal',
+          name: '日志管理',
+          component: () => import('@/views/journal.vue')
+        },
+        {
+          path: '/whiteList',
+          name: '白名单管理',
+          component: () => import('@/views/whiteList.vue')
+        },
+        {
+          path: '/pageList',
+          name: '页面管理',
+          component: () => import('@/views/pageList.vue')
+        },
+        {
+          path: '/apiList',
+          name: 'API管理',
+          component: () => import('@/views/apiList.vue')
+        },
+        {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
           component: () => import('./views/InterlocutionList.vue')
@@ -184,6 +244,16 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/publishingReview.vue')
         },
         {
+          path: '/couponList', /* 优惠券列表 */
+          name: 'couponList',
+          component: () => import(/* webpackChunkName: "about" */ './views/couponList.vue')
+        },
+        {
+          path: '/couponDetails', /* 优惠券详情 */
+          name: 'couponDetails',
+          component: () => import(/* webpackChunkName: "about" */ './views/couponDetails.vue')
+        },
+        {
           path: '/helpSectionList', /* 帮助栏目列表 */
           name: 'helpSectionList',
           component: () => import(/* webpackChunkName: "about" */ './views/helpSectionList.vue')
@@ -194,9 +264,44 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/helpProblemList.vue')
         },
         {
-          path: '/advertList', /* 广告位列表 */
-          name: 'advertList',
-          component: () => import(/* webpackChunkName: "about" */ './views/advertList.vue')
+          path: '/helpProblemList', /* 帮助问题列表 */
+          name: 'helpProblemList',
+          component: () => import(/* webpackChunkName: "about" */ './views/helpProblemList.vue')
+        },
+        {
+          path: '/ruleManagement', /* 会员规则管理 */
+          name: 'ruleManagement',
+          component: () => import(/* webpackChunkName: "about" */ './views/ruleManagement.vue')
+        },
+        {
+          path: '/integralRule', /* 积分规则管理 */
+          name: 'integralRule',
+          component: () => import(/* webpackChunkName: "about" */ './views/integralRule.vue')
+        },
+        {
+          path: '/membershipLevel', /* 会员等级规则管理 */
+          name: 'membershipLevel',
+          component: () => import(/* webpackChunkName: "about" */ './views/membershipLevel.vue')
+        },
+        {
+          path: '/lecturerPrestige', /* 讲师声望值规则 */
+          name: 'lecturerPrestige',
+          component: () => import(/* webpackChunkName: "about" */ './views/lecturerPrestige.vue')
+        },
+        {
+          path: '/memberList', /* 会员列表 */
+          name: 'memberList',
+          component: () => import(/* webpackChunkName: "about" */ './views/memberList.vue')
+        },
+        {
+          path: '/lecturerStatistics', /* 讲师声望值统计 */
+          name: 'lecturerStatistics',
+          component: () => import(/* webpackChunkName: "about" */ './views/lecturerStatistics.vue')
+        },
+        {
+          path: '/memberDetails', /* 会员详情 */
+          name: 'memberDetails',
+          component: () => import(/* webpackChunkName: "about" */ './views/memberDetails.vue')
         },
         {
           path: '/advertListCopy', /* 广告列表 */
