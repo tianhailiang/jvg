@@ -40,18 +40,23 @@
     <el-menu-item index="9">财务管理</el-menu-item>
     <el-submenu index="10">
       <template slot="title">运营管理</template>
-        <el-submenu index="10-1">
-          <template slot="title">广告管理</template>
-          <el-submenu index="10-1-1">
-            <template slot="title" index="">广告位列表</template>
-            <el-menu-item index="">删除提示窗口</el-menu-item>
-          </el-submenu>
-          <el-menu-item index="">广告位详情</el-menu-item>
+      <el-submenu index="10-1">
+        <template slot="title">广告管理</template>
+        <el-submenu index="10-1-1">
+          <template slot="title" index="">广告位列表</template>
+          <el-menu-item index="">删除提示窗口</el-menu-item>
         </el-submenu>
-        <el-submenu index="10-2">
-          <template slot="title">通知管理</template>
-          <el-menu-item index="/notice">通知列表</el-menu-item>
-        </el-submenu>
+        <el-menu-item index="">广告位详情</el-menu-item>
+      </el-submenu>
+      <el-submenu index="10-2">
+        <template slot="title">通知管理</template>
+        <el-menu-item index="/notice">通知列表</el-menu-item>
+      </el-submenu>
+      <el-submenu index="10-3">
+        <template slot="title">留言管理</template>
+        <el-menu-item index="/leave">留言答疑列表</el-menu-item>
+        <el-menu-item index="/report">举报列表</el-menu-item>
+      </el-submenu>
     </el-submenu>
     <el-menu-item index="11">媒资管理</el-menu-item>
     <el-menu-item index="12">数据中心</el-menu-item>

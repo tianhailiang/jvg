@@ -13,7 +13,7 @@
       <el-form-item label="禁用原因：" :label-width="formLabelWidth">
         <el-input type="textarea" v-model="reason" maxlength="50"></el-input>
       </el-form-item>
-       <el-form-item label="提示：" :label-width="formLabelWidth">
+      <el-form-item label="提示：" :label-width="formLabelWidth">
         禁用后该文章在前端无法显示
       </el-form-item>
     </el-form>
