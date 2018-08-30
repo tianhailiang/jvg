@@ -1,6 +1,12 @@
 <template>
   <el-menu class="nav_left" router :default-active="activeIndex">
     <el-menu-item index="/main">首页</el-menu-item>
+    <el-submenu index="1">
+      <template slot="title">权限角色管理</template>
+      <el-menu-item index="/jurisdiction">权限管理</el-menu-item>
+      <el-menu-item index="/role">角色管理</el-menu-item>
+      <el-menu-item index="/member">成员管理</el-menu-item>
+    </el-submenu>
     <el-submenu index="2">
       <template slot="title">系统管理</template>
       <el-menu-item index="/sensitive">敏感词管理</el-menu-item>
