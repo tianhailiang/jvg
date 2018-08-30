@@ -218,7 +218,7 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       region: '',
       isDialogShow: false,

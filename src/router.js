@@ -129,6 +129,21 @@ export default new Router({
           component: () => import('@/views/apiList.vue')
         },
         {
+          path: '/jurisdiction',
+          name: '权限管理',
+          component: () => import('@/views/jurisdiction.vue')
+        },
+        {
+          path: '/role',
+          name: '角色管理',
+          component: () => import('@/views/role.vue')
+        },
+        {
+          path: '/member',
+          name: '成员管理',
+          component: () => import('@/views/member.vue')
+        },
+        {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
           component: () => import('./views/InterlocutionList.vue')
@@ -397,6 +412,16 @@ export default new Router({
           path: '/notice/:id', /* 运营管理模块 通知详情 */
           name: 'noticeDetail',
           component: () => import('./views/NoticeDetail.vue')
+        },
+        {
+          path: '/leave', /* 运营管理模块 留言答疑列表 */
+          name: 'leave',
+          component: () => import('./views/LeaveList.vue')
+        },
+        {
+          path: '/report', /* 运营管理模块 留言答疑列表 */
+          name: 'report',
+          component: () => import('./views/ReportList.vue')
         }
       ]
     }
