@@ -264,11 +264,6 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/helpProblemList.vue')
         },
         {
-          path: '/helpProblemList', /* 帮助问题列表 */
-          name: 'helpProblemList',
-          component: () => import(/* webpackChunkName: "about" */ './views/helpProblemList.vue')
-        },
-        {
           path: '/ruleManagement', /* 会员规则管理 */
           name: 'ruleManagement',
           component: () => import(/* webpackChunkName: "about" */ './views/ruleManagement.vue')
@@ -387,6 +382,21 @@ export default new Router({
           path: '/report', /* 运营管理模块 留言答疑列表 */
           name: 'report',
           component: () => import('./views/ReportList.vue')
+        },
+        {
+          path: '/bottomNavigation', /* 运营管理模块 底部导航编辑 */
+          name: 'bottomNavigation',
+          component: () => import('./views/BottomNavigationEditor.vue')
+        },
+        {
+          path: '/recommendedBit', /* 运营管理模块 推荐位 */
+          name: 'recommendedBit',
+          component: () => import('./views/RecommendedBitList.vue')
+        },
+        {
+          path: '/recommendedBit/:id', /* 运营管理模块 推荐位新建编辑 */
+          name: 'recommendedBitEditor',
+          component: () => import('./views/RecommendedBitEditor.vue')
         }
       ]
     }

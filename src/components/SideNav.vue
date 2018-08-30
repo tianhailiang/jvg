@@ -55,13 +55,21 @@
         <el-menu-item index="">广告位详情</el-menu-item>
       </el-submenu>
       <el-submenu index="10-2">
+        <template slot="title">底部导航管理</template>
+        <el-menu-item index="/bottomNavigation">底部导航编辑</el-menu-item>
+      </el-submenu>
+      <el-submenu index="10-3">
         <template slot="title">通知管理</template>
         <el-menu-item index="/notice">通知列表</el-menu-item>
       </el-submenu>
-      <el-submenu index="10-3">
+      <el-submenu index="10-4">
         <template slot="title">留言管理</template>
         <el-menu-item index="/leave">留言答疑列表</el-menu-item>
         <el-menu-item index="/report">举报列表</el-menu-item>
+      </el-submenu>
+      <el-submenu index="10-5">
+        <template slot="title">推荐位管理</template>
+        <el-menu-item index="/recommendedBit">推荐位列表</el-menu-item>
       </el-submenu>
       <el-submenu index="10-2">
         <template slot="title">优惠券管理</template>
