@@ -254,6 +254,26 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/couponDetails.vue')
         },
         {
+          path: '/couponReview', /* 优惠券审核 */
+          name: 'couponReview',
+          component: () => import(/* webpackChunkName: "about" */ './views/couponReview.vue')
+        },
+        {
+          path: '/scheduledEventList', /* 预约活动列表 */
+          name: 'scheduledEventList',
+          component: () => import(/* webpackChunkName: "about" */ './views/scheduledEventList.vue')
+        },
+        {
+          path: '/scheduledEventDetail', /* 预约活动详情 */
+          name: 'scheduledEventDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/scheduledEventDetail.vue')
+        },
+        {
+          path: '/userAppointmentList', /* 用户预约列表 */
+          name: 'userAppointmentList',
+          component: () => import(/* webpackChunkName: "about" */ './views/userAppointmentList.vue')
+        },
+        {
           path: '/helpSectionList', /* 帮助栏目列表 */
           name: 'helpSectionList',
           component: () => import(/* webpackChunkName: "about" */ './views/helpSectionList.vue')

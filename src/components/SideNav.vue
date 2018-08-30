@@ -58,7 +58,7 @@
             <template slot="title">优惠券管理</template>
             <el-menu-item index="/couponList">优惠券列表</el-menu-item>
             <el-menu-item index="/couponDetails">优惠券详情</el-menu-item>
-            <el-menu-item index="/">优惠券审核管理</el-menu-item>
+            <el-menu-item index="/couponReview">优惠券审核管理</el-menu-item>
           </el-submenu>
         <el-submenu index="10-3">
           <template slot="title">会员管理</template>
@@ -72,6 +72,12 @@
           <el-menu-item index="/">讲师声望值规则</el-menu-item>
         </el-submenu>
         <el-submenu index="10-4">
+            <template slot="title">预约管理</template>
+            <el-menu-item index="/scheduledEventList">预约活动列表</el-menu-item>
+            <el-menu-item index="/scheduledEventDetail">预约活动详情</el-menu-item>
+            <el-menu-item index="/userAppointmentList">用户预约列表</el-menu-item>
+          </el-submenu>
+        <el-submenu index="10-5">
             <template slot="title">通知管理</template>
             <el-menu-item index="/notice">通知列表</el-menu-item>
         </el-submenu>

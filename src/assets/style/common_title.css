@@ -1,10 +1,11 @@
+/* -----------------会员管理公用样式（2018-8-28）-------------- */
 .member-content{
   overflow: hidden;
 }
 .content-title{
   height: 30px;
   line-height: 30px;
-  border-bottom: solid 1px #ccc;
+  border-bottom: solid 1px #dcdfe6;
   text-indent: 20px;
   margin-bottom: 15px;
   font-weight: 600;
