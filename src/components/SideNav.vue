@@ -1,6 +1,12 @@
 <template>
   <el-menu class="nav_left" router :default-active="activeIndex">
     <el-menu-item index="/main">首页</el-menu-item>
+    <el-submenu index="1">
+      <template slot="title">权限角色管理</template>
+      <el-menu-item index="/jurisdiction">权限管理</el-menu-item>
+      <el-menu-item index="/role">角色管理</el-menu-item>
+      <el-menu-item index="/member">成员管理</el-menu-item>
+    </el-submenu>
     <el-submenu index="2">
       <template slot="title">系统管理</template>
       <el-menu-item index="/sensitive">敏感词管理</el-menu-item>
@@ -71,13 +77,25 @@
         <template slot="title">推荐位管理</template>
         <el-menu-item index="/recommendedBit">推荐位列表</el-menu-item>
       </el-submenu>
-      <el-submenu index="10-2">
+      <el-submenu index="10-6">
+        <template slot="title">分成返利管理</template>
+      </el-submenu>
+      <el-submenu index="10-7">
+        <template slot="title">运营活动管理</template>
+      </el-submenu>
+      <el-submenu index="10-8">
         <template slot="title">优惠券管理</template>
         <el-menu-item index="/couponList">优惠券列表</el-menu-item>
         <el-menu-item index="/couponDetails">优惠券详情</el-menu-item>
-        <el-menu-item index="/">优惠券审核管理</el-menu-item>
+        <el-menu-item index="/couponReview">优惠券审核管理</el-menu-item>
+      </el-submenu> 
+      <el-submenu index="10-9">
+        <template slot="title">预约管理</template>
+        <el-menu-item index="/scheduledEventList">预约活动列表</el-menu-item>
+        <el-menu-item index="/scheduledEventDetail">预约活动详情</el-menu-item>
+        <el-menu-item index="/userAppointmentList">用户预约列表</el-menu-item>
       </el-submenu>
-      <el-submenu index="10-3">
+      <el-submenu index="10-10">
         <template slot="title">会员管理</template>
         <el-menu-item index="/ruleManagement">VIP会员规则管理</el-menu-item>
         <el-menu-item index="/integralRule">会员积分规则管理</el-menu-item>
@@ -89,8 +107,6 @@
         <el-menu-item index="/">讲师声望值规则</el-menu-item>
       </el-submenu>
     </el-submenu>
-    <el-menu-item index="11">媒资管理</el-menu-item>
-    <el-menu-item index="12">数据中心</el-menu-item>
     <el-submenu index="13">
       <template slot="title">机构院校管理</template>
         <el-submenu index="13-1">

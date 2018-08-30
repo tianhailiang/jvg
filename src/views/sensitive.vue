@@ -74,7 +74,6 @@
                         <el-input placeholder="请输入业务说明"></el-input>
                     </el-form-item>
                 </el-col>
-                
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
@@ -117,7 +116,7 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       region: '',
       isDialogShow: false,

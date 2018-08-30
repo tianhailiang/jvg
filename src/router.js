@@ -129,6 +129,21 @@ export default new Router({
           component: () => import('@/views/apiList.vue')
         },
         {
+          path: '/jurisdiction',
+          name: '权限管理',
+          component: () => import('@/views/jurisdiction.vue')
+        },
+        {
+          path: '/role',
+          name: '角色管理',
+          component: () => import('@/views/role.vue')
+        },
+        {
+          path: '/member',
+          name: '成员管理',
+          component: () => import('@/views/member.vue')
+        },
+        {
           path: '/interlocution', /* 问答管理模块 话题列表 */
           name: 'interlocution',
           component: () => import('./views/InterlocutionList.vue')
@@ -252,6 +267,26 @@ export default new Router({
           path: '/couponDetails', /* 优惠券详情 */
           name: 'couponDetails',
           component: () => import(/* webpackChunkName: "about" */ './views/couponDetails.vue')
+        },
+        {
+          path: '/couponReview', /* 优惠券审核 */
+          name: 'couponReview',
+          component: () => import(/* webpackChunkName: "about" */ './views/couponReview.vue')
+        },
+        {
+          path: '/scheduledEventList', /* 预约活动列表 */
+          name: 'scheduledEventList',
+          component: () => import(/* webpackChunkName: "about" */ './views/scheduledEventList.vue')
+        },
+        {
+          path: '/scheduledEventDetail', /* 预约活动详情 */
+          name: 'scheduledEventDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/scheduledEventDetail.vue')
+        },
+        {
+          path: '/userAppointmentList', /* 用户预约列表 */
+          name: 'userAppointmentList',
+          component: () => import(/* webpackChunkName: "about" */ './views/userAppointmentList.vue')
         },
         {
           path: '/helpSectionList', /* 帮助栏目列表 */

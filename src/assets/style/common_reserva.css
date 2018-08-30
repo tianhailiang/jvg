@@ -1,0 +1,17 @@
+/* ---------预约管理公用样式（2018-8-30）--------- */
+.reservation-content{
+  overflow: hidden;
+}
+.reservation-title{
+  height: 30px;
+  line-height: 30px;
+  border-bottom: solid 1px #dcdfe6;
+  text-indent: 20px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+.page-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}

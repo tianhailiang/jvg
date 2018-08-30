@@ -115,7 +115,7 @@
             </template>
         </el-table-column>
     </el-table>
-    <!--  -->
+    <!-- 分页组件 -->
     <div class="row-container">
         <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
         <el-button size="small" type="primary">确定</el-button>
