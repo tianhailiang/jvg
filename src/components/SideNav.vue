@@ -54,11 +54,16 @@
       <template slot="title">运营管理</template>
       <el-submenu index="10-1">
         <template slot="title">广告管理</template>
-        <el-submenu index="10-1-1">
-          <template slot="title" index="">广告位列表</template>
-          <el-menu-item index="">删除提示窗口</el-menu-item>
-        </el-submenu>
-        <el-menu-item index="">广告位详情</el-menu-item>
+        <el-menu-item index="/advertList">广告位列表</el-menu-item>
+        <el-menu-item index="/advertDetail">广告位详情</el-menu-item>
+        <el-menu-item index="/advertSpaceDetail">广告位详情（平台+固定+单页/轮播）</el-menu-item>
+        <el-menu-item index="/advertSpaceDetail_list">广告位详情（平台+列表+单页）</el-menu-item>
+        <el-menu-item index="/advertSpaceDetail_item">广告位详情（平台+类目+单页）</el-menu-item>
+        <el-menu-item index="/advertListCopy">广告列表</el-menu-item>
+        <el-menu-item index="/advertDetail">广告详情（平台+固定）</el-menu-item>
+        <el-menu-item index="/advertDetailPlatform_list">广告详情 (平台+列表)</el-menu-item>
+        <el-menu-item index="/advertDetailPlatform_item">广告详情 (平台+类目）</el-menu-item>
+        <el-menu-item index="/advertReview">广告审核管理</el-menu-item>
       </el-submenu>
       <el-submenu index="10-2">
         <template slot="title">底部导航管理</template>
@@ -105,7 +110,6 @@
         <el-menu-item index="/lecturerStatistics">讲师声望值统计</el-menu-item>
         <el-menu-item index="/memberList">会员列表</el-menu-item>
         <el-menu-item index="/memberDetails">会员详情</el-menu-item>
-        <el-menu-item index="/">讲师声望值规则</el-menu-item>
       </el-submenu>
     </el-submenu>
     <el-submenu index="13">
