@@ -334,6 +334,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/memberDetails.vue')
         },
         {
+          path: '/advertList', /* 广告列表 */
+          name: 'advertList',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertList.vue')
+        },
+        {
           path: '/advertListCopy', /* 广告列表 */
           name: 'advertListCopy',
           component: () => import(/* webpackChunkName: "about" */ './views/advertListCopy.vue')
