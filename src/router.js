@@ -208,11 +208,11 @@ export default new Router({
           name: 'courseDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
         },
-        {
-          path: '/courseCommentDetail', /* 课程评论详情 */
-          name: 'courseCommentDetail',
-          component: () => import(/* webpackChunkName: "about" */ './views/courseCommentDetail.vue')
-        },
+        // {
+        //   path: '/courseCommentDetail', /* 课程评论详情 */
+        //   name: 'courseCommentDetail',
+        //   component: () => import(/* webpackChunkName: "about" */ './views/courseCommentDetail.vue')
+        // },
         {
           path: '/orderList', /* 订单列表 */
           name: 'orderList',
@@ -242,11 +242,6 @@ export default new Router({
           path: '/publishingCommentList', /* 出版物评论列表 */
           name: 'publishingCommentList',
           component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentList.vue')
-        },
-        {
-          path: '/publishingCommentDetail', /* 出版物评论详情 */
-          name: 'publishingCommentDetail',
-          component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentDetail.vue')
         },
         {
           path: '/publishingDetail', /* 出版物详情 */

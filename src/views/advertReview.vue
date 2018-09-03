@@ -1,20 +1,20 @@
 <template>
   <section class="advert-review-content" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
-      <el-form class="demo-form-inline" label-width="80px" size="mini">
-      <el-col :span="5">
+      <el-form class="demo-form-inline" label-width="80px" size="small">
+      <el-col :span="6">
         <div class="grid-content bg-purple">
             <el-form-item label="ID">
                 <el-input placeholder=""></el-input>
             </el-form-item>
         </div>
       </el-col>
-      <el-col :span="5"><div class="grid-content bg-purple">
+      <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="名称">
               <el-input placeholder=""></el-input>
           </el-form-item>
       </div></el-col>
-      <el-col :span="5"><div class="grid-content bg-purple">
+      <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="广告类型">
               <el-select placeholder="全部">
                   <el-option label="全部"  value="shanghai"></el-option>
@@ -23,7 +23,7 @@
               </el-select>
           </el-form-item>
       </div></el-col>
-      <el-col :span="5"><div class="grid-content bg-purple">
+      <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="审核状态">
               <el-select placeholder="全部">
                   <el-option label="全部"  value="shanghai"></el-option>
@@ -33,7 +33,7 @@
               </el-select>
           </el-form-item>
       </div></el-col>
-      <el-col :span="5"><div class="grid-content bg-purple">
+      <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="所有权">
               <el-select placeholder="全部">
                   <el-option label="全部"  value="shanghai"></el-option>
@@ -42,12 +42,12 @@
               </el-select>
           </el-form-item>
       </div></el-col>
-      <el-col :span="5"><div class="grid-content bg-purple">
+      <el-col :span="6"><div class="grid-content bg-purple">
         <el-form-item label="购买人名称">
           <el-input type="text"></el-input>
         </el-form-item>
     </div></el-col>
-    <el-col :span="5"><div class="grid-content bg-purple">
+    <el-col :span="6"><div class="grid-content bg-purple">
       <el-form-item label="联系方式">
         <el-input type="text"></el-input>
       </el-form-item>
@@ -55,7 +55,7 @@
     </el-form>
     </el-row>
     <el-row :gutter="20"  class="row-bg">
-      <el-form class="demo-form-inline" label-width="80px" size="mini">
+      <el-form class="demo-form-inline" label-width="80px" size="small">
       <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="渠道">
               <el-select placeholder="全部">
@@ -92,13 +92,12 @@
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
         <el-button size="small" type="primary">搜索</el-button>
-        <el-button size="small" type="primary">添加广告</el-button>
     </div></el-col>
     </el-form>
     </el-row>
     <!-- 表格 -->
     <el-table :data="tableData3" border>
-      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column type="selection" width="66"></el-table-column>
       <el-table-column prop="name" label="广告位ID" width="100"></el-table-column>
       <el-table-column prop="name" label="广告名称" width="110"></el-table-column>
       <el-table-column prop="name" label="广告位模板" width="110"></el-table-column>
@@ -113,7 +112,7 @@
       <el-table-column prop="name" label="购买方" width="110"></el-table-column>
       <el-table-column prop="address" label="操作" show-overflow-tooltip>
           <template slot-scope="scope">
-              <el-button size="mini" type="danger" @click="dialogVisible = true">不通过</el-button>
+              <el-button size="small" type="danger" @click="dialogVisible = true">不通过</el-button>
             </template>
       </el-table-column>
    </el-table>
@@ -126,7 +125,7 @@
       <el-col :span="6">
           <el-button size="small" type="primary">确定</el-button>
       </el-col>
-      <el-col :span="5">
+      <el-col :span="6">
           <el-button size="small" type="primary">批量删除</el-button>
           <el-button size="small" type="primary">批量通过</el-button>
       </el-col>
@@ -134,16 +133,16 @@
     <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
         <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="广告ID">
-            <el-input type="text" size="mini" :disabled="true"></el-input>
+            <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="广告名称">
-                <el-input type="text" size="mini" :disabled="true"></el-input>
+                <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="创建用户">
-                <el-input type="text" size="mini" :disabled="true"></el-input>
+                <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="原因">
-            <el-input type="textarea" size="mini"></el-input>
+            <el-input type="textarea" size="small"></el-input>
             </el-form-item>
         </el-form>
         <span>提示：用户重新申请审核</span>

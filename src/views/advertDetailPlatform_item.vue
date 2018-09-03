@@ -4,7 +4,7 @@
         <h3 style="margin:10px 0; text-indent:20px">广告位信息</h3>
         <div class="detail_head">
             <el-row :gutter="20">
-                <el-form class="demo-form-inline" label-width="80px" size="mini">
+                <el-form class="demo-form-inline" label-width="80px" size="small">
                 <el-col :span="6">
                     <div class="grid-content bg-purple" style="margin-left:50px;">
                       <el-button size="small" type="primary">选择广告位</el-button>
@@ -28,7 +28,7 @@
             </el-row>
         </div>
         <el-row :gutter="20">
-          <el-form class="demo-form-inline" label-width="80px" size="mini">
+          <el-form class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
               <div class="grid-content bg-purple">
                   <el-form-item label="ID">
@@ -121,7 +121,7 @@
         <el-col :span="14">
             <section class="advert-detail_left">
               <h3 style="margin-bottom:20px;">广告设置</h3>
-              <el-form :model="form" label-width="80px" size="mini">
+              <el-form :model="form" label-width="80px" size="small">
                   <el-form-item label="类目名称">
                       <el-col :span="12" style="padding-left:0;">
                           <el-select>

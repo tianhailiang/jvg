@@ -1,7 +1,7 @@
 <template>
-    <section class="publishinglist-tabel" style="overflow:hidden;max-width:1200px;">
+    <section class="publishinglist-tabel" style="overflow:hidden">
       <el-row :gutter="20">
-        <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
+        <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
                 <el-form-item label="ID">
                     <el-input type="text"></el-input>
@@ -49,19 +49,19 @@
         </el-form>
       </el-row>
       <!-- 表格 -->
-      <el-table :data="tableData3">
+      <el-table :data="tableData3" border>
           <el-table-column type="selection" width="45"></el-table-column>
-          <el-table-column prop="date" label="出版物ID" width="100"></el-table-column>
-          <el-table-column prop="name" label="出版物名称" width="100"></el-table-column>
-          <el-table-column prop="name" label="出版物介绍" width="100"></el-table-column>
-          <el-table-column prop="name" label="讲师名称" width="100"></el-table-column>
-          <el-table-column prop="name" label="频道" width="100"></el-table-column>
-          <el-table-column prop="type" label="分类" width="90"></el-table-column>
-          <el-table-column prop="name" label="类型" width="90"></el-table-column>
-          <el-table-column prop="name" label="价格" width="90"></el-table-column>
-          <el-table-column prop="name" label="创建时间" width="95"></el-table-column>
-          <el-table-column prop="active" label="销售状态" width="95"></el-table-column>
-          <el-table-column prop="address" label="操作" show-overflow-tooltip>
+          <el-table-column prop="date" label="出版物ID" width="100" align="center"></el-table-column>
+          <el-table-column prop="name" label="出版物名称" width="100" align="center"></el-table-column>
+          <el-table-column prop="name" label="出版物介绍" width="100" align="center"></el-table-column>
+          <el-table-column prop="name" label="讲师名称" width="100" align="center"></el-table-column>
+          <el-table-column prop="name" label="频道" width="100" align="center"></el-table-column>
+          <el-table-column prop="type" label="分类" width="90" align="center"></el-table-column>
+          <el-table-column prop="name" label="类型" width="90" align="center"></el-table-column>
+          <el-table-column prop="name" label="价格" width="90" align="center"></el-table-column>
+          <el-table-column prop="name" label="创建时间" width="95" align="center"></el-table-column>
+          <el-table-column prop="active" label="销售状态" width="95" align="center"></el-table-column>
+          <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
               <template slot-scope="scope">
                   <el-button size="mini" type="danger" @click="openMadel">冻结</el-button>
                 </template>

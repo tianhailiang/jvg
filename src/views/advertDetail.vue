@@ -4,10 +4,10 @@
       <h3 style="margin:10px 0; text-indent:20px">广告位信息</h3>
       <div class="detail_head">
           <el-row :gutter="20">
-              <el-form class="demo-form-inline" label-width="80px" size="mini">
+              <el-form class="demo-form-inline" label-width="80px" size="small">
               <el-col :span="6">
                   <div class="grid-content bg-purple" style="margin-left:50px;">
-                    <el-button size="small" type="primary">选择广告位</el-button>
+                    <el-button size="small" type="primary" @click="dialogFormVisible = true">选择广告位</el-button>
                   </div>
                 </el-col>
                 <el-col :span="6">
@@ -28,7 +28,7 @@
           </el-row>
       </div>
       <el-row :gutter="20">
-        <el-form class="demo-form-inline" label-width="80px" size="mini">
+        <el-form class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
             <div class="grid-content bg-purple">
                 <el-form-item label="ID">
@@ -121,7 +121,7 @@
       <el-col :span="14">
           <section class="advert-detail_left">
             <h3 style="margin-bottom:20px;">广告设置</h3>
-            <el-form :model="form" label-width="80px" size="mini">
+            <el-form :model="form" label-width="80px" size="small">
                 <el-form-item label="轮播顺序">
                   <el-input placeholder="1"></el-input>
                 </el-form-item>
@@ -175,13 +175,118 @@
               <el-button size="medium" type="primary">取消</el-button>
             </el-row>
       </div>
-  </section>
   <!-- 选择广告位弹窗 -->
-  
+  <el-dialog title="请选择以下广告位" :visible.sync="dialogFormVisible" class="modal">
+        <el-form :model="form" size="small">
+        <el-row :gutter="20">
+            <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                    <el-form-item label="ID">
+                        <el-input type="text"></el-input>
+                    </el-form-item>
+            </div></el-col>
+            <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                    <el-form-item label="名称">
+                            <el-input type="text"></el-input>
+                        </el-form-item>
+            </div></el-col>
+            <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                <el-form-item label="位置类型">
+                        <el-select size="small" >
+                            <el-option label="全部"  value="shanghai"></el-option>
+                            <el-option label="轮播"  value="shanghai"></el-option>
+                            <el-option label="单页"  value="shanghai"></el-option>
+                        </el-select>
+                </el-form-item>
+            </div></el-col>
+            <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                <el-form-item label="所有权">
+                    <el-select size="small" >
+                        <el-option label="全部"  value="shanghai"></el-option>
+                        <el-option label="平台"  value="shanghai"></el-option>
+                        <el-option label="用户"  value="shanghai"></el-option>
+                    </el-select>
+                </el-form-item>
+            </div></el-col>
+            <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                <el-form-item label="广告位类型">
+                        <el-select size="small" >
+                            <el-option label="全部"  value="shanghai"></el-option>
+                            <el-option label="轮播"  value="shanghai"></el-option>
+                            <el-option label="单页"  value="shanghai"></el-option>
+                        </el-select>
+                    </el-form-item>
+            </div></el-col>
+            <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                    <el-form-item label="渠道">
+                            <el-select size="small" >
+                                <el-option label="全部"  value="shanghai"></el-option>
+                                <el-option label="WAP"  value="shanghai"></el-option>
+                                <el-option label="PC"  value="shanghai"></el-option>
+                                <el-option label="APP"  value="shanghai"></el-option>
+                            </el-select>
+                        </el-form-item>
+                </div></el-col>
+                <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                        <el-form-item label="业务频道">
+                                <el-select size="small" >
+                                    <el-option label="全部"  value="shanghai"></el-option>
+                                    <el-option label="留学"  value="shanghai"></el-option>
+                                    <el-option label="语培"  value="shanghai"></el-option>
+                                    <el-option label="院校直通"  value="shanghai"></el-option>
+                                    <el-option label="移民"  value="shanghai"></el-option>
+                                </el-select>
+                            </el-form-item>
+                    </div></el-col>
+                    <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
+                            <el-form-item label="广告位模板">
+                                    <el-select size="small" >
+                                        <el-option label="全部"  value="shanghai"></el-option>
+                                        <el-option label="留学首页"  value="shanghai"></el-option>
+                                        <el-option label="问答详情页"  value="shanghai"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                    </div></el-col>
+            </el-row>
+            <div class="model-seacher">
+                <el-button type="primary" size="small">搜索</el-button>
+            </div>
+        </el-form>
+        <el-table :data="data" style="width: 100%" border size="medium">
+            <el-table-column prop="currentid" width="65" label="NO" align="center"></el-table-column>
+            <el-table-column prop="currentid" width="65" label="广告ID" align="center"></el-table-column>
+            <el-table-column prop="currentid" width="110" label="广告位名称" align="center"></el-table-column>
+            <el-table-column prop="currentid" width="110" label="广告位模板" align="center"></el-table-column>
+            <el-table-column prop="currentid" width="110" label="广告位类型" align="center"></el-table-column>
+            <el-table-column prop="currentid" width="110" label="所有权" align="center"></el-table-column>
+            <el-table-column prop="currentid" width="110" label="位置类型" align="center"></el-table-column>
+            <el-table-column prop="currentid" label="创建时间" width="100" align="center"></el-table-column>
+            <el-table-column prop="currentname" width="100" label="渠道" align="center"></el-table-column>
+            <el-table-column prop="current" width="150" label="业务频道" align="center"></el-table-column>
+            <el-table-column label="操作" width="110" align="center">
+                <template slot-scope="scope">
+                <el-button size="small" type="danger">选择</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <div class="row-container">
+            <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+            <el-button size="small" type="primary">确定</el-button>
+        </div>
+      </el-dialog>
+    </section>
 </template>
 <script>
 export default {
   name: 'advertDetail',
+  data () {
+    return {
+        dialogFormVisible: false,
+        data: [
+            {currentid: '001'}
+        ]
+    }
+  }
 }
 </script>
 <style>
@@ -202,5 +307,10 @@ export default {
   text-align: right;
   height: 90px;
   margin-right:50px;
+}
+.model-seacher,.row-container{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 }
 </style>

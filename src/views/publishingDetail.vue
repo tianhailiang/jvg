@@ -1,6 +1,6 @@
 <template>
   <section class="publing-detail" style="overflow:hidden;max-width:1200px;">
-    <el-form ref="form" :model="form" label-width="80px" size="mini">
+    <el-form ref="form" :model="form" label-width="80px" size="small">
         <el-row :gutter="20">
             <el-col :span="6">
                 <el-form-item label="ID">
@@ -95,12 +95,12 @@
             <el-row :gutter="20">
                 <el-col :span="5">
                     <el-form-item label="销售状态">
-                        <el-input type="text" size="mini" placeholder="已上架" :disabled="true"></el-input>
+                        <el-input type="text" size="small" placeholder="已上架" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
                     <el-form-item label="审核状态">
-                        <el-input type="text" size="mini" :disabled="true" placeholder="待审核"></el-input>
+                        <el-input type="text" size="small" :disabled="true" placeholder="待审核"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>

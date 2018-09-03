@@ -1,7 +1,7 @@
 <template>
   <section class="courselist-tabel" style="overflow:hidden;max-width:1200px;">
     <el-row :gutter="20">
-      <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
+      <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
               <el-form-item label="课程ID">
                   <el-input placeholder="审批人"></el-input>
