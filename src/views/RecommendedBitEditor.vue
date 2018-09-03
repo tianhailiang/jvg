@@ -7,16 +7,16 @@
       推荐位新建
     </div>
     <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
-      <el-form-item label="ID：" :label-width="formLabelWidth" v-if="formInline.id">
+      <el-form-item label="ID：" v-if="formInline.id">
         {{formInline.id}}
       </el-form-item>
-      <el-form-item label="ID：" :label-width="formLabelWidth" v-else>
+      <el-form-item label="ID：" v-else>
         <el-input v-model="formInline.id" size="small"></el-input>
       </el-form-item>
-      <el-form-item label="推荐位名称：" :label-width="formLabelWidth">
+      <el-form-item label="推荐位名称：">
         <el-input v-model="formInline.recommendName" size="small"></el-input>
       </el-form-item>
-      <el-form-item label="渠道：" :label-width="formLabelWidth">
+      <el-form-item label="渠道：">
         <el-select v-model="formInline.platform" >
           <el-option
             v-for="item in formInline.platformList"
@@ -26,7 +26,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="频道：" :label-width="formLabelWidth">
+      <el-form-item label="频道：">
         <el-select v-model="formInline.channel" >
           <el-option
             v-for="item in formInline.channelList"
@@ -36,7 +36,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="位置：" :label-width="formLabelWidth">
+      <el-form-item label="位置：">
         <el-select v-model="formInline.position" >
           <el-option
             v-for="item in formInline.positionList"
@@ -46,7 +46,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="类型：" :label-width="formLabelWidth">
+      <el-form-item label="类型：">
         <el-select v-model="formInline.type" >
           <el-option
             v-for="item in formInline.typeList"
@@ -95,10 +95,22 @@
     <div class="btn-box" >
       <el-button type="primary" @click="btnSure" >确定</el-button>
     </div>
+    <!-- 课程推荐列表 -->
+    <RecommendedCourseList :dialogFormVisible.sync="dialogFormVisible1" :dialogForm="dialogForm1" />
+    <!-- 文章推荐列表窗口 -->
+    <RecommendedArticleList :dialogFormVisible.sync="dialogFormVisible2" :dialogForm="dialogForm2" />
+    <!-- 留学达人推荐列表窗口 -->
+    <RecommendedDarenList :dialogFormVisible.sync="dialogFormVisible3" :dialogForm="dialogForm3" />
+    <!-- 语培达人推荐列表窗口 -->
+    <RecommendedLanguageList :dialogFormVisible.sync="dialogFormVisible4" :dialogForm="dialogForm4" />
   </div>
 </template>
 
 <script>
+import RecommendedArticleList from '@/components/RecommendedArticleList.vue'
+import RecommendedCourseList from '@/components/RecommendedCourseList.vue'
+import RecommendedDarenList from '@/components/RecommendedDarenList.vue'
+import RecommendedLanguageList from '@/components/RecommendedLanguageList.vue'
 export default {
   name: 'recommendedBitList',
   data () {
@@ -169,29 +181,80 @@ export default {
           label: '页面'
         }]
       },
-      formLabelWidth: '100px',
       tableData: [{
         id: '10001',
-        recommendContent: '你好啊'
+        recommendContent: '你好啊',
+        type: '1',
+        platform: 'PC',
+        channel: '语培'
       }, {
         id: '10001',
-        recommendContent: '你好啊'
+        recommendContent: '你好啊',
+        type: '2',
+        platform: 'PC',
+        channel: '语培'
       }, {
         id: '10001',
-        recommendContent: '你好啊'
+        recommendContent: '你好啊',
+        type: '3',
+        platform: 'PC',
+        channel: '语培'
+      }, {
+        id: '10001',
+        recommendContent: '你好啊',
+        type: '4',
+        platform: 'PC',
+        channel: '语培'
+      }, {
+        id: '10001',
+        recommendContent: '你好啊',
+        type: '5',
+        platform: 'PC',
+        channel: '语培'
       }],
-      multipleSelection: []
+      multipleSelection: [],
+      dialogFormVisible1: false,
+      dialogForm1: '',
+      dialogFormVisible2: false,
+      dialogForm2: '',
+      dialogFormVisible3: false,
+      dialogForm3: '',
+      dialogFormVisible4: false,
+      dialogForm4: '',
+      dialogFormVisible5: false,
+      dialogForm5: ''
     }
+  },
+  components: {
+    RecommendedArticleList,
+    RecommendedCourseList,
+    RecommendedDarenList,
+    RecommendedLanguageList
   },
   methods: {
     handleDelete (index, row) {
-
+      
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
     add (index, row) {
-
+      if (row.type == 2) {
+        this.dialogFormVisible2 = true
+        this.dialogForm2 = row
+      } else if (row.type == 1) {
+        this.dialogFormVisible1 = true
+        this.dialogForm1 = row
+      } else if (row.type == 3) {
+        this.dialogFormVisible3 = true
+        this.dialogForm3 = row
+      } else if (row.type == 4) {
+        this.dialogFormVisible4 = true
+        this.dialogForm4 = row
+      } else if (row.type == 5) {
+        this.dialogFormVisible5 = true
+        this.dialogForm5 = row
+      }
     },
     remove (index, row) {
       this.tableData.splice(index, 1)

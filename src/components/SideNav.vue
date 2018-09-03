@@ -83,6 +83,7 @@
       </el-submenu>
       <el-submenu index="10-6">
         <template slot="title">分成返利管理</template>
+        <el-menu-item index="/divideIntoRules">分成规则</el-menu-item>
       </el-submenu>
       <el-submenu index="10-7">
         <template slot="title">运营活动管理</template>
@@ -179,7 +180,7 @@ export default {
     }
   },
   mounted () {
-    this.activeIndex = window.location.href.split('http://localhost:8080')[1]
+    this.activeIndex = window.location.href.split(window.location.host)[1]
     if(this.activeIndex.includes('article')){
       this.activeIndex = '/article' /* 文章列表和文章详情匹配一个路由 */
     }
@@ -197,6 +198,9 @@ export default {
     }
     if(this.activeIndex.includes('notice')){
       this.activeIndex = '/notice' /* 通知列表和通知详情匹配一个路由 */
+    }
+    if(this.activeIndex.includes('recommendedBit')){
+      this.activeIndex = '/recommendedBit' /* 通知推荐位列表和推荐位编辑匹配一个路由 */
     }
   }
 }

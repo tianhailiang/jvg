@@ -432,6 +432,11 @@ export default new Router({
           path: '/recommendedBit/:id', /* 运营管理模块 推荐位新建编辑 */
           name: 'recommendedBitEditor',
           component: () => import('./views/RecommendedBitEditor.vue')
+        },
+        {
+          path: '/divideIntoRules', /* 运营管理模块 分成规则列表 */
+          name: 'divideIntoRules',
+          component: () => import('./views/DivideIntoRulesList.vue')
         }
       ]
     }
