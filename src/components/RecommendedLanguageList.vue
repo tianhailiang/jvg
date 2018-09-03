@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="语培达人推荐列表" :visible.sync="dialogFormVisible" :before-close="handleClose" 
+  <el-dialog title="语培达人推荐列表" :visible.sync="dialogFormVisible" :before-close="handleClose"
   width="80%">
     <el-form :inline="true" :model="formInline">
       <div >
@@ -140,7 +140,7 @@
 <script>
 export default {
   name: 'recommendedLanguageList',
-  props: ['dialogFormVisible','dialogForm'],
+  props: ['dialogFormVisible', 'dialogForm'],
   data () {
     return {
       formInline: {
@@ -226,7 +226,7 @@ export default {
   },
   methods: {
     handleClose (done) {
-      this.$emit('update:dialogFormVisible',false)
+      this.$emit('update:dialogFormVisible', false)
     },
     onSubmit (e) {
       console.log('submit!')

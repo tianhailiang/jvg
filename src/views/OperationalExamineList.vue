@@ -1,16 +1,19 @@
 <template>
   <div>
     <div class="nav">
-      分成规则列表
+      运营活动审核
     </div>
     <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
-      <el-form-item label="规则名称：">
-        <el-input v-model="formInline.rulesName" size="small"></el-input>
+      <el-form-item label="活动ID：">
+        <el-input v-model="formInline.activityId" size="small"></el-input>
       </el-form-item>
-      <el-form-item label="分成方式：">
-        <el-select v-model="formInline.divisionMethod" >
+      <el-form-item label="活动标题：">
+        <el-input v-model="formInline.activityTitle" size="small"></el-input>
+      </el-form-item>
+      <el-form-item label="审核状态：">
+        <el-select v-model="formInline.examineState" >
           <el-option
-            v-for="item in formInline.divisionMethodList"
+            v-for="item in formInline.examineStateList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -37,30 +40,36 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="适用业务：">
-        <el-select v-model="formInline.suitBusiness" >
+      <el-form-item label="活动状态：" v-if="formInline.activityId">
+        <span v-if="formInline.state == 1">进行中</span>
+        <span v-else-if="formInline.state == 2">已结束</span>
+      </el-form-item>
+      <el-form-item label="发行方：">
+        {{formInline.issuer}}
+      </el-form-item>
+      <el-form-item label="有效期：">
+        <el-date-picker
+          v-model="formInline.activityTime"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="活动类型：">
+        <el-select v-model="formInline.activityType" >
           <el-option
-            v-for="item in formInline.suitBusinessList"
+            v-for="item in formInline.activityTypeList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="创建人：">
-        <el-input v-model="formInline.creater" size="small"></el-input>
-      </el-form-item>
-      <el-form-item label="创建时间：">
-        <el-date-picker
-          v-model="formInline.createTime"
-          type="datetime"
-          placeholder="选择日期时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="状态：">
-        <el-select v-model="formInline.state" >
+      <el-form-item label="参与商品：">
+        <el-select v-model="formInline.goods" >
           <el-option
-            v-for="item in formInline.stateList"
+            v-for="item in formInline.goodsList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -69,7 +78,6 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
-        <el-button @click="createRecommend" size="small" >创建分成规则</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -84,64 +92,60 @@
         width="55" >
       </el-table-column>
       <el-table-column
-        prop="id"
-        label="ID"
-        width="120" align="center">
+        label="课程ID"
+        align="center" width="120">
+        <template slot-scope="scope">
+          <el-button
+          size="mini"
+          @click="goDetail(scope.$index, scope.row)">
+            {{scope.row.id}}
+          </el-button>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="rulesName"
-        label="规则名称"
-        width="80" align="center">
+        prop="activityName"
+        label="课程名称"
+        width="200" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="platform"
         label="渠道"
-        width="120" align="center" >
+        width="120" align="center">
       </el-table-column>
       <el-table-column
         prop="channel"
         label="频道"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="suitBusiness"
-        label="适用业务"
         width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="divideType"
-        label="分成类型"
-        width="120" align="center" >
+        prop="activityType"
+        label="活动类型"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="secondaryType"
-        label="二级类型"
-        width="120" align="center" show-overflow-tooltip>
+        prop=""
+        label="活动价格/折扣"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="divisionMethod"
-        label="分成方式"
-        width="120" align="center" show-overflow-tooltip>
+        prop="goods"
+        label="参与商品"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="specificDivide"
-        label="具体分成"
-        width="120" align="center" show-overflow-tooltip>
+        prop="issuer"
+        label="发行方"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="state"
-        label="状态"
-        width="120" align="center" show-overflow-tooltip>
+        prop="examineState"
+        label="审核状态"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="creater"
-        label="创建人"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        label="创建时间"
-        width="120" align="center" show-overflow-tooltip>
+        prop="activityTime"
+        label="活动有效期"
+        width="120" align="center">
       </el-table-column>
       <el-table-column
         label="操作"
@@ -149,16 +153,17 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleStop(scope.$index, scope.row)">停用</el-button>
+            @click="handleAdopt(scope.$index, scope.row)">通过</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            @click="handleDelete(scope.$index, scope.row)">不通过</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="btn-box" >
       <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+      <el-button type="danger" @click="batchFrozen()" >批量冻结</el-button>
     </div>
     <el-pagination
       @size-change="handleSizeChange"
@@ -166,32 +171,27 @@
       :current-page.sync="currentPage"
       :page-size="100"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="1000" style="text-align:center;margin-top:20px;height:50px">
     </el-pagination>
-    <!-- 分成新建弹框 -->
-    <DivideBuildDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
+    <div class="detail-btn-box">
+      <el-button >保存</el-button>
+      <el-button >提交</el-button>
+      <el-button >取消</el-button>
+    </div>
+    <!-- 商品选择弹框 -->
+    <NotThroughDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
   </div>
 </template>
 
 <script>
-import DivideBuildDialog from '@/components/DivideBuildDialog.vue'
+import NotThroughDialog from '@/components/NotThroughDialog.vue'
 export default {
-  name: 'divdeIntoRulesList',
+  name: 'operationalActivityDetail',
   data () {
     return {
       formInline: {
-        rulesName: '',
-        divisionMethod: '0',
-        divisionMethodList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '按比例'
-        }, {
-          value: '2',
-          label: '按金额'
-        }],
+        activityId: '',
+        activityTitle: '',
         platform: '0',
         platformList: [{
           value: '0',
@@ -217,70 +217,78 @@ export default {
           value: '2',
           label: '留学'
         }],
-        suitBusiness: '0',
-        suitBusinessList:[{
-          value: '0',
-          label: '课程'
-        }, {
-          value: '1',
-          label: '文章'
-        }, {
-          value: '2',
-          label: '出版物'
-        }],
-        creater: '',
-        createTime: '',
-        state: '0',
-        stateList: [{
+        state: '1',
+        issuer: '',
+        issuerName: '',
+        activityTime: [],
+        activityType: '0',
+        activityTypeList: [{
           value: '0',
           label: '全部'
         }, {
           value: '1',
-          label: '使用中'
+          label: '现金优惠'
         }, {
           value: '2',
-          label: '停用'
+          label: '组合优惠'
+        }],
+        goods: '0',
+        goodsList: [{
+          value: '0',
+          label: '课程'
+        }, {
+          value: '1',
+          label: '出版物'
+        }, {
+          value: '2',
+          label: '留学'
+        }],
+        goodsRadio: '',
+        examineState: '0',
+        examineState: [{
+          value: '0',
+          label: '全部'
+        }, {
+          value: '1',
+          label: '待审核'
+        }, {
+          value: '2',
+          label: '已通过'
+        }, {
+          value: '3',
+          label: '不通过'
         }]
       },
       tableData: [{
-        id: '10001',
-        rulesName: '美国留学',
+        id: '110001',
+        activityName: '美国留学',
         platform: 'PC',
         channel: '语培',
-        suitBusiness: '课程',
-        divideType: '用户等级',
-        secondaryType: '一星用户',
-        divisionMethod: '按比例',
-        specificDivide: '4/6',
-        state: '使用中',
-        creater: 'thl',
-        createTime: '2018-8-31' 
+        activityType: '现金优惠',
+        goods: '课程',
+        issuer: '平台管理员',
+        examineState: '已通过',
+        activityTime: '2018-9-3'
       }, {
-        id: '10001',
-        rulesName: '美国留学',
+        id: '110001',
+        activityName: '美国留学',
         platform: 'PC',
         channel: '语培',
-        suitBusiness: '课程',
-        divideType: '用户等级',
-        secondaryType: '一星用户',
-        divisionMethod: '按比例',
-        specificDivide: '4/6',
-        state: '使用中',
-        creater: 'thl',
-        createTime: '2018-8-31' 
+        activityType: '现金优惠',
+        goods: '课程',
+        issuer: '平台管理员',
+        examineState: '已通过',
+        activityTime: '2018-9-3'
       }, {
-        id: '10001',
-        rulesName: '美国留学',
+        id: '110001',
+        activityName: '美国留学',
         platform: 'PC',
         channel: '语培',
-        suitBusiness: '课程',
-        divideType: '用户等级',
-        secondaryType: '一星用户',
-        divisionMethod: '按比例',
-        specificDivide: '4/6',
-        state: '使用中',
-        creater: 'thl',
-        createTime: '2018-8-31' 
+        activityType: '现金优惠',
+        goods: '课程',
+        issuer: '平台管理员',
+        examineState: '已通过',
+        activityTime: '2018-9-3' 
       }],
       multipleSelection: [],
       currentPage: 1,
@@ -289,22 +297,23 @@ export default {
     }
   },
   components: {
-    DivideBuildDialog
+    NotThroughDialog
   },
   methods: {
     onSubmit () {
 
     },
-    createRecommend () {
-      this.dialogFormVisible = true
-    },
-    editor (index, row) {
-      this.$router.push({name: 'recommendedBitEditor', params: {id: row.id}})
+    handleAdopt (index, row) {
+      
     },
     handleDelete (index, row) {
-
+      this.dialogFormVisible = true
+      this.dialogForm = row
     },
     batchDelete () {
+
+    },
+    batchFrozen () {
 
     },
     handleSelectionChange (val) {
@@ -321,14 +330,18 @@ export default {
 </script>
 
 <style scoped>
-  .nav{
+  .nav {
     width:100%;
     height:40px;
     font-size: 18px;
     line-height: 40px
   }
-  .btn-box{
+  .btn-box {
     display: flex;
     justify-content: flex-end
+  }
+  .detail-btn-box {
+    display: flex;
+    justify-content: center
   }
 </style>
