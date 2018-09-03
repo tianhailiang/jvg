@@ -14,7 +14,7 @@
                   <el-input placeholder="请输入操作者名称"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="操作类型：" label-width="100px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -25,10 +25,10 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="11">
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">操作时间：</span>
-                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small"></el-date-picker>
+                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
             </el-col>
             <el-col :span="4">

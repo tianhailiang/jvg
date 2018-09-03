@@ -1,7 +1,7 @@
 <template>
     <section class="advert-container" style="overflow:hidden;max-width:1200px;">
       <el-row :gutter="20">
-        <el-form class="demo-form-inline" label-width="80px" size="mini">
+        <el-form class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
             <div class="grid-content bg-purple">
                 <el-form-item label="ID">
@@ -49,7 +49,7 @@
                     </el-form-item>
                 </div>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="联系方式">
                         <el-input placeholder=""></el-input>
@@ -163,11 +163,9 @@ export default {
   }
 }
 </script>
-<style>
-  .advert-container .bg_purple .el-input--mini{
-    position: absolute;
-  }
-  .advert-container .bg_purple .el-form-item__label,.advert_purple .el-form-item__label{
+<style scoped>
+  .advert-container .bg_purple .el-input--mini{position: absolute;}
+  .advert-container .bg_purple .el-form-item__label{
     width:auto !important;
   }
   .btn-planes{

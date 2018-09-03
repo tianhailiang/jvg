@@ -1,7 +1,7 @@
 <template>
-  <section class="publishing-review-content" style="overflow:hidden;max-width:1200px;">
+  <section class="publishing-review-content" style="overflow:hidden;">
         <el-row :gutter="20">
-          <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
+          <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
               <el-col :span="6">
                   <el-form-item label="课程ID">
                       <el-input placeholder="审批人"></el-input>
@@ -55,7 +55,7 @@
             <el-table-column prop="name" label="审核状态" width="120"></el-table-column>
             <el-table-column prop="address" label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-button size="mini" type="danger">通过</el-button>
+                <el-button size="small" type="danger">通过</el-button>
               </template>
             </el-table-column>
         </el-table>

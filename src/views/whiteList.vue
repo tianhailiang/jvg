@@ -33,7 +33,7 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <el-form-item label="状态：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -42,10 +42,10 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="11">
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">创建时间：</span>
-                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small"></el-date-picker>
+                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -67,7 +67,6 @@
                 <el-table-column prop="state" label="审核状态" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button type="danger" size="small">编辑</el-button>
                         <el-button @click="onDisableClik" type="danger" size="small">冻结</el-button>
                         <el-button @click="onTong" type="danger" size="small">通过</el-button>
                     </template>
@@ -198,7 +197,7 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       region: '',
       isDialogShow: false,
