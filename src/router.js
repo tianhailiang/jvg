@@ -437,6 +437,31 @@ export default new Router({
           path: '/divideIntoRules', /* 运营管理模块 分成规则列表 */
           name: 'divideIntoRules',
           component: () => import('./views/DivideIntoRulesList.vue')
+        },
+        {
+          path: '/rebateRule', /* 运营管理模块 返利规则列表 */
+          name: 'rebateRule',
+          component: () => import('./views/RebateRuleList.vue')
+        },
+        {
+          path: '/rebateRegister', /* 运营管理模块 返利新建注册 */
+          name: 'rebateRegister',
+          component: () => import('./views/RebateRegister.vue')
+        },
+        {
+          path: '/operational', /* 运营活动管理模块 运营活动列表 */
+          name: 'operational',
+          component: () => import('./views/OperationalActivityList.vue')
+        },
+        {
+          path: '/operational/:id', /* 运营活动管理模块 运营活动详情 */
+          name: 'operationalActivityDetail',
+          component: () => import('./views/OperationalActivityDetail.vue')
+        },
+        {
+          path: '/operationalExamine', /* 运营活动管理模块 运营活动审核管理 */
+          name: 'operationalExamine',
+          component: () => import('./views/OperationalExamineList.vue')
         }
       ]
     }

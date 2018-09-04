@@ -67,7 +67,6 @@
                 <el-table-column prop="state" label="审核状态" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button type="danger" size="small">编辑</el-button>
                         <el-button @click="onDisableClik" type="danger" size="small">冻结</el-button>
                         <el-button @click="onTong" type="danger" size="small">通过</el-button>
                     </template>

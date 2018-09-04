@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="nav">
-      分成规则列表
+      返利规则列表
     </div>
     <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
       <el-form-item label="规则名称：">
         <el-input v-model="formInline.rulesName" size="small"></el-input>
       </el-form-item>
-      <el-form-item label="分成方式：">
-        <el-select v-model="formInline.divisionMethod" >
+      <el-form-item label="状态：">
+        <el-select v-model="formInline.state" >
           <el-option
-            v-for="item in formInline.divisionMethodList"
+            v-for="item in formInline.stateList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -27,20 +27,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="频道：">
-        <el-select v-model="formInline.channel" >
+      <el-form-item label="分类：">
+        <el-select v-model="formInline.classify" >
           <el-option
-            v-for="item in formInline.channelList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="适用业务：">
-        <el-select v-model="formInline.suitBusiness" >
-          <el-option
-            v-for="item in formInline.suitBusinessList"
+            v-for="item in formInline.classifyList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -57,19 +47,9 @@
           placeholder="选择日期时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="状态：">
-        <el-select v-model="formInline.state" >
-          <el-option
-            v-for="item in formInline.stateList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
-        <el-button @click="createRecommend" size="small" >创建分成规则</el-button>
+        <el-button @click="createRecommend" size="small" >创建返利规则</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -99,39 +79,14 @@
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="channel"
-        label="频道"
+        prop="classify"
+        label="分类"
         width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="suitBusiness"
-        label="适用业务"
-        width="120" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="divideType"
-        label="分成类型"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="secondaryType"
-        label="二级类型"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="divisionMethod"
-        label="分成方式"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="specificDivide"
-        label="具体分成"
-        width="120" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="state"
         label="状态"
-        width="120" align="center" show-overflow-tooltip>
+        width="120" align="center">
       </el-table-column>
       <el-table-column
         prop="creater"
@@ -168,29 +123,26 @@
       layout="prev, pager, next, jumper"
       :total="1000" style="text-align:center;margin-top:20px">
     </el-pagination>
-    <!-- 分成新建弹框 -->
-    <DivideBuildDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
   </div>
 </template>
 
 <script>
-import DivideBuildDialog from '@/components/DivideBuildDialog.vue'
 export default {
   name: 'divdeIntoRulesList',
   data () {
     return {
       formInline: {
         rulesName: '',
-        divisionMethod: '0',
-        divisionMethodList: [{
+        classify: '0',
+        classifyList: [{
           value: '0',
           label: '全部'
         }, {
           value: '1',
-          label: '按比例'
+          label: '注册'
         }, {
           value: '2',
-          label: '按金额'
+          label: '返利'
         }],
         platform: '0',
         platformList: [{
@@ -216,17 +168,6 @@ export default {
         }, {
           value: '2',
           label: '留学'
-        }],
-        suitBusiness: '0',
-        suitBusinessList:[{
-          value: '0',
-          label: '课程'
-        }, {
-          value: '1',
-          label: '文章'
-        }, {
-          value: '2',
-          label: '出版物'
         }],
         creater: '',
         createTime: '',
@@ -254,7 +195,8 @@ export default {
         specificDivide: '4/6',
         state: '使用中',
         creater: 'thl',
-        createTime: '2018-8-31' 
+        createTime: '2018-8-31',
+        classify: '注册'
       }, {
         id: '10001',
         rulesName: '美国留学',
@@ -267,7 +209,8 @@ export default {
         specificDivide: '4/6',
         state: '使用中',
         creater: 'thl',
-        createTime: '2018-8-31' 
+        createTime: '2018-8-31',
+        classify: '注册'
       }, {
         id: '10001',
         rulesName: '美国留学',
@@ -280,26 +223,22 @@ export default {
         specificDivide: '4/6',
         state: '使用中',
         creater: 'thl',
-        createTime: '2018-8-31' 
+        createTime: '2018-8-31',
+        classify: '注册'
       }],
       multipleSelection: [],
-      currentPage: 1,
-      dialogFormVisible: false,
-      dialogForm: ''
+      currentPage: 1
     }
-  },
-  components: {
-    DivideBuildDialog
   },
   methods: {
     onSubmit () {
 
     },
     createRecommend () {
-      this.dialogFormVisible = true
+      this.$router.push({name: 'rebateRegister'})
     },
-    editor (index, row) {
-      this.$router.push({name: 'recommendedBitEditor', params: {id: row.id}})
+    handleStop (index, row) {
+      
     },
     handleDelete (index, row) {
 
