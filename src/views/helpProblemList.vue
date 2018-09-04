@@ -13,22 +13,22 @@
                 </el-form-item></div></el-col></div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="所属频道">
-                  <el-select placeholder="">
-                    <el-option label="全部" value="shanghai"></el-option>
-                    <el-option label="留学" value="beijing"></el-option>
-                    <el-option label="移民" value="beijing"></el-option>
-                    <el-option label="语培" value="beijing"></el-option>
-                    <el-option label="院校直通" value="beijing"></el-option>
-                  </el-select>
+                    <el-select v-model="suoshutwo">
+                        <el-option 
+                        :label="item.label" 
+                        :value="item.value"
+                        v-for="(item, index) in suoshudata"></el-option>
+                    </el-select>
               </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="渠道">
-                    <el-select placeholder="">
-                      <el-option label="APP" value="beijing"></el-option>
-                      <el-option label="PC" value="beijing"></el-option>
-                      <el-option label="WAP" value="beijing"></el-option>
-                    </el-select>
+                        <el-select v-model="qudao">
+                            <el-option 
+                            :label="items.label"
+                            :value="items.value"
+                            v-for="(items, index) in qudaodate"></el-option>
+                          </el-select>
                 </el-form-item>  
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
@@ -54,14 +54,14 @@
       </el-row>
       <el-table :data="tableData3" border>
         <el-table-column type="selection" width="45"></el-table-column>
-        <el-table-column label="栏目名称" width="120" prop="name"></el-table-column>
-        <el-table-column prop="name" label="问题内容" width="120"></el-table-column>
-        <el-table-column prop="name" label="问题答案" width="120"></el-table-column>
-        <el-table-column prop="name" label="渠道" width="120"></el-table-column>
-        <el-table-column prop="name" label="所属频道" width="120"></el-table-column>
-        <el-table-column prop="name" label="创建时间" width="120"></el-table-column>
-        <el-table-column prop="name" label="创建人" width="120"></el-table-column>
-        <el-table-column label="操作" width="170">
+        <el-table-column label="栏目名称" width="120" prop="name" align="center"></el-table-column>
+        <el-table-column prop="name" label="问题内容" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="问题答案" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="渠道" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="所属频道" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="创建时间" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="创建人" width="120" align="center"></el-table-column>
+        <el-table-column label="操作" width="170" align="center">
           <template slot-scope="scope">
               <el-button size="small" type="danger">删除</el-button>
           </template>
@@ -103,21 +103,21 @@
               <el-row>
                 <el-col :span="10" :offset="3"><div class="grid-content bg-purple-dark">
                     <el-form-item label="渠道">
-                        <el-select placeholder="">
-                          <el-option label="APP" value="beijing"></el-option>
-                          <el-option label="PC" value="beijing"></el-option>
-                          <el-option label="WAP" value="beijing"></el-option>
+                        <el-select v-model="qd">
+                                <el-option 
+                                :label="items.label"
+                                :value="items.value"
+                                v-for="(items, index) in qudaodate"></el-option>
                         </el-select>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="10"><div class="grid-content bg-purple-dark">
                     <el-form-item label="所属频道">
-                        <el-select placeholder="">
-                          <el-option label="全部" value="shanghai"></el-option>
-                          <el-option label="留学" value="beijing"></el-option>
-                          <el-option label="移民" value="beijing"></el-option>
-                          <el-option label="语培" value="beijing"></el-option>
-                          <el-option label="院校直通" value="beijing"></el-option>
+                        <el-select v-model="pindao">
+                                <el-option 
+                                :label="item.label" 
+                                :value="item.value"
+                                v-for="(item, index) in suoshudata"></el-option>
                         </el-select>
                     </el-form-item>
                 </div></el-col>
@@ -146,8 +146,25 @@
             date1: '',
             date2: ''
           },
+          qudaodate: [
+            {value: '选项一',label: 'APP'},
+            {value: '选项二',label: 'PC'},
+            {value: '选项三',label: 'WAP'}
+            ],
+          qudao:'',
+          pindao: '',
+          qd:'',
+          qudaoTwo: '',
           dialogFormVisible: false,
-          formLabelWidth: '120px'
+          formLabelWidth: '120px',
+          suoshutwo: '',
+          suoshudata: [
+            {value: '选项1',label: '留学'},
+            {value: '选项2',label: '移民'},
+            {value: '选项3',label: '语培'},
+            {value: '选项4',label: '院校直通'},
+            {value: '选项5',label: '全部'}
+          ]
         }
       }
     }
@@ -164,4 +181,11 @@
     display: inline-block;
     margin-left: 20px;
   }
+  .help-content > h3{
+  height: 30px;
+  line-height: 30px;
+  border-bottom: solid 1px #ccc;
+  text-indent: 20px;
+  margin-bottom: 15px;
+}
 </style>

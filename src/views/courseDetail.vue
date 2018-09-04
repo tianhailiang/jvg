@@ -34,10 +34,10 @@
             </el-col>
             <el-col :span="6">
                 <el-form-item label="课程标签">
-                    <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="语法" value="beijing"></el-option>
-                        <el-option label="词汇" value="beijing"></el-option>
+                    <el-select v-model="coursetagval">
+                        <el-option 
+                        :label="item.label"  
+                        :value="item.value" v-for="(item, index) in coursetag"></el-option>
                     </el-select>
                   </el-form-item>
             </el-col>
@@ -60,17 +60,17 @@
             <el-col :span="8">
                 <el-form-item label="上课模式">
                     <el-col :span="12">
-                        <el-select placeholder="全部">
-                            <el-option label="全部"  value="shanghai"></el-option>
-                            <el-option label="直播" value="beijing"></el-option>
-                            <el-option label="录播" value="beijing"></el-option>
+                        <el-select v-model="courseval">
+                            <el-option 
+                            :label="item.label"  
+                            :value="item.value" v-for="(item, index) in course"></el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="12">
-                        <el-select placeholder="全部">
-                            <el-option label="全部"  value="shanghai"></el-option>
-                            <el-option label="直播" value="beijing"></el-option>
-                            <el-option label="录播" value="beijing"></el-option>
+                        <el-select v-model="courseval">
+                            <el-option 
+                                :label="item.label"  
+                                :value="item.value" v-for="(item, index) in course"></el-option>
                         </el-select>
                     </el-col>
                 </el-form-item>
@@ -271,7 +271,19 @@ export default {
         {value: '选项1', label: '托福'},
         {value: '选项2', label: 'GRE'}
       ],
-      value: ''
+      value: '',
+      courseval: '',
+      coursetagval: '',
+      course: [
+        {value: '选项1', label: '直播'},
+        {value: '选项2', label: '录播'},
+        {value: '选项3', label: '全部'}
+      ],
+      coursetag: [
+        {value: '选项1', label: '词汇'},
+        {value: '选项2', label: '语法'},
+        {value: '选项3', label: '全部'}
+      ]
     }
   },
   methods: {

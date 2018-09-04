@@ -1,5 +1,5 @@
 <template>
-  <section class="courselist-tabel" style="overflow:hidden;max-width:1200px;">
+  <section class="courselist-tabel" style="overflow:hidden;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
@@ -14,21 +14,20 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="课程分类">
-                  <el-select placeholder="课程分类">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="直播中" value="beijing"></el-option>
-                      <el-option label="未开始" value="beijing"></el-option>
-                      <el-option label="已结束" value="beijing"></el-option>
+                  <el-select v-model="courseVal">
+                      <el-option 
+                      :label="item.label"
+                      :value="item.value"
+                      v-for="(item, index) in course"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="上课模式">
-                  <el-select placeholder="上课模式">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="直播中" value="beijing"></el-option>
-                      <el-option label="未开始" value="beijing"></el-option>
-                      <el-option label="已结束" value="beijing"></el-option>
+                  <el-select v-model="module">
+                      <el-option 
+                      :label="item.label"  
+                      :value="item.value" v-for="(item, index) in coursemodule"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
@@ -39,21 +38,19 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="销售状态">
-                  <el-select placeholder="销售状态">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="直播中" value="beijing"></el-option>
-                      <el-option label="未开始" value="beijing"></el-option>
-                      <el-option label="已结束" value="beijing"></el-option>
+                  <el-select v-model="xsval">
+                      <el-option 
+                       :label="item.label"  
+                       :value="item.value" v-for="(item, index) in xs"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="直播状态">
-                <el-select placeholder="直播状态">
-                    <el-option label="全部"  value="shanghai"></el-option>
-                    <el-option label="直播中" value="beijing"></el-option>
-                    <el-option label="未开始" value="beijing"></el-option>
-                    <el-option label="已结束" value="beijing"></el-option>
+                <el-select v-model="zbval">
+                    <el-option 
+                    :label="item.label"  
+                    :value="item.value" v-for="(item, index) in zb"></el-option>
                   </el-select>
               </el-form-item>
           </el-col>
@@ -66,16 +63,16 @@
     <!-- 表格 -->
     <el-table :data="tableData3" border>
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="date" label="日期" width="120"></el-table-column>
-        <el-table-column prop="name" label="讲师名称" width="120"></el-table-column>
-        <el-table-column prop="name" label="频道" width="120"></el-table-column>
-        <el-table-column prop="name" label="课程分类" width="120"></el-table-column>
-        <el-table-column prop="name" label="上课模式" width="120"></el-table-column>
-        <el-table-column prop="name" label="教学模式" width="120"></el-table-column>
-        <el-table-column prop="name" label="课程价格" width="120"></el-table-column>
-        <el-table-column prop="name" label="直播时间" width="120"></el-table-column>
-        <el-table-column prop="name" label="销售状态" width="120"></el-table-column>
-        <el-table-column prop="name" label="直播状态" width="120"></el-table-column>
+        <el-table-column prop="date" label="日期" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="讲师名称" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="频道" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="课程分类" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="上课模式" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="教学模式" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="课程价格" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="直播时间" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="销售状态" width="120" align="center"></el-table-column>
+        <el-table-column prop="name" label="直播状态" width="120" align="center"></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
             <template slot-scope="scope">
                 <el-button size="mini" type="danger" @click="dialogVisible = true">冻结</el-button>
@@ -126,12 +123,38 @@ export default {
   data () {
     return {
       tableData3: [
-        {date: '2016-05-02', name: '王小虎', address: '冻结'},
-        {date: '2016-05-02', name: '王小虎', address: '冻结'},
-        {date: '2016-05-02', name: '王小虎', address: '冻结'},
-        {date: '2016-05-02', name: '王小虎', address: '冻结'}
+        {date: '001', name: '王小虎', address: '冻结'},
+        {date: '001', name: '王小虎', address: '冻结'},
+        {date: '001', name: '王小虎', address: '冻结'},
+        {date: '001', name: '王小虎', address: '冻结'}
       ],
-      dialogVisible: false
+      dialogVisible: false,
+      courseVal: '',
+      course: [
+          {label: '全部' , value: '选项1'},
+          {label: '托福' , value: '选项2'},
+          {label: 'GRE' , value: '选项3'}
+      ],
+      module: '',
+      coursemodule: [
+        {label: '全部' , value: '选项1'},
+        {label: '视频直播' , value: '选项2'},
+        {label: '视频点播' , value: '选项3'}
+      ],
+      xsval: '',
+      xs: [
+        {label: '全部' , value: '选项1'},
+        {label: '冻结' , value: '选项2'},
+        {label: '已上架' , value: '选项3'},
+        {label: '已下架' , value: '选项4'}
+      ],
+      zbval: '',
+      zb: [
+        {label: '全部' , value: '选项1'},
+        {label: '直播中' , value: '选项2'},
+        {label: '未开始' , value: '选项3'},
+        {label: '已结束' , value: '选项4'}
+      ]
     }
   },
   methods: {

@@ -1,9 +1,9 @@
 <template>
-    <section class="order-details" style="overflow:hidden;max-width:1200px;">
+    <section class="order-details" style="overflow:hidden;">
       <div class="order-details-item">
           <h3>订单基本信息</h3>
           <el-row :gutter="20">
-              <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
+              <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
                   <el-col :span="6"><div class="grid-content bg-purple">
                       <el-form-item label="退款编号">
                         <el-input type="text" :disabled="true"></el-input>
@@ -16,8 +16,8 @@
           </el-row>
       </div>
       <div class="order-details-item">
-        <el-row :gutter="20">
-            <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
+        <el-row :gutter="20" class="from-group">
+            <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="订单编号">
                     <el-input type="text" :disabled="true"></el-input>
@@ -98,16 +98,16 @@
       <div class="order-details-item" style="margin-bottom:12px;">
           <h3>商品信息</h3>
           <el-table :data="priceData" border size="medium">
-            <el-table-column prop="date" label="商品ID" width="210"></el-table-column>
-            <el-table-column prop="name" label="商品名称" width="210"></el-table-column>
-            <el-table-column prop="price" label="单价" width="210"></el-table-column>
-            <el-table-column prop="number" label="数量" width="210"></el-table-column>
-            <el-table-column prop="totalprice" label="小计金额" width="210"></el-table-column>
+            <el-table-column prop="date" label="商品ID" width="210" align="center"></el-table-column>
+            <el-table-column prop="name" label="商品名称" width="210" align="center"></el-table-column>
+            <el-table-column prop="price" label="单价" width="210" align="center"></el-table-column>
+            <el-table-column prop="number" label="数量" width="210" align="center"></el-table-column>
+            <el-table-column prop="totalprice" label="小计金额" width="210" align="center"></el-table-column>
         </el-table>
       </div>
       <div class="order-details-item order-details-item_2">
           <h3>收货人信息</h3>
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="收货人姓名">
               <el-input type="text" :disabled="true"></el-input>
             </el-form-item>
@@ -122,7 +122,7 @@
       </div>
       <div class="order-details-item">
           <h3>发票信息</h3>
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
               <el-form-item label="是否要求发票">
                 <el-input type="text" :disabled="true"></el-input>
               </el-form-item>
@@ -135,19 +135,19 @@
           <h3>优惠与积分</h3>
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
                 <el-form-item label="是否参与优惠">
-                    <el-input type="text" :disabled="true" size="mini"></el-input>
+                    <el-input type="text" :disabled="true" size="small"></el-input>
                 </el-form-item>
                 <el-form-item label="优惠内容">
                     <el-table :data="priceData" border size="medium">
-                        <el-table-column prop="date" label="ID" width="109"></el-table-column>
-                        <el-table-column prop="name" label="类型" width="160"></el-table-column>
-                        <el-table-column prop="price" label="抵扣金额" width="160"></el-table-column>
-                        <el-table-column prop="number" label="折扣比例" width="160"></el-table-column>
+                        <el-table-column prop="date" label="ID" width="109" align="center"></el-table-column>
+                        <el-table-column prop="name" label="类型" width="160" align="center"></el-table-column>
+                        <el-table-column prop="price" label="抵扣金额" width="160" align="center"></el-table-column>
+                        <el-table-column prop="number" label="折扣比例" width="160" align="center"></el-table-column>
                     </el-table>
                 </el-form-item>
                 <br>
                 <el-form-item label="使用积分">
-                    <el-input type="text" :disabled="true" size="mini"></el-input>
+                    <el-input type="text" :disabled="true" size="small"></el-input>
                 </el-form-item>
             </el-form>
       </div>
@@ -181,7 +181,10 @@ export default {
   }
 }
 </script>
-  <style>
+  <style scoped>
+    .order-details{
+        padding-left:7px;
+    }
     .order-details-item h3{
       margin-bottom: 12px;
       font-weight:600;
@@ -218,4 +221,7 @@ export default {
         display: inline-block;
         margin-top:20px;
     }
+.from-group .pay-purple .el-form-item__label{
+    color: red !important;
+}
 </style>

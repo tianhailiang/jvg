@@ -37,18 +37,18 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="所属频道">
-                    <el-select placeholder="" v-model="defaultselectVal" size="small">
+                    <el-select placeholder="" v-model="defaultselectVal4" size="small">
                         <el-option 
                         :label="item.label" 
                         :value="item.value"
                         :key="index"
-                        v-for="(item, index) in defaultdata"></el-option>
+                        v-for="(item, index) in defaultsuo"></el-option>
                     </el-select>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="类型">
-                    <el-select placeholder="" v-model="defaultselectVal" size="small">
+                    <el-select placeholder="" v-model="defaultselectVal3" size="small">
                         <el-option 
                         :label="item.label" 
                         :value="item.value"
@@ -59,23 +59,23 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="发布状态">
-                    <el-select placeholder="" v-model="defaultselectVal" size="small">
+                    <el-select placeholder="" v-model="defaultselectVal2" size="small">
                         <el-option 
                         :label="item.label" 
                         :value="item.value"
                         :key="index"
-                        v-for="(item, index) in defaultdata"></el-option>
+                        v-for="(item, index) in defaultdata2"></el-option>
                     </el-select>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="领取方式">
-                    <el-select placeholder="" v-model="defaultselectVal" size="small">
+                    <el-select placeholder="" v-model="defaultselectVal1" size="small">
                         <el-option 
                         :label="item.label" 
                         :value="item.value"
                         :key="index"
-                        v-for="(item, index) in defaultdata"></el-option>
+                        v-for="(item, index) in defaultdata1"></el-option>
                     </el-select>
                 </el-form-item>
             </div></el-col>
@@ -130,23 +130,42 @@
       return {
         defaultValue: '',
         defaultselectVal: '',
+        defaultselectVal1: '',
+        defaultselectVal2: '',
+        defaultselectVal3: '',
+        defaultselectVal4: '',
         faxingValues: '',
         teacher: [
-          {value: '选项1', label: '全部'},
-          {value: '选项2', label: '使用中'},
-          {value: '选项3', label: '已过期'}
+          {value: '选项1', label: '课程'},
+          {value: '选项2', label: '留学'},
+          {value: '选项3', label: '出版物'}
         ],
         defaultdata: [
           {value: '选项1', label: 'PC'},
           {value: '选项2', label: 'APP'},
           {value: '选项3', label: 'WAP'}
         ],
+        defaultsuo: [
+          {value: '选项1', label: '全部'},
+          {value: '选项2', label: '留学'},
+          {value: '选项3', label: '语培'}
+        ],
         faxingVal: [
           {value: '选项1', label: '全部'},
           {value: '选项2', label: '用户'},
           {value: '选项3', label: '平台'}
         ],
-
+        defaultdata1: [
+          {value: '选项1', label: '全部'},
+          {value: '选项2', label: '购买前领取'},
+          {value: '选项3', label: '购买后领取'}
+        ],
+        defaultdata2: [
+          {value: '选项1', label: '已发布'},
+          {value: '选项2', label: '审核通过'},
+          {value: '选项3', label: '不通过'},
+          {value: '选项4', label: '全部'}
+        ],
         data:[
           {teacherid: '001'}
         ]

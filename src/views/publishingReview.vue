@@ -14,11 +14,12 @@
               </el-col>
               <el-col :span="6">
                   <el-form-item label="分类">
-                      <el-select placeholder="课程分类">
-                          <el-option label="全部"  value="shanghai"></el-option>
-                          <el-option label="托福" value="beijing"></el-option>
-                          <el-option label="GRE" value="beijing"></el-option>
-                        </el-select>
+                    <el-select v-model="course">
+                            <el-option 
+                            :label="item.label"  
+                            :value="item.value"
+                            v-for="(item, index) in coursedata"></el-option>
+                    </el-select>
                   </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -28,11 +29,11 @@
               </el-col>
               <el-col :span="6">
                   <el-form-item label="审核状态">
-                      <el-select placeholder="审核状态">
-                          <el-option label="全部"  value="shanghai"></el-option>
-                          <el-option label="通过" value="beijing"></el-option>
-                          <el-option label="未通过" value="beijing"></el-option>
-                          <el-option label="已待审核" value="beijing"></el-option>
+                      <el-select v-model="shenhe">
+                          <el-option 
+                          :label="item.label"  
+                          :value="item.value"
+                          v-for="(item, index) in shenhedata"></el-option>
                         </el-select>
                   </el-form-item>
               </el-col>
@@ -43,16 +44,16 @@
         </el-row>
         <!-- 表格 -->
         <el-table :data="tableData3" border>
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="date" label="出版物ID" width="120"></el-table-column>
-            <el-table-column prop="name" label="出版物名称" width="120"></el-table-column>
-            <el-table-column prop="name" label="出版物介绍" width="120"></el-table-column>
-            <el-table-column prop="name" label="讲师名称" width="120"></el-table-column>
-            <el-table-column prop="name" label="频道" width="120"></el-table-column>
-            <el-table-column prop="name" label="类型" width="120"></el-table-column>
-            <el-table-column prop="name" label="价格" width="120"></el-table-column>
-            <el-table-column prop="name" label="创建时间" width="120"></el-table-column>
-            <el-table-column prop="name" label="审核状态" width="120"></el-table-column>
+            <el-table-column type="selection" width="40" align="center"></el-table-column>
+            <el-table-column prop="date" label="出版物ID" width="100" align="center"></el-table-column>
+            <el-table-column prop="name" label="出版物名称" width="120" align="center"></el-table-column>
+            <el-table-column prop="name" label="出版物介绍" width="120" align="center"></el-table-column>
+            <el-table-column prop="name" label="讲师名称" width="120" align="center"></el-table-column>
+            <el-table-column prop="name" label="频道" width="120" align="center"></el-table-column>
+            <el-table-column prop="name" label="类型" width="120" align="center"></el-table-column>
+            <el-table-column prop="name" label="价格" width="120" align="center"></el-table-column>
+            <el-table-column prop="name" label="创建时间" width="120" align="center"></el-table-column>
+            <el-table-column prop="name" label="审核状态" width="120" align="center"></el-table-column>
             <el-table-column prop="address" label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-button size="small" type="danger">通过</el-button>
@@ -75,12 +76,25 @@ export default {
     return {
       value: '',
       tableData3: [
-        {date: '20180502',name: '张三', address: '查看'},
-        {date: '20160502',name: '张三', address: '查看'},
-        {date: '20160502',name: '张三', address: '查看'},
-        {date: '20160502',name: '张三', address: '查看'},
-        {date: '20160502',name: '张三', address: '查看'},
-        {date: '20160502',name: '张三', address: '查看'}
+        {date: '001',name: '张三', address: '查看'},
+        {date: '001',name: '张三', address: '查看'},
+        {date: '001',name: '张三', address: '查看'},
+        {date: '001',name: '张三', address: '查看'},
+        {date: '001',name: '张三', address: '查看'},
+        {date: '001',name: '张三', address: '查看'}
+      ],
+      shenhe: '',
+      shenhedata: [
+          {label: '全部', value: '选项1'},
+          {label: '通过', value: '选项2'},
+          {label: '未通过', value: '选项3'},
+          {label: '已待审核', value: '选项4'}
+      ],
+      course: '',
+      coursedata: [
+          {label: '全部', value: '选项1'},
+          {label: '托福', value: '选项2'},
+          {label: 'GRE', value: '选项3'}
       ]
     }
   }

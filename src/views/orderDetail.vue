@@ -3,7 +3,7 @@
     <div class="order-details-item">
       <h3>订单基本信息</h3>
       <el-row :gutter="20">
-          <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
+          <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="订单编号">
                   <el-input type="text" :disabled="true"></el-input>
@@ -89,7 +89,7 @@
     </div>
     <div class="order-details-item order-details-item_2">
         <h3>收货人信息</h3>
-        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
           <el-form-item label="收货人姓名">
             <el-input type="text" :disabled="true"></el-input>
           </el-form-item>
@@ -104,7 +104,7 @@
     </div>
     <div class="order-details-item">
         <h3>发票信息</h3>
-        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="mini">
+        <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="是否要求发票">
               <el-input type="text" :disabled="true"></el-input>
             </el-form-item>
@@ -117,7 +117,7 @@
         <h3>优惠与积分</h3>
           <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <el-form-item label="是否参与优惠">
-                  <el-input type="text" :disabled="true" size="mini"></el-input>
+                  <el-input type="text" :disabled="true" size="small"></el-input>
               </el-form-item>
               <el-form-item label="优惠内容">
                   <el-table :data="priceData" border size="medium">
@@ -129,7 +129,7 @@
               </el-form-item>
               <br>
               <el-form-item label="使用积分">
-                  <el-input type="text" :disabled="true" size="mini"></el-input>
+                  <el-input type="text" :disabled="true" size="small"></el-input>
               </el-form-item>
           </el-form>
     </div>

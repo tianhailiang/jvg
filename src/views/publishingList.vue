@@ -14,19 +14,21 @@
             </el-col>
             <el-col :span="6">
                 <el-form-item label="课程分类">
-                    <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="托福" value="beijing"></el-option>
-                        <el-option label="GRE" value="beijing"></el-option>
+                    <el-select v-model="course">
+                        <el-option 
+                        :label="item.label"  
+                        :value="item.value"
+                        v-for="(item, index) in coursedata"></el-option>
                       </el-select>
                 </el-form-item>
             </el-col>
             <el-col :span="6">
                 <el-form-item label="类型">
-                    <el-select placeholder="类型">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="实体" value="beijing"></el-option>
-                        <el-option label="数字" value="beijing"></el-option>
+                    <el-select v-model="typesval">
+                        <el-option 
+                        :label="items.label"
+                        :value="items.value"
+                        v-for="(items, index) in types"></el-option>
                       </el-select>
                 </el-form-item>
             </el-col>
@@ -37,11 +39,11 @@
             </el-col>
             <el-col :span="6">
                 <el-form-item label="销售状态">
-                    <el-select placeholder="销售状态">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="已上架" value="beijing"></el-option>
-                        <el-option label="已下架" value="beijing"></el-option>
-                        <el-option label="冻结" value="beijing"></el-option>
+                    <el-select v-model="xsvalue">
+                        <el-option 
+                        :label="items.label"
+                        :value="items.value"
+                        v-for="(items, index) in xsdata"></el-option>
                       </el-select>
                 </el-form-item>
             </el-col>
@@ -126,7 +128,26 @@ export default {
         {date: '001', name: '赵六', type: '托福', address: '冻结', active: '冻结'},
         {date: '001', name: '王小虎', type: '托福', address: '冻结', active: '冻结'}
       ],
-      dialogVisible: false
+      dialogVisible: false,
+      xsvalue: '',
+      typesval: '',
+      course: '',
+      xsdata: [
+          {label: '全部', value: '选项1'},
+          {label: '已上架', value: '选项2'},
+          {label: '已下架', value: '选项3'},
+          {label: '冻结', value: '选项4'}
+      ],
+      types: [
+          {label: '全部', value: '选项1'},
+          {label: '实体', value: '选项2'},
+          {label: '数字', value: '选项3'}
+      ],
+      coursedata: [
+          {label: '全部', value: '选项1'},
+          {label: '托福', value: '选项2'},
+          {label: 'GRE', value: '选项3'}
+      ]
     }
   },
   methods: {

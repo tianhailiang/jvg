@@ -125,17 +125,17 @@
                     </el-form>
                   </el-row>
             <!--  -->
-            <el-table :data="tableData4">
+            <el-table :data="tableData4" border>
                 <el-table-column type="selection" width="45"></el-table-column>
-                <el-table-column prop="date" label="评论ID" width="105"></el-table-column>
-                <el-table-column prop="name" label="评论内容" width="105"></el-table-column>
-                <el-table-column prop="name" label="评论人" width="100"></el-table-column>
-                <el-table-column prop="name" label="评论时间" width="100"></el-table-column>
-                <el-table-column prop="name" label="评论渠道" width="100"></el-table-column>
-                <el-table-column prop="name" label="回复内容" width="105"></el-table-column>
-                <el-table-column prop="name" label="回复时间" width="105"></el-table-column>
-                <el-table-column prop="name" label="回复渠道" width="105"></el-table-column>
-                <el-table-column prop="name" label="评论类型" width="105"></el-table-column>
+                <el-table-column prop="date" label="评论ID" width="105" align="center"></el-table-column>
+                <el-table-column prop="name" label="评论内容" width="105" align="center"></el-table-column>
+                <el-table-column prop="name" label="评论人" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="评论时间" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="评论渠道" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="回复内容" width="105" align="center"></el-table-column>
+                <el-table-column prop="name" label="回复时间" width="105" align="center"></el-table-column>
+                <el-table-column prop="name" label="回复渠道" width="105" align="center"></el-table-column>
+                <el-table-column prop="name" label="评论类型" width="105" align="center"></el-table-column>
                 <el-table-column prop="address" label="操作" show-overflow-tooltip>
                     <template slot-scope="scope">
                     <el-button size="small" type="danger">删除</el-button>

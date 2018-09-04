@@ -1,6 +1,6 @@
 <template>
-  <section class="publing-detail" style="overflow:hidden;max-width:1200px;">
-    <el-form ref="form" :model="form" label-width="80px" size="small">
+  <section class="publing-detail" style="overflow:hidden">
+    <el-form :model="form" label-width="80px" size="small">
         <el-row :gutter="20">
             <el-col :span="6">
                 <el-form-item label="ID">
@@ -14,10 +14,11 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="分类">
-                  <el-select placeholder="全部">
-                      <el-option label="全部"  value="shanghai"></el-option>
-                      <el-option label="托福" value="beijing"></el-option>
-                      <el-option label="GRE" value="beijing"></el-option>
+                  <el-select v-model="typeval">
+                      <el-option 
+                      :label="items.label"
+                      :value="items.value"
+                      v-for="(items, index) in typeList"></el-option>
                   </el-select>
               </el-form-item>
           </el-col>
@@ -26,10 +27,11 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <el-form-item label="类型">
-                    <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="语法" value="beijing"></el-option>
-                        <el-option label="词汇" value="beijing"></el-option>
+                    <el-select v-model="types">
+                        <el-option
+                        :label="items.label"
+                        :value="items.value"
+                        v-for="(items, index) in typeData"></el-option>
                     </el-select>
                   </el-form-item>
             </el-col>
@@ -108,39 +110,25 @@
         <!--  -->
         <el-form-item label="统计">
             <el-table border style="width: 100%" :data=dataGroup>
-            <el-table-column
-              prop="date"
-              label="浏览数"
-              width="180">
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="转发数"
-              width="180">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="分享数">
-            </el-table-column>
-            <el-table-column
-            prop="address"
-            label="收藏数">
-          </el-table-column>
+            <el-table-column prop="date" label="浏览数" width="180" align="center"></el-table-column>
+            <el-table-column prop="name" label="转发数" width="180" align="center"></el-table-column>
+            <el-table-column prop="address" label="分享数" align="center"></el-table-column>
+            <el-table-column prop="address" label="收藏数" align="center"></el-table-column>
           <el-table-column
           prop="address"
-          label="评论数">
+          label="评论数" align="center">
         </el-table-column>
         <el-table-column
         prop="address"
-        label="点赞数">
+        label="点赞数" align="center">
       </el-table-column>
       <el-table-column
       prop="address"
-      label="最近在读">
+      label="最近在读" align="center">
     </el-table-column>
     <el-table-column
     prop="address"
-    label="好评度">
+    label="好评度" align="center">
   </el-table-column>
           </el-table>
         </el-form-item>
@@ -162,11 +150,23 @@ export default {
         desc: ''
       },
       radio2: 3,
+      types: '',
+      typeval: '',
       dataGroup: [
         {date: '101', name: '50', type: '4500', address: '40%', active: '80%'},
         {date: '101', name: '50', type: '4500', address: '40%', active: '80%'},
         {date: '101', name: '50', type: '4500', address: '40%', active: '80%'},
         {date: '101', name: '50', type: '4500', address: '40%', active: '80%'}
+      ],
+      typeData: [
+        {label: '全部', value: '选项1'},
+        {label: '词汇', value: '选项2'},
+        {label: '语法', value: '选项3'}
+      ],
+      typeList: [
+        {label: '全部', value: '选项1'},
+        {label: '托福', value: '选项2'},
+        {label: 'GRE', value: '选项3'}
       ]
     }
   },

@@ -1,5 +1,6 @@
 <template>
-  <el-menu class="nav_left" router :default-active="activeIndex">
+  <el-menu class="nav_left" router 
+  :default-active="activeIndex">
     <el-menu-item index="/main">首页</el-menu-item>
     <el-submenu index="1">
       <template slot="title">权限角色管理</template>
@@ -211,6 +212,5 @@ export default {
   border: 1px solid #eee;
   padding: 10px;
   float: left;
-  margin-left: 20px;
 }
 </style>
