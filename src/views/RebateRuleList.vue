@@ -123,13 +123,10 @@
       layout="prev, pager, next, jumper"
       :total="1000" style="text-align:center;margin-top:20px">
     </el-pagination>
-    <!-- 分成新建弹框 -->
-    <DivideBuildDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
   </div>
 </template>
 
 <script>
-import DivideBuildDialog from '@/components/DivideBuildDialog.vue'
 export default {
   name: 'divdeIntoRulesList',
   data () {
@@ -230,23 +227,18 @@ export default {
         classify: '注册'
       }],
       multipleSelection: [],
-      currentPage: 1,
-      dialogFormVisible: false,
-      dialogForm: ''
+      currentPage: 1
     }
-  },
-  components: {
-    DivideBuildDialog
   },
   methods: {
     onSubmit () {
 
     },
     createRecommend () {
-      this.dialogFormVisible = true
+      this.$router.push({name: 'rebateRegister'})
     },
-    editor (index, row) {
-      this.$router.push({name: 'recommendedBitEditor', params: {id: row.id}})
+    handleStop (index, row) {
+      
     },
     handleDelete (index, row) {
 

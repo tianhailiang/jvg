@@ -208,6 +208,9 @@ export default {
     if(this.activeIndex.includes('operational')){
       this.activeIndex = '/operational' /* 运营活动列表和运营活动详情匹配一个路由 */
     }
+    if(this.activeIndex.includes('/rebateRegister')){
+      this.activeIndex = '/rebateRule' /* 返利规则列表和返利新建注册匹配一个路由 */
+    }
   }
 }
 </script>

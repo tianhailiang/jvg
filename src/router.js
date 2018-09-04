@@ -439,9 +439,14 @@ export default new Router({
           component: () => import('./views/DivideIntoRulesList.vue')
         },
         {
-          path: '/rebateRule', /* 运营管理模块 分成规则列表 */
+          path: '/rebateRule', /* 运营管理模块 返利规则列表 */
           name: 'rebateRule',
           component: () => import('./views/RebateRuleList.vue')
+        },
+        {
+          path: '/rebateRegister', /* 运营管理模块 返利新建注册 */
+          name: 'rebateRegister',
+          component: () => import('./views/RebateRegister.vue')
         },
         {
           path: '/operational', /* 运营活动管理模块 运营活动列表 */
