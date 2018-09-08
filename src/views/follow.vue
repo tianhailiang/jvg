@@ -34,7 +34,7 @@
                 <el-table-column type="index" label="NO" align="center"></el-table-column>
                 <el-table-column prop="coverFollowId" label="被关注id" align="center"></el-table-column>
                 <el-table-column prop="coverFollowName" label="被关注名称" align="center"></el-table-column>
-                <el-table-column prop="category" label="类型" align="center"></el-table-column>
+                <el-table-column prop="category" label="类别" align="center"></el-table-column>
                 <el-table-column prop="followId" label="关注id" align="center"></el-table-column>
                 <el-table-column prop="followName" label="关注名称" align="center"></el-table-column>
                 <el-table-column prop="followTime" label="注册时间" align="center"></el-table-column>

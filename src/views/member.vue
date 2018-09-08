@@ -38,7 +38,7 @@
             <el-col :span="4">
               <el-button size="small" type="primary"  @click="onDisableClik()">新建成员</el-button>
               <el-button size="small" type="primary">查询</el-button>
-              <el-button size="small" type="primary" @click="onDelClick">清除</el-button>
+              <el-button size="small" type="primary" @click="onDelClick2()">清除</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -143,6 +143,14 @@
                 <el-button type="primary" @click="isDialogShow2 = false">确 定</el-button>
             </span>
         </el-dialog>
+        <!-- 清除窗口 -->
+        <el-dialog v-model="isDialogShow3" size="small" :visible.sync="isDialogShow3">
+            <p style="font-size: 30px;">请确认是否继续清除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow3 = false">取 消</el-button>
+                <el-button type="primary" @click="isDialogShow3 = false">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -153,6 +161,7 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
+      isDialogShow3: false,
       tableData: [{
         phone: '15200000001',
         collegesId: '15242',
@@ -212,6 +221,9 @@ export default {
     },
     onDelClick1 () {
       this.isDialogShow1 = true
+    },
+    onDelClick2 () {
+      this.isDialogShow3 = true
     }
   }
 }

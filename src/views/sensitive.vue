@@ -43,9 +43,9 @@
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
-            <el-col :span="3" style="float: right;">
+            <!-- <el-col :span="3" style="float: right;">
                 <el-button size="small" type="primary">批量删除</el-button>
-            </el-col>
+            </el-col> -->
         </el-col>
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
