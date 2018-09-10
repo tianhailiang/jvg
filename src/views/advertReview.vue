@@ -1,5 +1,5 @@
 <template>
-  <section class="advert-review-content" style="overflow:hidden;max-width:1200px;">
+  <section class="advert-review-content" style="overflow:hidden;margin-left:260px;">
     <el-row :gutter="20">
       <el-form class="demo-form-inline" label-width="80px" size="small">
       <el-col :span="6">
@@ -106,9 +106,10 @@
       <el-table-column prop="name" label="审核状态" width="100" align="center"></el-table-column>
       <el-table-column prop="name" label="销售方" width="110" align="center"></el-table-column>
       <el-table-column prop="name" label="购买方" width="110" align="center"></el-table-column>
-      <el-table-column prop="address" label="操作" show-overflow-tooltip>
+      <el-table-column prop="address" align="center" label="操作" show-overflow-tooltip width="150">
           <template slot-scope="scope">
               <el-button size="small" type="danger" @click="dialogVisible = true">不通过</el-button>
+              <el-button size="small" type="danger">通过</el-button>
             </template>
       </el-table-column>
    </el-table>

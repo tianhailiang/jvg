@@ -1,12 +1,12 @@
 <template>
-  <section class="advert-detail-content" style="overflow:hidden;">
+  <section class="advert-detail-content" style="overflow:hidden;margin-left:260px;">
     <section class="advert-detail_head">
       <h3 style="margin:10px 0; text-indent:20px">广告位信息</h3>
       <div class="detail_head">
           <el-row :gutter="20">
               <el-form class="demo-form-inline" label-width="80px" size="small">
               <el-col :span="6">
-                  <div class="grid-content bg-purple" style="margin-left:50px;">
+                  <div class="grid-content bg-purple">
                     <el-button size="small" type="primary" @click="dialogFormVisible = true">选择广告位</el-button>
                   </div>
                 </el-col>
@@ -19,7 +19,7 @@
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content bg_purple">
-                      <el-form-item label="创建人名称">
+                      <el-form-item label="创建人名称" class="bg_purple_name">
                           <el-input placeholder=""></el-input>
                         </el-form-item>
                     </div>
@@ -121,7 +121,7 @@
       <el-col :span="14">
           <section class="advert-detail_left">
             <h3 style="margin-bottom:20px;">广告设置</h3>
-            <el-form :model="form" label-width="80px" size="small">
+            <el-form label-width="80px" size="small">
                 <el-form-item label="轮播顺序">
                   <el-input placeholder="1"></el-input>
                 </el-form-item>
@@ -138,7 +138,7 @@
                 </el-form-item>
                 <el-form-item label="">
                       <el-input placeholder="图片"></el-input>
-                      <el-upload class="upload-demo">
+                      <el-upload class="upload-demo" action="">
                         <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
                       </el-upload>
                 </el-form-item>
@@ -177,7 +177,7 @@
       </div>
   <!-- 选择广告位弹窗 -->
   <el-dialog title="请选择以下广告位" :visible.sync="dialogFormVisible" class="modal">
-        <el-form :model="form" size="small">
+        <el-form size="small">
         <el-row :gutter="20">
             <el-col :span="6" class="radio-goods"><div class="grid-content bg-purple">
                     <el-form-item label="ID">
@@ -290,27 +290,11 @@ export default {
 }
 </script>
 <style>
-.detail_head{
-  border-bottom: solid 1px #ccc;
-  margin-bottom: 20px;
-}
-.advert-detail_head .bg_purple .el-input--mini{
-  position: absolute;
-}
-.advert-detail_head .bg_purple .el-form-item__label,.advert_purple .el-form-item__label{
-  width:auto !important;
-}
-.advert-detail-content .money-input{
-  float: left;
-}
-.advert-detail-content .btn-group{
-  text-align: right;
-  height: 90px;
-  margin-right:50px;
-}
-.model-seacher,.row-container{
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-}
+.detail_head{margin-bottom:20px;border-bottom:solid 1px #ccc;}
+.advert-detail_head .bg_purple .el-input--mini{position:absolute;}
+.advert-detail_head .bg_purple .el-form-item__label,.advert_purple .el-form-item__label{width:auto!important;}
+.advert-detail-content .money-input{float:left;}
+.advert-detail-content .btn-group{margin-right:50px;height:90px;text-align:right;}
+.model-seacher,.row-container{display:flex;margin-bottom:20px;justify-content:flex-end;}
+.bg_purple .bg_purple_name .el-input--small{position:absolute;}
 </style>

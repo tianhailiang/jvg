@@ -1,5 +1,5 @@
 <template>
-    <section class="advert-detail-content" style="overflow:hidden;max-width:1200px;">
+    <section class="advert-detail-content" style="overflow:hidden;">
       <section class="advert-detail_head">
         <h3 style="margin:10px 0; text-indent:20px">广告位信息</h3>
         <div class="detail_head">
@@ -114,7 +114,7 @@
         <el-col :span="14">
             <section class="advert-detail_left">
               <h3 style="margin-bottom:20px;">广告设置</h3>
-              <el-form :model="form" label-width="80px" size="small">
+              <el-form label-width="80px" size="small">
                   <el-form-item label="列表顺序">
                     <el-input placeholder="1"></el-input>
                   </el-form-item>
@@ -131,7 +131,7 @@
                   </el-form-item>
                   <el-form-item label="">
                         <el-input placeholder="图片"></el-input>
-                        <el-upload class="upload-demo">
+                        <el-upload class="upload-demo" action="">
                           <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
                         </el-upload>
                   </el-form-item>

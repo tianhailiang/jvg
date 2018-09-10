@@ -5,7 +5,7 @@
       <el-col :span="6">
         <div class="grid-content bg-purple">
             <el-form-item label="ID">
-                <el-input placeholder="" ></el-input>
+                <el-input placeholder=""></el-input>
             </el-form-item>
         </div>
       </el-col>
@@ -17,12 +17,8 @@
       <el-col :span="8"><div class="grid-content bg-purple">
           <el-form-item label="位置类型">
               <el-select placeholder="全部" v-model="values4">
-                  <!-- <el-option label="全部"  value="shanghai"></el-option>
-                  <el-option label="固定" value="beijing"></el-option>
-                  <el-option label="列表" value="beijing"></el-option>
-                  <el-option label="栏目" value="beijing"></el-option> -->
                   <el-option 
-                  v-for="items in options4"
+                  v-for="items in areatype"
                   :key="items.value"
                   :label="items.label"
                   :value="items.value"></el-option>
@@ -31,9 +27,9 @@
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="广告类型">
-              <el-select placeholder="全部" v-model="values4">
+              <el-select placeholder="全部" v-model="values3">
                   <el-option 
-                  v-for="items in options4"
+                  v-for="items in adverttypes"
                   :key="items.value"
                   :label="items.label"
                   :value="items.value"></el-option>
@@ -42,17 +38,17 @@
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="广告状态">
-              <el-select v-model="values4">
+              <el-select v-model="advertval">
                   <el-option
-                  :label="items.label"  
+                  :label="items.label"
                   :value="items.value"
-                  :key="index" v-for="(items, index) in options"></el-option>
+                  :key="index" v-for="(items, index) in advertoption"></el-option>
               </el-select>
           </el-form-item>
       </div></el-col>
       <el-col :span="6"><div class="grid-content bg-purple">
           <el-form-item label="所有权">
-              <el-select placeholder="全部" v-model="values4">
+              <el-select placeholder="全部" v-model="values2">
                   <el-option 
                   v-for="items in options4"
                   :key="items.value"
@@ -68,7 +64,7 @@
         <el-form class="demo-form-inline" label-width="80px" size="small">
         <el-col :span="6"><div class="grid-content bg-purple">
             <el-form-item label="渠道">
-                <el-select placeholder="全部" v-model="values3">
+                <el-select placeholder="全部" v-model="values1">
                     <el-option
                     v-for="items in options3"
                     :key="items.value"
@@ -91,7 +87,7 @@
         </div></el-col>
         <el-col :span="6"><div class="grid-content bg-purple">
             <el-form-item label="广告位模板">
-                <el-select placeholder="全部" v-model="value">
+                <el-select placeholder="全部" v-model="value5">
                     <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -112,16 +108,16 @@
       </div>
       <el-table :data="tableData3" style="width: 100%" border>
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="num" label="广告位ID" width="120"></el-table-column>
-          <el-table-column prop="name1" label="广告位名称" width="120"></el-table-column>
-          <el-table-column prop="name2" label="广告位模板" width="120"></el-table-column>
-          <el-table-column prop="name3" label="广告位类型" width="120"></el-table-column>
-          <el-table-column prop="name4" label="广告位状态" width="120"></el-table-column>
-          <el-table-column prop="name5" label="所有权" width="120"></el-table-column>
-          <el-table-column prop="name6" label="位置类型" width="120"></el-table-column>
-          <el-table-column prop="name7" label="创建时间" width="120"></el-table-column>
-          <el-table-column prop="name8" label="渠道" width="120"></el-table-column>
-          <el-table-column prop="name9" label="业务频道" width="120"></el-table-column>
+          <el-table-column prop="num" label="广告位ID" width="120" align="center"></el-table-column>
+          <el-table-column prop="name1" label="广告位名称" width="120" align="center"></el-table-column>
+          <el-table-column prop="name2" label="广告位模板" width="120" align="center"></el-table-column>
+          <el-table-column prop="name3" label="广告位类型" width="120" align="center"></el-table-column>
+          <el-table-column prop="name4" label="广告位状态" width="120" align="center"></el-table-column>
+          <el-table-column prop="name5" label="所有权" width="120" align="center"></el-table-column>
+          <el-table-column prop="name6" label="位置类型" width="120" align="center"></el-table-column>
+          <el-table-column prop="name7" label="创建时间" width="120" align="center"></el-table-column>
+          <el-table-column prop="name8" label="渠道" width="120" align="center"></el-table-column>
+          <el-table-column prop="name9" label="业务频道" width="120" align="center"></el-table-column>
           <el-table-column prop="address" label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
                   <el-button size="mini" type="danger" @click="dialogVisible = true">冻结</el-button>
@@ -180,6 +176,7 @@
                             :key="index" v-for="(item, index) in totaleval"></el-option>
                         </el-select>
                     </el-form-item>
+                
                 </div></el-col>
                 <el-col :span="8"><div class="grid-content bg-purple">
                         <div class="grid-content bg-purple">
@@ -261,6 +258,17 @@ export default {
         {value: '选项3', label: '未使用'},
         {value: '选项4', label: '全部'}
       ],
+      options: [
+        {value: '选项1', label: '问答详情'},
+        {value: '选项2', label: '留学首页'},
+        {value: '选项3', label: '全部'}
+      ],
+      advertoption: [
+      {value: '选项1', label: '使用中'},
+      {value: '选项2', label: '冻结'},
+      {value: '选项3', label: '未使用'},
+      {value: '选项4', label: '全部'}
+      ],
       options2: [
         {value: '选项1', label: '全部'},
         {value: '选项2', label: '移民'},
@@ -269,16 +277,15 @@ export default {
         {value: '选项5', label: '留学'}
       ],
       options3: [
-        {value: '选项1', label: '移民'},
-        {value: '选项2', label: '移民'},
-        {value: '选项3', label: '移民'},
-        {value: '选项4', label: '移民'}
+        {value: '选项1', label: '全部'},
+        {value: '选项2', label: 'PC'},
+        {value: '选项3', label: 'APP'},
+        {value: '选项4', label: 'WAP'}
       ],
       options4: [
-        {value: '选项1', label: '移民'},
-        {value: '选项2', label: '移民'},
-        {value: '选项3', label: '移民'},
-        {value: '选项4', label: '移民'}
+        {value: '选项1', label: '全部'},
+        {value: '选项2', label: '用户'},
+        {value: '选项3', label: '平台'}
       ],
       options5: [
         {label: "全部", value: '选项4'},
@@ -291,6 +298,17 @@ export default {
         {label: '用户', value:'选项2'},
         {label: '平台', value:'选项3'}
       ],
+      adverttypes: [
+        {label: '轮播', value:'选项1'},
+        {label: '单页', value:'选项2'},
+        {label: '全部', value:'选项3'}
+      ],
+      areatype: [
+        {label: '列表', value:'选项1'},
+        {label: '固定', value:'选项2'},
+        {label: '全部', value:'选项3'},
+        {label: '类目', value:'选项4'}
+      ],
       advertdefalutVal: '',
       tableData3: [
         {num: 10000001, name1: '留学首页轮播', name2: '留学首页', name3: '轮播', name4: '使用中', name5: '平台', name6: '固定', name7: '2018-08-12', name8: '00:00:00', name9: 'PC'}],
@@ -298,9 +316,13 @@ export default {
       values: '',
       values3: '',
       values4: '',
+      values2: '',
+      values1: '',
+      value5: '',
       dialogVisible: false,
       isShow: false,
       defalutVal: '',
+      advertval: '',
       ywvalue: '',
       syvalue: '',
       options6: [

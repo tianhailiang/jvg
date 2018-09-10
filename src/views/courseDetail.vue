@@ -1,5 +1,5 @@
 <template>
-  <section class="course-detail" style="overflow:hidden;max-width:1200px;">
+  <section class="course-detail" style="overflow:hidden;">
     <el-form ref="form" :model="form" label-width="80px" size="small">
         <el-row :gutter="20">
             <el-col :span="6">
@@ -101,7 +101,9 @@
         <el-form-item label="上传课件">
             <div class="upload-course">
                 <el-input type="text" width="300"></el-input>
-                <el-upload><el-button size="small" type="primary">点击上传</el-button></el-upload>
+                <el-upload action="">
+                    <el-button size="small" type="primary" class="handle-load">点击上传</el-button>
+                </el-upload>
             </div>
         </el-form-item>
         <el-row :gutter="20">
@@ -129,12 +131,12 @@
                     <el-form-item>
                         <el-input type="text"></el-input>
                         <div class="upload-btn">
-                          <el-upload><el-button size="small" type="primary">点击上传</el-button></el-upload>
+                          <el-upload action=""><el-button size="small" type="primary">点击上传</el-button></el-upload>
                         </div>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row :gutter="20">
+            <el-row :gutter="20" class="">
                 <el-col :span="5">
                     <el-form-item label="第二节">
                       <el-input type="text"></el-input>
@@ -144,7 +146,7 @@
                     <el-form-item>
                         <el-input type="text"></el-input>
                         <div class="upload-btn">
-                            <el-upload>
+                            <el-upload action="">
                                 <el-button size="small" type="primary">点击上传</el-button>
                               </el-upload>
                         </div>
@@ -162,18 +164,19 @@
             </div></el-col>
             <el-col :span="8"><div class="grid-content bg-purple">
               <el-form-item label="课程状态">
-                <el-select>
-                    <el-option label="已完结"  value="shanghai"></el-option>
-                    <el-option label="未完结" value="beijing"></el-option>
+                <el-select v-model="coursemodule">
+                    <el-option 
+                    :label="item.label"  
+                    :value="item.value" v-for="(item, index) in courseDate"></el-option>
                 </el-select>
               </el-form-item>
             </div></el-col>
         </el-row>
         <el-form-item label="所属频道">
-            <el-select placeholder="所属频道">
-                <el-option label="全部"  value="全部"></el-option>
-                <el-option label="留学" value="留学"></el-option>
-                <el-option label="语培" value="语培"></el-option>
+            <el-select v-model="suoshu">
+                <el-option 
+                :label="item.label"  
+                :value="item.value" v-for="(item, index) in sshuData"></el-option>
             </el-select>
         </el-form-item>
         <!-- 按钮集合 -->
@@ -254,7 +257,7 @@
 </template>
 <script>
 export default {
-  name: 'courseDetail.vue',
+  name: 'courseDetail',
   data () {
     return {
       form: {
@@ -274,6 +277,7 @@ export default {
       value: '',
       courseval: '',
       coursetagval: '',
+      suoshu: '',
       course: [
         {value: '选项1', label: '直播'},
         {value: '选项2', label: '录播'},
@@ -283,6 +287,16 @@ export default {
         {value: '选项1', label: '词汇'},
         {value: '选项2', label: '语法'},
         {value: '选项3', label: '全部'}
+      ],
+      sshuData: [
+        {value: '选项1', label: '留学'},
+        {value: '选项2', label: '语培'},
+        {value: '选项3', label: '全部'}
+      ],
+      coursemodule: '',
+      courseDate: [
+        {value: '选项1', label: '已完结'},
+        {value: '选项2', label: '未完结'},
       ]
     }
   },
@@ -293,7 +307,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .center-box{
     display: flex;
     justify-content: center;
@@ -322,9 +336,10 @@ export default {
     position:relative;
     max-width: 480px;
   }
-  .upload-course .el-upload{
-    position:absolute;
-    top: 0;
-    right: 0;
+  .handle-load{
+      display: inline-block;
+      position: absolute;
+      top:0;
+      right: -95px;
   }
 </style>

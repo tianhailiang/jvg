@@ -1,5 +1,5 @@
 <template>
-    <section class="advert-detail-content" style="overflow:hidden;max-width:1200px;">
+    <section class="advert-detail-content" style="overflow:hidden;margin-left:260px;">
       <section class="advert-detail_head">
         <h3 style="margin:10px 0; text-indent:20px">广告位信息</h3>
         <div class="detail_head">
@@ -121,12 +121,14 @@
         <el-col :span="14">
             <section class="advert-detail_left">
               <h3 style="margin-bottom:20px;">广告设置</h3>
-              <el-form :model="form" label-width="80px" size="small">
+              <el-form label-width="80px" size="small">
                   <el-form-item label="类目名称">
                       <el-col :span="12" style="padding-left:0;">
-                          <el-select>
-                              <el-option label="托福"  value="shanghai"></el-option>
-                              <el-option label="GRE" value="beijing"></el-option>
+                          <el-select v-model="typeval">
+                              <el-option 
+                              :label="item.label"  
+                              :value="item.value"
+                              v-for="(item, index) in typeName"></el-option>
                           </el-select>
                       </el-col>
                       <el-col :span="12">
@@ -148,7 +150,7 @@
                   </el-form-item>
                   <el-form-item label="">
                         <el-input placeholder="图片"></el-input>
-                        <el-upload class="upload-demo">
+                        <el-upload class="upload-demo" action="">
                           <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
                         </el-upload>
                   </el-form-item>
@@ -189,7 +191,16 @@
   </template>
   <script>
   export default {
-    name: 'advertDetailPlatform_item'
+    name: 'advertDetailPlatform_item',
+    data () {
+        return {
+            typeval: '',
+            typeName:[
+                {value: '选项1',label: '托福'},
+                {value: '选项2',label: 'GRE'}
+            ]
+        }
+    }
   }
   </script>
   <style>

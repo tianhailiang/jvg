@@ -1,7 +1,7 @@
 <template>
-  <section class="order-details" style="overflow:hidden;max-width:1200px;">
+  <section class="order-details" style="overflow:hidden;">
     <div class="order-details-item">
-      <h3>订单基本信息</h3>
+      <h3 class="order-title">订单基本信息</h3>
       <el-row :gutter="20">
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6"><div class="grid-content bg-purple">
@@ -78,13 +78,13 @@
         </el-row>
     </div>
     <div class="order-details-item" style="margin-bottom:12px;">
-        <h3>商品信息</h3>
+        <h3 >商品信息</h3>
         <el-table :data="priceData" border size="medium">
-          <el-table-column prop="date" label="商品ID" width="210"></el-table-column>
-          <el-table-column prop="name" label="商品名称" width="210"></el-table-column>
-          <el-table-column prop="price" label="单价" width="210"></el-table-column>
-          <el-table-column prop="number" label="数量" width="210"></el-table-column>
-          <el-table-column prop="totalprice" label="小计金额" width="210"></el-table-column>
+          <el-table-column prop="date" label="商品ID" width="212" align="center"></el-table-column>
+          <el-table-column prop="name" label="商品名称" width="212" align="center"></el-table-column>
+          <el-table-column prop="price" label="单价" width="215" align="center"></el-table-column>
+          <el-table-column prop="number" label="数量" width="215" align="center"></el-table-column>
+          <el-table-column prop="totalprice" label="小计金额" width="212" align="center"></el-table-column>
       </el-table>
     </div>
     <div class="order-details-item order-details-item_2">
@@ -121,10 +121,10 @@
               </el-form-item>
               <el-form-item label="优惠内容">
                   <el-table :data="priceData" border size="medium">
-                      <el-table-column prop="date" label="商品ID" width="109"></el-table-column>
-                      <el-table-column prop="name" label="商品名称" width="160"></el-table-column>
-                      <el-table-column prop="price" label="单价" width="160"></el-table-column>
-                      <el-table-column prop="number" label="数量" width="160"></el-table-column>
+                      <el-table-column prop="date" label="商品ID" width="109" align="center"></el-table-column>
+                      <el-table-column prop="name" label="商品名称" width="160" align="center"></el-table-column>
+                      <el-table-column prop="price" label="单价" width="160" align="center"></el-table-column>
+                      <el-table-column prop="number" label="数量" width="160" align="center"></el-table-column>
                   </el-table>
               </el-form-item>
               <br>
@@ -164,36 +164,11 @@ export default {
 }
 </script>
 <style>
-  .order-details-item h3{
-    margin-bottom: 12px;
-    font-weight:600;
-  }
-  .lines{
-    height:1px;
-    width:100%;
-    background:#ccc;
-    margin-top:12px;
-    margin-bottom: 12px;
-  }
-  .price-content ul{
-    margin-bottom: 15px
-  }
-  .price-content ul li{
-    text-align: right;
-    height: 28px;
-    line-height: 28px;
-    position: relative;
-  }
-  .price-content ul li:nth-of-type(4)::after{
-    display: block;
-    content: "";
-    height: 1px;
-    background: #ccc;
-    width: 30%;
-    position: absolute;
-    right: 0;
-  }
-  .pay-purple .el-form-item--mini .el-form-item__label{
-    width:85px !important;
-  }
+.lines{margin-top:12px;margin-bottom:12px;width:100%;height:1px;background:#ccc;}
+.price-content ul{margin-bottom:15px;}
+.price-content ul li{position:relative;height:28px;text-align:right;line-height:28px;}
+.price-content ul li:nth-of-type(4)::after{position:absolute;right:0;display:block;width:30%;height:1px;background:#ccc;content:"";}
+.pay-purple .el-form-item--small .el-form-item__label{padding:0 !important;}
+.order-details{padding-left:10px;}
+.order-title{ height: 30px; line-height: 30px; font-weight: 600; border-bottom: solid 1px #dcdfe6; margin-bottom: 15px;}
 </style>

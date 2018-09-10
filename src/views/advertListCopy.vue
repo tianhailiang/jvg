@@ -1,5 +1,5 @@
 <template>
-    <section class="advert-container" style="overflow:hidden;max-width:1200px;">
+    <section class="advert-container" style="overflow:hidden;margin-left:260px;">
       <el-row :gutter="20">
         <el-form class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
@@ -16,29 +16,31 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="广告类型">
-                    <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="单页" value="beijing"></el-option>
-                        <el-option label="轮播" value="beijing"></el-option>
+                    <el-select v-model="advertvalue">
+                        <el-option 
+                        :label="item.label"
+                        :value="item.value"
+                        v-for="(item, index) in advert"></el-option>
                     </el-select>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="状态">
-                    <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="使用中" value="beijing"></el-option>
-                        <el-option label="已过期" value="beijing"></el-option>
-                        <el-option label="冻结" value="beijing"></el-option>
+                    <el-select v-model="advertactive">
+                        <el-option 
+                        :label="item.label"
+                        :value="item.value"
+                        v-for="(item, index) in options"></el-option>
                     </el-select>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="所有权">
-                    <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="平台" value="beijing"></el-option>
-                        <el-option label="用户" value="beijing"></el-option>
+                    <el-select v-model="suoyou">
+                        <el-option 
+                        :label="item.label"  
+                        :value="item.value"
+                        v-for="(item, index) in suoyoudata"></el-option>
                     </el-select>
                 </el-form-item>
             </div></el-col>
@@ -58,11 +60,10 @@
             </el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="渠道">
-                        <el-select placeholder="全部">
-                            <el-option label="全部"  value="shanghai"></el-option>
-                            <el-option label="APP" value="beijing"></el-option>
-                            <el-option label="PC" value="beijing"></el-option>
-                            <el-option label="WAP" value="beijing"></el-option>
+                        <el-select v-model="qudaoval">
+                            <el-option 
+                            :label="items.label"
+                            :value="items.value" v-for="(items, index) in qudaovalData"></el-option>
                         </el-select>
                     </el-form-item>
                 </div></el-col>
@@ -82,7 +83,7 @@
                             <el-form-item label="广告位模板">
                                 <el-select placeholder="全部" v-model="value">
                                     <el-option
-                                    v-for="item in options"
+                                    v-for="item in advertsData"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -105,19 +106,19 @@
         </el-row>
         <el-table :data="tableData3" border>
             <el-table-column type="selection" width="45"></el-table-column>
-            <el-table-column prop="num" label="广告位ID" width="90"></el-table-column>
-            <el-table-column prop="name1" label="广告名称" width="90"></el-table-column>
-            <el-table-column prop="name1" label="广告位模板" width="110"></el-table-column>
-            <el-table-column prop="name1" label="广告位类型" width="110"></el-table-column>
-            <el-table-column prop="name2" label="所有权" width="90"></el-table-column>
-            <el-table-column prop="name3" label="开始时间" width="100"></el-table-column>
-            <el-table-column prop="name4" label="结束时间" width="100"></el-table-column>
-            <el-table-column prop="name5" label="渠道" width="90"></el-table-column>
-            <el-table-column prop="name6" label="业务频道" width="90"></el-table-column>
-            <el-table-column prop="name7" label="状态" width="100"></el-table-column>
-            <el-table-column prop="name8" label="购买人名称" width="100"></el-table-column>
-            <el-table-column prop="name9" label="购买人" width="80"></el-table-column>
-            <el-table-column prop="address" label="操作" show-overflow-tooltip>
+            <el-table-column prop="num" label="广告位ID" width="90" align="center"></el-table-column>
+            <el-table-column prop="name1" label="广告名称" width="90" align="center"></el-table-column>
+            <el-table-column prop="name1" label="广告位模板" width="110" align="center"></el-table-column>
+            <el-table-column prop="name1" label="广告位类型" width="110" align="center"></el-table-column>
+            <el-table-column prop="name2" label="所有权" width="90" align="center"></el-table-column>
+            <el-table-column prop="name3" label="开始时间" width="100" align="center"></el-table-column>
+            <el-table-column prop="name4" label="结束时间" width="100" align="center"></el-table-column>
+            <el-table-column prop="name5" label="渠道" width="90" align="center"></el-table-column>
+            <el-table-column prop="name6" label="业务频道" width="90" align="center"></el-table-column>
+            <el-table-column prop="name7" label="状态" width="100" align="center"></el-table-column>
+            <el-table-column prop="name8" label="购买人名称" width="100" align="center"></el-table-column>
+            <el-table-column prop="name9" label="购买人" width="80" align="center"></el-table-column>
+            <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
                 <template slot-scope="scope">
                     <el-button size="mini" type="danger">冻结</el-button>
                   </template>
@@ -147,7 +148,8 @@ export default {
       options: [
         {value: '选项1', label: '使用中'},
         {value: '选项2', label: '冻结'},
-        {value: '选项3', label: '未使用'}
+        {value: '选项3', label: '未使用'},
+        {value: '选项4', label: '全部'}
       ],
       options2: [
         {values: '选项1', label: '移民'},
@@ -155,10 +157,35 @@ export default {
         {values: '选项3', label: '院校直通'},
         {values: '选项4', label: '留学'}
       ],
+      advertvalue: '',
+      advert: [
+        {value: '选项1', label: '全部'},
+        {value: '选项2', label: '轮播'},
+        {value: '选项3', label: '单页'},
+      ],
+      suoyoudata: [
+        {value: '选项1', label: '全部'},
+        {value: '选项2', label: '平台'},
+        {value: '选项3', label: '用户'}
+      ],
       tableData3: [
         {num: 10001, name1: '留学首页', name2: '留学首页', name3: '轮播', name4: '使用中', name5: '平台', name6: '固定', name7: '2018-08-12', name8: '00:00:00', name9: 'PC'}],
       value: '',
-      values: ''
+      values: '',
+      advertactive: '',
+      suoyou: '',
+      qudaoval: '',
+      advertsData: [
+        {value: '选项1', label: '全部'},
+        {value: '选项2', label: '留学首页'},
+        {value: '选项3', label: '问答详情'}
+      ],
+      qudaovalData: [
+        {value: '选项1', label: '全部'},
+        {value: '选项2', label: 'APP'},
+        {value: '选项3', label: 'PC'},
+        {value: '选项4', label: 'WAP'}
+      ]
     }
   }
 }

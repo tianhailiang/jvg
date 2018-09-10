@@ -1,5 +1,5 @@
 <template>
-    <section class="order-list" style="overflow:hidden;max-width:1200px;">
+    <section class="order-list" style="overflow:hidden;padding-left:10px;">
       <div class="order-item">
         <el-row :gutter="20">
             <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">

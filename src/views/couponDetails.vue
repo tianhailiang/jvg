@@ -3,8 +3,8 @@
     <h3 class="coupon-title">优惠券详情</h3>
     <el-row :gutter="20">
       <el-form label-width="80px">
-          <el-col :span="6"><div class="grid-content bg-purple">
-              <el-form-item label="优惠券名">
+          <el-col :span="6" class="coupon-name"><div class="grid-content bg-purple">
+              <el-form-item label="优惠券名称">
                   <el-input type="text" size="small"></el-input>
               </el-form-item>
           </div></el-col>
@@ -20,20 +20,20 @@
           </div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="渠道">
-                  <el-select placeholder="" v-model="defaultselectVal" size="small">
+                  <el-select placeholder="" v-model="defaultselectVal2" size="small">
                       <el-option 
                       :label="item.label" 
                       :value="item.value"
                       :key="index"
-                      v-for="(item, index) in defaultdata"></el-option>
+                      v-for="(item, index) in defaultdata2"></el-option>
                   </el-select>
               </el-form-item>
           </div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="所属频道">
                   <el-select placeholder="" v-model="defaultselectVal" size="small">
-                      <el-option 
-                      :label="item.label" 
+                      <el-option
+                      :label="item.label"
                       :value="item.value"
                       :key="index"
                       v-for="(item, index) in defaultdata"></el-option>
@@ -42,12 +42,12 @@
           </div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="类型">
-                  <el-select placeholder="" v-model="defaultselectVal" size="small">
+                  <el-select placeholder="" v-model="defaultselectVal4" size="small">
                       <el-option 
-                      :label="item.label" 
+                      :label="item.label"
                       :value="item.value"
                       :key="index"
-                      v-for="(item, index) in defaultdata"></el-option>
+                      v-for="(item, index) in defaultdata4"></el-option>
                   </el-select>
               </el-form-item>
           </div></el-col>
@@ -58,12 +58,12 @@
           </div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="参与商品">
-                  <el-select placeholder="" v-model="defaultselectVal" size="small">
+                  <el-select placeholder="" v-model="defaultselectVal5" size="small">
                       <el-option 
                       :label="item.label" 
                       :value="item.value"
                       :key="index"
-                      v-for="(item, index) in defaultdata"></el-option>
+                      v-for="(item, index) in defaultdata5"></el-option>
                   </el-select>
               </el-form-item>
           </div></el-col>
@@ -145,7 +145,7 @@
         </el-form-item>
         </div>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="6" class="coupon-name">
         <el-form-item label="优惠券折扣" class="money">
           <el-input type="text" size="small" placeholder="5%"></el-input>
         </el-form-item>
@@ -184,7 +184,7 @@
         </el-col>
         <el-col :span="6">
             <el-form-item label="类型">
-                <el-select placeholder="" v-model="typesVal" size="small">
+                <el-select v-model="typesVal" size="small">
                     <el-option 
                     :label="item.label" 
                     :value="item.value"
@@ -198,7 +198,7 @@
     <!-- 商品选择弹窗 -->
     <el-dialog title="请选择以下商品" :visible.sync="dialogFormVisible" class="modal">
         <el-form :model="form" size="small" :inline="true">
-            <el-form-item label="讲师姓名" :label-width="formLabelWidth">
+            <el-form-item label="商品姓名" :label-width="formLabelWidth">
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item>
@@ -237,6 +237,10 @@
           resource: ''
         },
         defaultselectVal: '',
+        defaultselectVal2: '',
+        defaultselectVal3: '',
+        defaultselectVal4: '',
+        defaultselectVal5: '',
         typeVal: '',
         typesVal: '',
         dialogFormVisible: false,
@@ -247,8 +251,25 @@
           {currentid: '003', currentname: 'js设计模式', current: '$90'}
         ],
         defaultdata: [
-          {value: '选项1', label: '折扣'},
-          {value: '选项2', label: '满减'}
+          {value: '选项1', label: '语培'},
+          {value: '选项2', label: '留学'},
+          {value: '选项3', label: '全部'}
+        ],
+        defaultdata2: [
+          {value: '选项1', label: '全部'},
+          {value: '选项2', label: 'WAP'},
+          {value: '选项3', label: 'APP'},
+          {value: '选项4', label: 'PC'}
+        ],
+        defaultdata5: [
+          {value: '选项1', label: '课程'},
+          {value: '选项2', label: '出版物'},
+          {value: '选项3', label: '留学'}
+        ],
+        defaultdata4: [
+          {value: '选项1', label: '满减'},
+          {value: '选项2', label: '折扣'},
+          {value: '选项3', label: '留学抵扣'}
         ],
         liuxuedata: [
           {value: '选项1', label: '折扣'},
@@ -264,12 +285,13 @@
     }
   }
 </script>
-<style scoped>
-.coupon-content{overflow:hidden;}
+<style>
+.coupon-content{overflow:hidden;margin-left:260px;}
 .coupon-title{margin-bottom:15px;height:30px;border-bottom:solid 1px #ccc;text-indent:20px;font-weight:600;line-height:30px;}
 .radio-goods{margin-left:30px;}
 .remove-btn{display:flex;margin-top:20px;margin-right:30px;margin-bottom:20px;justify-content:flex-end;}
 .btn-content{display:flex;margin-bottom:20px;justify-content:space-around;}
 .coupon-content .money .el-input{position:absolute;}
 .row-container{display:flex;margin-top:20px;justify-content:center;}
+.coupon-name .el-form-item .el-form-item__label{padding-right:8px;}
 </style>

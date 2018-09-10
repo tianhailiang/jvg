@@ -51,12 +51,12 @@
     <el-table :data="data" style="width: 100%" border>
         <el-table-column prop="currentid" type="selection" width="50" label="" align="center"></el-table-column>
         <el-table-column prop="currentid" width="90" label="会员ID" align="center"></el-table-column>
-        <el-table-column prop="teacherid" label="会员名称" width="140" align="center"></el-table-column>
+        <el-table-column prop="teacherid" label="会员名称" width="120" align="center"></el-table-column>
         <el-table-column prop="name" label="是否VIP" width="100" align="center"></el-table-column>
-        <el-table-column prop="type" label="会员等级" width="140" align="center"></el-table-column>
-        <el-table-column prop="typenum" label="当前状态" width="140" align="center"></el-table-column>
-        <el-table-column prop="typenum" label="会员加入时间" width="140" align="center"></el-table-column>
-        <el-table-column prop="typenum" label="会员积分" width="140" align="center"></el-table-column>
+        <el-table-column prop="type" label="会员等级" width="120" align="center"></el-table-column>
+        <el-table-column prop="typenum" label="当前状态" width="120" align="center"></el-table-column>
+        <el-table-column prop="typenum" label="会员加入时间" width="120" align="center"></el-table-column>
+        <el-table-column prop="typenum" label="会员积分" width="120" align="center"></el-table-column>
         <el-table-column prop="typenum" label="会员加入时间" width="140" align="center"></el-table-column>
         <el-table-column label="操作" width="170" align="center">
             <template slot-scope="scope">
@@ -79,9 +79,9 @@ export default {
     return {
       defaultValue: '',
       teacher: [
-        {label: '选项1', value: '全部'}, 
-        {label: '选项2', value: '使用中'}, 
-        {label: '选项3', value: '已过期'}
+        {value: '选项1', label: '全部'}, 
+        {value: '选项2', label: '使用中'},
+        {value: '选项3', label: '已过期'}
       ],
       data: [
         {currentid: '001'}
