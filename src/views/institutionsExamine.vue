@@ -210,9 +210,9 @@
         </el-form>
         <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="isDialogShow" type="primary">通过</el-button>
-                <el-button @click="isDialogShow" type="primary">不通过</el-button>
-                <el-button @click="isDialogShow" type="primary">取消</el-button>
+                <el-button @click="isDialogShow = false" type="primary">通过</el-button>
+                <el-button @click="isDialogShow = false" type="primary">不通过</el-button>
+                <el-button @click="isDialogShow = false" type="primary">取消</el-button>
             </span>
         </el-dialog>
     </section>
