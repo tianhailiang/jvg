@@ -68,7 +68,7 @@
           </div>
           <div class="form-upload" style="width:350px;float:left;margin-left:20px;position:relative;">
               <el-input type="text" placeholder="正式初版物上传"></el-input>
-              <el-upload><el-button size="small" type="primary" style="position:absolute;right:-90px;top:0;">点击上传</el-button></el-upload>
+              <el-upload action=""><el-button size="small" type="primary" style="position:absolute;right:-90px;top:0;">点击上传</el-button></el-upload>
           </div>
         </el-form-item>
         <el-form-item label="">
@@ -77,7 +77,7 @@
                     <el-form-item>
                         <el-input type="text" placeholder="正式初版物上传"></el-input>
                         <div class="upload-btn">
-                          <el-upload><el-button size="small" type="primary">点击上传</el-button></el-upload>
+                          <el-upload action=""><el-button size="small" type="primary">点击上传</el-button></el-upload>
                         </div>
                     </el-form-item>
                 </el-col>

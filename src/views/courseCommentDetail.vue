@@ -1,5 +1,5 @@
 <template>
-    <section class="coursecomment-detail" style="overflow:hidden;max-width:1200px;">
+    <section class="coursecomment-detail" style="overflow:hidden;">
       <el-row :gutter="20">
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
               <el-col :span="6">

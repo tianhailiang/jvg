@@ -218,8 +218,7 @@ export default {
 <style scoped>
 .nav_left{
   width: 250px;
-  border: 1px solid #eee;
-  padding: 10px;
+  /* padding: 10px; */
   float: left;
 }
 </style>

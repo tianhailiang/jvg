@@ -49,11 +49,11 @@
         </el-form>
         <el-table :data="data" style="width: 100%" border>
             <el-table-column prop="currentid" width="60" label="NO" align="center"></el-table-column>
-            <el-table-column prop="currentid" width="160" label="行为" align="center"></el-table-column>
-            <el-table-column prop="teacherid" label="行为次数/人数" width="160" align="center"></el-table-column>
-            <el-table-column prop="teacherid" label="占百分比" width="100" align="center"></el-table-column>
+            <el-table-column prop="currentid" width="140" label="行为" align="center"></el-table-column>
+            <el-table-column prop="teacherid" label="行为次数/人数" width="150" align="center"></el-table-column>
+            <el-table-column prop="teacherid" label="占百分比" width="80" align="center"></el-table-column>
             <el-table-column prop="teacherid" label="分值增加/减少" width="140" align="center"></el-table-column>
-            <el-table-column prop="teacherid" label="得分" width="120" align="center"></el-table-column>
+            <el-table-column prop="teacherid" label="得分" width="80" align="center"></el-table-column>
         </el-table>
         <div class="form-foot">
             <el-form :model="form" size="small">
@@ -65,6 +65,7 @@
                 </el-form-item>
             </el-form>
             <p>声望值得分=8分（20次X40%）+20分（100次X20%）+20分（200次X10%）+2.5分（50次X5%）+0.6分（30次X2%）+0.3分（10次X3%）+15分（300人X5%）+3分（100次X3%）+2分（100次X2%）-0.2分（5次X4%）-0.1分（5次X2%）-0.2分（5次X4%）=70.9分</p>
+            <el-button type="primary" class="btn-block" size="small">保存</el-button>
         </div>
     </el-dialog>
   </section>
@@ -75,12 +76,12 @@
     data () {
       return{
         teacher: [
-          {label: '选项1', value: '个人讲师'}, 
-          {label: '选项2', value: '机构讲师'}, 
-          {label: '选项3', value: '院校讲师'}, 
-          {label: '选项1', value: '顾问'}, 
-          {label: '选项1', value: '个人大咖'},
-          {label: '选项1', value: '院校大咖'}
+          {value: '选项1', label: '个人讲师'}, 
+          {value: '选项2', label: '机构讲师'}, 
+          {value: '选项3', label: '院校讲师'}, 
+          {value: '选项4', label: '顾问'}, 
+          {value: '选项5', label: '个人大咖'},
+          {value: '选项6', label: '院校大咖'}
         ],
         data: [
           {currentid: '001', teacherid: '1001', name: '40%', type: '顾问', typenum: '50%'},
@@ -97,11 +98,8 @@
   }
 </script>
 <style scoped>
-  @import '../assets/style/common_title.css';
-  .form-foot{
-    margin-top:20px;
-  }
-  .modal .el-input{
-    width: 70%;
-  }
+@import '../assets/style/common_title.css';
+.form-foot{margin-top:20px;}
+.modal .el-input{width: 70%;}
+.btn-block{display: block;margin: auto;}
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <section class="advert-replace" style="overflow:hidden;max-width:1200px;">
+    <section class="advert-replace" style="overflow:hidden;">
         <el-row :gutter="20">
           <el-form class="demo-form-inline" label-width="80px" size="mini">
             <el-col :span="6">

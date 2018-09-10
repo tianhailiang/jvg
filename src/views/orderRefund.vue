@@ -1,5 +1,5 @@
 <template>
-  <section class="order-refund" style="overflow:hidden;max-width:1200px;">
+  <section class="order-refund" style="overflow:hidden;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
       <el-col :span="7"><div class="grid-content bg-purple">
@@ -29,19 +29,18 @@
       </div></el-col>
       <el-col :span="7"><div class="grid-content bg-purple">
         <el-form-item label="购买渠道">
-            <el-select placeholder="全部">
-                <el-option label="全部"  value="shanghai"></el-option>
-                <el-option label="APP" value="beijing"></el-option>
-                <el-option label="PC" value="beijing"></el-option>
-                <el-option label="WAP" value="beijing"></el-option>
+            <el-select v-model="buy">
+                <el-option 
+                :label="item.label"  
+                :value="item.value" v-for="(item, index) in buyData"></el-option>
             </el-select>
         </el-form-item>
       </div></el-col>
       <el-col :span="7"><div class="grid-content bg-purple">
         <el-form-item label="订单类型">
             <el-select v-model="ordertype">
-                <el-option 
-                :label="items.label"  
+                <el-option
+                :label="items.label"
                 :value="items.value"
                 v-for="(items, index) in orderlist"></el-option>
             </el-select>
@@ -79,7 +78,7 @@
     </el-row>
     <!--  -->
     <el-table :data=tableData border>
-        <el-table-column prop="index" label="NO" width="120" align="center"></el-table-column>
+        <el-table-column prop="index" label="NO" width="50" align="center"></el-table-column>
         <el-table-column prop="date" label="退款单号" width="110" align="center"></el-table-column>
         <el-table-column prop="date" label="订单号" width="110" align="center"></el-table-column>
         <el-table-column prop="name" label="卖家名称" width="110" align="center"></el-table-column>
@@ -87,11 +86,12 @@
         <el-table-column prop="name" label="退款理由" width="110" align="center"></el-table-column>
         <el-table-column prop="tuiname" label="退款状态" width="110" align="center"></el-table-column>
         <el-table-column prop="pricetype" label="支付方式" width="110" align="center"></el-table-column>
-        <el-table-column prop="address" label="购买渠道"></el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column prop="address" label="购买渠道" width="110" align="center"></el-table-column>
+        <el-table-column prop="address" label="操作" width="130" align="center">
             <template slot-scope="scope">
-                <el-button size="mini" type="danger">同意</el-button>
-              </template>
+                <el-button size="mini" type="danger" style="margin-bottom:5px;">同意</el-button>
+                <el-button size="mini" type="danger" style="margin-left:0;">拒绝</el-button>
+            </template>
         </el-table-column>
     </el-table>
     <div class="page-line" style="height:30px"></div>
@@ -137,6 +137,13 @@ export default {
         {label: '确认退款', value: '选项4'},
         {label: '完成', value: '选项5'},
         {label: '拒绝退款', value: '选项6'}
+      ],
+      buy: '',
+      buyData: [
+        {label: '全部', value: '选项1'},
+        {label: 'APP', value: '选项2'},
+        {label: 'PC', value: '选项3'},
+        {label: 'WAP', value: '选项4'},
       ]
     }
   },

@@ -49,12 +49,12 @@
       </el-form>
     </el-row>
     <el-table :data="tableData3" border>
-      <el-table-column type="selection" width="45" align="center"></el-table-column>
-      <el-table-column label="栏目名称" width="168" prop="name" align="center"></el-table-column>
-      <el-table-column prop="name" label="渠道" width="168" align="center"></el-table-column>
-      <el-table-column prop="name" label="所属频道" width="168" align="center"></el-table-column>
-      <el-table-column prop="name" label="创建时间" width="168" align="center"></el-table-column>
-      <el-table-column prop="name" label="创建人" width="168" align="center"></el-table-column>
+      <el-table-column type="selection" width="50" align="center"></el-table-column>
+      <el-table-column label="栏目名称" width="175" prop="name" align="center"></el-table-column>
+      <el-table-column prop="name" label="渠道" width="175" align="center"></el-table-column>
+      <el-table-column prop="name" label="所属频道" width="175" align="center"></el-table-column>
+      <el-table-column prop="name" label="创建时间" width="175" align="center"></el-table-column>
+      <el-table-column prop="name" label="创建人" width="175" align="center"></el-table-column>
       <el-table-column label="操作" width="170" align="center">
         <template slot-scope="scope">
             <el-button size="small" type="danger">删除</el-button>
@@ -129,7 +129,8 @@
         qdData: [
           {value: '选项一',label: 'APP'},
           {value: '选项二',label: 'PC'},
-          {value: '选项三',label: 'WAP'}
+          {value: '选项三',label: 'WAP'},
+          {value: '选项四',label: '全部'}
         ],
         form: {
           date1: '',
@@ -144,7 +145,8 @@
         qudaodate: [
           {value: '选项一',label: 'APP'},
           {value: '选项二',label: 'PC'},
-          {value: '选项三',label: 'WAP'}
+          {value: '选项三',label: 'WAP'},
+          {value: '选项四',label: '全部'}
         ],
         suoshudata: [
           {value: '选项1',label: '留学'},

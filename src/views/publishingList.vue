@@ -1,5 +1,5 @@
 <template>
-    <section class="publishinglist-tabel" style="overflow:hidden">
+    <section class="publishinglist-tabel" style="overflow:hidden;margin-left:260px;">
       <el-row :gutter="20">
         <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
@@ -51,14 +51,14 @@
         </el-form>
       </el-row>
       <!-- 表格 -->
-      <el-table :data="tableData3" border>
+      <el-table :data="tableData" border ref="tableCont" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="45"></el-table-column>
-          <el-table-column prop="date" label="出版物ID" width="100" align="center"></el-table-column>
+          <el-table-column prop="id" label="出版物ID" width="100" align="center"></el-table-column>
           <el-table-column prop="name" label="出版物名称" width="100" align="center"></el-table-column>
           <el-table-column prop="name" label="出版物介绍" width="100" align="center"></el-table-column>
           <el-table-column prop="name" label="讲师名称" width="100" align="center"></el-table-column>
           <el-table-column prop="name" label="频道" width="100" align="center"></el-table-column>
-          <el-table-column prop="type" label="分类" width="90" align="center"></el-table-column>
+          <el-table-column prop="type" label="分类" width="80" align="center"></el-table-column>
           <el-table-column prop="name" label="类型" width="90" align="center"></el-table-column>
           <el-table-column prop="name" label="价格" width="90" align="center"></el-table-column>
           <el-table-column prop="name" label="创建时间" width="95" align="center"></el-table-column>
@@ -79,7 +79,7 @@
               <el-button size="small" type="primary">确定</el-button>
           </el-col>
           <el-col :span="5">
-              <el-button size="small" type="primary">批量删除</el-button>
+              <el-button size="small" type="primary" @click="clearAll">批量删除</el-button>
               <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
           </el-col>
       </el-row>
@@ -120,13 +120,12 @@ export default {
   name: 'publishingList',
   data () {
     return {
-      tableData3: [
-        {date: '001', name: '张三', type: '托福', address: '冻结', active: '冻结'},
-        {date: '001', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
-        {date: '001', name: '李四', type: '托福', address: '冻结', active: '冻结'},
-        {date: '001', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
-        {date: '001', name: '赵六', type: '托福', address: '冻结', active: '冻结'},
-        {date: '001', name: '王小虎', type: '托福', address: '冻结', active: '冻结'}
+      tableData: [
+        {id: '01', name: '张三', type: '托福', address: '冻结', active: '冻结'},
+        {id: '02', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {id: '03', name: '李四', type: '托福', address: '冻结', active: '冻结'},
+        {id: '04', name: '王小虎', type: '托福', address: '冻结', active: '冻结'},
+        {id: '05', name: '赵六', type: '托福', address: '冻结', active: '冻结'}
       ],
       dialogVisible: false,
       xsvalue: '',
@@ -147,7 +146,8 @@ export default {
           {label: '全部', value: '选项1'},
           {label: '托福', value: '选项2'},
           {label: 'GRE', value: '选项3'}
-      ]
+      ],
+      multipleSelection: []
     }
   },
   methods: {
@@ -166,6 +166,14 @@ export default {
           type: 'info',
           message: '已取消删除'
         })
+      })
+    },
+    handleSelectionChange (val) {
+        this.multipleSelection = val
+    },
+    clearAll () {
+      this.multipleSelection.forEach((el) => {
+        
       })
     }
   }

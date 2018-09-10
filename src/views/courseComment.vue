@@ -1,5 +1,5 @@
 <template>
-  <section class="courselist-tabel" style="overflow:hidden;">
+  <section class="courselist-tabel" style="overflow:hidden;margin-left:260px;">
     <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
     <el-row :gutter="20">
           <el-col :span="5"><div class="grid-content bg-purple">
@@ -44,7 +44,7 @@
         <el-table-column prop="name" label="好评度" width="160" align="center"></el-table-column>
         <el-table-column prop="name" label="好评数" width="160" align="center"></el-table-column>
         <el-table-column prop="name" label="中评数" width="160" align="center"></el-table-column>
-        <el-table-column prop="address" label="差评"></el-table-column>
+        <el-table-column prop="address" label="差评" align="center"></el-table-column>
     </el-table>
     <div style="height:30px"></div>
     <!-- 分页 -->
@@ -86,7 +86,7 @@
               <!--  -->
               <hr>
             <el-row :gutter="20">
-                    <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
+                <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
                         <el-col :span="6">
                             <el-form-item label="评论内容">
                                 <el-input type="text"></el-input>
@@ -119,10 +119,10 @@
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="评论类型">
-                              <el-select v-model="value" placeholder="全部">
-                                <el-option v-for="item in options" 
+                              <el-select v-model="value">
+                                <el-option v-for="(item, index) in options" 
                                   :label="item.label" 
-                                  :value="item.label">
+                                  :value="item.value">
                                 </el-option>
                               </el-select>
                             </el-form-item>
@@ -130,8 +130,8 @@
                         <el-col :span="3">
                             <el-button size="small" type="primary" style="margin-top:30px;">搜索</el-button>
                         </el-col>
-                    </el-form>
-                  </el-row>
+                </el-form>
+            </el-row>
                   <!-- 表格 -->
                   <el-table :data="tableData3" border>
                       <el-table-column type="selection" width="55"></el-table-column>
@@ -177,10 +177,11 @@ export default {
         {date: '003', name: '张三', address: '89'}
       ],
       formVisible: false,
+      value: '',
       options: [
-      {value: '选项1',label: '好评'},
-      {value: '选项2',label: '好评'},
-      {value: '选项3',label: '好评'},
+        {value: '选项1',label: '好评'},
+        {value: '选项2',label: '中评'},
+        {value: '选项3',label: '差评'}
       ]
     }
   },

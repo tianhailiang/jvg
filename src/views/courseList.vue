@@ -1,5 +1,5 @@
 <template>
-  <section class="courselist-tabel" style="overflow:hidden;">
+  <section class="courselist-tabel" style="overflow:hidden; margin-left:260px;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
@@ -54,7 +54,7 @@
                   </el-select>
               </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" style="margin-top:30px;">
               <el-button size="small" type="primary">搜索</el-button>
               <el-button size="small" type="primary">创建课程</el-button>
           </el-col>
@@ -94,7 +94,7 @@
         </el-col>
     </el-row>
     <!--  -->
-    <el-dialog title="冻结编辑提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+    <el-dialog title="冻结编辑提示窗口" :visible.sync="dialogVisible" width="30%">
         <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="课程ID">
               <el-input type="text" size="mini"></el-input>

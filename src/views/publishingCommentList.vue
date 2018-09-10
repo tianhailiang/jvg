@@ -1,5 +1,5 @@
 <template>
-    <section class="publishinglist-tabel" style="overflow:hidden;">
+    <section class="publishinglist-tabel" style="overflow:hidden; padding-left:10px;">
       <el-row :gutter="20">
         <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
@@ -56,28 +56,28 @@
       <!-- 弹窗 -->
         <el-dialog title="出版物评论详情" :visible.sync="formVisible">
             <el-row :gutter="20">
-                    <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
-                        <el-col :span="6">
-                            <el-form-item label="出版物ID">
-                                <el-input type="text" :disabled="true"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="讲师名称">
-                                <el-input type="text" :disabled="true"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="出版物名称">
-                                <el-input type="text" :disabled="true"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="好评度">
-                                <el-input type="text" :disabled="true"></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-form>
+                <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
+                    <el-col :span="6">
+                        <el-form-item label="出版物ID">
+                            <el-input type="text" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="讲师名称">
+                            <el-input type="text" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6" class="publish-name">
+                        <el-form-item label="出版物名称">
+                            <el-input type="text" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="好评度">
+                            <el-input type="text" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-form>
             </el-row>
             <el-row :gutter="20">
                     <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
@@ -114,7 +114,11 @@
                         <el-col :span="6">
                             <el-form-item label="评论类型">
                               <el-select v-model="value" placeholder="全部">
-                                <el-option v-for="item in options" :label="item.label" :value="item.label" :key="item.value"></el-option>
+                                <el-option 
+                                v-for="(item, index) in comment" 
+                                :label="item.label" 
+                                :value="item.value" 
+                                :key="index"></el-option>
                               </el-select>
                             </el-form-item>
                         </el-col>
@@ -173,6 +177,11 @@ export default {
         {label: '选项二',value: 'WAP'},
         {label: '选项三',value: 'PC'}
       ],
+      comment: [
+        {value: '选项一',label: '好评'},
+        {value: '选项二',label: '中评'},
+        {value: '选项三',label: '差评'}
+      ],
       tableData4: [
         {date: '502', name: '张三', address: '删除'},
         {date: '502', name: '李四', address: '删除'},
@@ -192,10 +201,10 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 .row-container{display: flex;justify-content:center;}
-.publishinglist-tabel .el-form--inline .el-form-item__content{position:absolute !important;}
 .comment-total{display: block;margin-left:18px;margin-top:15px;}
 .teacher{ display: inline-block;margin-bottom:15px;}
 .link-span{cursor: pointer;display:block;color:#409EFF}
+.publishinglist-tabel .publish-name .el-form-item .el-form-item__label{padding: 0;}
 </style>

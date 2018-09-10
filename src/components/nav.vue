@@ -16,9 +16,6 @@ export default {
 }
 </script>
 <style scoped>
-.nav_top{
-    margin: 20px;
-}
 .title{
     color: #2c3e50;
     line-height: 60px;

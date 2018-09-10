@@ -17,7 +17,7 @@
                 <el-form-item label="参与商品">
                     <el-select placeholder="" v-model="defaultValue" size="small">
                         <el-option 
-                        :label="item.label" 
+                        :label="item.label"
                         :value="item.value"
                         :key="index"
                         v-for="(item, index) in teacher"></el-option>
@@ -28,7 +28,7 @@
                 <el-form-item label="渠道">
                     <el-select placeholder="" v-model="defaultselectVal" size="small">
                         <el-option 
-                        :label="item.label" 
+                        :label="item.label"
                         :value="item.value"
                         :key="index"
                         v-for="(item, index) in defaultdata"></el-option>
@@ -38,8 +38,8 @@
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="所属频道">
                     <el-select placeholder="" v-model="defaultselectVal4" size="small">
-                        <el-option 
-                        :label="item.label" 
+                        <el-option
+                        :label="item.label"
                         :value="item.value"
                         :key="index"
                         v-for="(item, index) in defaultsuo"></el-option>
@@ -50,7 +50,7 @@
                 <el-form-item label="类型">
                     <el-select placeholder="" v-model="defaultselectVal3" size="small">
                         <el-option 
-                        :label="item.label" 
+                        :label="item.label"
                         :value="item.value"
                         :key="index"
                         v-for="(item, index) in defaultdata"></el-option>
@@ -61,7 +61,7 @@
                 <el-form-item label="发布状态">
                     <el-select placeholder="" v-model="defaultselectVal2" size="small">
                         <el-option 
-                        :label="item.label" 
+                        :label="item.label"
                         :value="item.value"
                         :key="index"
                         v-for="(item, index) in defaultdata2"></el-option>
@@ -72,7 +72,7 @@
                 <el-form-item label="领取方式">
                     <el-select placeholder="" v-model="defaultselectVal1" size="small">
                         <el-option 
-                        :label="item.label" 
+                        :label="item.label"
                         :value="item.value"
                         :key="index"
                         v-for="(item, index) in defaultdata1"></el-option>

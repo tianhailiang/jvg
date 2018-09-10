@@ -1,7 +1,7 @@
 <template>
-    <section class="advert-space-detail" style="overflow:hidden;max-width:1200px;">
+    <section class="advert-space-detail" style="overflow:hidden;">
         <el-row :gutter="20">
-          <el-form class="demo-form-inline" label-width="80px" size="mini">
+          <el-form class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
               <div class="grid-content bg-purple">
                   <el-form-item label="ID">
@@ -16,21 +16,21 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="所有权">
-                      <el-select placeholder="全部">
-                          <el-option label="全部"  value="shanghai"></el-option>
-                          <el-option label="平台" value="beijing"></el-option>
-                          <el-option label="用户" value="beijing"></el-option>
+                      <el-select v-model="syVal">
+                        <el-option 
+                        :label="item.label"  
+                        :value="item.value"
+                        v-for="(item, index) in suoyouData"></el-option>
                       </el-select>
                 </el-form-item>  
             </div></el-col>
               <el-col :span="6">
                   <div class="grid-content bg-purple">
                       <el-form-item label="广告状态">
-                          <el-select placeholder="全部">
-                              <el-option label="全部"  value="shanghai"></el-option>
-                              <el-option label="使用中" value="beijing"></el-option>
-                              <el-option label="未使用" value="beijing"></el-option>
-                              <el-option label="冻结" value="beijing"></el-option>
+                          <el-select v-model="advert">
+                            <el-option 
+                            :label="item.label"  
+                            :value="item.value" v-for="(item, index) in advertData"></el-option>
                           </el-select>
                     </el-form-item>  
                   </div>
@@ -38,12 +38,10 @@
               <el-col :span="6">
                   <div class="grid-content bg-purple">
                       <el-form-item label="业务频道">
-                        <el-select placeholder="全部">
-                          <el-option label="全部"  value="shanghai"></el-option>
-                          <el-option label="留学" value="beijing"></el-option>
-                          <el-option label="语培" value="beijing"></el-option>
-                          <el-option label="院校直通" value="beijing"></el-option>
-                          <el-option label="移民" value="beijing"></el-option>
+                        <el-select v-model="yewu">
+                          <el-option 
+                          :label="item.label"  
+                          :value="item.value" v-for="(item, index) in yewuData"></el-option>
                         </el-select>
                       </el-form-item>
                   </div>
@@ -68,7 +66,7 @@
         <el-col :span="14">
             <section class="advert-detail_left">
               <h3 style="margin-bottom:20px;">默认广告设置</h3>
-              <el-form :model="form" label-width="80px" size="mini">
+              <el-form label-width="80px" size="small">
                   <el-form-item label="创建时间">
                     <el-input type="text" :disabled="true"></el-input>
                   </el-form-item>
@@ -76,20 +74,17 @@
                       <el-input type="text"></el-input>
                     </el-form-item>
                   <el-form-item label="广告位类型">
-                      <el-select placeholder="全部">
-                        <el-option label="全部"  value="shanghai"></el-option>
-                        <el-option label="留学" value="beijing"></el-option>
-                        <el-option label="语培" value="beijing"></el-option>
-                        <el-option label="院校直通" value="beijing"></el-option>
-                        <el-option label="移民" value="beijing"></el-option>
+                      <el-select v-model="advertval">
+                        <el-option 
+                        :label="item.label"  
+                        :value="item.value" v-for="(item, index) in advertdata"></el-option>
                       </el-select>
                   </el-form-item>
                   <el-form-item label="位置类型">
-                      <el-select placeholder="位置类型">
-                          <el-option label="全部"  value="shanghai"></el-option>
-                          <el-option label="固定" value="beijing"></el-option>
-                          <el-option label="类目" value="beijing"></el-option>
-                          <el-option label="列表" value="beijing"></el-option>
+                      <el-select v-model="adresstype">
+                          <el-option 
+                          :label="item.label" 
+                          :value="item.value" v-for="(item, index) in adressdata"></el-option>
                         </el-select>
                   </el-form-item>
                   <el-form-item label="轮播帧数">
@@ -113,7 +108,7 @@
                             <el-form-item label="">
                                 <el-button type="primary" icon="el-icon-plus" style="position:absolute;left:-76px;">添加</el-button>
                                 <el-input type="text" placeholder="URL"></el-input>
-                                <el-upload class="upload-demo upload-btn">
+                                <el-upload class="upload-demo upload-btn" action="">
                                     <el-button size="small" type="primary">上传</el-button>
                                 </el-upload>
                             </el-form-item>
@@ -142,7 +137,47 @@
     </section>
 </template>
 <script>
-
+export default {
+  name: '',
+  data () {
+      return {
+          advertdata:[
+              {label: '轮播', value: '选项1'},
+              {label: '单页', value: '选项2'},
+              {label: '全部', value: '选项3'}
+          ],
+          advertval: '',
+          adresstype: '',
+          adressdata:[
+            {label: '固定', value: '选项1'},
+            {label: '类目', value: '选项2'},
+            {label: '列表', value: '选项3'},
+            {label: '全部', value: '选项4'}
+          ],
+          yewu: '',
+          yewuData: [
+            {label: '留学', value: '选项1'},
+            {label: '语培', value: '选项2'},
+            {label: '院校直通', value: '选项3'},
+            {label: '移民', value: '选项4'},
+            {label: '全部', value: '选项5'}
+          ],
+          advert: '',
+          advertData: [
+            {value: '选项1', label: '全部'},
+            {value: '选项2', label: '冻结'},
+            {value: '选项3', label: '未使用'},
+            {value: '选项4', label: '使用中'}
+          ],
+          syVal: '',
+          suoyouData:[
+            {value: '选项1', label: '全部'},
+            {value: '选项2', label: '平台'},
+            {value: '选项3', label: '用户'}
+          ],
+      }
+  }
+}
 </script>
 <style scoped>
 .advert-space-detail .btn-group{

@@ -1,11 +1,11 @@
 <template>
-    <section class="order-details" style="overflow:hidden;">
+    <section class="order-details" style="overflow:hidden;margin-left:260px;">
       <div class="order-details-item">
           <h3>订单基本信息</h3>
           <el-row :gutter="20">
               <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
                   <el-col :span="6"><div class="grid-content bg-purple">
-                      <el-form-item label="退款编号">
+                      <el-form-item label="退款单号">
                         <el-input type="text" :disabled="true"></el-input>
                     </el-form-item> </div></el-col>
                     <el-col :span="6"><div class="grid-content bg-purple">
@@ -83,7 +83,8 @@
                           <el-input type="text" :disabled="true"></el-input>
                       </el-form-item>
                     </div></el-col>
-                    <el-col :span="6"><div class="grid-content bg-purple pay-purple">
+                    <el-col :span="6" class="pay-warter">
+                        <div class="grid-content bg-purple">
                         <el-form-item label="支付流水号">
                             <el-input type="text" :disabled="true"></el-input>
                         </el-form-item>
@@ -92,17 +93,18 @@
             <div class="btn-plane-group">
                 <el-button type="primary" size="medium">同意</el-button>
                 <el-button type="primary" size="medium">拒绝</el-button>
+                <el-button type="primary" size="medium">返回</el-button>
             </div>
           </el-row>
       </div>
       <div class="order-details-item" style="margin-bottom:12px;">
           <h3>商品信息</h3>
           <el-table :data="priceData" border size="medium">
-            <el-table-column prop="date" label="商品ID" width="210" align="center"></el-table-column>
-            <el-table-column prop="name" label="商品名称" width="210" align="center"></el-table-column>
-            <el-table-column prop="price" label="单价" width="210" align="center"></el-table-column>
-            <el-table-column prop="number" label="数量" width="210" align="center"></el-table-column>
-            <el-table-column prop="totalprice" label="小计金额" width="210" align="center"></el-table-column>
+            <el-table-column prop="date" label="商品ID" width="200" align="center"></el-table-column>
+            <el-table-column prop="name" label="商品名称" width="222" align="center"></el-table-column>
+            <el-table-column prop="price" label="单价" width="215" align="center"></el-table-column>
+            <el-table-column prop="number" label="数量" width="215" align="center"></el-table-column>
+            <el-table-column prop="totalprice" label="小计金额" width="215" align="center"></el-table-column>
         </el-table>
       </div>
       <div class="order-details-item order-details-item_2">
@@ -139,7 +141,7 @@
                 </el-form-item>
                 <el-form-item label="优惠内容">
                     <el-table :data="priceData" border size="medium">
-                        <el-table-column prop="date" label="ID" width="109" align="center"></el-table-column>
+                        <el-table-column prop="date" label="ID" width="120" align="center"></el-table-column>
                         <el-table-column prop="name" label="类型" width="160" align="center"></el-table-column>
                         <el-table-column prop="price" label="抵扣金额" width="160" align="center"></el-table-column>
                         <el-table-column prop="number" label="折扣比例" width="160" align="center"></el-table-column>
@@ -181,47 +183,13 @@ export default {
   }
 }
 </script>
-  <style scoped>
-    .order-details{
-        padding-left:7px;
-    }
-    .order-details-item h3{
-      margin-bottom: 12px;
-      font-weight:600;
-    }
-    .lines{
-      height:1px;
-      width:100%;
-      background:#ccc;
-      margin-top:12px;
-      margin-bottom: 12px;
-    }
-    .price-content ul{
-      margin-bottom: 15px
-    }
-    .price-content ul li{
-      text-align: right;
-      height: 28px;
-      line-height: 28px;
-      position: relative;
-    }
-    .price-content ul li:nth-of-type(4)::after{
-      display: block;
-      content: "";
-      height: 1px;
-      background: #ccc;
-      width: 30%;
-      position: absolute;
-      right: 0;
-    }
-    .pay-purple .el-form-item--mini .el-form-item__label{
-      width:85px !important;
-    }
-    .btn-plane-group{
-        display: inline-block;
-        margin-top:20px;
-    }
-.from-group .pay-purple .el-form-item__label{
-    color: red !important;
-}
+<style>
+.order-details{padding-left:7px;}
+.order-details-item h3{margin-bottom:12px;font-weight:600;}
+.lines{margin-top:12px;margin-bottom:12px;width:100%;height:1px;background:#ccc;}
+.price-content ul{margin-bottom:15px;}
+.price-content ul li{position:relative;height:28px;text-align:right;line-height:28px;}
+.price-content ul li:nth-of-type(4)::after{position:absolute;right:0;display:block;width:30%;height:1px;background:#ccc;content:"";}
+.pay-warter .bg-purple > .el-form-item > .el-form-item__label{width:auto!important;}
+.btn-plane-group{display:inline-block;margin-top:32px;}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="courselist-tabel" style="overflow:hidden">
+  <section class="courselist-tabel" style="overflow:hidden;margin-left:260px;">
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
@@ -45,7 +45,7 @@
                     <el-input placeholder="讲师名称"></el-input>
                 </el-form-item>
             </el-col>
-            <el-button size="small" type="primary" style="margin-top:25px;">搜索</el-button>
+            <el-button size="small" type="primary" style="margin-top:32px;">搜索</el-button>
       </el-form>
     </el-row>
     <!-- 表格 -->
@@ -61,9 +61,11 @@
         <el-table-column prop="name" label="课程价格" width="90" align="center"></el-table-column>
         <el-table-column prop="name" label="直播时间" width="90" align="center"></el-table-column>
         <el-table-column prop="name" label="审核状态" width="90" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" show-overflow-tooltip>
+        <el-table-column prop="address" label="操作" width="210" show-overflow-tooltip align="center">
             <template slot-scope="scope">
                 <el-button size="mini" type="danger">查看</el-button>
+                <el-button size="mini" type="danger">通过</el-button>
+                <el-button size="mini" type="danger" @click="dialogVisible = true">不通过</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -77,11 +79,11 @@
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="dialogVisible = true">批量通过</el-button>
+            <el-button size="small" type="primary">批量通过</el-button>
         </el-col>
     </el-row>
     <!-- 模态框 -->
-    <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+    <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
         <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="课程ID">
             <el-input type="text" size="mini"></el-input>
