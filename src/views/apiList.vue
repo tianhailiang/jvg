@@ -73,7 +73,7 @@
                 <el-table-column prop="category" label="状态" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
-                        <el-button @click="onEditClick(scope.$index)" type="danger" size="small">冻结</el-button>
+                        <el-button type="danger" size="small">冻结</el-button>
                         <el-button type="danger" size="small">查看</el-button>
                         <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
                     </template>

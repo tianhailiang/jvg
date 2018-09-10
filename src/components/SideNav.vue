@@ -30,7 +30,7 @@
           <el-menu-item index="/realNameDetails">实名认证信息详情页</el-menu-item>
         </el-submenu>
     </el-submenu>
-    <el-menu-item index="4">商品管理</el-menu-item>
+    <!-- <el-menu-item index="4">商品管理</el-menu-item> -->
     <el-submenu index="5">
       <template slot="title">文章管理</template>
       <el-menu-item index="/article">文章列表</el-menu-item>
@@ -49,8 +49,8 @@
       <el-menu-item index="/labelRelationship">标签关系列表</el-menu-item>
       <el-menu-item index="/labelDegree">标签热度列表</el-menu-item>
     </el-submenu>
-    <el-menu-item index="8">类目管理</el-menu-item>
-    <el-menu-item index="9">财务管理</el-menu-item>
+    <!-- <el-menu-item index="8">类目管理</el-menu-item>
+    <el-menu-item index="9">财务管理</el-menu-item> -->
     <el-submenu index="10">
       <template slot="title">运营管理</template>
       <el-submenu index="10-1">

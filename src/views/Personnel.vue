@@ -70,7 +70,7 @@
           </el-col>
           <el-col :span="3">
               <el-button size="small" type="primary">搜索</el-button>
-              <el-button size="small" type="primary">新增用户</el-button>
+              <el-button @click="onshowuser" size="small" type="primary">新增用户</el-button>
           </el-col>
         </el-form>
 
@@ -204,6 +204,9 @@ export default {
     },
     onDisableClik (index) {
       this.isDialogShow1 = true
+    },
+    onshowuser () {
+      this.$router.push({ path: '/userEditors' })
     }
   }
 }

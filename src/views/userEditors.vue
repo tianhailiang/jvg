@@ -141,8 +141,8 @@
             </el-col>
             <el-col :span="18" style='text-align: center;'>
                 <el-form-item >
-                    <el-button type="primary">提交</el-button>
-                    <el-button type="primary">取消</el-button>
+                    <el-button @click="onEditClick" type="primary">提交</el-button>
+                    <el-button @click="onEditClick" type="primary">取消</el-button>
                 </el-form-item>
             </el-col>
         </el-form>
@@ -154,6 +154,11 @@ export default {
     return {
       region: '',
       radio: '1'
+    }
+  },
+  methods: {
+    onEditClick () {
+      this.$router.push({ path: '/personnel' })
     }
   }
 }

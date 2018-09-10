@@ -19,8 +19,8 @@
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
                       <el-option label="删除" :value="1" :key="1"></el-option>
-                      <el-option label="新建" :value="2" :key="2"></el-option>
-                      <el-option label="更新" :value="3" :key="3"></el-option>
+                      <el-option label="编辑" :value="2" :key="2"></el-option>
+                      <el-option label="创建" :value="3" :key="3"></el-option>
                       <el-option label="登录" :value="4" :key="4"></el-option>
                     </el-select>
               </el-form-item>
@@ -54,13 +54,13 @@
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
-            <el-col :span="3" style="float: right;">
+            <!-- <el-col :span="3" style="float: right;">
                 <el-button size="small" type="primary">批量删除</el-button>
-            </el-col>
+            </el-col> -->
         </el-col>
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
-            <p style="font-size: 30px;">请确认是否继续删除</p>
+            <p style="font-size: 30px;">请确认是否继续逻辑删除</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
                 <el-button type="primary" @click="isDialogShow = false">确 定</el-button>

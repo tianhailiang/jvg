@@ -32,14 +32,14 @@
         <el-col :span='18' class="chart-k">
             <div>快捷入口</div>
             <el-row :gutter="20" class="chart-r" style="margin-top: 30px;margin-left: 0px;cursor: pointer;">
-                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>用户</div></el-col>
-                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>课程</div></el-col>
-                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>财务</div></el-col>
+                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(1)">用户</div></el-col>
+                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(2)">课程</div></el-col>
+                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(3)">财务</div></el-col>
             </el-row>
             <el-row :gutter="20" class="chart-r" style="margin-top: 30px;margin-left: 0px;cursor: pointer;">
-                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>运营</div></el-col>
-                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>数据</div></el-col>
-                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div>系统</div></el-col>
+                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(4)">运营</div></el-col>
+                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(5)">数据</div></el-col>
+                <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(6)">系统</div></el-col>
             </el-row>
         </el-col>
     </div>
@@ -69,7 +69,7 @@ export default {
           }
         },
         legend: {
-          data: ['华东', '华北', '华南', '西部', '其他']
+          data: ['下单', '提交']
         },
         toolbox: {
           feature: {
@@ -86,7 +86,7 @@ export default {
           {
             type: 'category',
             boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            data: ['2018-01-01', '2018-01-02', '2018-01-03', '2018-01-04', '2018-01-05', '2018-01-06', '2018-01-07']
           }
         ],
         yAxis: [
@@ -96,50 +96,38 @@ export default {
         ],
         series: [
           {
-            name: '华东',
+            name: '下单',
             type: 'line',
             stack: '总量',
             areaStyle: { normal: {} },
             data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
-            name: '华北',
+            name: '提交',
             type: 'line',
             stack: '总量',
             areaStyle: { normal: {} },
             data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '华南',
-            type: 'line',
-            stack: '总量',
-            areaStyle: { normal: {} },
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '西部',
-            type: 'line',
-            stack: '总量',
-            areaStyle: { normal: {} },
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '其他',
-            type: 'line',
-            stack: '总量',
-            label: {
-              normal: {
-                show: true,
-                position: 'top'
-              }
-            },
-            areaStyle: { normal: {} },
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
           }
         ]
       }
       myChart.setOption(option)
       myChart.hideLoading()
+    },
+    onSkip (id) {
+      if (id === 1) {
+        this.$router.push({ path: '/personnel' })
+      } else if (id === 2) {
+        this.$router.push({ path: '/courseList' })
+      } else if (id === 3) {
+
+      } else if (id === 4) {
+        this.$router.push({ path: '/operational' })
+      } else if (id === 5) {
+        this.$router.push({ path: '/dataTemplate' })
+      } else if (id === 6) {
+        this.$router.push({ path: '/sensitive' })
+      }
     }
   },
   mounted () {

@@ -49,7 +49,7 @@
                 </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-button size="small" type="primary" @click="onDisableClik">添加</el-button>
+              <el-button size="small" type="primary" @click="onEditClick">添加</el-button>
               <el-button size="small" type="primary">搜索</el-button>
               <el-button size="small" type="primary" @click="onDelClick">一键清除</el-button>
             </el-col>
@@ -83,13 +83,13 @@
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
-            <el-col :span="3" style="float: right;">
+            <!-- <el-col :span="3" style="float: right;">
                 <el-button size="small" type="primary">批量删除</el-button>
-            </el-col>
+            </el-col> -->
         </el-col>
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
-            <p style="font-size: 30px;">请确认是否继续删除</p>
+            <p style="font-size: 30px;">请确认是否继续一键清除</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
                 <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
@@ -158,7 +158,7 @@
         </el-dialog>
         <!-- 白名单审核 -->
         <el-dialog v-model="isDialogShow3" size="small" :visible.sync="isDialogShow3">
-            <p style="font-size: 30px;">白名单编辑</p>
+            <p style="font-size: 30px;">白名单审核</p>
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
@@ -188,7 +188,7 @@
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="isDialogShow1 = false">取 消</el-button>
+                <el-button @click="isDialogShow3 = false">取 消</el-button>
                 <el-button type="primary" @click="isDialogShow3 = false">通 过</el-button>
                 <el-button type="primary" @click="isDialogShow3 = false">不 通 过</el-button>
             </span>
