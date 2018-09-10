@@ -9,16 +9,16 @@
                   <el-input placeholder="请输入标签ID"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="语种：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="中文" :value="0" :key="0"></el-option>
+                      <el-option label="全部" :value="0" :key="0"></el-option>
                       <el-option label="中文" :value="1" :key="1"></el-option>
                       <el-option label="英语" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="频道：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -27,7 +27,7 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="类别：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -38,7 +38,7 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="类型：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -84,9 +84,9 @@
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
-            <el-col :span="3" style="float: right;">
+            <!-- <el-col :span="3" style="float: right;">
                 <el-button size="small" type="primary">批量删除</el-button>
-            </el-col>
+            </el-col> -->
         </el-col>
     </div>
 </template>

@@ -19,16 +19,8 @@
     </el-submenu>
     <el-submenu index="3">
       <template slot="title">用户管理</template>
-        <el-submenu index="3-1">
-          <template slot="title">人员列表</template>
-          <el-menu-item index="/personnel">人员列表</el-menu-item>
-          <el-menu-item index="/userEditors">用户添加编辑页</el-menu-item>
-        </el-submenu>
-        <el-submenu index="3-2">
-          <template slot="title" index="">实名认证列表</template>
-          <el-menu-item index="/realName">实名认证列表</el-menu-item>
-          <el-menu-item index="/realNameDetails">实名认证信息详情页</el-menu-item>
-        </el-submenu>
+        <el-menu-item index="/personnel">人员列表</el-menu-item>
+        <el-menu-item index="/realName">实名认证列表</el-menu-item>
     </el-submenu>
     <!-- <el-menu-item index="4">商品管理</el-menu-item> -->
     <el-submenu index="5">
@@ -117,16 +109,8 @@
     </el-submenu>
     <el-submenu index="13">
       <template slot="title">机构院校管理</template>
-        <el-submenu index="13-1">
-          <template slot="title">机构院校列表</template>
-          <el-menu-item index="/institutions">机构院校列表</el-menu-item>
-          <el-menu-item index="/institutionsEditors">机构院校新增/编辑页</el-menu-item>
-        </el-submenu>
-        <el-submenu index="13-2">
-          <template slot="title" index="">机构院校审核列表</template>
-          <el-menu-item index="/institutionsExamine">机构院校审核列表</el-menu-item>
-          <el-menu-item index="/institutionsDetails">机构院校审核详情页</el-menu-item>
-        </el-submenu>
+        <el-menu-item index="/institutions">机构院校列表</el-menu-item>
+        <el-menu-item index="/institutionsExamine">机构院校审核列表</el-menu-item>
     </el-submenu>
     <el-submenu index="14">
       <template slot="title">关注管理</template>
