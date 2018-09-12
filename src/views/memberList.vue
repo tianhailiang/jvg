@@ -92,6 +92,18 @@ export default {
         resource: ''
       }
     }
+  },
+  created() {
+    this.getMenberData()
+  },
+  methods: {
+    getMenberData() {
+      this.axios.post('system/seos/list.json').then((res) => {
+        console.log(res.data)
+      }).catch((err) => {
+        console.log(`请求出现错误`)
+      })
+    }
   }
 }
 </script>

@@ -181,16 +181,17 @@ export default {
         ]
       }
     },
+    created() {
+      this.getOrderdata()
+    },
     methods: {
-    //     arraySpanMethod({ column, rowIndex, columnIndex }) {
-    //     if (rowIndex % 2 === 0) {
-    //       if (columnIndex === 0) {
-    //         return [1, 2];
-    //       } else if (columnIndex === 1) {
-    //         return [0, 0];
-    //       }
-    //     }
-    //   }
+        getOrderdata() {
+            this.axios.post('/order/list.json', {"Id": 100021000210002}).then((res) => {
+                console.log(res.data)
+            }).catch((error) => {
+                console.log(`请求出错啦`)
+            })
+        }
     }
 }
 </script>

@@ -164,28 +164,16 @@
             {value: '选项3',label: '语培'},
             {value: '选项4',label: '院校直通'},
             {value: '选项5',label: '全部'}
-          ]
+          ],
+          datahelp:[]
         }
       }
     }
   </script>
 <style scoped>
 @import '../assets/style/common_title.css';
-  .help-content{
-    overflow: hidden;
-  }
-  .page-content{
-    margin-top:30px;
-  }
-  .btn-group {
-    display: inline-block;
-    margin-left: 20px;
-  }
-  .help-content > h3{
-  height: 30px;
-  line-height: 30px;
-  border-bottom: solid 1px #ccc;
-  text-indent: 20px;
-  margin-bottom: 15px;
-}
+.help-content{overflow:hidden;}
+.page-content{margin-top:30px;}
+.btn-group{display:inline-block;margin-left:20px;}
+.help-content>h3{margin-bottom:15px;height:30px;border-bottom:solid 1px #ccc;text-indent:20px;line-height:30px;}
 </style>

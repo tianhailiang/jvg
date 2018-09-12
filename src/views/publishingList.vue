@@ -150,6 +150,9 @@ export default {
       multipleSelection: []
     }
   },
+  created() {
+    //   this.getOrderdata()
+  },
   methods: {
     openMadel () {
       this.$confirm('请确认是否继续删除', '删除提示窗口', {
@@ -175,6 +178,13 @@ export default {
       this.multipleSelection.forEach((el) => {
         
       })
+    },
+    getOrderdata() {
+        this.axios.post('/publication/delete.json').then((res) => {
+            console.log(res.data)
+        }).catch((error) => {
+            console.log(`请求出错啦`)
+        })
     }
   }
 }

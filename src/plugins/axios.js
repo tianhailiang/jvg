@@ -9,7 +9,7 @@ import axios from "axios"
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
+  baseURL: 'https://tdxzback.jjldxz.com/api/c/',
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 }
@@ -45,6 +45,9 @@ Plugin.install = function(Vue, options) {
   Object.defineProperties(Vue.prototype, {
     axios: {
       get() {
+        return _axios
+      },
+      post() {
         return _axios
       }
     },

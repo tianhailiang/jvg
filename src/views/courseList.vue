@@ -61,19 +61,20 @@
       </el-form>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="tableData3" border>
+    <el-table :data="courseTableData" border v-loading.fullscreen.lock="fullscreenLoading">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="date" label="日期" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="讲师名称" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="频道" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="课程分类" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="上课模式" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="教学模式" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="课程价格" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="直播时间" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="销售状态" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="直播状态" width="120" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" show-overflow-tooltip>
+        <el-table-column prop="id" label="课程ID" width="65" align="center"></el-table-column>
+        <el-table-column prop="title" label="课程标题" width="120" align="center"></el-table-column>
+        <el-table-column prop="realName" label="讲师名称" width="80" align="center"></el-table-column>
+        <el-table-column prop="professionValue" label="频道" width="80" align="center"></el-table-column>
+        <el-table-column prop="categorySignsValue" label="课程分类" width="90" align="center"></el-table-column>
+        <el-table-column prop="couresModelValue" label="上课模式" width="100" align="center"></el-table-column>
+        <el-table-column prop="teachModelValue" label="教学模式" width="120" align="center"></el-table-column>
+        <el-table-column prop="price" label="课程价格" width="60" align="center"></el-table-column>
+        <el-table-column prop="beginTime" label="直播时间" width="120" align="center"></el-table-column>
+        <el-table-column prop="upDownValue" label="销售状态" width="100" align="center"></el-table-column>
+        <el-table-column prop="liveStatusValue" label="直播状态" width="100" align="center"></el-table-column>
+        <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
             <template slot-scope="scope">
                 <el-button size="mini" type="danger" @click="dialogVisible = true">冻结</el-button>
             </template>
@@ -118,17 +119,14 @@
   </section>
 </template>
 <script>
+{}
 export default {
   name: 'courseList',
   data () {
     return {
-      tableData3: [
-        {date: '001', name: '王小虎', address: '冻结'},
-        {date: '001', name: '王小虎', address: '冻结'},
-        {date: '001', name: '王小虎', address: '冻结'},
-        {date: '001', name: '王小虎', address: '冻结'}
-      ],
+      courseTableData: [],
       dialogVisible: false,
+      fullscreenLoading: false, //加载动画
       courseVal: '',
       course: [
           {label: '全部' , value: '选项1'},
@@ -157,6 +155,9 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.getCourseData()
+  },
   methods: {
     openMadel () {
       this.$confirm('请确认是否继续删除', '删除提示窗口', {
@@ -174,6 +175,20 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    getCourseData() {
+        this.axios.post('/course/list.json').then((res) =>{
+            this.fullscreenLoading = true
+            if (res.data.success) {
+                let courseDta  = res.data.result.modelData
+                this.courseTableData = courseDta
+            }
+            setTimeout(() => {
+                this.fullscreenLoading = false
+            }, 1000)
+        }).catch((error) =>{
+            console.log(`请求错误`)
+        })
     }
   }
 }
