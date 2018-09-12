@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="right-box">
     <div class="nav" >
       课题列表
     </div>
@@ -11,17 +11,17 @@
         <el-input v-model="formInline.title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="话题频道">
-        <el-select v-model="formInline.region" size="small">
+        <el-select v-model="formInline.channelVal" size="small">
           <el-option
           v-for="item in formInline.channelList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="话题分类" >
-        <el-select v-model="formInline.classification_val" size="small" >
+        <el-select v-model="formInline.classificationVal" size="small" >
           <el-option
           v-for="item in formInline.classificationList"
           :key="item.value"
@@ -37,112 +37,110 @@
         :picker-options="pickerOptions2"
         range-separator="至"
         start-placeholder="开始日期"
-        end-placeholder="结束日期" size="small">
+        end-placeholder="结束日期" 
+        value-format="yyyy-MM-dd HH:mm:ss"
+        size="small">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      ref="multipleTable"
-      :data="tableData3"
-      tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
-      @selection-change="handleSelectionChange" border>
-      <el-table-column
-        type="selection"
-        label="全部"
-        width="55" >
-      </el-table-column>
-      <el-table-column
-        label="话题id"
-        width="80" align="center" >
-        <template slot-scope="scope">
-          <el-button
-          size="mini"
-          @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.id}}
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="话题标题"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="describe"
-        label="话题内容"
-        width="200" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="channel"
-        label="话题频道"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="classification"
-        label="话题分类"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="tag"
-        label="话题标签"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="创建人"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="time"
-        label="话题创建时间"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="160" >
-        <template slot-scope="scope">
-          <el-button
+    <template v-if="total >0" >
+      <el-table
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        @selection-change="handleSelectionChange" border>
+        <el-table-column
+          type="selection"
+          label="全部"
+          width="55" >
+        </el-table-column>
+        <el-table-column
+          label="话题id"
+          width="80" align="center" >
+          <template slot-scope="scope">
+            <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+            @click="goDetail(scope.$index, scope.row)">
+              {{scope.row.id}}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="话题标题"
+          width="80" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="content"
+          label="话题内容"
+          width="200" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="business"
+          label="话题频道"
+          width="100" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="categorySigns"
+          label="话题分类"
+          width="100" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="lableIds"
+          label="话题标签"
+          width="100" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="adminName"
+          label="创建人"
+          width="100" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="createdAt"
+          label="话题创建时间"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          align="center" width="160" >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="btn-box" >
+        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+      </div>
+    </template>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
   </div>
 </template>
 <script>
 export default {
-  name: 'Interlocution',
+  name: 'InterlocutionList',
   data () {
     return {
       formInline: {
         id: '',
         title: '',
-        user: '',
-        region: '',
-        channelList: [{
-          value: '选项1',
-          label: '语培'
-        }, {
-          value: '选项2',
-          label: '留学'
-        }],
-        classification_val: '0',
+        channelVal: '',
+        channelList: [],
+        classificationVal: '0',
         classificationList: [{
           value: '0',
           label: '全部'
@@ -183,63 +181,76 @@ export default {
           }
         }]
       },
-      tableData3: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        id: '10001',
-        title: '美国留学',
-        describe: '美国留学非常好啊',
-        channel: '语培',
-        classification: '托福',
-        tag: '时讯，非时讯',
-        time: '2018.01.01'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        id: '10001',
-        title: '美国留学我是科比啊 哈哈哈',
-        describe: '美国留学非常好啊',
-        channel: '语培',
-        classification: '托福',
-        tag: '时讯，非时讯',
-        time: '2018.01.01'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        id: '10001',
-        title: '美国留学',
-        describe: '美国留学非常好啊',
-        channel: '语培',
-        classification: '托福',
-        tag: '时讯，非时讯',
-        time: '2018.01.01'
-      }],
+      tableData: [],
       multipleSelection: [],
-      currentPage: 1
+      currentPage: 1,
+      total: 0,
+      totalData: []
     }
   },
   methods: {
     onSubmit (e) {
-      console.log('submit!')
+      axios.post('topic/list/list.json', {
+        // id: this.formInline.id,
+        // name: this.formInline.title,
+        // business: this.formInline.channelVal,
+        // categorySigns: this.formInline.classificationVal,
+        // createdAtFrom: this.formInline.timeVal[0],
+        // createdAtTo: this.formInline.timeVal[1]
+      })
+      .then(function (response) {
+        console.log(response)
+        this.total = response.data.result.total
+        this.tableData = response.data.result.modelData
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      })
     },
-    toggleSelection (rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
-      }
+    batchDelete () {
+
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
     handleEdit (index, row) {
-      console.log(index, row)
       this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})
     },
     handleDelete (index, row) {
-      console.log(index, row)
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post('/topic/list/delete.json', {
+          id: [row.id]
+        })
+        .then(function (response) {
+          console.log(response)
+          if (response.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              window.location.reload()
+            },500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.message
+            })
+          }
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })     
+      })
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -250,14 +261,32 @@ export default {
     goDetail (index, row) {
       this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})
     }
+  },
+  mounted () {
+    axios.post('common/code/channel/list.json', {
+      
+    })
+    .then(function (response) {
+      this.formInline.channelList = response.data.result
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
   }
 }
 </script>
 <style scoped>
-  .nav{
-    width:100%;
+  .right-box {
+    display: flex;
+    flex-direction: column
+  }
+  .nav {
     height:40px;
     font-size: 18px;
-    line-height: 40px;
+    line-height: 40px
+  }
+  .btn-box {
+    display: flex;
+    justify-content: flex-end
   }
 </style>
