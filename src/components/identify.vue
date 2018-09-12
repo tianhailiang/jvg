@@ -120,7 +120,7 @@ export default {
           this.randomNum(0, this.contentWidth),
           this.randomNum(0, this.contentHeight)
         )
-        ctx.stroke()
+        // ctx.stroke()
       }
     },
     drawDot (ctx) {

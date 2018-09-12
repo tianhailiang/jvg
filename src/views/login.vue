@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <section class="advert-container personnel chart-container" style="overflow:hidden;">
         <div>
             <top-nav></top-nav>
         </div>
@@ -24,7 +24,7 @@
                 </el-form-item>
             </el-form>
         </div>
-    </div>
+    </section>
 </template>
 <script>
 import TopNav from '@/components/NavLogin.vue'

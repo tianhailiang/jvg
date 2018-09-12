@@ -1,9 +1,9 @@
 <template>
-    <div class="personnel">
+    <section class="advert-container personnel" style="overflow:hidden;">
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">用户分析</p>
         </el-col>
-        <el-col :span='18' class='chart'>
+        <el-col :span='25' class='chart'>
             <p class="hui-title">新增用户趋势</p>
             <el-row class="chart-r" style="font-size: 25px;width: 150px;float: left;text-align: center;color: green;">
                     <el-col class="active"><div>总览新增</div></el-col>
@@ -19,7 +19,7 @@
                 <div id='userChart' style='height: 400px;width: 800px;margin-left: 10px;' >图表加载失败</div>
             </el-row>
         </el-col>
-        <el-col :span='18' class='chart'>
+        <el-col :span='25' class='chart'>
             <p class="hui-title">渠道用户</p>
             <el-row class="chart-r" style="font-size: 25px;width: 150px;float: left;text-align: center;color: green;">
                     <el-col class="active"><div>版本分布</div></el-col>
@@ -39,13 +39,13 @@
                 <div id='userChart2' style='height: 400px;width: 400px;margin-left: 10px;' >图表加载失败</div>
             </el-row>
         </el-col>
-        <el-col :span='9' class='chart'>
+        <el-col :span='12' class='chart'>
             <p class="hui-title">用户年龄分布</p>
-            <el-row style="float: left;width: 400px;">
-                <div id='userChart3' style='height: 400px;width: 400px;margin-left: 10px;' >图表加载失败</div>
+            <el-row style="float: left;width: 700px;">
+                <div id='userChart3' style='height: 400px;width: 600px;margin-left: 10px;' >图表加载失败</div>
             </el-row>
         </el-col>
-    </div>
+    </section>
 </template>
 <script>
 import echarts from 'echarts'
@@ -185,17 +185,25 @@ export default {
       myChart3.showLoading()
       var option3 = {
         title: {
-          y: '15'
+          y: '20'
+        },
+        grid: {
+          top: '10%',
+          left: '-6%',
+          right: '0%',
+          bottom: '3%',
+          containLabel: true
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         series: [
           {
-            name: '华东',
+            name: '用户年龄分布',
             type: 'pie',
-            radius: '70%',
-            center: ['50%', '60%'],
+            radius: '90%',
+            center: ['45%', '50%'],
             data: [
               {value: 335, name: '直接访问'},
               {value: 310, name: '邮件营销'},
@@ -205,8 +213,8 @@ export default {
             ],
             itemStyle: {
               emphasis: {
-                shadowBlur: 100,
-                shadowOffsetX: 50,
+                shadowBlur: 50,
+                shadowOffsetX: 20,
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
             }
