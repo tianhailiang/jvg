@@ -12,7 +12,7 @@
 </div>
 </template>
 <script>
-import TopNav from '@/components/Nav.vue'
+import TopNav from '@/components/nav.vue'
 import SideNav from '@/components/SideNav.vue'
 export default {
   components: {

@@ -149,8 +149,8 @@
                 <el-table-column prop="collegesId" label="名称" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center">
                     <template slot-scope="scope">
-                        <el-button @click="onEditClick(scope.$index)" type="primary" size="small" class="el-icon-sort-down" circle>降序</el-button>
-                        <el-button @click="onDelClick(scope.$index)" type="primary" size="small" class="el-icon-sort-up" circle> 升序</el-button>
+                        <el-button type="primary" size="small" class="el-icon-sort-down" circle>降序</el-button>
+                        <el-button type="primary" size="small" class="el-icon-sort-up" circle> 升序</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -175,7 +175,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
-                  <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※标签语种：</p>
+                  <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※标签名称：</p>
                   <el-form-item>
                       <el-input placeholder="请输入标签名称"></el-input>
                   </el-form-item>

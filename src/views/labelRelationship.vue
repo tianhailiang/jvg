@@ -9,7 +9,7 @@
                   <el-input placeholder="请输入标签ID"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="语种：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -18,7 +18,7 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="频道：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -27,7 +27,7 @@
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="类别：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -53,7 +53,11 @@
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
-                <el-table-column prop="collegesId" label="一级类目" align="center"></el-table-column>
+                <el-table-column label="一级类目" align="center">
+                    <template slot-scope="scope">
+                        <el-button @click="onDisableClik" type="text" size="small">{{scope.row.collegesId}}</el-button>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="collegesName" label="二级类目" align="center"></el-table-column>
                 <el-table-column prop="country" label="三级类目" align="center"></el-table-column>
                 <el-table-column prop="phone" label="语种" align="center"></el-table-column>
@@ -175,7 +179,7 @@
                         <el-input placeholder="请输入标签级别"></el-input>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip align="center" fixed="right">
+                <el-table-column label="操作" align="center" fixed="right" width="200">
                     <template slot-scope="scope">
                         <el-button @click="onNextThree(scope.$index)" type="primary" size="small">推荐</el-button>
                         <el-button @click="onNextThree(scope.$index)" type="primary" size="small">撤销</el-button>
