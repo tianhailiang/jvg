@@ -3,17 +3,17 @@
     <div class="nav" >
       课题列表
     </div>
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="话题ID">
-        <el-input v-model="formInline.id" size="small"></el-input>
+        <el-input v-model="id" size="small"></el-input>
       </el-form-item>
       <el-form-item label="话题标题">
-        <el-input v-model="formInline.title" size="small"></el-input>
+        <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="话题频道">
-        <el-select v-model="formInline.channelVal" size="small">
+        <el-select v-model="channelVal" size="small">
           <el-option
-          v-for="item in formInline.channelList"
+          v-for="item in channelList"
           :key="item.id"
           :label="item.name"
           :value="item.id">
@@ -21,9 +21,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="话题分类" >
-        <el-select v-model="formInline.classificationVal" size="small" >
+        <el-select v-model="classificationVal" size="small" >
           <el-option
-          v-for="item in formInline.classificationList"
+          v-for="item in classificationList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -32,7 +32,7 @@
       </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker
-        v-model="formInline.timeVal"
+        v-model="timeVal"
         type="datetimerange"
         :picker-options="pickerOptions2"
         range-separator="至"
@@ -135,25 +135,23 @@ export default {
   name: 'InterlocutionList',
   data () {
     return {
-      formInline: {
-        id: '',
-        title: '',
-        channelVal: '',
-        channelList: [],
-        classificationVal: '0',
-        classificationList: [{
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '托福'
-        }, {
-          value: '2',
-          label: '雅思'
-        }],
-        timeVal: ''
+      id: '',
+      title: '',
+      channelVal: '',
+      channelList: [],
+      classificationVal: '0',
+      classificationList: [{
+        value: '0',
+        label: '全部'
       },
+      {
+        value: '1',
+        label: '托福'
+      }, {
+        value: '2',
+        label: '雅思'
+      }],
+      timeVal: '',
       pickerOptions2: {
         shortcuts: [{
           text: '最近一周',
@@ -191,15 +189,15 @@ export default {
   methods: {
     onSubmit (e) {
       axios.post('topic/list/list.json', {
-        // id: this.formInline.id,
-        // name: this.formInline.title,
-        // business: this.formInline.channelVal,
-        // categorySigns: this.formInline.classificationVal,
-        // createdAtFrom: this.formInline.timeVal[0],
-        // createdAtTo: this.formInline.timeVal[1]
+        languages: "zh",
+        id: this.id,
+        name: this.title,
+        business: this.channelVal,
+        categorySigns: this.classificationVal,
+        createdAtFrom: this.timeVal[0],
+        createdAtTo: this.timeVal[1]
       })
       .then(function (response) {
-        console.log(response)
         this.total = response.data.result.total
         this.tableData = response.data.result.modelData
       }.bind(this))
@@ -222,7 +220,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('/topic/list/delete.json', {
+        axios.post('topic/list/delete.json', {
           id: [row.id]
         })
         .then(function (response) {
@@ -266,7 +264,7 @@ export default {
     axios.post('common/code/channel/list.json', {
     })
     .then(function (response) {
-      this.formInline.channelList = response.data.result
+      this.channelList = response.data.result
     }.bind(this))
     .catch(function (error) {
       console.log(error)

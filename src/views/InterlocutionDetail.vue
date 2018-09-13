@@ -110,7 +110,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            @click="handleDelete([scope.row.questionId])">删除</el-button>
         </template>
         </el-table-column>
       </el-table>
@@ -168,9 +168,60 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
+      // console.log(this.multipleSelection)
     },
-    handleDelete (index, row) {
-      console.log(index, row)
+    handleDelete (qaId) {
+      console.log(qaId)
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post('topic/detail/delete.json', {
+          id: this.formInline.id,
+          qaId: qaId
+        })
+        .then(function (response) {
+          console.log(response)
+          if (response.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              window.location.reload()
+            },500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.message
+            })
+          }
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })     
+      })
+    },
+    batchDelete () {
+      let multipleQaid = []
+      this.multipleSelection.forEach((item, index) => {
+        multipleQaid.push(item.questionId)
+      })
+      // console.log(multipleQaid)
+      if (multipleQaid.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选问答'
+        })
+        return false
+      }
+      this.handleDelete(multipleQaid)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -190,11 +241,11 @@ export default {
     goDetail () {
       this.dialogFormVisible1 = true
     },
-    topicQuery (pageNo) {
+    topicQuery () {
       /* 查询话题详情接口 */
       axios.post('topic/detail/detail.json', {
-        id: 1,
-        pageNo: pageNo,
+        id: this.$route.params.id,
+        pageNo: this.currentPage,
         pageSize: 20,
         languages: 'zh'
       })
@@ -224,7 +275,7 @@ export default {
     })
     this.formInline.id = this.$route.params.id
     this.currentPage = Number(this.$route.query.currentPage) || 1
-    this.topicQuery(this.currentPage)
+    this.topicQuery()
   }
 }
 </script>
