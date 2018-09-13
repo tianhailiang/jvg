@@ -12,3 +12,7 @@ export const courseComent = (params) => {
 export const removeCourse = (parms) => {
   return http.fetchPost(url + 'course/delete.json', parms)
 }
+//冻结/解冻课程
+export const jdCourse = (parms) => {
+  return http.fetchPost(url + 'course/frozen.json', parms)
+}

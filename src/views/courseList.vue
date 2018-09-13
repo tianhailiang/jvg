@@ -4,7 +4,7 @@
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
               <el-form-item label="课程ID">
-                  <el-input placeholder="审批人"></el-input>
+                  <el-input placeholder="审批人" v-model="id"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -55,7 +55,7 @@
               </el-form-item>
           </el-col>
           <el-col :span="6" style="margin-top:30px;">
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="searchData">搜索</el-button>
               <el-button size="small" type="primary">创建课程</el-button>
           </el-col>
       </el-form>
@@ -76,8 +76,8 @@
         <el-table-column prop="liveStatusValue" label="直播状态" width="100" align="center"></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
             <template slot-scope="scope">
-                <el-button size="mini" type="danger" @click="dialogVisible = true" class="btn-edit">冻结</el-button>
-                <el-button size="mini" type="danger" @click="removeCourse(4)" class="btn-edit">删除</el-button>
+                <el-button size="mini" type="danger" @click="jiedCourse" class="btn-edit">冻结</el-button>
+                <el-button size="mini" type="danger" @click="removeCourse()" class="btn-edit">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -122,7 +122,7 @@
   </section>
 </template>
 <script>
-import { courseList,removeCourse } from '../api/api.js'
+import { courseList,removeCourse,jdCourse } from '../api/api.js'
 export default {
   name: 'courseList',
   data () {
@@ -132,6 +132,7 @@ export default {
       fullscreenLoading: false, //加载动画
       courseVal: '',
       total: null,
+      id:'',
       course: [
           {label: '全部' , value: '选项1'},
           {label: '托福' , value: '选项2'},
@@ -159,29 +160,26 @@ export default {
       ]
     }
   },
-  created() {
-    this.getCourseData()
-  },
   methods: {
-    removeCourse (ids) {
-    //   this.$confirm('请确认是否继续删除', '删除提示窗口', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     removeCourse({1}).then(res => {
-    //         this.$message.success('删除成功!')
-    //         this.getCourseData()
-    //     })
-    //   }).catch(() => {
-    //     this.$message.success('取消删除!')
-    //   })
-        removeCourse().then(res => {
+    removeCourse() {    //删除课程
+        removeCourse({id:this.id}).then((res) => {
             console.log(res)
         })
     },
-    getCourseData() {
-        courseList().then(res => {
+    searchData() {
+        console.log(100)
+        courseList({
+            //"id": 100001,
+        // "title": "第一节课",
+        // "categorySigns": "tuofu",
+        // "couresModel": 1,
+        // "userId": 1,
+        // "upDown": 1,
+        // "liveStatus": 1,
+        // "profession": 1,
+        // "pageNo": 2,
+        // "pageSize": 20
+        }).then(res => {
             if (res.success) {
                 let courseTableData = res.result.modelData
                 this.courseTableData = courseTableData
@@ -190,8 +188,27 @@ export default {
         }).catch(error => {
             console.log(`请求出现错误`)
         })
+    },
+    jiedCourse() { // 冻结课程
+        // jdCourse({
+        //     "ids": [21],
+        //     "upDown": 3,
+        //     "downMemo": "冻结原因冻结原因冻结原因"
+        // }).then(res => {
+        //     console.log(res)
+        // })
+        this.axios.post('course/frozen.json', {
+            "ids": [36],
+            "upDown": 3,
+            "downMemo": "冻结原因冻结原因冻结原因"
+        }).then(res => {
+            console.log(res)
+        })
     }
-  }
+  },
+  mounted() {
+    
+  },
 }
 </script>
 <style scoped>
