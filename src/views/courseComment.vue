@@ -4,11 +4,11 @@
     <el-row :gutter="20">
           <el-col :span="5"><div class="grid-content bg-purple">
             <el-form-item label="课程ID">
-              <el-input placeholder="审批人"></el-input>
+              <el-input></el-input>
           </el-form-item></div></el-col>
           <el-col :span="5"><div class="grid-content bg-purple">
               <el-form-item label="课程标题">
-                  <el-input placeholder="课程标题"></el-input>
+                  <el-input></el-input>
               </el-form-item>  
           </div></el-col>
           <el-col :span="7"><div class="grid-content bg-purple">
@@ -24,33 +24,32 @@
           </div></el-col>
           <el-col :span="5"><div class="grid-content bg-purple">
             <el-form-item label="讲师名称">
-              <el-input placeholder="讲师名称"></el-input>
+              <el-input></el-input>
           </el-form-item></div></el-col>
-          <div class="search-btn">
+          <div class="search-btn" style="margin-top:30px;">
               <el-button size="small" type="primary">搜索</el-button>
           </div>
     </el-row>
   </el-form>
     <!-- 表格 -->
-    <el-table :data=tableData3 border>
-        <el-table-column prop="date" label="NO" width="80" align="center">
-            <template scope="scope">
-                <span @click="openDatilog(scope.row)" class="link-span">{{scope.row.date}}</span>
-            </template>
+    <el-table :data=courseComentTabel border v-loading="loading" element-loading-text="努力奔跑中...">
+        <el-table-column prop="date" label="NO" width="80" align="center" type="index">
         </el-table-column>
-        <el-table-column prop="date" label="课程ID" width="80" align="center"></el-table-column>
-        <el-table-column prop="name" label="课程标题" width="160" align="center"></el-table-column>
-        <el-table-column prop="name" label="讲师名称" width="160" align="center"></el-table-column>
-        <el-table-column prop="name" label="好评度" width="160" align="center"></el-table-column>
-        <el-table-column prop="name" label="好评数" width="160" align="center"></el-table-column>
-        <el-table-column prop="name" label="中评数" width="160" align="center"></el-table-column>
-        <el-table-column prop="address" label="差评" align="center"></el-table-column>
+        <el-table-column prop="id" label="课程ID" width="80" align="center"></el-table-column>
+        <el-table-column prop="title" label="课程标题" width="160" align="center"></el-table-column>
+        <el-table-column prop="realName" label="讲师名称" width="160" align="center"></el-table-column>
+        <el-table-column prop="raveDegree" label="好评度" width="160" align="center"></el-table-column>
+        <el-table-column prop="raveNumber" label="好评数" width="160" align="center"></el-table-column>
+        <el-table-column prop="intermediateNumber" label="中评数" width="160" align="center"></el-table-column>
+        <el-table-column prop="badNumber" label="差评" align="center"></el-table-column>
     </el-table>
     <div style="height:30px"></div>
     <!-- 分页 -->
     <div class="page-center">
-      <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
-      <el-button size="small" type="primary">确定</el-button>
+      <el-pagination 
+      background
+      layout="prev, pager, next, jumper" :page-size="20" :total="total"></el-pagination>
+      <el-button size="small" type="primary" style="margin-left:20px;">确定</el-button>
     </div>
     <!-- 课程详情model -->
     <el-dialog title="课程评论详情" :visible.sync="formVisible">
@@ -133,7 +132,7 @@
                 </el-form>
             </el-row>
                   <!-- 表格 -->
-                  <el-table :data="tableData3" border>
+                  <!-- <el-table :data="tableData3" border>
                       <el-table-column type="selection" width="55"></el-table-column>
                       <el-table-column prop="date" label="评论ID" width="102" align="center"></el-table-column>
                       <el-table-column prop="name" label="评论内容" width="102" align="center"></el-table-column>
@@ -149,7 +148,7 @@
                               <el-button size="mini" type="danger">删除</el-button>
                           </template>
                       </el-table-column>
-                  </el-table>
+                  </el-table> -->
                   <div style="height:30px"></div>
                   <!-- 分页 -->
                   <el-row :gutter="20">
@@ -167,28 +166,46 @@
   </section>
 </template>
 <script>
+import { courseComent } from '../api/api.js'
 export default {
   name: 'courseComment',
     data () {
       return {
-        tableData3: [
-        {date: '001', name: '张三', address: '89'},
-        {date: '002', name: '张三', address: '89'},
-        {date: '003', name: '张三', address: '89'}
-      ],
-      formVisible: false,
-      value: '',
-      options: [
-        {value: '选项1',label: '好评'},
-        {value: '选项2',label: '中评'},
-        {value: '选项3',label: '差评'}
-      ]
+        courseComentTabel: [],
+        total: null,
+        loading: true,
+        formVisible: false,
+        value: '',
+        options: [
+            {value: '选项1',label: '好评'},
+            {value: '选项2',label: '中评'},
+            {value: '选项3',label: '差评'}
+        ]
     }
+  },
+  created() {
+    this.getCourseComent()
   },
   methods: {
     openDatilog (row) {
       this.formVisible = true
       this.row = row
+    },
+    getCourseComent () {
+      this.loading = true
+      courseComent().then(res =>{          
+          if (res.success) {
+            let dataComment = res.result.modelData
+            this.courseComentTabel = dataComment
+            this.total = res.result.total
+            console.log(res.result)
+            setTimeout(() => {
+                this.loading = false
+            },700)
+          }
+      }).catch(error => {
+          console.log(`返回错误消息`)
+      })
     }
   }
 }
@@ -197,6 +214,7 @@ export default {
 .page-center{
   display: flex;
   justify-content: center;
+  margin-bottom:20px;
 }
 .search-btn{
   display: flex;

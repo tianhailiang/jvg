@@ -76,21 +76,24 @@
         <el-table-column prop="liveStatusValue" label="直播状态" width="100" align="center"></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
             <template slot-scope="scope">
-                <el-button size="mini" type="danger" @click="dialogVisible = true">冻结</el-button>
+                <el-button size="mini" type="danger" @click="dialogVisible = true" class="btn-edit">冻结</el-button>
+                <el-button size="mini" type="danger" @click="removeCourse(4)" class="btn-edit">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
     <div style="height:30px"></div>
     <!-- 分页 -->
-    <el-row :gutter="20">
+    <el-row :gutter="20" class="pagina-tion">
         <el-col :span="11">
-            <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+            <el-pagination background layout="prev, pager, next, jumper" 
+            :total="total"
+            :page-size="20"></el-pagination>
         </el-col>
         <el-col :span="8">
             <el-button size="small" type="primary">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="openMadel">批量删除</el-button>
+            <el-button size="small" type="primary" @click="">批量删除</el-button>
             <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
         </el-col>
     </el-row>
@@ -119,7 +122,7 @@
   </section>
 </template>
 <script>
-{}
+import { courseList,removeCourse } from '../api/api.js'
 export default {
   name: 'courseList',
   data () {
@@ -128,6 +131,7 @@ export default {
       dialogVisible: false,
       fullscreenLoading: false, //加载动画
       courseVal: '',
+      total: null,
       course: [
           {label: '全部' , value: '选项1'},
           {label: '托福' , value: '选项2'},
@@ -155,41 +159,42 @@ export default {
       ]
     }
   },
-  mounted() {
+  created() {
     this.getCourseData()
   },
   methods: {
-    openMadel () {
-      this.$confirm('请确认是否继续删除', '删除提示窗口', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
+    removeCourse (ids) {
+    //   this.$confirm('请确认是否继续删除', '删除提示窗口', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     removeCourse({1}).then(res => {
+    //         this.$message.success('删除成功!')
+    //         this.getCourseData()
+    //     })
+    //   }).catch(() => {
+    //     this.$message.success('取消删除!')
+    //   })
+        removeCourse().then(res => {
+            console.log(res)
         })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
     },
     getCourseData() {
-        this.axios.post('/course/list.json').then((res) =>{
-            this.fullscreenLoading = true
-            if (res.data.success) {
-                let courseDta  = res.data.result.modelData
-                this.courseTableData = courseDta
+        courseList().then(res => {
+            if (res.success) {
+                let courseTableData = res.result.modelData
+                this.courseTableData = courseTableData
+                this.total = res.result.total
             }
-            setTimeout(() => {
-                this.fullscreenLoading = false
-            }, 1000)
-        }).catch((error) =>{
-            console.log(`请求错误`)
+        }).catch(error => {
+            console.log(`请求出现错误`)
         })
     }
   }
 }
 </script>
+<style scoped>
+.btn-edit{display:block; margin-top: 5px;}
+.pagina-tion{ margin-bottom: 30px;}
+</style>
