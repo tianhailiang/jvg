@@ -132,7 +132,7 @@ export default {
       formInline: {
         articleId: '',
         title: '',
-        userClassify: '0',
+        userClassify: '2',
         userClassifyList: [{
           value: '0',
           label: '全部'

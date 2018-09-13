@@ -264,7 +264,6 @@ export default {
   },
   mounted () {
     axios.post('common/code/channel/list.json', {
-      
     })
     .then(function (response) {
       this.formInline.channelList = response.data.result
