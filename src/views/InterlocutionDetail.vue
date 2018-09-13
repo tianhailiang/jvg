@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="right-box">
     <div class="nav" >
       话题详情（新建/编辑）
     </div>
@@ -244,14 +244,33 @@ export default {
     goDetail () {
       this.dialogFormVisible1 = true
     }
+  },
+  mounted () {
+    this.formInline.id = this.$route.params.id
+    axios.post('topic/detail/detail.json', {
+      id: this.$route.params.id
+    })
+    .then(function (response) {
+      console.log(response)
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error)
+    })
   }
 }
 </script>
 <style scoped>
-  .nav{
-    width:100%;
+  .right-box {
+    display: flex;
+    flex-direction: column
+  }
+  .nav {
     height:40px;
     font-size: 18px;
-    line-height: 40px;
+    line-height: 40px
+  }
+  .btn-box {
+    display: flex;
+    justify-content: flex-end
   }
 </style>

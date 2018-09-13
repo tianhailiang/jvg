@@ -1,5 +1,5 @@
 <template>
-    <div class="personnel">
+    <section class="advert-container personnel" style="overflow:hidden;">
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">数据看板</p>
         </el-col>
@@ -25,7 +25,7 @@
                 <el-col :span="4"><div class="red-title">170000</div><div>累计悬赏金额</div></el-col>
             </el-row>
         </el-col>
-        <el-col :span='18' class='chart'>
+        <el-col :span='25' class='chart'>
             <p class="hui-title">新增用户趋势</p>
             <el-row class="chart-r" style="width: 200px;float: left;margin-top: 20px;">
                     <el-col ><div>本月新增用户</div></el-col>
@@ -48,7 +48,7 @@
                 <div id='userChart' style='height: 400px;width: 800px;' >图表加载失败</div>
             </el-row>
         </el-col>
-        <el-col :span='18' class='chart'>
+        <el-col :span='25' class='chart'>
             <p class="hui-title">活动用户趋势</p>
             <el-row class="chart-r" style="width: 200px;float: left;margin-top: 20px;">
                     <el-col ><div>本月活跃用户</div></el-col>
@@ -71,8 +71,7 @@
                 <div id='userChart1' style='height: 400px;width: 800px;' >图表加载失败</div>
             </el-row>
         </el-col>
-
-    </div>
+    </section>
 </template>
 <script>
 import echarts from 'echarts'
