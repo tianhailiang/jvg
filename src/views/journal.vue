@@ -38,14 +38,14 @@
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>
-            <el-table-column prop="registertime" label="操作时间" align="center"></el-table-column>
-            <el-table-column prop="collegesId" label="操作信息" align="center"></el-table-column>
-            <el-table-column prop="userClassify" label="操作类型" align="center"></el-table-column>
-            <el-table-column prop="collegesId" label="操作者ID" align="center"></el-table-column>
+            <el-table-column prop="operationDate" label="操作时间" align="center"></el-table-column>
+            <el-table-column prop="operationMemo" label="操作信息" align="center"></el-table-column>
+            <el-table-column prop="operation" label="操作类型" align="center"></el-table-column>
+            <el-table-column prop="userId" label="操作者ID" align="center"></el-table-column>
             <el-table-column prop="userName" label="操作者名称" align="center"></el-table-column>
         </el-table>
         </el-col>
-        <div style="height:30px"></div>
+        <!-- <div style="height:30px"></div>
 
         <el-col :span="18" style="text-align: center;">
             <el-col :span="12">
@@ -54,21 +54,22 @@
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
-            <!-- <el-col :span="3" style="float: right;">
+            <el-col :span="3" style="float: right;">
                 <el-button size="small" type="primary">批量删除</el-button>
-            </el-col> -->
-        </el-col>
+            </el-col>
+        </el-col> -->
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
-            <p style="font-size: 30px;">请确认是否继续逻辑删除</p>
+            <p style="font-size: 30px;">请确认是否继续逻辑一键删除</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+                <el-button type="primary" @click="onDel">确 定</el-button>
             </span>
         </el-dialog>
     </div>
 </template>
 <script>
+import { logsDelete,logsList } from '../api/url.js'
 export default {
   data () {
     return {
@@ -76,51 +77,7 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: []
     }
   },
   methods: {
@@ -132,7 +89,35 @@ export default {
     },
     onDelClick () {
       this.isDialogShow = true
+    },
+    onDel () {
+      logsDelete().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow = false
+          this.$message(res.message)
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    postData () {
+      logsList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          if (res.result.modelData.length > 0) this.tableData = res.result
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>

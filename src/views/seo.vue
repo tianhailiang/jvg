@@ -21,9 +21,9 @@
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>
-            <el-table-column prop="userClassify" label="频道" align="center"></el-table-column>
-            <el-table-column prop="collegesId" label="说明" align="center"></el-table-column>
-            <el-table-column prop="collegesId" label="关键字" align="center"></el-table-column>
+            <el-table-column prop="channelName" label="频道" align="center"></el-table-column>
+            <el-table-column prop="memo" label="说明" align="center"></el-table-column>
+            <el-table-column prop="keyword" label="关键字" align="center"></el-table-column>
             <el-table-column width="250" label="操作" show-overflow-tooltip align="center">
                 <template slot-scope="scope">
                     <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
@@ -32,7 +32,7 @@
             </el-table-column>
         </el-table>
         </el-col>
-        <div style="height:30px"></div>
+        <!-- <div style="height:30px"></div>
 
         <el-col :span="18" style="text-align: center;">
             <el-col :span="12">
@@ -41,16 +41,16 @@
             <el-col :span="3">
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
-            <!-- <el-col :span="3" style="float: right;">
+            <el-col :span="3" style="float: right;">
                 <el-button size="small" type="primary">批量删除</el-button>
-            </el-col> -->
-        </el-col>
+            </el-col>
+        </el-col> -->
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
             <p style="font-size: 30px;">请确认是否继续删除</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+                <el-button type="primary" @click="onDel">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 编辑SEO关键字 -->
@@ -59,34 +59,35 @@
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
-                        <el-input placeholder="请输入ID" disabled></el-input>
+                        <el-input placeholder="请输入ID" disabled v-model="bianid"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="频道名称：" label-width="100px">
-                        <el-input placeholder="请输入频道名称" disabled></el-input>
+                        <el-input placeholder="请输入频道名称" disabled v-model="bianming"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="关键字说明：" label-width="100px">
-                        <el-input placeholder="请输入关键字说明" disabled></el-input>
+                        <el-input placeholder="请输入关键字说明" disabled v-model="bianshuo"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="20">
                     <el-form-item label="关键字：" label-width="100px">
-                        <el-input type="textarea" placeholder="请录入关键字" :rows="5" style="width: 400px"></el-input>
+                        <el-input type="textarea" v-model="bianguan" placeholder="请录入关键字" :rows="5" style="width: 400px"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow1 = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow1 = false">提 交</el-button>
+                <el-button type="primary" @click="onEdit">提 交</el-button>
             </span>
         </el-dialog>
     </div>
 </template>
 <script>
+import { seosList,seosUpdate,seosDelete } from '../api/url.js'
 export default {
   data () {
     return {
@@ -94,60 +95,72 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: [],
+      bianid: '',
+      bianming: '',
+      bianshuo: '',
+      bianguan: ''
     }
   },
   methods: {
     onEditClick (index) {
+        //显示SEO编辑框
       this.isDialogShow1 = true
+      this.bianid = this.tableData[index].id
+      this.bianming = this.tableData[index].channelName
+      this.bianshuo = this.tableData[index].memo
+      this.bianguan = this.tableData[index].keyword
+    },
+    onEdit () {
+        //编辑SEO
+      var data = {'id': this.bianid, 'keyword': this.bianguan}
+      seosUpdate(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow1 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onDelClick (index) {
+        //显示删除框
       this.isDialogShow = true
+      this.bianid = this.tableData[index].id
+    },
+    onDel () {
+        //删除seo
+      var data = {'id': this.bianid}
+      seosDelete(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    postData () {
+      seosList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>
