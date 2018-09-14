@@ -210,6 +210,7 @@ export default {
         this.courseTableData = res.data.result.modelData
         this.total = res.data.result.total
         this.loading = false
+        console.log(res)
       }).catch(error => {
           console.log(error)
       })

@@ -4,26 +4,26 @@
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
               <el-form-item label="课程ID">
-                  <el-input placeholder="审批人"></el-input>
+                  <el-input placeholder="审批人" v-model="id"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="课程标题">
-                  <el-input placeholder="课程标题"></el-input>
+                  <el-input placeholder="课程标题" v-model="title"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="课程分类">
-                  <el-select v-model="typesval">
-                      <el-option 
-                      :label="list.label"  
+                  <el-select v-model="categorySigns">
+                      <el-option
+                      :label="list.label"
                       :value="list.value" v-for="(list, index) in coursetypes"></el-option>
                     </el-select>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="上课模式">
-                  <el-select v-model="modlue">
+                  <el-select v-model="couresModel">
                       <el-option 
                       :label="item.label"  
                       :value="item.value" v-for="(item, indx) in courseModel">
@@ -33,9 +33,9 @@
           </el-col>
             <el-col :span="6">
                 <el-form-item label="审核状态">
-                    <el-select v-model="shengheval">
-                        <el-option 
-                        :label="item.label"  
+                    <el-select v-model="status">
+                        <el-option
+                        :label="item.label"
                         :value="item.value" v-for="(item, index) in shenghe"></el-option>
                     </el-select>
                 </el-form-item>
@@ -45,25 +45,24 @@
                     <el-input placeholder="讲师名称"></el-input>
                 </el-form-item>
             </el-col>
-            <el-button size="small" type="primary" style="margin-top:32px;">搜索</el-button>
+            <el-button size="small" type="primary" style="margin-top:32px;" @click="getCourseReviewData">搜索</el-button>
       </el-form>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="tableData3" border>
+    <el-table :data="courseReviewData" border v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="date" label="课程ID" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="课程标题" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="讲师名称" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="频道" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="课程分类" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="上课模式" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="教学模式" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="课程价格" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="直播时间" width="90" align="center"></el-table-column>
-        <el-table-column prop="name" label="审核状态" width="90" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" width="210" show-overflow-tooltip align="center">
+        <el-table-column prop="id" label="课程ID" width="90" align="center"></el-table-column>
+        <el-table-column prop="title" label="课程标题" width="90" align="center"></el-table-column>
+        <el-table-column prop="realName" label="讲师名称" width="90" align="center"></el-table-column>
+        <el-table-column prop="profession" label="频道" width="90" align="center"></el-table-column>
+        <el-table-column prop="categorySigns" label="课程分类" width="90" align="center"></el-table-column>
+        <el-table-column prop="couresModel" label="上课模式" width="90" align="center"></el-table-column>
+        <el-table-column prop="teachModel" label="教学模式" width="90" align="center"></el-table-column>
+        <el-table-column prop="price" label="课程价格" width="90" align="center"></el-table-column>
+        <el-table-column prop="beginTime" label="直播时间" width="90" align="center"></el-table-column>
+        <el-table-column prop="status" label="审核状态" width="90" align="center"></el-table-column>
+        <el-table-column label="操作" width="160" show-overflow-tooltip align="center">
             <template slot-scope="scope">
-                <el-button size="mini" type="danger">查看</el-button>
                 <el-button size="mini" type="danger">通过</el-button>
                 <el-button size="mini" type="danger" @click="dialogVisible = true">不通过</el-button>
             </template>
@@ -71,9 +70,12 @@
     </el-table>
     <div style="height:30px"></div>
     <!-- 分页 -->
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-if="courseReviewData.length">
         <el-col :span="11">
-            <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+            <el-pagination 
+            layout="prev, pager, next, jumper" 
+            :total="total"
+            background></el-pagination>
         </el-col>
         <el-col :span="8">
             <el-button size="small" type="primary">确定</el-button>
@@ -117,31 +119,64 @@ export default {
         {date: '2016', name: '张三', address: '查看'},
         {date: '2016', name: '张三', address: '查看'}
       ],
-      dialogVisible: false,
-      typesval: '',
-      modlue: '',
+        dialogVisible: false,
+        typesval: '',
+        modlue: '',
+        loading: false,
+        total: '',
+        title: '',
+        id:'',
+        categorySigns: '',
+        couresModel: 1,
+        userId: 1,
+        status: 2,
+        pageNo: 2,
+        pageSize: 20,
       coursetypes: [
-        {label: '全部', value: '选项1'},
-        {label: '托福', value: '选项2'},
-        {label: 'GRE', value: '选项3'}
+        {label: '全部', value: '1'},
+        {label: '托福', value: '2'},
+        {label: 'GRE', value: '3'}
       ],
       courseModel: [
-        {label: '全部', value: '选项1'},
-        {label: '普通个人', value: '选项2'},
-        {label: '个人讲师', value: '选项3'},
-        {label: '机构讲师', value: '选项4'},
-        {label: '院校讲师', value: '选项5'},
-        {label: '顾问', value: '选项6'},
-        {label: '大咖', value: '选项7'},
-        {label: '经纪人', value: '选项8'}
+        {label: '全部', value: '1'},
+        {label: '普通个人', value: '2'},
+        {label: '个人讲师', value: '3'},
+        {label: '机构讲师', value: '4'},
+        {label: '院校讲师', value: '5'},
+        {label: '顾问', value: '6'},
+        {label: '大咖', value: '7'},
+        {label: '经纪人', value: '8'}
       ],
       shengheval: '',
       shenghe: [
-        {label: '通过', value: '选项1'},
-        {label: '未通过', value: '选项2'},
-        {label: '已待审核', value: '选项3'},
-        {label: '全部', value: '选项4'}
-      ]
+        {label: '通过', value: '1'},
+        {label: '未通过', value: '2'},
+        {label: '已待审核', value: '3'},
+        {label: '全部', value: '4'}
+      ],
+      courseReviewData: []
+    }
+  },
+  created() {
+    // this.getCourseReviewData()
+  },
+  methods: {
+    getCourseReviewData() {
+      axios.post(this.$store.state.api.courseReview, {
+            id:this.id,
+            // "title": "",
+            // "categorySigns": "tuofu",
+            // "couresModel": 1,
+            // "userId": 1,
+            // "status": 2,
+            // "pageNo": 2,
+            // "pageSize": 20
+        }).then(res => {
+            this.courseReviewData = res.data.result.modelData
+            this.total = res.data.result.total
+      }).catch(error => {
+            console.log(`返回错误消息`)
+      })
     }
   }
 }
