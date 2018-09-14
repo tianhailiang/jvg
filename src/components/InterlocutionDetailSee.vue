@@ -1,33 +1,32 @@
 <template>
   <el-dialog title="问答详情查看" :visible.sync="dialogFormVisible1" width="80%" :before-close="handleClose">
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="问答ID：" :label-width="formLabelWidth">
-        {{formInline.id}}
+        {{id}}
       </el-form-item>
       <el-form-item label="问答标题：" :label-width="formLabelWidth">
-        {{formInline.title}}
+        {{title}}
       </el-form-item>
       <el-form-item label="悬赏状态：" :label-width="formLabelWidth">
-        {{formInline.rewardState}}
+        {{statusVal}}
       </el-form-item>
       <el-form-item label="悬赏内容：" :label-width="formLabelWidth">
-        {{formInline.rewardContent}}
+        {{type}}
       </el-form-item>
       <el-form-item label="发布人ID：" :label-width="formLabelWidth">
-        {{formInline.userId}}
+        {{userId}}
       </el-form-item>
       <el-form-item label="发布人名称：" :label-width="formLabelWidth">
-        {{formInline.userName}}
+        {{userName}}
       </el-form-item>
       <el-form-item label="状态：" :label-width="formLabelWidth">
-        {{formInline.state}}
+        {{upDownVal}}
       </el-form-item>
     </el-form>
     <el-table
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
       border>
       <el-table-column
         type="index"
@@ -35,37 +34,37 @@
         width="55" >
       </el-table-column>
       <el-table-column
-        prop="replayId"
+        prop="id"
         label="回复ID"
         width="80" align="center" >
       </el-table-column>
       <el-table-column
-        prop="replayContent"
+        prop="details"
         label="回复内容"
-        width="200" align="center" show-overflow-tooltip>
+        width="303" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="replayName"
+        prop="userName"
         label="回复人"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="replayTime"
+        prop="createdAt"
         label="回复时间"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="replayChannel"
+        prop="sourceName"
         label="回复渠道"
         width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="bestAnswer"
+        prop="typeVal"
         label="最佳答案"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="replayTwoNumber"
+        prop="answerCount"
         label="二级回复数"
         width="120" align="center" >
       </el-table-column>
@@ -74,64 +73,54 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="20"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total" style="text-align:center;margin-top:20px">
     </el-pagination>
   </el-dialog>
 </template>
 
 <script>
 export default {
-  props: ['dialogFormVisible1'],
+  props: ['dialogFormVisible1','id'],
   data () {
     return {
-      formInline: {
-        id: '',
-        title: '',
-        rewardState: '悬赏中',
-        rewardContent: '积分500',
-        userId: '15242755275',
-        userName: 'thl'
-      },
+      title: '',
+      statusVal: '',
+      type: '',
+      userId: '',
+      userName: '',
+      upDownVal: '',
       formLabelWidth: '100px',
-      tableData: [{
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }, {
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }, {
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }],
-      currentPage: 1
+      tableData: [],
+      currentPage: 1,
+      total: 0
+    }
+  },
+  watch: {
+    id: function(newVal, oldVal) {
+      this.id = newVal
+      axios.post('topic/qalist/detail.json', {
+        id: this.id
+      })
+      .then( response => {
+        this.title = response.data.result.title
+        this.statusVal = response.data.result.statusVal
+        this.type = response.data.result.type
+        this.userId = response.data.result.userId
+        this.userName = response.data.result.userName
+        this.upDownVal = response.data.result.upDownVal
+        this.tableData = response.data.result.qaData
+        this.total = response.data.result.total
+      })
+      .catch( error => {
+        console.log(error)
+      })
     }
   },
   methods: {
-    onSubmit () {
-
-    },
     handleClose (done) {
       this.$emit('update:dialogFormVisible1',false)
-    },
-    handleSelectionChange (val) {
-      this.multipleSelection = val
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -139,6 +128,8 @@ export default {
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
     }
+  },
+  mounted () {
   }
 }
 </script>

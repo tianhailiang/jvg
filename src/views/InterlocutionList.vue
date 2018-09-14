@@ -32,14 +32,14 @@
       </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker
-        v-model="timeVal"
-        type="datetimerange"
-        :picker-options="pickerOptions2"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期" 
-        value-format="yyyy-MM-dd HH:mm:ss"
-        size="small">
+          v-model="timeVal"
+          type="datetimerange"
+          :picker-options="pickerOptions2"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期" 
+          value-format="yyyy-MM-dd HH:mm:ss"
+          size="small">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -132,7 +132,7 @@
 </template>
 <script>
 export default {
-  name: 'InterlocutionList',
+  name: 'interlocutionList',
   data () {
     return {
       id: '',
@@ -182,20 +182,21 @@ export default {
       tableData: [],
       multipleSelection: [],
       currentPage: 1,
-      total: 0,
-      totalData: []
+      total: 0
     }
   },
   methods: {
     onSubmit (e) {
       axios.post('topic/list/list.json', {
         languages: "zh",
-        id: this.id,
-        name: this.title,
-        business: this.channelVal,
-        categorySigns: this.classificationVal,
-        createdAtFrom: this.timeVal[0],
-        createdAtTo: this.timeVal[1]
+        // id: this.id,
+        // name: this.title,
+        // business: this.channelVal,
+        // categorySigns: this.classificationVal,
+        // createdAtFrom: this.timeVal[0],
+        // createdAtTo: this.timeVal[1],
+        pageNo: 1,
+        pageSize: 20
       })
       .then(function (response) {
         this.total = response.data.result.total
@@ -254,7 +255,17 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      axios.post('topic/list/list.json', {
+        languages: "zh",
+        pageNo: val,
+        pageSize: 20
+      })
+      .then(function (response) {
+        this.tableData = response.data.result.modelData
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      })
     },
     goDetail (index, row) {
       this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})

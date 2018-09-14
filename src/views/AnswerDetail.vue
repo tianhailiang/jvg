@@ -1,153 +1,170 @@
 <template>
-  <div>
+  <div class="right-box">
     <div class="nav" >
       问答详情
     </div>
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
+    <el-form :inline="true" style="border:1px solid #dcdcdc" class="answer-detail-form">
       <el-form-item label="问答ID：" :label-width="formLabelWidth">
-        {{formInline.id}}
+        {{$route.params.id}}
       </el-form-item>
       <el-form-item label="问答标题：" :label-width="formLabelWidth">
-        {{formInline.title}}
+        {{title}}
       </el-form-item>
       <el-form-item label="悬赏状态：" :label-width="formLabelWidth">
-        {{formInline.rewardState}}
+        {{statusVal}}
       </el-form-item>
       <el-form-item label="悬赏内容：" :label-width="formLabelWidth">
-        {{formInline.rewardContent}}
+        {{typeVal}} 
+        <span v-if = "type == 1" >
+        </span>
+        <span v-else-if = "type == 2" >
+          500积分
+        </span>
+        <span v-else-if = "type == 3" >
+          {{price}}
+        </span>
       </el-form-item>
       <el-form-item label="发布人ID：" :label-width="formLabelWidth">
-        {{formInline.userId}}
+        {{userId}}
       </el-form-item>
       <el-form-item label="发布人名称：" :label-width="formLabelWidth">
-        {{formInline.userName}}
+        {{userName}}
       </el-form-item>
       <el-form-item label="状态：" :label-width="formLabelWidth">
-        {{formInline.state}}
+        {{upDownVal}}
       </el-form-item>
     </el-form>
-    <el-form :inline="true" :model="formInline1" style="border:1px solid #dcdcdc">
-      <div>一级回复</div>
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
+      <div class="nav">一级回复</div>
       <el-form-item label="回复内容：" :label-width="formLabelWidth">
-        <el-input v-model="formInline1.replayContent" size="small"></el-input>
+        <el-input v-model="replayContent" size="small"></el-input>
       </el-form-item>
       <el-form-item label="回复人：" :label-width="formLabelWidth">
-        <el-input v-model="formInline1.replayName" size="small"></el-input>
+        <el-input v-model="replayName" size="small"></el-input>
       </el-form-item>
       <el-form-item label="回复ID：" :label-width="formLabelWidth">
-        <el-input v-model="formInline1.replayId" size="small"></el-input>
+        <el-input v-model="replayId" size="small"></el-input>
       </el-form-item>
-       <el-form-item label="回复时间：" :label-width="formLabelWidth">
+      <el-form-item label="回复时间：" :label-width="formLabelWidth">
         <el-date-picker
-          v-model="formInline1.replayTime"
-          type="datetime"
-          placeholder="选择日期时间">
+          v-model="replayTime"
+          type="datetimerange"
+          :picker-options="pickerOptions2"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期" 
+          value-format="yyyy-MM-dd HH:mm:ss"
+          size="small">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      ref="multipleTable"
-      :data="tableData"
-      tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
-      border>
-      <el-table-column
-        type="index"
-        label="NO"
-        width="55" >
-      </el-table-column>
-      <el-table-column
-        label="回复ID"
-        width="80" align="center" >
-        <template slot-scope="scope">
-          <el-button
-          size="mini"
-          @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.replayId}}
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="replayContent"
-        label="回复内容"
-        width="200" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="replayName"
-        label="回复人"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="replayTime"
-        label="回复时间"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="replayChannel"
-        label="回复渠道"
-        width="120" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="bestAnswer"
-        label="最佳答案"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="replayTwoNumber"
-        label="二级回复数"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="160" >
-        <template slot-scope="scope">
-          <el-button
+    <template v-if="total > 0" >
+      <el-table
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        border>
+        <el-table-column
+          type="index"
+          label="NO"
+          width="55" >
+        </el-table-column>
+        <el-table-column
+          label="回复ID"
+          width="80" align="center" >
+          <template slot-scope="scope">
+            <el-button
             size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+            @click="goDetail(scope.$index, scope.row)">
+              {{scope.row.id}}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="details"
+          label="回复内容"
+          width="200" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="userName"
+          label="回复人"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="createdAt"
+          label="回复时间"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="sourceName"
+          label="回复渠道"
+          width="120" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="typeVal"
+          label="最佳答案"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="answerCount"
+          label="二级回复数"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          align="center" width="160" >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="btn-box" >
+        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+      </div>
+    </template>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px;height:50px">
+      :total="total" style="text-align:center;margin-top:20px;height:50px" v-if="total > 0">
     </el-pagination>
     <div class="answer-count">
       <span>问答统计：</span>
       <el-table
           :data="tableData1" border >
           <el-table-column
-            prop="viewNumber"
+            prop="browseNum"
             label="浏览数" align="center"
             width="80">
           </el-table-column>
           <el-table-column
-            prop="forwardNumber"
+            prop="transpondNum"
             label="转发数" align="center"
             width="80">
           </el-table-column>
           <el-table-column
-            prop="shareNumber"
+            prop="shareNum"
             label="分享数" align="center" width="80">
           </el-table-column>
           <el-table-column
-            prop="collectionNumber"
+            prop="collectNum"
             label="收藏数" align="center" width="80">
           </el-table-column>
           <el-table-column
-            prop="commentNumber"
+            prop="commentNum"
             label="评论数"
             align="center" width="80">
           </el-table-column>
           <el-table-column
-            prop="fabulousNumber"
+            prop="thumpNum"
             label="点赞数" align="center" width="80">
           </el-table-column>
         </el-table>
@@ -163,56 +180,52 @@ export default {
   name: 'answerDetail',
   data () {
     return {
-      formInline: {
-        id: '',
-        title: '',
-        rewardState: '悬赏中',
-        rewardContent: '积分500',
-        userId: '15242755275',
-        userName: 'thl'
-      },
-      formInline1: {
-        replayContent: '',
-        replayName: '',
-        replayId: '',
-        replayTime: ''
+      title: '',
+      statusVal: '',
+      type: '',
+      typeVal: '',
+      price: '',
+      userId: '',
+      userName: '',
+      upDownVal: '',
+      replayContent: '',
+      replayName: '',
+      replayId: '',
+      replayTime: [],
+      pickerOptions2: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
       },
       formLabelWidth: '100px',
-      tableData: [{
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }, {
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }, {
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }],
+      tableData: [],
+      tableData1: [],
       currentPage: 1,
-      tableData1: [{
-        viewNumber: 100,
-        forwardNumber: 100,
-        shareNumber: 100,
-        collectionNumber: 100,
-        commentNumber: 100,
-        fabulousNumber: 100
-      }],
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      total: 0,
+      pageSize: 1
     }
   },
   components: {
@@ -220,7 +233,23 @@ export default {
   },
   methods: {
     onSubmit () {
-
+      axios.post('topic/qadetail/list.json', {
+        id: this.$route.params.id,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize,
+        details: this.replayContent,
+        userId: this.replayName,
+        answerId: this.replayId,
+        createAtFrom: this.replayTime[0],
+        createAtTo: this.replayTime[1]
+      })
+      .then( response => {
+        this.total = response.data.result.total
+        this.tableData = response.data.result.qaData
+      })
+      .catch( error => {
+        console.log(error);
+      })
     },
     handleClose (done) {
       this.$emit('update:dialogFormVisible1',false)
@@ -233,25 +262,83 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
+
     },
     handleDelete (index, row) {
 
     },
+    batchDelete () {
+      let multipleQaid = []
+      this.multipleSelection.forEach((item, index) => {
+        multipleQaid.push(item.questionId)
+      })
+      if (multipleQaid.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选问答'
+        })
+        return false
+      }
+      this.handleDelete(multipleQaid)
+    },
     goDetail (index, row) {
       this.dialogFormVisible = true
     }
+  },
+  mounted () {
+    axios.post('topic/qadetail/list.json', {
+      id: this.$route.params.id,
+      pageNo: this.currentPage,
+      pageSize: this.pageSize
+    })
+    .then( response => {
+      this.title = response.data.result.title
+      this.statusVal = response.data.result.statusVal
+      this.type = response.data.result.type
+      this.typeVal = response.data.result.typeVal
+      this.price = response.data.result.price
+      this.userId = response.data.result.userId
+      this.userName = response.data.result.userName
+      this.upDownVal = response.data.result.upDownVal
+      // this.total = response.data.result.total
+      // this.tableData = response.data.result.qaData
+      let countObj = {}
+      countObj.browseNum = response.data.result.browseNum
+      countObj.transpondNum = response.data.result.transpondNum
+      countObj.shareNum = response.data.result.shareNum
+      countObj.collectNum = response.data.result.collectNum
+      countObj.commentNum = response.data.result.commentNum
+      countObj.thumpNum = response.data.result.thumpNum
+      this.tableData1.push(countObj)
+    })
+    .catch( error => {
+      console.log(error);
+    })
   }
 }
 </script>
 
 <style scoped>
-  .nav{
-    width:100%;
+  .right-box {
+    display: flex;
+    flex-direction: column
+  }
+  .nav {
     height:40px;
     font-size: 18px;
     line-height: 40px;
   }
-  .answer-count{
+  .btn-box {
     display: flex;
+    justify-content: flex-end;
+    margin-top:10px
+  }
+  .answer-count {
+    display: flex;
+  }
+</style>
+<style>
+  .answer-detail-form .el-form-item__label {
+    padding-right:0
   }
 </style>

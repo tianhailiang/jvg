@@ -91,7 +91,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="10"
+      :page-size="20"
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px">
     </el-pagination>
@@ -124,24 +124,24 @@ export default {
       tableData: [],
       multipleSelection: [],
       currentPage: 1,
-      total: '',
-      totalData: []
+      total: ''
     }
   },
   methods: {
     onSubmit () {
       axios.post('topic/qalist/list.json', {
-        id: this.id,
-        title: this.title,
-        details: this.details,
-        lableIds: this.lableIds,
-        answerType: this.answerType,
-        userId: this.userId
+        // id: this.id,
+        // title: this.title,
+        // details: this.details,
+        // lableIds: this.lableIds,
+        // answerType: this.answerType,
+        // userId: this.userId
+        pageNo: 1,
+        pageSize:20
       })
       .then(function (response) {
-        this.totalData = response.data.result.qaData || []
+        this.tableData = response.data.result.qaData
         this.total = response.data.result.total
-        this.tableData = this.totalData.slice(0,10)
       }.bind(this))
       .catch(function (error) {
         console.log(error)
@@ -158,7 +158,17 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
-      this.tableData = this.totalData.slice((val-1)*10,10*val)
+      this.currentPage = val
+      axios.post('topic/qalist/list.json', {
+        pageNo: this.currentPage,
+        pageSize:20
+      })
+      .then(function (response) {
+        this.tableData = response.data.result.qaData
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error)
+      })
     },
     sure () {
       let questionId = []
@@ -184,7 +194,7 @@ export default {
           })
           setTimeout(function () {
             window.location.reload()
-          },500)
+          },2000)
         }
       })
       .catch( error => {

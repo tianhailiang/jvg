@@ -1,107 +1,111 @@
 <template>
-  <div>
+  <div class="right-box">
     <div class="nav">
       问答列表
     </div>
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="问答ID：" :label-width="formLabelWidth">
-        <el-input v-model="formInline.id" size="small"></el-input>
+        <el-input v-model="id" size="small"></el-input>
       </el-form-item>
       <el-form-item label="问答标题：" :label-width="formLabelWidth">
-        <el-input v-model="formInline.title" size="small"></el-input>
+        <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="问题内容：" :label-width="formLabelWidth">
-        <el-input v-model="formInline.describe" size="small"></el-input>
+        <el-input v-model="details" size="small"></el-input>
       </el-form-item>
       <el-form-item label="问答标签：" :label-width="formLabelWidth">
-        <el-input v-model="formInline.tag" size="small"></el-input>
+        <el-input v-model="lableIds" size="small"></el-input>
       </el-form-item>
       <el-form-item label="最佳答案：" :label-width="formLabelWidth">
-        <el-radio v-model="formInline.bestAnswer" label="1">是</el-radio>
-        <el-radio v-model="formInline.bestAnswer" label="2">否</el-radio>
+        <el-radio v-model="answerType" label="1">是</el-radio>
+        <el-radio v-model="answerType" label="0">否</el-radio>
       </el-form-item>
       <el-form-item label="问题创建人：" :label-width="formLabelWidth">
-        <el-input v-model="formInline.name" size="small"></el-input>
+        <el-input v-model="userId" size="small"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      ref="multipleTable"
-      :data="tableData"
-      tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
-      @selection-change="handleSelectionChange" border>
-      <el-table-column
-        type="selection"
-        label="全部"
-        width="55" >
-      </el-table-column>
-      <el-table-column
-        label="问答id"
-        width="80" align="center" >
-        <template slot-scope="scope">
+    <template v-if="total > 0" >
+      <el-table
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        @selection-change="handleSelectionChange" border>
+        <el-table-column
+          type="selection"
+          label="全部"
+          width="55" >
+        </el-table-column>
+        <el-table-column
+          label="问答id"
+          width="80" align="center" >
+          <template slot-scope="scope">
+            <el-button
+            size="mini"
+            @click="goDetail(scope.$index, scope.row)">
+              {{scope.row.questionId}}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="questionTitle"
+          label="问答标题"
+          width="100" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="questionDetails"
+          label="问题内容"
+          width="150" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="bestDetails"
+          label="最佳答案"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="answerNum"
+          label="回复数"
+          width="110" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="joinNum"
+          label="参与人数"
+          width="110" align="center">
+        </el-table-column>
+        <el-table-column
+          prop="questionUserName"
+          label="问题创建人"
+          width="110" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="questionCreatedAt"
+          label="问题创建时间"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          align="center" width="140" >
+          <template slot-scope="scope">
           <el-button
-          size="mini"
-          @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.id}}
-          </el-button>
+            size="mini"
+            type="danger"
+            @click="handleDelete([scope.row.questionId])">删除</el-button>
         </template>
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="问答标题"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="describe"
-        label="问题内容"
-        width="200" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="bestAnswer"
-        label="最佳答案"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="replayNumber"
-        label="回复数"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="partakeNumber"
-        label="参与人数"
-        width="120" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="问题创建人"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="time"
-        label="问题创建时间"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="160" >
-        <template slot-scope="scope">
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-      </template>
-      </el-table-column>
-    </el-table>
+        </el-table-column>
+      </el-table>
+      <div class="btn-box" >
+        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+      </div>
+    </template>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="10"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
   </div>
 </template>
@@ -111,65 +115,87 @@ export default {
   name: 'answerList',
   data () {
     return {
-      formInline: {
-        id: '',
-        title: '',
-        describe: '',
-        tag: '',
-        bestAnswer: '',
-        name: ''
-      },
+      id: '',
+      title: '',
+      details: '',
+      lableIds: '',
+      answerType: '',
+      userId: '',
       formLabelWidth: '100px',
-      tableData: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        id: '10001',
-        title: '美国留学',
-        describe: '美国留学非常好啊',
-        channel: '语培',
-        classification: '托福',
-        tag: '时讯，非时讯',
-        time: '2018.01.01',
-        bestAnswer: '你好啊',
-        replayNumber: '100',
-        partakeNumber: '200'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        id: '10001',
-        title: '美国留学我是科比啊 哈哈哈',
-        describe: '美国留学非常好啊',
-        channel: '语培',
-        classification: '托福',
-        tag: '时讯，非时讯',
-        time: '2018.01.01',
-        bestAnswer: '你好啊',
-        replayNumber: '100',
-        partakeNumber: '200'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        id: '10001',
-        title: '美国留学',
-        describe: '美国留学非常好啊',
-        channel: '语培',
-        classification: '托福',
-        tag: '时讯，非时讯',
-        time: '2018.01.01',
-        bestAnswer: '你好啊',
-        replayNumber: '100',
-        partakeNumber: '200'
-      }],
+      tableData: [],
       multipleSelection: [],
-      currentPage: 1
+      currentPage: 1,
+      total: 0
     }
   },
   methods: {
     onSubmit () {
-
+      axios.post('topic/qalist/list.json', {
+        // id: this.id,
+        // title: this.title,
+        // details: this.details,
+        // lableIds: this.lableIds,
+        // answerType: this.answerType,
+        // userId: this.userId,
+        pageNo: 1,
+        pageSize: 10
+      })
+      .then( response => {
+        this.total = response.data.result.total
+        this.tableData = response.data.result.qaData
+      })
+      .catch( error => {
+        console.log(error);
+      })
     },
-    handleDelete (index, row) {
-
+    handleDelete (qaId) {
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post('topic/qalist/delete.json', {
+          id: qaId
+        })
+        .then( response => {
+          if (response.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              window.location.reload()
+            },500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.message
+            })
+          }
+        })
+        .catch( error => {
+          console.log(error)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })     
+      })
+    },
+    batchDelete () {
+      let multipleQaid = []
+      this.multipleSelection.forEach((item, index) => {
+        multipleQaid.push(item.questionId)
+      })
+      if (multipleQaid.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选问答'
+        })
+        return false
+      }
+      this.handleDelete(multipleQaid)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -178,21 +204,38 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      axios.post('topic/qalist/list.json', {
+        pageNo: val,
+        pageSize: 10
+      })
+      .then( response => {
+        this.tableData = response.data.result.qaData
+      })
+      .catch( error => {
+        console.log(error);
+      })
     },
     goDetail (index, row) {
-      this.$router.push({name: 'answerDetail', params: {id: row.id}})
+      this.$router.push({name: 'answerDetail', params: {id: row.questionId}})
     }
   }
 }
 </script>
 
 <style scoped>
-  .nav{
-    width:100%;
+  .right-box {
+    display: flex;
+    flex-direction: column
+  }
+  .nav {
     height:40px;
     font-size: 18px;
     line-height: 40px;
+  }
+  .btn-box {
+    display: flex;
+    justify-content: flex-end;
+    margin-top:10px
   }
 </style>
 
