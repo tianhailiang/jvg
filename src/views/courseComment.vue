@@ -62,10 +62,10 @@
     <!-- 课程详情model -->
     <el-dialog title="课程评论详情" :visible.sync="formVisible">
         <el-row :gutter="20">
-          <el-form :inline="true" class="demo-form-inline" label-width="80px" size="mini">
+          <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
                 <el-form-item label="课程ID">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" v-model="copyId"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -91,42 +91,42 @@
           </el-form>
               </el-row>
               <!--  -->
-              <hr style="border:solid 1px #dcdfe6">
+            <hr style="border:solid 1px #dcdfe6">
             <el-row :gutter="20">
                 <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
                         <el-col :span="6">
                             <el-form-item label="评论内容">
-                                <el-input type="text"></el-input>
+                                <el-input type="text" v-model="details"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="评论人">
-                                <el-input type="text"></el-input>
+                                <el-input type="text" v-model="userName"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="评论ID">
-                                <el-input type="text"></el-input>
+                                <el-input type="text" v-model="commentId"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="评论时间">
-                                <el-input type="text"></el-input>
+                                <el-input type="text" v-model="createdAt"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="回复内容">
-                                <el-input type="text"></el-input>
+                                <el-input type="text" v-model="replyDetails"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="回复时间">
-                                <el-input type="text"></el-input>
+                                <el-input type="text" v-model="replyCreatedAt"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="评论类型">
-                              <el-select v-model="value">
+                              <el-select v-model="num">
                                 <el-option v-for="(item, index) in options" 
                                   :label="item.label" 
                                   :value="item.value">
@@ -134,47 +134,45 @@
                               </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="3">
-                            <el-button size="small" type="primary" style="margin-top:30px;">搜索</el-button>
-                        </el-col>
+                <el-col :span="3">
+                    <el-button size="small" type="primary" style="margin-top:30px;" @click="getCourseComentDetail()">搜索</el-button>
+                </el-col>
                 </el-form>
             </el-row>
-                  <!-- 表格 -->
-                  <!-- <el-table :data="tableData3" border>
-                      <el-table-column type="selection" width="55"></el-table-column>
-                      <el-table-column prop="date" label="评论ID" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="评论内容" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="评论人" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="评论时间" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="评论渠道" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="回复内容" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="回复时间" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="回复渠道" width="102" align="center"></el-table-column>
-                      <el-table-column prop="name" label="评论类型" width="102" align="center"></el-table-column>
-                      <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
-                          <template slot-scope="scope">
-                              <el-button size="mini" type="danger">删除</el-button>
-                          </template>
-                      </el-table-column>
-                  </el-table> -->
-                  <div style="height:30px"></div>
-                  <!-- 分页 -->
-                  <el-row :gutter="20">
-                      <el-col :span="11">
-                          <el-pagination background layout="prev, pager, next, jumper" :total="60"></el-pagination>
-                      </el-col>
-                      <el-col :span="8">
-                          <el-button size="small" type="primary">确定</el-button>
-                      </el-col>
-                      <el-col :span="5">
-                          <el-button size="small" type="primary">批量删除</el-button>
-                      </el-col>
-                  </el-row>
+            <!-- 表格 -->
+            <el-table :data="CourseComentDetail" border>
+                <el-table-column type="selection" width="55"></el-table-column>
+                <el-table-column prop="commentId" label="评论ID" width="102" align="center"></el-table-column>
+                <el-table-column prop="details" label="评论内容" width="102" align="center"></el-table-column>
+                <el-table-column prop="userName" label="评论人" width="102" align="center"></el-table-column>
+                <el-table-column prop="createdAt" label="评论时间" width="102" align="center"></el-table-column>
+                <el-table-column prop="source" label="评论渠道" width="102" align="center"></el-table-column>
+                <el-table-column prop="replyDetails" label="回复内容" width="102" align="center"></el-table-column>
+                <el-table-column prop="replyCreatedAt" label="回复时间" width="102" align="center"></el-table-column>
+                <el-table-column prop="replySource" label="回复渠道" width="102" align="center"></el-table-column>
+                <el-table-column prop="num" label="评论类型" width="102" align="center"></el-table-column>
+                <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="danger">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <!-- 分页 -->
+            <el-row :gutter="20" v-if="CourseComentDetail.length">
+                <el-col :span="11">
+                    <el-pagination background layout="prev, pager, next, jumper" :total="60"></el-pagination>
+                </el-col>
+                <el-col :span="8">
+                    <el-button size="small" type="primary">确定</el-button>
+                </el-col>
+                <el-col :span="5">
+                    <el-button size="small" type="primary">批量删除</el-button>
+                </el-col>
+            </el-row>
     </el-dialog>
   </section>
 </template>
 <script>
-import { courseComent } from '../api/api.js'
 export default {
   name: 'courseComment',
     data () {
@@ -183,21 +181,34 @@ export default {
         total: null,
         loading: false,
         formVisible: false,
-        value: '',
+        num: '', //评论类型
         id: '',
         title: '',
         realName: '',
         raveFrom: '',
         raveTo: '',
+        CourseComentDetail: [],
+        courseId: '',
         options: [
-            {value: '选项1',label: '好评'},
-            {value: '选项2',label: '中评'},
-            {value: '选项3',label: '差评'}
-        ]
+            {value: '1',label: '好评'},
+            {value: '2',label: '中评'},
+            {value: '3',label: '差评'}
+        ],
+        replyCreatedAt: '',
+        replyDetails: '',
+        createdAt: '',
+        commentId: '',
+        userName: '',
+        details: ''
     }
   },
   created() {
     this.getCourseComent ()
+  },
+  computed: {
+    copyId () {
+        return this.courseId = this.id
+    }
   },
   methods: {
     openDatilog (row) {
@@ -207,16 +218,36 @@ export default {
     getCourseComent () {
       this.loading = true
       axios.post(this.$store.state.api.courseComent, {id:this.id}).then(res => {
+        console.log(res.data)
         if (res.data.success) {
             let dataComment = res.data.result.modelData
             this.courseComentTabel = dataComment
             this.total = res.data.result.total
             this.loading = false
-            console.log(res.data.result)
+            
         }
       }).catch(error => {
           console.log(`返回错误消息`)
       })
+    },
+    getCourseComentDetail() {
+        axios.post(this.$store.state.api.courseComentDetail, {
+            "courseId": this.courseId,
+            // "details": "评论内容评论内容评论内容",
+            // "userName": "张三",
+            // "createdAt": "2018-08-12 12:00:00",
+            // "replyDetails": "回复内容回复内容回复内容",
+            // "replyCreatedAt": "2018-08-13 08:00:00",
+            // "num": 5,
+            // "pageNo": 1,
+            // "pageSize": 20
+        }).then(res => {
+            this.CourseComentDetail = res.data.result
+            // console.log(res.data.result)
+            console.log(res.data)
+        }).catch(erroe => {
+            console.log(`返回错误消息`)
+        })
     },
     handleShow(index, row) {
         this.formVisible = true
