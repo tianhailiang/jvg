@@ -11,16 +11,23 @@
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
-                <el-table-column prop="collegesId" label="角色ID" align="center"></el-table-column>
-                <el-table-column prop="collegesName" label="角色名称" align="center"></el-table-column>
-                <el-table-column prop="country" label="角色类型" align="center"></el-table-column>
-                <el-table-column prop="phone" label="角色说明" align="center"></el-table-column>
-                <el-table-column prop="registertime" label="创建时间" align="center"></el-table-column>
-                <el-table-column prop="logintime" label="更新时间" align="center"></el-table-column>
+                <el-table-column prop="id" label="角色ID" align="center"></el-table-column>
+                <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
+                <el-table-column prop="category" label="角色类型" align="center">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.category == 0">管理后台</div>
+                        <div v-if="scope.row.category == 1">机构中心</div>
+                        <div v-if="scope.row.category == 2">院校中心</div>
+                        <div v-if="scope.row.category == 3">用户中心</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="description" label="角色说明" align="center"></el-table-column>
+                <el-table-column prop="createAt" label="创建时间" align="center"></el-table-column>
+                <el-table-column prop="updateAt" label="更新时间" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-button @click="onDisableClik(scope.$index)" type="danger" size="small">编辑</el-button>
-                        <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
+                        <el-button @click="onDelClick(scope.row.id)" type="danger" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -31,7 +38,7 @@
             <p style="font-size: 30px;">请确认是否继续删除</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+                <el-button type="primary" @click="onDelClick_sub">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 角色编辑 -->
@@ -146,6 +153,7 @@
     </div>
 </template>
 <script>
+import { roleList,roleDelete } from '../api/url.js'
 export default {
   data () {
     return {
@@ -156,66 +164,32 @@ export default {
       isDialogShow2: false,
       isShowTab: false,
       isShowTab1: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        logintime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        logintime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        logintime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        logintime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: [],
+      roleid: ''
     }
   },
   methods: {
     onEditClick (index) {
       this.$router.replace({ path: '/institutionsEditors' })
     },
-    onDisableClik (index) {
-      this.isDialogShow1 = true
+    onDisableClik (index) { //新建角色
+    
     },
-    onDelClick () {
+    onDelClick (id) { //删除按钮
       this.isDialogShow = true
+      console.log('id', id)
+      this.roleid = id
+    },
+    onDelClick_sub () { //确定删除方法
+      roleDelete({id: this.roleid}).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow = false
+          window.location.reload()
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onShow () {
       if (this.isShowTab) {
@@ -230,7 +204,20 @@ export default {
       } else {
         this.isShowTab1 = true
       }
+    },
+    postData () {
+      roleList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>

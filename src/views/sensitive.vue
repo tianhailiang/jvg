@@ -24,8 +24,8 @@
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>
-            <el-table-column prop="userClassify" label="业务类型" align="center"></el-table-column>
-            <el-table-column prop="collegesId" label="敏感词" align="center"></el-table-column>
+            <el-table-column prop="businessName" label="业务类型" align="center"></el-table-column>
+            <el-table-column prop="keywordsList" label="敏感词" align="center"></el-table-column>
             <el-table-column width="250" label="操作" show-overflow-tooltip align="center">
                 <template slot-scope="scope">
                     <el-button @click="onEditClick(scope.$index)" type="danger" size="small">编辑</el-button>
@@ -115,6 +115,7 @@
     </div>
 </template>
 <script>
+import { sensitiveList } from '../api/url.js'
 export default {
   data () {
     return {
@@ -122,51 +123,7 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: []
     }
   },
   methods: {
@@ -178,7 +135,20 @@ export default {
     },
     onDelClick (index) {
       this.isDialogShow = true
+    },
+    postData () {
+      sensitiveList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>
