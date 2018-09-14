@@ -1,18 +1,16 @@
-import http from './http'
-var url = "https://tdxzback.jjldxz.com/api/c/";
-// 课程列表
-export const courseList = (params) => {
-	return http.fetchPost(url + 'course/list.json', params)
-}
-//课程评论列表
-export const courseComent = (params) => {
-  return http.fetchPost(url + 'course/comment/list.json', params)
-}
-//删除课程
-export const removeCourse = (parms) => {
-  return http.fetchPost(url + 'course/delete.json', parms)
-}
-//冻结/解冻课程
-export const jdCourse = (parms) => {
-  return http.fetchPost(url + 'course/frozen.json', parms)
+// import http from './http'
+// var url = "https://tdxzback.jjldxz.com/api/c/";
+
+const URL = ''
+export default {
+  state: { 
+    'courseList': URL + 'course/list.json',
+    'removeCourseList': URL + 'course/delete.json',
+    'jdCourse': URL + 'course/frozen.json',
+    'courseComent': URL + 'course/comment/list.json'
+
+  },
+  mutations: {  },
+  actions: {  },
+  getters: {  }
 }

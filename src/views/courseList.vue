@@ -1,5 +1,6 @@
 <template>
   <section class="courselist-tabel" style="overflow:hidden; margin-left:260px;">
+        <h3 class="courselist-title">课程列表</h3>
     <el-row :gutter="20">
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
@@ -9,12 +10,12 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="课程标题">
-                  <el-input placeholder="课程标题"></el-input>
+                  <el-input placeholder="课程标题" v-model="title"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="课程分类">
-                  <el-select v-model="courseVal">
+                  <el-select v-model="categorySigns">
                       <el-option 
                       :label="item.label"
                       :value="item.value"
@@ -24,7 +25,7 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="上课模式">
-                  <el-select v-model="module">
+                  <el-select v-model="couresModel">
                       <el-option 
                       :label="item.label"  
                       :value="item.value" v-for="(item, index) in coursemodule"></el-option>
@@ -33,12 +34,12 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="讲师名称">
-                  <el-input placeholder="讲师名称"></el-input>
+                  <el-input placeholder="讲师名称" v-model="realName"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="销售状态">
-                  <el-select v-model="xsval">
+                  <el-select v-model="upDown">
                       <el-option 
                        :label="item.label"  
                        :value="item.value" v-for="(item, index) in xs"></el-option>
@@ -47,7 +48,7 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="直播状态">
-                <el-select v-model="zbval">
+                <el-select v-model="liveStatus">
                     <el-option 
                     :label="item.label"  
                     :value="item.value" v-for="(item, index) in zb"></el-option>
@@ -55,13 +56,13 @@
               </el-form-item>
           </el-col>
           <el-col :span="6" style="margin-top:30px;">
-              <el-button size="small" type="primary" @click="searchData">搜索</el-button>
+              <el-button size="small" type="primary" @click="searchData()">搜索</el-button>
               <el-button size="small" type="primary">创建课程</el-button>
           </el-col>
       </el-form>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="courseTableData" border v-loading.fullscreen.lock="fullscreenLoading">
+    <el-table :data="courseTableData" border v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="id" label="课程ID" width="65" align="center"></el-table-column>
         <el-table-column prop="title" label="课程标题" width="120" align="center"></el-table-column>
@@ -76,14 +77,14 @@
         <el-table-column prop="liveStatusValue" label="直播状态" width="100" align="center"></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
             <template slot-scope="scope">
-                <el-button size="mini" type="danger" @click="jiedCourse" class="btn-edit">冻结</el-button>
-                <el-button size="mini" type="danger" @click="removeCourse()" class="btn-edit">删除</el-button>
+                <el-button size="mini" type="danger" @click="dialogVisible = true" class="btn-edit">冻结</el-button>
+                <el-button size="mini" type="danger" @click="removeCourse" class="btn-edit">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
     <div style="height:30px"></div>
     <!-- 分页 -->
-    <el-row :gutter="20" class="pagina-tion">
+    <el-row :gutter="20" v-if="courseTableData.length" class="pagina-tion">
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
@@ -101,117 +102,137 @@
     <el-dialog title="冻结编辑提示窗口" :visible.sync="dialogVisible" width="30%">
         <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="课程ID">
-              <el-input type="text" size="mini"></el-input>
+              <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="课程标题">
-                <el-input type="text" size="mini"></el-input>
+                <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="发布用户名">
-                <el-input type="text" size="mini"></el-input>
+                <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="冻结原因">
-              <el-input type="textarea" size="mini"></el-input>
+              <el-input type="textarea" size="small" v-model="downMemo"></el-input>
             </el-form-item>
         </el-form>
         <span>提示：冻结后该课程在前端无法显示</span>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            <el-button type="primary" @click="jiedCourse()">确 定</el-button>
         </span>
     </el-dialog>
   </section>
 </template>
 <script>
-import { courseList,removeCourse,jdCourse } from '../api/api.js'
 export default {
   name: 'courseList',
   data () {
     return {
       courseTableData: [],
       dialogVisible: false,
-      fullscreenLoading: false, //加载动画
-      courseVal: '',
+      categorySigns: '',
       total: null,
       id:'',
+      title: '',
+      loading:false,
+      couresModel: '',
+      realName: '',
+      upDown: '',
+      liveStatus: '',
+      downMemo: '',
       course: [
-          {label: '全部' , value: '选项1'},
-          {label: '托福' , value: '选项2'},
-          {label: 'GRE' , value: '选项3'}
+          {label: '全部' , value: '1'},
+          {label: '托福' , value: '2'},
+          {label: 'GRE' , value: '3'}
       ],
-      module: '',
       coursemodule: [
-        {label: '全部' , value: '选项1'},
-        {label: '视频直播' , value: '选项2'},
-        {label: '视频点播' , value: '选项3'}
+        {label: '全部' , value: '1'},
+        {label: '视频直播' , value: '2'},
+        {label: '视频点播' , value: '3'}
       ],
       xsval: '',
       xs: [
-        {label: '全部' , value: '选项1'},
-        {label: '冻结' , value: '选项2'},
-        {label: '已上架' , value: '选项3'},
-        {label: '已下架' , value: '选项4'}
+        {label: '全部' , value: '1'},
+        {label: '冻结' , value: '2'},
+        {label: '已上架' , value: '3'},
+        {label: '已下架' , value: '4'}
       ],
       zbval: '',
       zb: [
-        {label: '全部' , value: '选项1'},
-        {label: '直播中' , value: '选项2'},
-        {label: '未开始' , value: '选项3'},
-        {label: '已结束' , value: '选项4'}
+        {label: '全部' , value: '1'},
+        {label: '直播中' , value: '2'},
+        {label: '未开始' , value: '3'},
+        {label: '已结束' , value: '4'}
       ]
     }
   },
   methods: {
     removeCourse() {    //删除课程
-        removeCourse({id:this.id}).then((res) => {
-            console.log(res)
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(res => {
+            axios.post(this.$store.state.api.removeCourseList, {
+                "ids": [36]
+            }).then( res => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                })
+                setTimeout(() => {
+                    window.location.reload()
+                },500)
+            }).catch(error => {
+                console.log(error)
+            })
+        }).catch(erroe => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            })
         })
     },
     searchData() {
-        console.log(100)
-        courseList({
-            //"id": 100001,
-        // "title": "第一节课",
-        // "categorySigns": "tuofu",
-        // "couresModel": 1,
-        // "userId": 1,
-        // "upDown": 1,
-        // "liveStatus": 1,
-        // "profession": 1,
-        // "pageNo": 2,
-        // "pageSize": 20
-        }).then(res => {
-            if (res.success) {
-                let courseTableData = res.result.modelData
-                this.courseTableData = courseTableData
-                this.total = res.result.total
-            }
-        }).catch(error => {
-            console.log(`请求出现错误`)
-        })
+        this.loading = true
+        axios.post(this.$store.state.api.courseList, {
+        "id": this.id,
+        "title": "",
+        // // "categorySigns": "",
+        // // "couresModel": 1,
+        // // "userId": 1,
+        // // "upDown": 1,
+        // // "liveStatus": 1,
+        // // "profession": 1,
+        // // "pageNo": 2,
+        // // "pageSize": 20
+      })
+      .then(res => {
+        this.courseTableData = res.data.result.modelData
+        this.total = res.data.result.total
+        this.loading = false
+      }).catch(error => {
+          console.log(error)
+      })
     },
     jiedCourse() { // 冻结课程
-        // jdCourse({
-        //     "ids": [21],
-        //     "upDown": 3,
-        //     "downMemo": "冻结原因冻结原因冻结原因"
-        // }).then(res => {
-        //     console.log(res)
-        // })
-        this.axios.post('course/frozen.json', {
-            "ids": [36],
-            "upDown": 3,
-            "downMemo": "冻结原因冻结原因冻结原因"
-        }).then(res => {
-            console.log(res)
-        })
+      axios.post(this.$store.state.api.jdCourse, {
+        "ids":[22],
+	    "upDown": 3,
+	    "downMemo": "不合理不合理"
+      }).then(res => {
+        this.dialogVisible = false
+      }).catch(error => {
+        console.log(error)
+      })
     }
   },
-  mounted() {
-    
+  created() {
+    // this.searchData()
   },
 }
 </script>
 <style scoped>
 .btn-edit{display:block; margin-top: 5px;}
 .pagina-tion{ margin-bottom: 30px;}
+.courselist-title{height: 30px; line-height: 30px; border-bottom: 1px solid #dcdfe6; margin-bottom:15px;font-weight: 600;}
 </style>
