@@ -88,22 +88,22 @@
     <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
         <el-form label-width="100px" class="demo-ruleForm">
             <el-form-item label="课程ID">
-            <el-input type="text" size="mini"></el-input>
+            <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="课程标题">
-                <el-input type="text" size="mini"></el-input>
+                <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="发布用户名">
-                <el-input type="text" size="mini"></el-input>
+                <el-input type="text" size="small" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="原因">
-            <el-input type="textarea" size="mini"></el-input>
+            <el-input type="textarea" size="small"></el-input>
             </el-form-item>
         </el-form>
         <span>提示：用户重新申请审核</span>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            <el-button type="primary" @click="handelnoCourse">确 定</el-button>
         </span>
     </el-dialog>
   </section>
@@ -177,6 +177,21 @@ export default {
       }).catch(error => {
             console.log(`返回错误消息`)
       })
+    },
+    handelnoCourse() {
+        axios.post(this.$store.state.api.courseReviewInfo, {
+            ids: [32],
+            "status": 4,
+            "statusMemo": "审核不通过原因审核不通过原因"
+        }).then(res => {
+            this.$message({
+                type: 'success',
+                message: '删除成功!'
+            })
+            this.dialogVisible = false
+        }).catch(error => {
+            console.log(`返回错误消息`)
+        })
     }
   }
 }

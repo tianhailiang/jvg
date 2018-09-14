@@ -65,7 +65,7 @@
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
                 <el-form-item label="课程ID">
-                    <el-input type="text" v-model="copyId"></el-input>
+                    <el-input type="text" v-model="copyId" :disabled="true"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -140,27 +140,30 @@
                 </el-form>
             </el-row>
             <!-- 表格 -->
-            <el-table :data="CourseComentDetail" border>
+            <el-table :data="CourseDetailData" border>
                 <el-table-column type="selection" width="55"></el-table-column>
-                <el-table-column prop="commentId" label="评论ID" width="102" align="center"></el-table-column>
+                <el-table-column prop="commentId" label="评论ID" width="70" align="center"></el-table-column>
                 <el-table-column prop="details" label="评论内容" width="102" align="center"></el-table-column>
-                <el-table-column prop="userName" label="评论人" width="102" align="center"></el-table-column>
+                <el-table-column prop="userName" label="评论人" width="80" align="center"></el-table-column>
                 <el-table-column prop="createdAt" label="评论时间" width="102" align="center"></el-table-column>
-                <el-table-column prop="source" label="评论渠道" width="102" align="center"></el-table-column>
+                <el-table-column prop="source" label="评论渠道" width="85" align="center"></el-table-column>
                 <el-table-column prop="replyDetails" label="回复内容" width="102" align="center"></el-table-column>
                 <el-table-column prop="replyCreatedAt" label="回复时间" width="102" align="center"></el-table-column>
-                <el-table-column prop="replySource" label="回复渠道" width="102" align="center"></el-table-column>
-                <el-table-column prop="num" label="评论类型" width="102" align="center"></el-table-column>
+                <el-table-column prop="replySource" label="回复渠道" width="80" align="center"></el-table-column>
+                <el-table-column prop="num" label="评论类型" width="80" align="center"></el-table-column>
                 <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
                     <template slot-scope="scope">
-                        <el-button size="mini" type="danger">删除</el-button>
+                        <el-button size="mini" type="danger" @click="removeCourse()">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <!-- 分页 -->
-            <el-row :gutter="20" v-if="CourseComentDetail.length">
+            <el-row :gutter="20" style="margin-top:20px;" v-if="CourseDetailData.length">
                 <el-col :span="11">
-                    <el-pagination background layout="prev, pager, next, jumper" :total="60"></el-pagination>
+                    <el-pagination background
+                    layout="prev, pager, next, jumper" 
+                    :total="total"
+                    :page-size="3"></el-pagination>
                 </el-col>
                 <el-col :span="8">
                     <el-button size="small" type="primary">确定</el-button>
@@ -187,7 +190,7 @@ export default {
         realName: '',
         raveFrom: '',
         raveTo: '',
-        CourseComentDetail: [],
+        CourseDetailData: [],
         courseId: '',
         options: [
             {value: '1',label: '好评'},
@@ -218,7 +221,7 @@ export default {
     getCourseComent () {
       this.loading = true
       axios.post(this.$store.state.api.courseComent, {id:this.id}).then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data.success) {
             let dataComment = res.data.result.modelData
             this.courseComentTabel = dataComment
@@ -242,12 +245,27 @@ export default {
             // "pageNo": 1,
             // "pageSize": 20
         }).then(res => {
-            this.CourseComentDetail = res.data.result
-            // console.log(res.data.result)
-            console.log(res.data)
+            this.CourseDetailData = res.data.result.modelData
+            this.total = res.data.result.total
+            // console.log(res.data.result.modelData)
         }).catch(erroe => {
             console.log(`返回错误消息`)
         })
+    },
+    removeCourse() {
+        if (this.ids) {
+            axios.post(this.$store.state.api.removeCourselist, {
+                ids:[5]
+            }).then(res => {
+                setTimeout(() => {
+                    window.location.reload()
+                },500)
+            }).catch(error => {
+                console.log(`返回错误消息`)
+            })
+        } else {
+            return false
+        }
     },
     handleShow(index, row) {
         this.formVisible = true

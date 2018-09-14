@@ -9,7 +9,11 @@ export default {
     'jdCourse': URL + 'course/frozen.json', // 冻结、解冻课程
     'courseComent': URL + 'course/comment/list.json', // 课程评论列表
     'courseComentDetail': URL + 'course/comment/detail.json', // 课程评论详情
-    'courseReview': URL + 'course/verify/list.json' // 课程审核列表
+    'removeCourselist': URL + 'course/comment/delete.json', // 删除课程评论
+    'courseReview': URL + 'course/verify/list.json', // 课程审核列表
+    'courseReviewInfo': URL + 'course/verify.json',  // 审核课程信息
+    'addCourse':  URL + 'course/create.json', // 创建课程
+    'memberlist': URL +'user/rank/list.json' // 查询会员等级列表
   },
   mutations: {  },
   actions: {  },

@@ -64,7 +64,11 @@
     <!-- 表格 -->
     <el-table :data="courseTableData" border v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="id" label="课程ID" width="65" align="center"></el-table-column>
+        <el-table-column label="课程ID" width="65" align="center">
+            <template slot-scope="scope">
+                <el-button type="text" size="small" @click="handleCard()">{{scope.row.id}}</el-button>
+            </template>
+        </el-table-column>
         <el-table-column prop="title" label="课程标题" width="120" align="center"></el-table-column>
         <el-table-column prop="realName" label="讲师名称" width="80" align="center"></el-table-column>
         <el-table-column prop="professionValue" label="频道" width="80" align="center"></el-table-column>
@@ -82,7 +86,6 @@
             </template>
         </el-table-column>
     </el-table>
-    <div style="height:30px"></div>
     <!-- 分页 -->
     <el-row :gutter="20" v-if="courseTableData.length" class="pagina-tion">
         <el-col :span="11">
@@ -210,7 +213,6 @@ export default {
         this.courseTableData = res.data.result.modelData
         this.total = res.data.result.total
         this.loading = false
-        console.log(res)
       }).catch(error => {
           console.log(error)
       })
@@ -225,15 +227,21 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    handleCard(){
+        this.$router.push({ 
+            name: 'courseDetail', 
+            params: { id: this.id }
+        })
     }
   },
-  created() {
-    // this.searchData()
-  },
+    created() {
+        // this.searchData()
+    },
 }
 </script>
 <style scoped>
 .btn-edit{display:block; margin-top: 5px;}
-.pagina-tion{ margin-bottom: 30px;}
+.pagina-tion{ margin-bottom: 30px; margin-top:30px;}
 .courselist-title{height: 30px; line-height: 30px; border-bottom: 1px solid #dcdfe6; margin-bottom:15px;font-weight: 600;}
 </style>

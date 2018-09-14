@@ -4,7 +4,7 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <el-form-item label="课程ID">
-                    <el-input v-model="form.name" :disabled="true"></el-input>
+                    <el-input v-model="id" :disabled="true"></el-input>
                   </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -14,7 +14,7 @@
             </el-col>
             <el-col :span="6">
                 <el-form-item label="讲师名称">
-                    <el-input v-model="form.name"></el-input>
+                    <el-input v-model="realName" :disabled="true"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -182,7 +182,7 @@
         <!-- 按钮集合 -->
         <div class="center-box">
             <el-row>
-                <el-button type="primary" size="medium">创建</el-button>
+                <el-button type="primary" size="medium" @click="hanldeladdCourse">创建</el-button>
                 <el-button type="primary" size="medium">冻结</el-button>
                 <el-button type="primary" size="medium">删除</el-button>
                 <el-button type="primary" size="medium">取消</el-button>
@@ -215,40 +215,40 @@
         </div>
         <!--  -->
         <el-form-item label="课程统计">
-            <el-table border style="width: 100%" size="mini">
+            <el-table border style="width: 100%" size="small">
             <el-table-column
               prop="date"
               label="浏览数"
-              width="180">
+              width="180" align="center">
             </el-table-column>
             <el-table-column
               prop="name"
               label="转发数"
-              width="180">
+              width="180" align="center">
             </el-table-column>
             <el-table-column
               prop="address"
-              label="分享数">
+              label="分享数" align="center">
             </el-table-column>
             <el-table-column
             prop="address"
-            label="收藏数">
+            label="收藏数" align="center">
           </el-table-column>
           <el-table-column
           prop="address"
-          label="评论数">
+          label="评论数" align="center">
         </el-table-column>
         <el-table-column
         prop="address"
-        label="点赞数">
+        label="点赞数" align="center">
       </el-table-column>
       <el-table-column
       prop="address"
-      label="学生数">
+      label="学生数" align="center">
     </el-table-column>
     <el-table-column
     prop="address"
-    label="好评度">
+    label="好评度" align="center">
   </el-table-column>
           </el-table>
         </el-form-item>
@@ -270,6 +270,8 @@ export default {
         resource: '',
         desc: ''
       },
+      id: '',
+      realName: '',
       options: [
         {value: '选项1', label: '托福'},
         {value: '选项2', label: 'GRE'}
@@ -303,6 +305,17 @@ export default {
   methods: {
     onSubmit () {
       console.log('submit!')
+    },
+    hanldeladdCourse() {
+        axios.post(this.$store.status.api.addCourse, {
+            "title": "第五节课",
+            "userId": 1,
+            "categorySigns": "tuofu"
+        }).then(res => {
+            console.log(res)
+        }).catch( res => {
+
+        })
     }
   }
 }
