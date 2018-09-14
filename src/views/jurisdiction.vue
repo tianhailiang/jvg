@@ -6,41 +6,29 @@
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
             <el-col :span="5">
               <el-form-item label="站点选择：" label-width="100px">
-                  <el-select v-model="region" placeholder="管理后台（pc）" style="width: 150px;">
-                      <el-option label="管理后台（pc）" :value="0" :key="0"></el-option>
-                      <el-option label="用户前端（pc）" :value="1" :key="1"></el-option>
-                      <el-option label="APP" :value="2" :key="2"></el-option>
-                      <el-option label="WAP" :value="3" :key="3"></el-option>
+                  <el-select v-model="region_category" placeholder="管理后台（pc）" style="width: 150px;">
+                      <el-option v-for="(item, index) in option_category" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="所属频道：" label-width="100px">
-                  <el-select v-model="region" placeholder="空" style="width: 80px;">
-                      <el-option label="空" :value="0" :key="0"></el-option>
-                      <el-option label="留学" :value="1" :key="1"></el-option>
-                      <el-option label="语培" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_channel" placeholder="空" style="width: 80px;">
+                      <el-option v-for="(item, index) in option_channel" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="所属页面：" label-width="100px">
-                  <el-select v-model="region" placeholder="空" style="width: 120px;">
-                      <el-option label="空" :value="0" :key="0"></el-option>
-                      <el-option label="普通个人中心" :value="1" :key="1"></el-option>
-                      <el-option label="个人讲师中心" :value="2" :key="2"></el-option>
-                      <el-option label="机构讲师中心" :value="3" :key="3"></el-option>
-                      <el-option label="院校大咖中心" :value="4" :key="4"></el-option>
-                      <el-option label="院校中心" :value="5" :key="5"></el-option>
-                      <el-option label="机构中心" :value="6" :key="6"></el-option>
-                      <el-option label="个人大咖中心" :value="7" :key="7"></el-option>
-                      <el-option label="顾问个人中心" :value="8" :key="8"></el-option>
+                  <el-select v-model="region_page" placeholder="空" style="width: 120px;">
+                      <el-option v-for="(item, index) in option_page" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="5">
               <el-button size="small" type="primary" @click="onDisableClik">追加父节点</el-button>
               <el-button size="small" type="primary" @click="onDisableClik1">追加子节点</el-button>
+              <el-button size="small" type="primary" @click="onQuery">查询</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -53,11 +41,16 @@
                 <el-button type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
             </div>
-            <el-table v-show="isShowTab" :data="tableData" stripe width="100%" border>
-                <el-table-column prop="collegesId" label="节点" align="center"></el-table-column>
-                <el-table-column prop="collegesName" label="说明" align="center"></el-table-column>
-                <el-table-column prop="country" label="路径" align="center"></el-table-column>
-                <el-table-column prop="phone" label="菜单是否显示" align="center"></el-table-column>
+            <el-table v-show="isShowTab" :data="tableDatak" stripe width="100%" border>
+                <el-table-column prop="name" label="节点" align="center"></el-table-column>
+                <el-table-column prop="description" label="说明" align="center"></el-table-column>
+                <el-table-column prop="uri" label="路径" align="center"></el-table-column>
+                <el-table-column prop="isShow" label="菜单是否显示" align="center">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.isShow == 1">是</div>
+                        <div v-if="scope.row.isShow == 2">否</div>
+                    </template>
+                </el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-button type="danger" size="small">编辑</el-button>
@@ -77,7 +70,7 @@
                 <el-button type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
             </div>
-            <el-table v-show="isShowTab1" :data="tableData" stripe width="100%" border>
+            <el-table v-show="isShowTab1" :data="tableDataw" stripe width="100%" border>
                 <el-table-column prop="collegesId" label="节点" align="center"></el-table-column>
                 <el-table-column prop="collegesName" label="说明" align="center"></el-table-column>
                 <el-table-column prop="country" label="路径" align="center"></el-table-column>
@@ -105,33 +98,33 @@
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
-                        <el-input placeholder="请输入ID" disabled></el-input>
+                        <el-input placeholder="" disabled v-model="fuzhu"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="权限名称：" label-width="100px">
-                        <el-input placeholder="请输入权限名称"></el-input>
+                        <el-input placeholder="请输入权限名称" v-model="fuName"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="权限说明：" label-width="100px">
-                        <el-input placeholder="请输入权限说明"></el-input>
+                        <el-input placeholder="请输入权限说明" v-model="fuExplain"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow1 = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow1 = false">提 交</el-button>
+                <el-button type="primary" @click="onSub_fu">提 交</el-button>
             </span>
         </el-dialog>
         <!-- 追加子节点 -->
         <el-dialog v-model="isDialogShow2" size="small" :visible.sync="isDialogShow2">
-            <p style="font-size: 30px;">追加父节点</p>
+            <p style="font-size: 30px;">追加子节点</p>
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
-                        <el-input placeholder="请输入ID" disabled></el-input>
+                        <el-input placeholder="请输入ID" disabled v-model="zizhu"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -149,14 +142,6 @@
                         <el-input placeholder="请输入页面URL"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10">
-                    <el-form-item label="菜单中是否显示：" style="display: inline-block;">
-                        <el-radio-group v-model="radio" size="mini">
-                            <el-radio v-model="radio" label="1">是</el-radio>
-                            <el-radio v-model="radio" label="2">否</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
@@ -167,72 +152,126 @@
     </div>
 </template>
 <script>
+import { resourceList,resourceCreate,resourceUpdate,resourceChild,resourceUpdateChild,resourceSort,resourceDelete } from '../api/url.js'
 export default {
   data () {
     return {
-      region: '',
+      region_category: '',
+      option_category: [{
+        value: '1',
+        label: '用户pc管理'
+      }, {
+        value: '2',
+        label: 'APP'
+      }, {
+        value: '3',
+        label: 'WAP'
+      }, {
+        value: '4',
+        label: '管理后台（pc）'
+      }],
+      region_channel: '',
+      option_channel: [{
+        value: '0',
+        label: '空'
+      }, {
+        value: '1',
+        label: '留学'
+      }, {
+        value: '2',
+        label: '语培'
+      }],
+      region_page: '',
+      option_page: [{
+        value: '10',
+        label: '普通个人中心'
+      }, {
+        value: '20',
+        label: '个人讲师中心'
+      }, {
+        value: '30',
+        label: '机构讲师中心'
+      }, {
+        value: '40',
+        label: '院校大咖中心'
+      }, {
+        value: '50',
+        label: '院校中心'
+      }, {
+        value: '60',
+        label: '机构中心'
+      }, {
+        value: '70',
+        label: '个人大咖中心'
+      }, {
+        value: '80',
+        label: '顾问个人中心'
+      }],
       radio: '1',
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
       isShowTab: false,
       isShowTab1: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      labelData: [],
+      tableDatak: [],
+      tableDataw: [],
+      fuzhu: '',
+      fuName: '',
+      fuExplain: '',
+      zizhu: ''
     }
   },
   methods: {
     onEditClick (index) {
       this.$router.replace({ path: '/institutionsEditors' })
     },
-    onDisableClik (index) {
-      this.isDialogShow1 = true
+    onDisableClik () { //追加父节点
+    //   var data = {'name': this.tableDatak[0].name, 'description': this.tableDatak[0].description, 'category': this.tableDatak[0].category}
+      this.fuName = '课程a'
+      this.fuExplain = '对课程a'
+      resourceCreate({'name': this.fuName,'description': this.fuExplain,'category': 0,'channel': 1,'page': 2}).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow1 = true
+          this.fuzhu = res.result
+        } else {
+          this.$message(res.message)          
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
-    onDisableClik1 (index) {
-      this.isDialogShow2 = true
+    onSub_fu () { //更新父节点
+      resourceUpdate({'id': this.fuzhu,'description': this.fuExplain,'name': this.fuName}).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow1 = false
+        } else {
+          this.$message(res.message)          
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onDisableClik1 () { //追加子节点
+      if (this.fuzhu === null || this.fuzhu === '') {
+        this.$message('请先选择追加父节点')
+        return false
+      }
+      var data = {'parentId': this.fuzhu, 'name': this.fuName,'description': this.fuExplain}
+      console.log('data', data)
+      resourceChild(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow2 = true
+          this.zizhu = res.data.result
+        } else {
+          this.$message(res.message)          
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onDelClick () {
       this.isDialogShow = true
@@ -250,7 +289,26 @@ export default {
       } else {
         this.isShowTab1 = true
       }
+    },
+    onQuery () {
+      
+    },
+    postData () {
+      var data = {'category': this.region_category, 'channel': this.region_channel, 'page': this.region_page}
+      resourceList({'category': 0, 'channel': 1, 'page': 2}).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableDatak = res.result
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.$nextTick(function () {
+      this.postData()
+    })
   }
 }
 </script>

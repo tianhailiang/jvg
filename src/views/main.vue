@@ -6,10 +6,10 @@
         </el-col>
         <el-col :span='18' class="chart-shu">
             <el-row :gutter="20">
-                <el-col :span="6"><i class="el-icon-picture"></i><div>35000</div><div>用户总数</div></el-col>
-                <el-col :span="6"><i class="el-icon-picture"></i><div>219000</div><div>访问总数</div></el-col>
-                <el-col :span="6"><i class="el-icon-picture"></i><div>30000</div><div>订单总数</div></el-col>
-                <el-col :span="6"><i class="el-icon-picture"></i><div>170000</div><div>总金额</div></el-col>
+                <el-col :span="6"><i class="el-icon-picture"></i><div>{{mainData.allUser}}</div><div>用户总数</div></el-col>
+                <el-col :span="6"><i class="el-icon-picture"></i><div>{{mainData.totalNumberOfVisits}}</div><div>访问总数</div></el-col>
+                <el-col :span="6"><i class="el-icon-picture"></i><div>{{mainData.allOrder}}</div><div>订单总数</div></el-col>
+                <el-col :span="6"><i class="el-icon-picture"></i><div>{{mainData.allMoney}}</div><div>总金额</div></el-col>
             </el-row>
         </el-col>
         <el-col :span='18' class='chart'>
@@ -17,16 +17,16 @@
             <div id='userChart' style='height: 400px;width: 750px;' >图表加载失败</div>
             </el-container>
                 <el-row :gutter="20" class="chart-r" style="margin-top: 50px;">
-                    <el-col :span="3"><i class="el-icon-picture"></i><div>35000</div><div>用户总数</div></el-col>
-                    <el-col :span="3"><i class="el-icon-picture"></i><div>219000</div><div>访问总数</div></el-col>
+                    <el-col :span="3"><i class="el-icon-picture"></i><div>{{mainData.todayRegister}}</div><div>今日注册</div></el-col>
+                    <el-col :span="3"><i class="el-icon-picture"></i><div>{{mainData.todaySignIn}}</div><div>今日登陆</div></el-col>
                 </el-row>
                 <el-row :gutter="20" class="chart-r">
-                    <el-col :span="3"><i class="el-icon-picture"></i><div>35000</div><div>用户总数</div></el-col>
-                    <el-col :span="3"><i class="el-icon-picture"></i><div>219000</div><div>访问总数</div></el-col>
+                    <el-col :span="3"><i class="el-icon-picture"></i><div>{{mainData.todayOrder}}</div><div>今日订单</div></el-col>
+                    <el-col :span="3"><i class="el-icon-picture"></i><div>{{mainData.unprocessedOrders}}</div><div>未处理订单</div></el-col>
                 </el-row>
                 <el-row :gutter="20" class="chart-r">
-                    <el-col :span="3"><i class="el-icon-picture"></i><div>35000</div><div>用户总数</div></el-col>
-                    <el-col :span="3"><i class="el-icon-picture"></i><div>219000</div><div>访问总数</div></el-col>
+                    <el-col :span="3"><i class="el-icon-picture"></i><div>{{mainData.sevenNewUser}}</div><div>七日新增</div></el-col>
+                    <el-col :span="3"><i class="el-icon-picture"></i><div>{{mainData.sevenSignIn}}</div><div>七日活跃</div></el-col>
                 </el-row>
         </el-col>
         <el-col :span='18' class="chart-k">
@@ -46,9 +46,12 @@
 </template>
 <script>
 import echarts from 'echarts'
+import { mainList } from '../api/url.js'
 export default {
   data () {
-    return {}
+    return {
+      mainData: []
+    }
   },
   methods: {
     // 加载用户来源图
@@ -128,11 +131,22 @@ export default {
       } else if (id === 6) {
         this.$router.push({ path: '/sensitive' })
       }
+    },
+    postData () {
+      mainList().then(res => {
+        console.log('data', res.result)
+        if (res.success) {
+          this.mainData = res.result
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
   },
   mounted () {
     this.$nextTick(function () {
       this.getUserChartInit()
+      this.postData()
     })
   }
 }
