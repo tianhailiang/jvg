@@ -186,6 +186,8 @@ export default {
         if (res.success) {
           this.isDialogShow = false
           window.location.reload()
+        } else {
+          this.$message(res.message)
         }
       }).catch(error => {
         console.log(`请求错误`)
@@ -210,6 +212,8 @@ export default {
         console.log('data', res)
         if (res.success) {
           this.tableData = res.result
+        } else {
+          this.$message(res.message)
         }
       }).catch(error => {
         console.log(`请求错误`)

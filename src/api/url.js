@@ -1,8 +1,32 @@
 import http from './http'
 var url = 'https://tdxzback.jjldxz.com/api/c/'
+// 查询业务类型列表
+export const codeAffairs = (params) => {
+  return http.fetchPost(url + 'common/code/affairs/list.json', params)
+}
+// 查询平台标签列表
+export const codeLabel = (params) => {
+  return http.fetchPost(url + 'common/code/label/list.json', params)
+}
+// 查询渠道列表
+export const codeSource = (params) => {
+  return http.fetchPost(url + 'common/code/source/list.json', params)
+}
+// 查询国家信息列表
+export const codeCountry = (params) => {
+  return http.fetchPost(url + 'common/code/country/list.json', params)
+}
+// 查询频道列表
+export const codeChannel = (params) => {
+  return http.fetchPost(url + 'common/code/channel/list.json', params)
+}
+// 查询角色列表
+export const codeRole = (params) => {
+  return http.fetchPost(url + 'common/code/role/list.json', params)
+}
 // 主页
 export const mainList = (params) => {
-	return http.fetchPost(url + 'index/detail.json', params)
+  return http.fetchPost(url + 'index/detail.json', params)
 }
 // 查询权限列表
 export const resourceList = (params) => {
