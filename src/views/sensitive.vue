@@ -115,7 +115,7 @@
     </div>
 </template>
 <script>
-import { sensitiveList } from '../api/url.js'
+import { sensitiveList,sensitiveCreate,sensitiveCreateSensitive,sensitiveUpdate } from '../api/url.js'
 export default {
   data () {
     return {
