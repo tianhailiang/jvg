@@ -11,7 +11,7 @@
         <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="话题频道">
-        <el-select v-model="channelVal" size="small">
+        <el-select v-model="channelVal" size="small" @change="channelChange">
           <el-option
           v-for="item in channelList"
           :key="item.id"
@@ -79,17 +79,17 @@
           width="200" align="center" show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="business"
+          prop="businessVal"
           label="话题频道"
           width="100" align="center" >
         </el-table-column>
         <el-table-column
-          prop="categorySigns"
+          prop="categorySignsVal"
           label="话题分类"
           width="100" align="center" >
         </el-table-column>
         <el-table-column
-          prop="lableIds"
+          prop="lableIdsVal"
           label="话题标签"
           width="100" align="center">
         </el-table-column>
@@ -113,7 +113,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              @click="handleDelete([scope.row.id])">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -125,6 +125,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
@@ -135,22 +136,12 @@ export default {
   name: 'interlocutionList',
   data () {
     return {
-      id: '',
+      id: null,
       title: '',
-      channelVal: '',
+      channelVal: null,
       channelList: [],
-      classificationVal: '0',
-      classificationList: [{
-        value: '0',
-        label: '全部'
-      },
-      {
-        value: '1',
-        label: '托福'
-      }, {
-        value: '2',
-        label: '雅思'
-      }],
+      classificationVal: null,
+      classificationList: [],
       timeVal: '',
       pickerOptions2: {
         shortcuts: [{
@@ -182,21 +173,22 @@ export default {
       tableData: [],
       multipleSelection: [],
       currentPage: 1,
-      total: 0
+      total: 0,
+      pageSize: 20
     }
   },
   methods: {
     onSubmit (e) {
       axios.post('topic/list/list.json', {
         languages: "zh",
-        // id: this.id,
-        // name: this.title,
-        // business: this.channelVal,
-        // categorySigns: this.classificationVal,
-        // createdAtFrom: this.timeVal[0],
-        // createdAtTo: this.timeVal[1],
-        pageNo: 1,
-        pageSize: 20
+        id: this.id,
+        name: this.title,
+        business: this.channelVal,
+        categorySigns: this.classificationVal,
+        createdAtFrom: this.timeVal[0],
+        createdAtTo: this.timeVal[1],
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
       })
       .then(function (response) {
         this.total = response.data.result.total
@@ -206,8 +198,20 @@ export default {
         console.log(error);
       })
     },
-    batchDelete () {
-
+    channelChange () {
+      axios.post('common/code/label/list.json', {
+        profession: this.channelVal,
+        type: 1,
+        languages: "zh",
+        classes: 1,
+        level: 1
+      })
+      .then( response => {
+        
+      })
+      .catch( error => {
+        console.log(error)
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -215,14 +219,14 @@ export default {
     handleEdit (index, row) {
       this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})
     },
-    handleDelete (index, row) {
+    handleDelete (arrId) {
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         axios.post('topic/list/delete.json', {
-          id: [row.id]
+          id: arrId
         })
         .then(function (response) {
           console.log(response)
@@ -251,21 +255,26 @@ export default {
         })     
       })
     },
+    batchDelete () {
+      let multipleId = []
+      this.multipleSelection.forEach((item, index) => {
+        multipleId.push(item.id)
+      })
+      if (multipleId.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选至少一个'
+        })
+        return false
+      }
+      this.handleDelete(multipleId)
+    },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      axios.post('topic/list/list.json', {
-        languages: "zh",
-        pageNo: val,
-        pageSize: 20
-      })
-      .then(function (response) {
-        this.tableData = response.data.result.modelData
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error);
-      })
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index, row) {
       this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})
