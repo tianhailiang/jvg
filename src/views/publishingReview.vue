@@ -4,7 +4,7 @@
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
               <el-col :span="6">
                   <el-form-item label="课程ID">
-                      <el-input type="text"></el-input>
+                      <el-input type="text" v-model="id"></el-input>
                   </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -38,35 +38,57 @@
                   </el-form-item>
               </el-col>
               <el-col :span="3">
-                  <el-button size="small" type="primary" style="margin-top:28px;">搜索</el-button>
+                  <el-button size="small" type="primary" style="margin-top:28px;" @click="publishingReview()">搜索</el-button>
               </el-col>
           </el-form>
         </el-row>
         <!-- 表格 -->
-        <el-table :data="tableData3" border ref="multipleTable">
-            <el-table-column type="selection" width="40" align="center" :selectable='checkboxInit'></el-table-column>
-            <el-table-column prop="date" label="出版物ID" width="90" align="center"></el-table-column>
-            <el-table-column prop="name" label="出版物名称" width="120" align="center"></el-table-column>
-            <el-table-column prop="name" label="出版物介绍" width="120" align="center"></el-table-column>
-            <el-table-column prop="name" label="讲师名称" width="100" align="center"></el-table-column>
-            <el-table-column prop="name" label="频道" width="100" align="center"></el-table-column>
-            <el-table-column prop="name" label="类型" width="100" align="center"></el-table-column>
-            <el-table-column prop="name" label="价格" width="100" align="center"></el-table-column>
-            <el-table-column prop="name" label="创建时间" width="120" align="center"></el-table-column>
-            <el-table-column prop="name" label="审核状态" width="100" align="center"></el-table-column>
-            <el-table-column prop="address" label="操作" show-overflow-tooltip>
+        <el-table :data="tableData3" border ref="multipleTable" v-loading="loading">
+            <el-table-column type="selection" width="40" align="center"></el-table-column>
+            <el-table-column prop="id" label="出版物ID" width="90" align="center"></el-table-column>
+            <el-table-column prop="title" label="出版物名称" width="120" align="center"></el-table-column>
+            <el-table-column prop="memo" label="出版物介绍" width="120" align="center"></el-table-column>
+            <el-table-column prop="realName" label="讲师名称" width="100" align="center"></el-table-column>
+            <el-table-column prop="professionValue" label="频道" width="100" align="center"></el-table-column>
+            <el-table-column prop="typeValue" label="类型" width="100" align="center"></el-table-column>
+            <el-table-column prop="price" label="价格" width="100" align="center"></el-table-column>
+            <el-table-column prop="createdAtStr" label="创建时间" width="120" align="center"></el-table-column>
+            <el-table-column prop="statusValue" label="审核状态" width="100" align="center"></el-table-column>
+            <el-table-column label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-button size="small" type="danger" @click="">通过</el-button>
+                <el-button size="small" type="danger" @click="reviewListInfo()">通过</el-button>
               </template>
             </el-table-column>
         </el-table>
         <div style="height:30px"></div>
         <!-- 分页 -->
-        <div class="row-container">
-          <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+        <div class="row-container" v-if="tableData3.length">
+          <el-pagination layout="prev, pager, next, jumper" 
+          :total="total" background :page-size="20"></el-pagination>
           <el-button size="small" type="primary">确定</el-button>
         </div>
         <!-- 模态框 -->
+        <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
+            <el-form label-width="100px" class="demo-ruleForm">
+                <el-form-item label="课程ID">
+                <el-input type="text" size="small" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="课程标题">
+                    <el-input type="text" size="small" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="发布用户名">
+                    <el-input type="text" size="small" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="原因">
+                <el-input type="textarea" size="small"></el-input>
+                </el-form-item>
+            </el-form>
+            <span>提示：用户重新申请审核</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="">确 定</el-button>
+            </span>
+        </el-dialog>
   </section>
 </template>
 <script>
@@ -75,38 +97,69 @@ export default {
   data () {
     return {
       value: '',
-      tableData3: [
-        {date: '001',name: '张三', address: '查看'},
-        {date: '002',name: '张三', address: '查看'},
-        {date: '003',name: '张三', address: '查看'},
-        {date: '004',name: '张三', address: '查看'}
-      ],
+      total: null,
+      tableData3: [],
       shenhe: '',
       shenhedata: [
-          {label: '全部', value: '选项1'},
-          {label: '通过', value: '选项2'},
-          {label: '未通过', value: '选项3'},
-          {label: '已待审核', value: '选项4'}
+          {label: '全部', value: '1'},
+          {label: '通过', value: '2'},
+          {label: '未通过', value: '3'},
+          {label: '已待审核', value: '4'}
       ],
       course: '',
       coursedata: [
-          {label: '全部', value: '选项1'},
-          {label: '托福', value: '选项2'},
-          {label: 'GRE', value: '选项3'}
+          {label: '全部', value: '1'},
+          {label: '托福', value: '2'},
+          {label: 'GRE', value: '3'}
       ],
       sels: '', //存储选中的值
-      onOff: false
+      onOff: false,
+      id:'',
+      loading: false,
+      dialogVisible: false
     }
   },
   mounted() {
     // this.multipleTable()
     // this.handleCurrentChange()
+    // this.publishingReview()
   },
   methods: {
     // handleCurrentChange (row, event, column) {
     //     this.$refs.multipleTable.toggleRowSelection(row, true)
     //     this.tableData3.splice(row.index, 1)
     // },
+    publishingReview() {
+      this.loading = true
+      axios.post(this.$store.state.api.publishReviewList, {
+        "id": this.id,
+        // "title": "出版物名称",
+        // "categorySigns": "tuofu",
+        // "status": 2,
+        // "userId": 1,
+        // "pageNo": 2,
+        // "pageSize": 20
+      }).then(res => {
+        this.total = res.data.result.total
+        this.tableData3 = res.data.result.modelData
+        this.loading = false
+        // console.log(res)
+      }).catch(error => {
+        console.log(`请求出错啦`)
+      })
+    },
+    reviewListInfo() {
+      this.dialogVisible = true
+      axios.post(this.$store.state.api.reviewListInfo, {
+        "ids":[26],
+        "status": 3,
+        "statusMemo": "审核不通过原因审核不通过原因"
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(`请求出错啦`)
+      })
+    }
   }
 }
 </script>

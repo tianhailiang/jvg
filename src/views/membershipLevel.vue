@@ -1,31 +1,14 @@
 <template>
   <section class="member-content">
     <h3 class="content-title">会员等级规则</h3>
-    <div class="create-gz"><el-button size="small" type="primary" @click="addmemberData">新建规则</el-button></div>
+    <div class="create-gz"><el-button size="small" type="primary" @click="addmemberData()">新建规则</el-button></div>
     <el-table :data="vipdata" size="medium" :header-cell-style="rowClass" style="cursor:default;">
-        <el-table-column label="会员等级" align="center" prop="price">
-            <template slot-scope="scope">
-                <el-form label-width="80px" class="customize">
-                  <el-form-item>
-                    <el-input type="text" v-model="val" size="small"></el-input>
-                  </el-form-item>
-                </el-form>
-            </template>
-        </el-table-column>
-        <el-table-column prop="price" label="积分值区间" align="center">
-            <template slot-scope="scope">
-              <el-form label-width="80px" class="customize">
-                <el-form-item>
-                  <el-col :span="11">
-                    <el-input type="text" size="small" placeholder="1000"></el-input>
-                  </el-col>
-                  <el-col class="line" :span="2">-</el-col>
-                  <el-col :span="11">
-                    <el-input type="text" size="small" placeholder="9000"></el-input>
-                  </el-col>
-                </el-form-item>
-              </el-form>
-            </template>
+        <el-table-column label="会员等级" align="center" prop="name"></el-table-column>
+        <el-table-column label="积分值区间" align="center" prop="minIntegral">
+          <table>
+            <el-table-column label="最大值积分值" align="center" prop="maxIntegral"></el-table-column>
+            <el-table-column label="最小值积分值" align="center" prop="minIntegral"></el-table-column>
+          </table>
         </el-table-column>
         <el-table-column label="操作" align="center">
             <template slot-scope="scope">
@@ -44,26 +27,52 @@ export default {
   name: 'membershipLevel',
   data () {
     return {
-      vipdata: [
-        {time: '1个月', price: '300', operat: ''},
-        {time: '3个月', price: '400', operat: ''},
-        {time: '1个月', price: '120', operat: ''}
-      ],
-      val: ''
+      vipdata: [],
+      curentnum: 1
     }
+  },
+  created() {
+    // this.getsearchmemberList()
   },
   methods: {
     rowClass ({row, rowIndex}) {
       return 'background:#f5f7fa'
     },
     handleDelete(index, row) {
-      this.vipdata.splice(index, 1)
+      axios.post(this.$store.state.api.removeVip, {
+        "id": row.id
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(`请求出错啦`)
+      })
+      // this.vipdata.splice(index, 1)
     },
     addmemberData() {
-      this.vipdata.push(11)
+      let curentnum = this.curentnum ++
+      axios.post(this.$store.state.api.addVip, {
+        "name": `Lv${curentnum}`,
+        "minIntegral": 4000,
+        "maxIntegral": 8000
+      }).then(res => {
+        this.vipdata.push({
+          "name": `Lv${curentnum}`,
+          "minIntegral": 4000,
+          "maxIntegral": 8000})
+        console.log(res)
+      }).catch(error => {
+        console.log(`请求出错啦`)
+      })
     },
     clearAll() {
       this.vipdata = []
+    },
+    getsearchmemberList() {
+      axios.post(this.$store.state.api.searchmemberList).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(`请求出错啦`)
+      })
     }
   }
 }
