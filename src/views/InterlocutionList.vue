@@ -207,7 +207,7 @@ export default {
       })
     },
     batchDelete () {
-
+      
     },
     handleSelectionChange (val) {
       this.multipleSelection = val

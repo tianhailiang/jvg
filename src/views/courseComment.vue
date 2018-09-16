@@ -206,7 +206,7 @@ export default {
     }
   },
   created() {
-    this.getCourseComent ()
+    // this.getCourseComent ()
   },
   computed: {
     copyId () {

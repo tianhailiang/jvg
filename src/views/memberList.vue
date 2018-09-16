@@ -96,7 +96,7 @@ export default {
     }
   },
   created() {
-    // this.getMenberData()
+    this.getMenberData()
   },
   methods: {
     getMenberData() {
