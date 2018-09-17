@@ -70,22 +70,24 @@
             </el-table>
             <!-- </div> -->
         </el-col>
-        <div style="height:30px"></div>
-
-        <el-col :span="18" style="text-align: center;">
-            <el-col :span="12">
-                <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
-            </el-col>
-            <el-col :span="3">
-                <el-button size="small" type="primary">确定</el-button>
-            </el-col>
-            <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量删除</el-button>
-            </el-col>
-            <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量冻结</el-button>
-            </el-col>
+        <!-- 分页 -->
+        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
+        <el-col :span="11">
+            <el-pagination background layout="prev, pager, next, jumper" 
+            :total="total"
+            :page-size="20"></el-pagination>
         </el-col>
+        <el-col :span="8">
+            <el-button size="small" type="primary">确定</el-button>
+        </el-col>
+        <el-col :span="5">
+            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
+        </el-col>
+        </el-row>
+        </el-col>
+        <!-- 分页end -->
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
             <p style="font-size: 30px;">请确认是否继续删除</p>
@@ -185,6 +187,7 @@
     </div>
 </template>
 <script>
+import { pagesList,pagesCreate,pagesDelete,pagesFrozen } from '@/api/url.js'
 export default {
   data () {
     return {
@@ -192,51 +195,8 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: [],
+      total: null
     }
   },
   methods: {
@@ -248,7 +208,23 @@ export default {
     },
     onDelClick () {
       this.isDialogShow = true
+    },
+    postData () {
+      pagesList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>

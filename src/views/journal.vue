@@ -69,7 +69,7 @@
     </div>
 </template>
 <script>
-import { logsDelete,logsList } from '../api/url.js'
+import { logsDelete,logsList } from '@/api/url.js'
 export default {
   data () {
     return {

@@ -87,7 +87,7 @@
     </div>
 </template>
 <script>
-import { seosList,seosUpdate,seosDelete } from '../api/url.js'
+import { seosList,seosUpdate,seosDelete } from '@/api/url.js'
 export default {
   data () {
     return {
@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     onEditClick (index) {
-        //显示SEO编辑框
+      //显示SEO编辑框
       this.isDialogShow1 = true
       this.bianid = this.tableData[index].id
       this.bianming = this.tableData[index].channelName
@@ -112,7 +112,7 @@ export default {
       this.bianguan = this.tableData[index].keyword
     },
     onEdit () {
-        //编辑SEO
+      //编辑SEO
       var data = {'id': this.bianid, 'keyword': this.bianguan}
       seosUpdate(data).then(res => {
         console.log('data', res)
@@ -127,12 +127,12 @@ export default {
       })
     },
     onDelClick (index) {
-        //显示删除框
+      //显示删除框
       this.isDialogShow = true
       this.bianid = this.tableData[index].id
     },
     onDel () {
-        //删除seo
+      //删除seo
       var data = {'id': this.bianid}
       seosDelete(data).then(res => {
         console.log('data', res)
