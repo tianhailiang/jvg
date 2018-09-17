@@ -1,94 +1,77 @@
 <template>
-  <div>
+  <div class="right-box">
     <div class="nav" >
       文章详情
     </div>
-    <el-form :inline="true">
-      <el-form-item label="文章ID：">
-        <div style="min-width:120px">
-          {{articleId}}
-        </div>
+    <el-form>
+      <el-form-item label="文章ID：" :label-width="formLabelWidth"
+        style="display:inline-block">
+        {{$route.params.id}}
       </el-form-item>
-      <el-form-item label="文章标题：">
-        <div style="min-width:120px">
-          {{title}}
-        </div>
+      <el-form-item label="文章标题：" :label-width="formLabelWidth"
+        style="display:inline-block">
+        {{title}}
       </el-form-item>
-      <el-form-item label="用户分类：">
-        <div style="min-width:120px">
-          {{userClassify}}
-        </div>
+      <el-form-item label="用户分类：" :label-width="formLabelWidth"
+        style="display:inline-block">
+        {{userTypeVal}}
       </el-form-item>
-      <el-form-item label="文章描述：" >
-        <div style="min-width:120px">
-          {{describe}}
-        </div>
+      <el-form-item label="文章描述：" :label-width="formLabelWidth">
+        {{memo}}
       </el-form-item>
-      <el-form-item label="文章分类标签：" >
-        <div style="min-width:120px">
-          {{articleTag}}
-        </div>
-      </el-form-item>
-      <el-form-item label="用户自定义标签：" >
-        <div style="min-width:120px">
-          {{customTag}}
-        </div>
-      </el-form-item>
-      <el-form-item label="用户ID：" >
-        <div style="min-width:120px">
+      <div class="flex-box" >
+        <el-form-item label="文章分类标签：" :label-width="formLabelWidth1">
+          {{labelIdsVal}}
+        </el-form-item>
+        <el-form-item label="用户自定义标签：" :label-width="formLabelWidth1">
+          {{labelUserName}}
+        </el-form-item>
+        <el-form-item label="用户ID：" :label-width="formLabelWidth1">
           {{userId}}
+        </el-form-item>
+        <el-form-item label="用户名称：" :label-width="formLabelWidth1">
+          {{realName}}
+        </el-form-item>
+        <el-form-item label="用户昵称：" :label-width="formLabelWidth1">
+          {{nikeName}}
+        </el-form-item>
+        <el-form-item label="用户角色：" :label-width="formLabelWidth1">
+          {{userTypeVal}}
+        </el-form-item>
+        <el-form-item label="文章状态：" :label-width="formLabelWidth1">
+          {{upDownVal}}
+        </el-form-item>
+      </div>
+      <el-form-item label="文章内容：" :label-width="formLabelWidth">
+        <div v-html="details">
         </div>
       </el-form-item>
-      <el-form-item label="用户名称：" >
-        <div style="min-width:120px">
-          {{userName}}
-        </div>
-      </el-form-item>
-      <el-form-item label="用户昵称：" >
-        <div style="min-width:120px">
-          {{userNickname}}
-        </div>
-      </el-form-item>
-      <el-form-item label="用户角色：" >
-        <div style="min-width:120px">
-          {{userRole}}
-        </div>
-      </el-form-item>
-      <el-form-item label="文章状态：" >
-        <div style="min-width:120px">
-          {{state}}
-        </div>
-      </el-form-item>
-      <el-form-item label="文章内容：" >
-        <div style="min-width:120px" v-html="artcileContent">
-        </div>
-      </el-form-item>
-      <el-form-item label="文章图片：">
+      <el-form-item label="文章图片：" :label-width="formLabelWidth">
         <ul class="article-ul">
-          <li v-for="item in imageList" >
+          <li v-for="(item, index) in imageList" :key="index">
             <img :src="item" />
           </li>
         </ul>
       </el-form-item>
-      <el-form-item label="文章统计：" >
+      <el-form-item label="文章统计：" :label-width="formLabelWidth">
         <el-table
           :data="tableData" border >
           <el-table-column
-            prop="viewNumber"
+            prop="browseNum"
             label="浏览数" align="center"
             width="80">
           </el-table-column>
           <el-table-column
-            prop="forwardNumber"
+            prop="transpondNum"
             label="转发数" align="center"
             width="80">
           </el-table-column>
           <el-table-column
-            prop="shareNumber"
+            prop="shareNum"
             label="分享数" align="center" width="80">
           </el-table-column>
           <el-table-column
-            prop="collectionNumber"
+            prop="collectNum"
             label="收藏数" align="center" width="80">
           </el-table-column>
           <el-table-column
@@ -98,12 +81,12 @@
               <el-button
               size="mini"
               @click="goComment(scope.$index, scope.row)">
-                {{scope.row.commentNumber}}
+                {{scope.row.commentNum}}
               </el-button>
             </template>
           </el-table-column>
           <el-table-column
-            prop="fabulousNumber"
+            prop="thumpNum"
             label="点赞数" align="center" width="80">
           </el-table-column>
           <el-table-column
@@ -113,18 +96,19 @@
               <el-button
               size="mini"
               @click="goReward(scope.$index, scope.row)">
-                {{scope.row.rewardNumber}}
+                {{scope.row.rewardCount}}
               </el-button>
             </template>
           </el-table-column>
           <el-table-column
-            prop="rewardMoney"
+            prop="rewardPrice"
             label="打赏金额" align="center" width="80">
           </el-table-column>
         </el-table>
       </el-form-item>
       <div class="btn-box" >
-        <el-button @click="forbidden()">禁用</el-button>
+        <el-button @click="forbidden" v-if="upDown == 1">禁用</el-button>
+        <el-button @click="relieve" v-if="upDown == 2">解禁</el-button>
         <el-button @click="handleDelete">删除</el-button>
         <el-button @click="cancel">取消</el-button>
       </div>
@@ -137,37 +121,37 @@
 <script>
 import ForbiddenDialog from '@/components/ForbiddenDialog.vue'
 export default {
-  name: 'ArticleDetail',
+  name: 'articleDetail',
   data () {
     return {
-      articleId: '10001',
-      title: '123',
-      userClassify: '123',
-      describe: '123',
-      articleTag: '123',
-      customTag: '123',
-      userId: '123',
-      userName: '123',
-      userNickname: '123',
-      userRole: '123',
-      state: '123',
-      artcileContent: '<p>一直以来，金融学都是中国学生赴美留学的热门专业，一方面是因为商科专业大都有着良好的就业前景和薪资水平</p>',
-      imageList: ['http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150','http://images.jjl.cn/ugc/2018/0810/20180810201516824.png!150x150'],
+      formLabelWidth: '130px',
+      formLabelWidth1: '',
+      title: '',
+      userType: null,
+      userTypeVal: '',
+      memo: '',
+      labelIdsVal: '',
+      labelUserName: '',
+      userId: null,
+      realName: '',
+      nikeName: '',
+      userTypeVal: '',
+      upDown: null,
+      upDownVal: '',
+      details: '',
+      imageList: [],
       tableData: [{
-        viewNumber: 100,
-        forwardNumber: 100,
-        shareNumber: 1001,
-        collectionNumber: 100,
-        commentNumber: 1001,
-        fabulousNumber: 100,
-        rewardNumber: 100,
-        rewardMoney: 200
+        browseNum: 0,
+        transpondNum: 0,
+        shareNum: 0,
+        collectNum: 0,
+        commentNum: 0,
+        thumpNum: 0,
+        rewardCount: 0,
+        rewardPrice: 0
       }],
       dialogFormVisible: false,
-      dialogForm: {
-        articleId: '',
-        title: ''
-      }
+      dialogForm: {}
     }
   },
   components: {
@@ -182,6 +166,36 @@ export default {
     },
     forbidden () {
       this.dialogFormVisible = true
+      console.log(this.$route.params.id)
+      this.dialogForm.id = Number(this.$route.params.id)
+      this.dialogForm.title = this.title
+      this.dialogForm.realName = this.realName
+    },
+    relieve () {
+      /* 解禁 */
+      axios.post('article/list/change-updown.json', {
+        id: Number(this.$route.params.id),
+        upDown: 1
+      })
+      .then( response => {
+        if (response.data.code == 'OK') {
+          this.$message({
+            type: 'success',
+            message: response.data.message
+          })
+          setTimeout(function () {
+            window.location.reload()
+          },500)
+        }else {
+          this.$message({
+            type: 'error',
+            message: response.data.message
+          })
+        }
+      })
+      .catch( error => {
+        console.log(error);
+      })
     },
     handleDelete () {
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
@@ -189,27 +203,81 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
+        axios.post('article/list/delete.json', {
+          id: [this.$route.params.id]
+        })
+        .then( response => {
+          if (response.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              this.$router.push({name: 'article'})
+            }.bind(this),500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.message
+            })
+          }
+        })
+        .catch( error => {
+          console.log(error)
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
-      });
+        })     
+      })
     },
     cancel () {
       this.$router.push({name: 'article'})
     }
+  },
+  mounted () {
+    axios.post('article/detail/detail.json', {
+      id: this.$route.params.id
+    })
+    .then( response => {
+      this.title = response.data.result.title
+      this.userType = response.data.result.userType
+      this.userTypeVal = response.data.result.userTypeVal
+      this.memo = response.data.result.memo
+      this.labelIdsVal = response.data.result.labelIdsVal
+      this.labelUserName = response.data.result.labelUserName
+      this.userId = response.data.result.userId
+      this.realName = response.data.result.realName
+      this.nikeName = response.data.result.nikeName
+      this.upDown = response.data.result.upDown
+      this.upDownVal = response.data.result.upDownVal
+      this.details = response.data.result.details
+      if (response.data.result.images) {
+        this.imageList = response.data.result.images.split(',')
+      }
+      [this.tableData[0].browseNum = 0] = [response.data.result.browseNum]
+      [this.tableData[0].transpondNum = 0] = [response.data.result.transpondNum]
+      [this.tableData[0].shareNum = 0 ] = [response.data.result.shareNum]
+      [this.tableData[0].collectNum = 0]= [response.data.result.collectNum]
+      [this.tableData[0].commentNum = 0] = [response.data.result.commentNum]
+      [this.tableData[0].thumpNum = 0] = [response.data.result.thumpNum]
+      [this.tableData[0].rewardCount = 0] = [response.data.result.rewardCount]
+      [this.tableData[0].rewardPrice = 0] = [response.data.result.rewardPrice]
+    })
+    .catch( error => {
+      console.log(error);
+    })
   }
 }
 </script>
 
 <style scoped>
-  .nav{
-    width:100%;
+  .right-box {
+    display: flex;
+    flex-direction: column
+  }
+  .nav {
     height:40px;
     font-size: 18px;
     line-height: 40px;
@@ -218,16 +286,26 @@ export default {
     border:1px solid #dcdcdc;
     display: flex;
     width:850px;
-    flex-wrap: wrap;
+    flex-wrap: wrap
   }
   .article-ul li{
     width:150px;
     height:150px;
     margin:10px;
-    margin-right:0;
+    margin-right:0
   }
   .btn-box{
     display: flex;
-    justify-content: center;
+    justify-content: center
+  }
+  .flex-box {
+    display: flex;
+    padding-left:20px
+  }
+</style>
+<style>
+  .flex-box .el-form-item {
+    display:flex;
+    margin-right:10px
   }
 </style>

@@ -37,7 +37,14 @@
         <el-input v-model="content" size="small" type="textarea" maxlength="100" style="width:1015px"></el-input>
       </el-form-item>
       <el-form-item label="话题标签">
-        <el-input v-model="lableIds" size="small"></el-input>
+        <el-select v-model="lableIds" size="small">
+          <el-option
+          v-for="item in lableIdsList"
+          :key="item.value"
+          :label="item.name"
+          :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="创建人：">
         {{adminName}}
@@ -120,7 +127,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="20"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
@@ -141,7 +148,7 @@ export default {
   name: 'interlocutionDetail',
   data () {
     return {
-      id: '',
+      id: null,
       title: '',
       channelVal: '',
       channelList: [],
@@ -149,13 +156,15 @@ export default {
       classificationList: [],
       createdAt: '',
       content: '',
-      lableIds: '',
+      lableIds: null,
+      lableIdsList: [],
       adminName: '',
       adminId: '',
       tableData: [],
       multipleSelection: [],
       currentPage: '',
-      total: '0',
+      total: 0,
+      pageSize: 20,
       dialogFormVisible: false,
       dialogFormVisible1: false,
       questionId: ''
@@ -277,7 +286,7 @@ export default {
     .catch(function (error) {
       console.log(error)
     })
-    this.id = this.$route.params.id
+    this.id = Number(this.$route.params.id)
     this.currentPage = Number(this.$route.query.currentPage) || 1
     /* 查询话题详情 */
     axios.post('topic/detail/detail.json', {

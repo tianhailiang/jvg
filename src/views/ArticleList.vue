@@ -1,19 +1,19 @@
 <template>
-  <div >
+  <div class="right-box">
     <div class="nav" >
       文章列表
     </div>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="文章ID">
-        <el-input v-model="formInline.articleId" size="small"></el-input>
+        <el-input v-model="articleId" size="small"></el-input>
       </el-form-item>
       <el-form-item label="文章标题">
-        <el-input v-model="formInline.title" size="small"></el-input>
+        <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="用户分类">
-        <el-select v-model="formInline.userClassify" size="small" >
+        <el-select v-model="userClassify" size="small" >
           <el-option
-          v-for="item in formInline.userClassifyList"
+          v-for="item in userClassifyList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -21,9 +21,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="状态" >
-        <el-select v-model="formInline.state" size="small" >
+        <el-select v-model="state" size="small" >
           <el-option
-          v-for="item in formInline.stateList"
+          v-for="item in stateList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -31,94 +31,106 @@
         </el-select>
       </el-form-item>
       <el-form-item label="用户ID">
-        <el-input v-model="formInline.userId" size="small"></el-input>
+        <el-input v-model="userId" size="small"></el-input>
       </el-form-item>
       <el-form-item label="用户名称">
-        <el-input v-model="formInline.userName" size="small"></el-input>
+        <el-input v-model="userName" size="small"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      ref="multipleTable"
-      :data="tableData"
-      tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
-      @selection-change="handleSelectionChange" border>
-      <el-table-column
-        type="selection"
-        label="全部"
-        width="55" >
-      </el-table-column>
-      <el-table-column
-        label="文章ID"
-        align="center" width="120">
-        <template slot-scope="scope">
+    <template v-if="total > 0" >
+      <el-table
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        @selection-change="handleSelectionChange" border>
+        <el-table-column
+          type="selection"
+          label="全部"
+          width="55" >
+        </el-table-column>
+        <el-table-column
+          label="文章ID"
+          align="center" width="80">
+          <template slot-scope="scope">
+            <el-button
+            size="mini"
+            @click="goDetail(scope.$index, scope.row)">
+              {{scope.row.id}}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="title"
+          label="文章标题"
+          width="120" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="memo"
+          label="文章描述（简述）"
+          width="150" align="center" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="userId"
+          label="发布用户ID"
+          width="110" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="realName"
+          label="发布用户姓名"
+          width="110" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="userTypeVal"
+          label="用户分类"
+          width="100" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="createdAt"
+          label="文章发布时间"
+          width="120" align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="upDownVal"
+          label="状态"
+          width="92" align="center" >
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          align="center" width="160">
+          <template slot-scope="scope">
           <el-button
-          size="mini"
-          @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.articleId}}
-          </el-button>
+            size="mini"
+            @click="handleForbidden(scope.$index, scope.row)" v-if="scope.row.upDown ==1">
+            禁用</el-button>
+          <el-button
+            size="mini"
+            @click="handleRelieve(scope.$index, scope.row)" v-else-if="scope.row.upDown ==2">
+            解禁</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete([scope.row.id])">删除</el-button>
         </template>
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="文章标题"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="describe"
-        label="文章描述（简述）"
-        width="200" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="userId"
-        label="发布用户ID"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="userName"
-        label="发布用户姓名"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="userClassify"
-        label="用户分类"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="time"
-        label="文章发布时间"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="state"
-        label="状态"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="160">
-        <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">{{scope.row.editTxt}}</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-       </template>
-      </el-table-column>
-    </el-table>
+        </el-table-column>
+      </el-table>
+      <div class="btn-box" >
+        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+      </div>
+    </template>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
-      :page-size="100"
+      :current-page.sync="currentPage"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
+    <div class="info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div>
     <!-- 禁用编辑窗口 -->
     <ForbiddenDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
   </div>
@@ -129,76 +141,44 @@ export default {
   name: 'articleList',
   data () {
     return {
-      formInline: {
-        articleId: '',
-        title: '',
-        userClassify: '2',
-        userClassifyList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '人员'
-        }, {
-          value: '2',
-          label: '机构'
-        }, {
-          value: '3',
-          label: '院校'
-        }],
-        state: '0',
-        stateList: [{
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '禁用'
-        }, {
-          value: '2',
-          label: '正常'
-        }],
-        userId: '',
-        userName: ''
-      },
-      tableData: [{
-        articleId: '100001',
-        title: '美国留学1',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl1',
-        userClassify: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+      articleId: null,
+      title: '',
+      userClassify: null,
+      userClassifyList: [{
+        value: null,
+        label: '全部'
       }, {
-        articleId: '100002',
-        title: '美国留学2',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl2',
-        userClassify: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+        value: 1,
+        label: '人员'
       }, {
-        articleId: '100003',
-        title: '美国留学3',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl3',
-        userClassify: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+        value: 3,
+        label: '机构'
+      }, {
+        value: 4,
+        label: '院校'
       }],
+      state: null,
+      stateList: [{
+        value: null,
+        label: '全部'
+      },
+      {
+        value: 1,
+        label: '正常'
+      }, {
+        value: 2,
+        label: '禁用'
+      }],
+      userId: null,
+      userName: '',
+      tableData: [],
       multipleSelection: [],
-      currentPage3: 1,
+      currentPage: 1,
       dialogFormVisible: false,
-      dialogForm: {
-        articleId: '',
-        title: ''
-      }
+      dialogForm: '',
+      total: 0,
+      pageSize: 20,
+      infoTotal: 1
     }
   },
   components: {
@@ -206,68 +186,157 @@ export default {
   },
   methods: {
     onSubmit (e) {
-      console.log('submit!')
-    },
-    toggleSelection (rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
-      }
+      axios.post('article/list/list.json', {
+        id: this.articleId,
+        title: this.title,
+        userType: this.userClassify,
+        upDown: this.state,
+        userId: this.userId,
+        realName: this.userName,
+        pageNo: 1,
+        pageSize: this.pageSize
+      })
+      .then( response => {
+        this.tableData = response.data.result.modelData
+        this.total = response.data.result.total
+        this.infoTotal = this.total
+      })
+      .catch( error => {
+        console.log(error);
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    handleEdit (index, row) {
-      console.log(index, row)
-      if(row.editTxt=='禁用'){
-        this.dialogFormVisible = true
-        this.dialogForm = row
-      }
+    handleForbidden (index, row) {
+      this.dialogFormVisible = true
+      this.dialogForm = row
     },
-    handleDelete (index, row) {
-      console.log(index, row)
+    handleRelieve (index, row) {
+      /* 解禁 */
+      axios.post('article/list/change-updown.json', {
+        id: row.id,
+        upDown: 1
+      })
+      .then( response => {
+        if (response.data.code == 'OK') {
+          this.$message({
+            type: 'success',
+            message: response.data.message
+          })
+          setTimeout(function () {
+            window.location.reload()
+          },500)
+        }else {
+          this.$message({
+            type: 'error',
+            message: response.data.message
+          })
+        }
+      })
+      .catch( error => {
+        console.log(error);
+      })
+    },
+    handleDelete (arrId) {
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
+        axios.post('article/list/delete.json', {
+          id: arrId
+        })
+        .then( response => {
+          if (response.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              window.location.reload()
+            },500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.message
+            })
+          }
+        })
+        .catch( error => {
+          console.log(error)
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });          
-      });
+        })     
+      })
+    },
+    batchDelete () {
+      let multipleId = []
+      this.multipleSelection.forEach((item, index) => {
+        multipleId.push(item.id)
+      })
+      if (multipleId.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选至少一个'
+        })
+        return false
+      }
+      this.handleDelete(multipleId)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      axios.post('article/list/list.json', {
+        // id: this.articleId,
+        // title: this.title,
+        // userType: this.userClassify,
+        // upDown: this.state,
+        // userId: this.userId,
+        // realName: this.userName,
+        pageNo: val,
+        pageSize: this.pageSize
+      })
+      .then( response => {
+        this.tableData = response.data.result.modelData
+        this.total = response.data.result.total
+      })
+      .catch( error => {
+        console.log(error);
+      })
     },
     goDetail (index,row) {
-      this.$router.push({name: 'articleDetail', params: {id: row.articleId}})
+      this.$router.push({name: 'articleDetail', params: {id: row.id}})
     }
   }
 }
 </script>
 <style scoped>
-  .nav{
-    width:100%;
+  .right-box {
+    display: flex;
+    flex-direction: column
+  }
+  .nav {
     height:40px;
     font-size: 18px;
-    line-height: 40px;
+    line-height: 40px
   }
-  .demo-form-inline{
-    border:1px solid #dcdcdc;
+  .btn-box {
+    display: flex;
+    justify-content: flex-end;
+    margin-top:10px
   }
-  .demonstration{
-    margin-right:10px;
+  .demonstration {
+    margin-right:10px
+  }
+  .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px
   }
 </style>

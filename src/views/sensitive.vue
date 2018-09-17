@@ -109,7 +109,7 @@
     </div>
 </template>
 <script>
-import { codeAffairs,sensitiveList,sensitiveCreate,sensitiveCreateSensitive,sensitiveUpdate,sensitiveDelete } from '../api/url.js'
+import { codeAffairs,sensitiveList,sensitiveCreate,sensitiveCreateSensitive,sensitiveUpdate,sensitiveDelete } from '@/api/url.js'
 import http from '../api/http.js';
 export default {
   data () {
