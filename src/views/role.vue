@@ -41,6 +41,38 @@
                 <el-button type="primary" @click="onDelClick_sub">确 定</el-button>
             </span>
         </el-dialog>
+        <!-- 添加页面列表 -->
+        <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
+            <p style="font-size: 30px;">添加页面</p>
+            <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
+                <el-col :span="10">
+                  <el-form-item label="渠道：" label-width="100px">
+                  <el-select v-model="region_fen" @change="choose(region_fen)" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_fen" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                  </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                  <el-form-item label="所属频道：" label-width="100px">
+                  <el-select v-model="region_fen" @change="choose(region_fen)" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_fen" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                  </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                  <el-form-item label="所属页面：" label-width="100px">
+                  <el-select v-model="region_fen" @change="choose(region_fen)" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_fen" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                  </el-select>
+                  </el-form-item>
+                </el-col>
+            </el-form>
+            <p style="color: #fff;">———————————————————————————————</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow1 = false">取 消</el-button>
+                <el-button type="primary" @click="">添 加</el-button>
+            </span>
+        </el-dialog>
         <!-- 角色编辑 -->
         <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
             <p style="font-size: 30px;">角色编辑</p>
@@ -153,7 +185,7 @@
     </div>
 </template>
 <script>
-import { roleList,roleDelete } from '../api/url.js'
+import { roleList,roleDelete,roleCreate,roleUpdate } from '../api/url.js'
 export default {
   data () {
     return {
@@ -165,15 +197,29 @@ export default {
       isShowTab: false,
       isShowTab1: false,
       tableData: [],
-      roleid: ''
+      roleid: '',
+      region_fen: '',
+      option_fen: []
     }
   },
   methods: {
     onEditClick (index) {
       this.$router.replace({ path: '/institutionsEditors' })
     },
-    onDisableClik (index) { //新建角色
-    
+    onDisableClik (index) { 
+      console.log('assasasasasas')
+    //   //新建角色
+    //   roleCreate({id: this.roleid}).then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.isDialogShow = false
+    //       window.location.reload()
+    //     } else {
+    //       this.$message(res.message)
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
     },
     onDelClick (id) { //删除按钮
       this.isDialogShow = true

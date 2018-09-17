@@ -28,7 +28,7 @@
             <el-col :span="5">
               <el-button size="small" type="primary" @click="onDisableClik">追加父节点</el-button>
               <el-button size="small" type="primary" @click="onDisableClik1">追加子节点</el-button>
-              <el-button size="small" type="primary" @click="onQuery">查询</el-button>
+              <!-- <el-button size="small" type="primary" @click="onQuery">查询</el-button> -->
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -98,7 +98,7 @@
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
-                        <el-input placeholder="" disabled v-model="fuzhu"></el-input>
+                        <el-input placeholder="自动生成" disabled v-model="fuzhu"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -115,7 +115,7 @@
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow1 = false">取 消</el-button>
-                <el-button type="primary" @click="onSub_fu">提 交</el-button>
+                <el-button type="primary" @click="ondisable">提 交</el-button>
             </span>
         </el-dialog>
         <!-- 追加子节点 -->
@@ -124,7 +124,7 @@
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
-                        <el-input placeholder="请输入ID" disabled v-model="zizhu"></el-input>
+                        <el-input placeholder="自动生成" disabled v-model="zizhu"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -143,10 +143,21 @@
                     </el-form-item>
                 </el-col>
             </el-form>
+            <el-button @click="isDialogShow2 = false" type="primary">追加API关联关系</el-button>
             <p style="color: #fff;">———————————————————————————————</p>
+            <el-table :data="tableDatakzi" stripe width="100%" border>
+                <el-table-column prop="name" label="APIID" align="center"></el-table-column>
+                <el-table-column prop="description" label="API名称" align="center"></el-table-column>
+                <el-table-column prop="uri" label="APIURL" align="center"></el-table-column>
+                <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
+                    <template slot-scope="scope">
+                        <el-button @click="" type="danger" size="small">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow2 = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow2 = false">提 交</el-button>
+                <el-button type="primary" @click="onDisable1">提 交</el-button>
             </span>
         </el-dialog>
     </div>
@@ -216,6 +227,7 @@ export default {
       labelData: [],
       tableDatak: [],
       tableDataw: [],
+      tableDatakzi: [],
       fuzhu: '',
       fuName: '',
       fuExplain: '',
@@ -226,15 +238,18 @@ export default {
     onEditClick (index) {
       this.$router.replace({ path: '/institutionsEditors' })
     },
-    onDisableClik () { //追加父节点
+    onDisableClik () { 
     //   var data = {'name': this.tableDatak[0].name, 'description': this.tableDatak[0].description, 'category': this.tableDatak[0].category}
-      this.fuName = '课程a'
-      this.fuExplain = '对课程a'
+      this.isDialogShow1 = true
+    },
+    ondisable () {
+      // 追加父节点
       resourceCreate({'name': this.fuName,'description': this.fuExplain,'category': 0,'channel': 1,'page': 2}).then(res => {
         console.log('data', res)
         if (res.success) {
-          this.isDialogShow1 = true
+          this.isDialogShow1 = false
           this.fuzhu = res.result
+          this.$message(res.message)
         } else {
           this.$message(res.message)          
         }
@@ -242,7 +257,8 @@ export default {
         console.log(`请求错误`)
       })
     },
-    onSub_fu () { //更新父节点
+    onSub_fu () { 
+      // 更新父节点
       resourceUpdate({'id': this.fuzhu,'description': this.fuExplain,'name': this.fuName}).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -254,17 +270,20 @@ export default {
         console.log(`请求错误`)
       })
     },
-    onDisableClik1 () { //追加子节点
+    onDisableClik1 () { 
       if (this.fuzhu === null || this.fuzhu === '') {
         this.$message('请先选择追加父节点')
         return false
       }
+      this.isDialogShow2 = true
+    },
+    onDisable1 () {
+      // 追加子节点
       var data = {'parentId': this.fuzhu, 'name': this.fuName,'description': this.fuExplain}
-      console.log('data', data)
+      console.log(data)
       resourceChild(data).then(res => {
         console.log('data', res)
         if (res.success) {
-          this.isDialogShow2 = true
           this.zizhu = res.data.result
         } else {
           this.$message(res.message)          
@@ -294,8 +313,8 @@ export default {
       
     },
     postData () {
-      var data = {'category': this.region_category, 'channel': this.region_channel, 'page': this.region_page}
-      resourceList({'category': 0, 'channel': 1, 'page': 2}).then(res => {
+      var data = {'category': 4, 'channel': this.region_channel, 'page': this.region_page}
+      resourceList(data).then(res => {
         console.log('data', res)
         if (res.success) {
           this.tableDatak = res.result

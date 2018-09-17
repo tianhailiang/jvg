@@ -56,46 +56,52 @@
         <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="selection" label="全部" width="55" align="center"></el-table-column>
-                <el-table-column prop="userId" label="用户id" align="center"></el-table-column>
-                <el-table-column prop="userName" label="用户姓名" align="center"></el-table-column>
-                <el-table-column prop="phone" label="用户手机" align="center"></el-table-column>
-                <el-table-column prop="userClassify" label="角色" align="center"></el-table-column>
-                <el-table-column prop="sex" label="性别" align="center"></el-table-column>
-                <el-table-column prop="certificate" label="证件号" align="center"></el-table-column>
-                <el-table-column prop="state" label="状态" align="center"></el-table-column>
+                <el-table-column prop="id" label="用户id" align="center"></el-table-column>
+                <el-table-column prop="realName" label="用户姓名" align="center"></el-table-column>
+                <el-table-column prop="mobile" label="用户手机" align="center"></el-table-column>
+                <el-table-column prop="typeName" label="角色" align="center"></el-table-column>
+                <el-table-column prop="sexType" label="性别" align="center"></el-table-column>
+                <el-table-column prop="idCode" label="证件号" align="center"></el-table-column>
+                <el-table-column prop="approveStatusName" label="状态" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
-                        <el-button @click="onExamineClick(scope.$index)" type="danger" size="small">审核</el-button>
+                        <el-button v-if="scope.row.approveStatus == 1" @click="onExamineClick(scope.row.id)" type="danger" size="small">审核</el-button>
+                        <el-button v-if="scope.row.approveStatus == 2" @click="onRevokeClick(scope.row.id)" type="danger" size="small">撤销</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         <!-- </div> -->
         </el-col>
-        <div style="height:30px"></div>
-
-        <el-col :span="18" style="text-align: center;">
-            <el-col :span="12">
-                <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
-            </el-col>
-            <el-col :span="3">
-                <el-button size="small" type="primary">确定</el-button>
-            </el-col>
-            <el-col :span="3" style="float: right;">
-                <el-button @click="onRevokeClick()" size="small" type="primary">批量撤销</el-button>
-            </el-col>
+        <!-- 分页 -->
+        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
+        <el-col :span="11">
+            <el-pagination background layout="prev, pager, next, jumper" 
+            :total="total"
+            :page-size="20"></el-pagination>
         </el-col>
+        <el-col :span="8">
+            <el-button size="small" type="primary">确定</el-button>
+        </el-col>
+        <el-col :span="5">
+            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
+        </el-col>
+        </el-row>
+        </el-col>
+        <!-- 分页end -->
         <!-- 撤销窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
             <p style="font-size: 20px;">请确认是否进行撤销处理</p>
             <el-form >
                 <el-form-item label="禁用原因：">
-                    <el-input type="textarea" placeholder="请录入禁用原因" :rows="5"></el-input>
+                    <el-input type="textarea" v-model="cheyuan" placeholder="请录入禁用原因" :rows="5"></el-input>
                 </el-form-item>
             </el-form>
             <p style="font-size: 20px;">提示：撤销后该用户状态为未认证</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+                <el-button type="primary" @click="onche">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 实名认证信息详情页 -->
@@ -104,160 +110,280 @@
             <el-form :inline="true" class="demo-form-inline" id="dialog" label-width="95px" size="mini">
             <el-col :span="10">
               <el-form-item label="用户类型：" label-width="95px">
-                  <el-input placeholder="请输入用户类型" disabled></el-input>
+                  <el-input placeholder="请输入用户类型" disabled v-model="detlei"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="用户id：">
-                  <el-input placeholder="自动生成" disabled></el-input>
+                  <el-input placeholder="自动生成" disabled v-model="detid"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※用户姓名：</p>
               <el-form-item style="color: #C13232;">
-                  <el-input placeholder="请输入用户姓名" disabled></el-input>
+                  <el-input placeholder="请输入用户姓名" disabled v-model="detname"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="用户昵称：" >
-                  <el-input placeholder="请输入用户姓名" disabled></el-input>
+                  <el-input placeholder="请输入用户姓名" disabled v-model="detni"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
                 <p style="width: 83px;font-size: 14px;color: #606266;float: left;color: #C13232;line-height: 30px;text-align: right;padding-right: 12px;">※手机号：</p>
               <el-form-item style="color: #C13232;">
-                      <el-input placeholder="请输入用户手机号" disabled></el-input>
+                      <el-input placeholder="请输入用户手机号" disabled v-model="detiphone"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="联系电话：" >
-                  <el-input placeholder="请输入用户电话" disabled></el-input>
+                  <el-input placeholder="请输入用户电话" disabled v-model="dettel"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="10">
-              <el-form-item label="邮箱：" >
-                  <el-input placeholder="请输入邮箱" disabled style="width: 240px;"></el-input>
+            <el-col :span="12">
+              <el-form-item label="邮箱：" label-width="70px">
+                  <el-input placeholder="请输入邮箱" disabled style="width: 240px;" v-model="detemail"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="性别：" >
-                  <el-input placeholder="请输入性别" disabled></el-input>
+                  <el-input placeholder="请输入性别" disabled v-model="detsex"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="所属国家：">
-                  <el-input placeholder="请输入所属国家" disabled></el-input>
+                  <el-input placeholder="请输入所属国家" disabled v-model="detcou"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="20">
               <el-form-item label="所在位置：" >
-                  <el-input placeholder="请输入用户城市、省份、区域" style="width: 400px;" disabled></el-input>
+                  <el-input placeholder="请输入用户城市、省份、区域" style="width: 400px;" disabled v-model="detwei"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="证件类型：">
-                  <el-input placeholder="请输入证件类型" disabled></el-input>
+                  <el-input placeholder="请输入证件类型" disabled v-model="detzheng"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="证件号：" >
-                  <el-input placeholder="请输入证件号码" disabled></el-input>
+                  <el-input placeholder="请输入证件号码" disabled v-model="detzhenghao"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="注册频道：">
-                  <el-input placeholder="请输入注册频道" disabled></el-input>
+                  <el-input placeholder="请输入注册频道" disabled v-model="detpin"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="注册渠道：">
-                  <el-input placeholder="请输入注册渠道" disabled></el-input>
+                  <el-input placeholder="请输入注册渠道" disabled v-model="detqu"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="15">
               <el-form-item label="所属机构/院校：" label-width="130px">
-                  <el-input placeholder="请输入所属机构/院校" disabled></el-input>
+                  <el-input placeholder="请输入所属机构/院校" disabled v-model="detjiguo"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="认证状态：">
-                  <el-input placeholder="认证状态" disabled></el-input>
+                  <el-input placeholder="认证状态" disabled v-model="detren"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="禁用状态：">
-                  <el-input placeholder="禁用状态" disabled></el-input>
+                  <el-input placeholder="禁用状态" disabled v-model="detjin"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="20" style="margin-left: 10px;"><div>证件照片：</div><i class="el-icon-picture"></i><i class="el-icon-picture"></i></el-col>
+            <el-col :span="20" style="margin-left: 10px;"><div>证件照片：</div><img  alt=""><img  alt=""></el-col>
             <el-col :span="20" style="margin-left: 10px;margin-top: 20px;">
                 <el-form-item label="不通过原因：" label-width="100px">
-                    <el-input type="textarea" placeholder="请录入不通过原因" :rows="5" style="width: 600px;"></el-input>
+                    <el-input type="textarea" v-model="detyuan" placeholder="请录入不通过原因" :rows="5" style="width: 600px;"></el-input>
                 </el-form-item>
             </el-col>
         </el-form>
         <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="isDialogShow1 = false" type="primary">通过</el-button>
-                <el-button @click="isDialogShow1 = false" type="primary">不通过</el-button>
+                <el-button @click="ontong" type="primary">通过</el-button>
+                <el-button @click="onweitong = false" type="primary">不通过</el-button>
                 <el-button @click="isDialogShow1 = false" type="primary">取消</el-button>
             </span>
         </el-dialog>
     </section>
 </template>
-<script scoped>
+<script>
+import { certificationList,certificationDetail,certificationVerify,certificationRevoke } from '@/api/url.js'
 export default {
   data () {
     return {
       region: '',
       isDialogShow: false,
       isDialogShow1: false,
-      tableData: [{
-        phone: '15200000001',
-        sex: '男',
-        userId: '15242',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        state: '正常',
-        certificate: '110110110110110110'
-      }, {
-        phone: '15200000001',
-        sex: '男',
-        userId: '15242',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        state: '正常',
-        certificate: '110110110110110110'
-      }, {
-        phone: '15200000001',
-        sex: '男',
-        userId: '15242',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        state: '正常',
-        certificate: '110110110110110110'
-      }, {
-        phone: '15200000001',
-        sex: '男',
-        userId: '15242',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        state: '正常',
-        certificate: '110110110110110110'
-      }]
+      tableData: [],
+      detlei: '',
+      detid: '',
+      detname: '',
+      detni: '',
+      detiphone: '',
+      dettel: '',
+      detemail: '',
+      detsex: '',
+      detcou: '',
+      detwei: '',
+      detzheng: '',
+      detzhenghao: '',
+      detpin: '',
+      detqu: '',
+      detjiguo: '',
+      detren: '',
+      detjin: '',
+      detimgz: '',
+      detimgf: '',
+      detyuan: '',
+      cheyuan: '',
+      cheid: ''
     }
   },
   methods: {
-    onExamineClick (index) {
+    onExamineClick (id) {
+      // 实名审核弹窗
+      var data = {'id': id}
+      certificationDetail(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.detlei = res.result.typeName
+          this.detid = res.result.id
+          this.detname = res.result.realName
+          this.detni = res.result.nikeName
+          this.detiphone = res.result.mobile
+          this.dettel = res.result.tel
+          this.detemail = res.result.email
+          if (res.result.sex === 1) {
+            this.detsex = '男'
+          } else if (res.result.sex === 2) {
+            this.detsex = '女'
+          }
+          this.detcou = res.result.nationality
+          this.detwei = res.result.address
+          this.detzheng = res.result.evidenceType
+          this.detzhenghao = res.result.idCode
+          this.detpin = res.result.registeredChannelName
+          this.detqu = res.result.registeredSourceName
+          this.detjiguo = res.result.shopId
+          this.detren = res.result.approveStatusName
+          this.detjin = res.result.statusName
+          this.detimgz = res.result.codeZhengImg
+          this.detimgf = res.result.codeFanImg
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
       this.isDialogShow1 = true
     },
-    onRevokeClick () {
+    ontong () {
+      // 审核实名认证通过
+      var data = {'id': this.id, 'approveStatus': 2, 'approverMemo': this.detyuan}
+      certificationVerify(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow1 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onweitong () {
+      // 审核实名认证不通过
+      var data = {'id': this.id, 'approveStatus': 3, 'approverMemo': this.detyuan}
+      certificationVerify(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow1 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onRevokeClick (id) {
+      this.cheid = id
       this.isDialogShow = true
+    },
+    onche () {
+      // 撤销认证通过
+      var data = {'ids': [this.cheid], 'approverMemo': this.cheyuan}
+      certificationRevoke(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    postData () {
+      certificationList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    //   // 国家
+    //   codeCountry().then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.option_country = res.result
+    //     } else {
+    //       this.$message(res.message)
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
+    //   // 频道
+    //   codeSource().then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.option_pin = res.result
+    //     } else {
+    //       this.$message(res.message)
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
+    //   // 渠道
+    //   codeChannel().then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.option_qu = res.result
+    //     } else {
+    //       this.$message(res.message)
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>
-<style>
+<style scoped>
 .personnel{
     margin-left: 10px;
 }
@@ -265,7 +391,7 @@ export default {
     font-size: 20px;
     font-weight: 700;
 }
-.personnel #dialog i{
+.personnel #dialog img{
     display: inline-block;
     width: 400px;
     height: 300px;

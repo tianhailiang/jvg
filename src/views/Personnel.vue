@@ -285,7 +285,6 @@
 </template>
 <script>
 import { userList,userUpdate,userDelete,userFrozen,userFrozenQuery,userDetail,codeCountry,codeSource,codeChannel } from '@/api/url.js'
-import { fansList } from '../api/url';
 export default {
   name: 'personnel',
   data () {
