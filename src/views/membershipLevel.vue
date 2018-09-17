@@ -1,8 +1,8 @@
 <template>
-  <section class="member-content">
+  <section class="member-content" style="margin-left:260px;">
     <h3 class="content-title">会员等级规则</h3>
     <div class="create-gz"><el-button size="small" type="primary" @click="addmemberData()">新建规则</el-button></div>
-    <el-table :data="vipdata" size="medium" :header-cell-style="rowClass" style="cursor:default;">
+    <el-table :data="vipdata" size="medium" :header-cell-style="rowClass" style="cursor:default;" v-loading="loading">
         <el-table-column label="会员等级" align="center" prop="name"></el-table-column>
         <el-table-column label="积分值区间" align="center" prop="minIntegral">
           <table>
@@ -16,7 +16,7 @@
             </template>
         </el-table-column>
     </el-table>
-    <div class="button-group">
+    <div class="button-group" style="margin-bottom:30px;">
         <el-button size="small" type="primary">保存</el-button>
         <el-button size="small" type="primary" @click="clearAll">清除</el-button>
     </div>
@@ -28,11 +28,13 @@ export default {
   data () {
     return {
       vipdata: [],
-      curentnum: 1
+      loading: false,
+      newVal: '',
+      index: 0
     }
   },
   created() {
-    // this.getsearchmemberList()
+    this.getsearchmemberList()
   },
   methods: {
     rowClass ({row, rowIndex}) {
@@ -49,27 +51,33 @@ export default {
       // this.vipdata.splice(index, 1)
     },
     addmemberData() {
-      let curentnum = this.curentnum ++
+      let curentindex = this.index ++
       axios.post(this.$store.state.api.addVip, {
-        "name": `Lv${curentnum}`,
+        "name": name,
         "minIntegral": 4000,
         "maxIntegral": 8000
       }).then(res => {
         this.vipdata.push({
-          "name": `Lv${curentnum}`,
+          "name": name,
           "minIntegral": 4000,
           "maxIntegral": 8000})
-        console.log(res)
       }).catch(error => {
         console.log(`请求出错啦`)
       })
     },
     clearAll() {
-      this.vipdata = []
+      axios.post(this.$store.state.api.clearvipAll).then(res => {
+        this.vipdata = []
+      }).catch(error => {
+        console.log(`请求出错啦`)
+      })
     },
     getsearchmemberList() {
+      this.loading = true
       axios.post(this.$store.state.api.searchmemberList).then(res => {
-        console.log(res)
+        this.newVal = res.data.result[0].name
+        this.vipdata = res.data.result
+        this.loading = false
       }).catch(error => {
         console.log(`请求出错啦`)
       })

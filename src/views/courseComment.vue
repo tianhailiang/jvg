@@ -221,7 +221,6 @@ export default {
     getCourseComent () {
       this.loading = true
       axios.post(this.$store.state.api.courseComent, {id:this.id}).then(res => {
-        // console.log(res.data)
         if (res.data.success) {
             let dataComment = res.data.result.modelData
             this.courseComentTabel = dataComment
@@ -235,7 +234,7 @@ export default {
     },
     getCourseComentDetail() {
         axios.post(this.$store.state.api.courseComentDetail, {
-            "courseId": this.courseId,
+            "courseId": 1,
             // "details": "评论内容评论内容评论内容",
             // "userName": "张三",
             // "createdAt": "2018-08-12 12:00:00",
@@ -245,6 +244,7 @@ export default {
             // "pageNo": 1,
             // "pageSize": 20
         }).then(res => {
+            console.log(res)
             this.CourseDetailData = res.data.result.modelData
             this.total = res.data.result.total
             // console.log(res.data.result.modelData)
@@ -254,9 +254,10 @@ export default {
     },
     removeCourse() {
         if (this.ids) {
-            axios.post(this.$store.state.api.removeCourselist, {
-                ids:[5]
+            axios.post(this.$store.state.api.removeCourseComent, {
+                ids:[2]
             }).then(res => {
+                console.log(res)
                 setTimeout(() => {
                     window.location.reload()
                 },500)

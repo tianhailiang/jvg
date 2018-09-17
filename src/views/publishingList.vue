@@ -217,7 +217,6 @@ export default {
             this.tableData = res.data.result.modelData
             this.total = res.data.result.total
             this.loading = false
-            // console.log(res.data.result.total)
         }).catch((error) => {
             console.log(`请求出错啦`)
         })

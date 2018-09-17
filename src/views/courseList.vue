@@ -5,12 +5,12 @@
       <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
           <el-col :span="6">
               <el-form-item label="课程ID">
-                  <el-input placeholder="审批人" v-model="id"></el-input>
+                  <el-input v-model="id"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">
               <el-form-item label="课程标题">
-                  <el-input placeholder="课程标题" v-model="title"></el-input>
+                  <el-input v-model="title"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -34,7 +34,7 @@
           </el-col>
           <el-col :span="6">
               <el-form-item label="讲师名称">
-                  <el-input placeholder="讲师名称" v-model="realName"></el-input>
+                  <el-input v-model="realName"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="6">

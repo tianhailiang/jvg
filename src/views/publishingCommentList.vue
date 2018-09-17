@@ -27,7 +27,7 @@
                 <el-form-item label="讲师名称">
                     <el-input v-model="realName"></el-input>
                 </el-form-item>
-                <el-button size="small" type="primary" class="teacher">搜索</el-button>
+                <el-button size="small" type="primary" class="teacher" @click="searchCommentList()">搜索</el-button>
             </el-col>
         </el-form>
       </el-row>
@@ -47,7 +47,7 @@
           <el-table-column prop="badNumber" label="差评" align="center"></el-table-column>
       </el-table>
       <!-- 分页 -->
-      <div class="row-container">
+      <div class="row-container" v-if="tableData3.length">
           <el-pagination 
           background 
           layout="prev, pager, next, jumper" 
@@ -61,7 +61,7 @@
                         <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
                             <el-col :span="6">
                                 <el-form-item label="出版物ID">
-                                    <el-input type="text" :disabled="true"></el-input>
+                                    <el-input type="text" :disabled="true" v-model="id"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="6">
@@ -124,27 +124,27 @@
                                       </el-select>
                                     </el-form-item>
                                 </el-col>
-                                  <el-button size="small" type="primary" style="margin-top:25px;">搜索</el-button>
-                                  <div class="comment-total">
-                                      <span>评论总数：<span class="comment-num">1000个</span></span>
-                                  </div>
-                            </el-form>
-                          </el-row>
+                            <el-button size="small" type="primary" style="margin-top:25px;" @click="getreviewDetail()">搜索</el-button>
+                            <div class="comment-total">
+                                <span>评论总数：<span class="comment-num">1000个</span></span>
+                            </div>
+                        </el-form>
+                    </el-row>
                     <!--  -->
                     <el-table :data="tableData4" border>
                         <el-table-column type="selection" width="45"></el-table-column>
-                        <el-table-column prop="date" label="评论ID" width="105" align="center"></el-table-column>
-                        <el-table-column prop="name" label="评论内容" width="105" align="center"></el-table-column>
-                        <el-table-column prop="name" label="评论人" width="100" align="center"></el-table-column>
-                        <el-table-column prop="name" label="评论时间" width="100" align="center"></el-table-column>
-                        <el-table-column prop="name" label="评论渠道" width="100" align="center"></el-table-column>
-                        <el-table-column prop="name" label="回复内容" width="105" align="center"></el-table-column>
-                        <el-table-column prop="name" label="回复时间" width="105" align="center"></el-table-column>
-                        <el-table-column prop="name" label="回复渠道" width="105" align="center"></el-table-column>
-                        <el-table-column prop="name" label="评论类型" width="105" align="center"></el-table-column>
-                        <el-table-column prop="address" label="操作" show-overflow-tooltip>
+                        <el-table-column prop="commentId" label="评论ID" width="105" align="center"></el-table-column>
+                        <el-table-column prop="details" label="评论内容" width="105" align="center"></el-table-column>
+                        <el-table-column prop="userName" label="评论人" width="100" align="center"></el-table-column>
+                        <el-table-column prop="createdAt" label="评论时间" width="100" align="center"></el-table-column>
+                        <el-table-column prop="source" label="评论渠道" width="100" align="center"></el-table-column>
+                        <el-table-column prop="replyDetails" label="回复内容" width="105" align="center"></el-table-column>
+                        <el-table-column prop="replyCreatedAt" label="回复时间" width="105" align="center"></el-table-column>
+                        <el-table-column prop="replySourceValue" label="回复渠道" width="105" align="center"></el-table-column>
+                        <el-table-column prop="numValue" label="评论类型" width="105" align="center"></el-table-column>
+                        <el-table-column label="操作" show-overflow-tooltip>
                             <template slot-scope="scope">
-                            <el-button size="small" type="danger">删除</el-button>
+                            <el-button size="small" type="danger" @click="removePublishing()">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -154,7 +154,7 @@
                                 <el-pagination 
                                 background 
                                 layout="prev, pager, next, jumper" 
-                                :total="100"></el-pagination>
+                                :total="total"></el-pagination>
                             </el-col>
                             <el-col :span="7">
                                 <el-button size="small" type="primary">确定</el-button>
@@ -173,22 +173,16 @@ export default {
     return {
       tableData3: [],
       options: [
-        {label: '选项一',value: 'APP'},
-        {label: '选项二',value: 'WAP'},
-        {label: '选项三',value: 'PC'}
+        {label: '1',value: 'APP'},
+        {label: '2',value: 'WAP'},
+        {label: '3',value: 'PC'}
       ],
       comment: [
-        {value: '选项一',label: '好评'},
-        {value: '选项二',label: '中评'},
-        {value: '选项三',label: '差评'}
+        {value: '1',label: '好评'},
+        {value: '2',label: '中评'},
+        {value: '3',label: '差评'}
       ],
-      tableData4: [
-        {date: '502', name: '张三', address: '删除'},
-        {date: '502', name: '李四', address: '删除'},
-        {date: '502', name: '王五', address: '删除'},
-        {date: '502', name: '赵六', address: '删除'},
-        {date: '502', name: '张三', address: '删除'}
-      ],
+      tableData4: [],
       formVisible: false,
       id: '',
       title: '',
@@ -203,7 +197,7 @@ export default {
     }
   },
   created() {
-    this.searchCommentList()
+    // this.getreviewDetail()
   },
   methods: {
       openDatilog (row) {
@@ -213,7 +207,7 @@ export default {
       searchCommentList() {
         this.loading = true
         axios.post(this.$store.state.api.searchCommentList, {
-            //id:21,
+            id:this.id,
             // "title": "测试",
             // "raveFrom": 50,
             // "raveTo": 100,
@@ -224,9 +218,25 @@ export default {
             this.total = res.data.result.total
             this.tableData3 = res.data.result.modelData
             this.loading = false
-            console.log(res.data.result)
         }).catch(error => {
-
+            console.log(`请求出错啦`)
+        })
+    },
+    getreviewDetail() {
+        axios.post(this.$store.state.api.reviewDetail, {goodsId: this.id}).then(res => {
+            // console.log(res.data.result)
+            this.tableData4 = res.data.result.commentList
+        }).catch(error => {
+            console.log(`请求出错啦`)
+        })
+    },
+    removePublishing() { //待定
+        axios.post(this.$store.state.api.removePublishing, {
+            ids: [101]
+        }).then(res => {
+            console.log(res)
+        }).catch(error => {
+            console.log(`请求出错啦`)
         })
     },
     openDeatail() {
