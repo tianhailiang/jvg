@@ -4,14 +4,15 @@
       话题详情（新建/编辑）
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
-      <el-form-item label="话题ID：" class="topic-id">
+      <el-form-item label="话题ID：" class="topic-id" :label-width="formLabelWidth">
         {{id}}
       </el-form-item>
       <el-form-item label="话题标题">
         <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="话题频道">
-        <el-select v-model="channelVal" size="small">
+        <el-select v-model="channelVal" size="small" style="width:180px"
+          @change="channelChange">
           <el-option
           v-for="item in channelList"
           :key="item.value"
@@ -21,23 +22,32 @@
         </el-select>
       </el-form-item>
       <el-form-item label="话题分类" >
-        <el-select v-model="classificationVal" size="small" >
+        <el-select v-model="classificationVal" size="small" style="width:180px"
+          @change="classificationChange">
           <el-option
           v-for="item in classificationList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item.id"
+          :label="item.name"
+          :value="item.signs">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="创建时间">
         {{createdAt}}
       </el-form-item>
-      <el-form-item label="话题内容" style="display:block">
-        <el-input v-model="content" size="small" type="textarea" maxlength="100" style="width:1015px"></el-input>
+      <el-form-item label="话题内容" style="display:block" :label-width="formLabelWidth">
+        <el-input v-model="content" size="small" type="textarea" maxlength="100" style="width:995px"></el-input>
       </el-form-item>
-      <el-form-item label="话题标签">
-        <el-select v-model="lableIds" size="small">
+      <el-form-item label="话题标签" :label-width="formLabelWidth">
+        <el-select v-model="lableIds1" size="small" style="width:180px;margin-right:10px">
+          <el-option
+          v-for="item in lableIdsList"
+          :key="item.value"
+          :label="item.name"
+          :value="item.id">
+          </el-option>
+        </el-select>
+        <el-select v-model="lableIds2" size="small" style="width:180px">
           <el-option
           v-for="item in lableIdsList"
           :key="item.value"
@@ -144,25 +154,28 @@
 <script>
 import InterlocutionListSee from '@/components/InterlocutionListSee.vue'
 import InterlocutionDetailSee from '@/components/InterlocutionDetailSee.vue'
+import allAxios from 'axios'
 export default {
   name: 'interlocutionDetail',
   data () {
     return {
+      formLabelWidth: '80px',
       id: null,
       title: '',
-      channelVal: '',
+      channelVal: null,
       channelList: [],
-      classificationVal: '0',
+      classificationVal: null,
       classificationList: [],
       createdAt: '',
       content: '',
-      lableIds: null,
+      lableIds1: null,
+      lableIds2: null,
       lableIdsList: [],
       adminName: '',
-      adminId: '',
+      adminId: null,
       tableData: [],
       multipleSelection: [],
-      currentPage: '',
+      currentPage: 1,
       total: 0,
       pageSize: 20,
       dialogFormVisible: false,
@@ -174,6 +187,80 @@ export default {
     InterlocutionListSee, InterlocutionDetailSee
   },
   methods: {
+    channelChange () {
+      /* 话题分类 */
+      axios.post('common/code/label/list.json', {
+        profession: this.channelVal,
+        type: 0,
+        languages: "zh",
+        classes: 1,
+        level: 1
+      })
+      .then( response => {
+        this.classificationList = response.data.result
+        this.classificationVal = null
+      })
+      .catch( error => {
+        console.log(error)
+      })
+    },
+    getChannelChange () {
+      /* 话题分类 */
+      axios.post('common/code/label/list.json', {
+        profession: this.channelVal,
+        type: 0,
+        languages: "zh",
+        classes: 1,
+        level: 1
+      })
+      .then( response => {
+        this.classificationList = response.data.result
+        console.log(this.classificationVal)
+        this.classificationList.map(item => {
+          if (this.classificationVal == item.signs) {
+            console.log(100)
+          }
+        })
+      })
+      .catch( error => {
+        console.log(error)
+      })
+    },
+    classificationChange () {
+      /* 话题标签 */
+      axios.post('common/code/label/list.json', {
+        profession: this.channelVal,
+        type: 0,
+        languages: "zh",
+        classes: 2,
+        level: 3,
+        parentId: this.classificationVal
+      })
+      .then( response => {
+        this.lableIdsList = response.data.result
+      })
+      .catch( error => {
+        console.log(error)
+      })
+    },
+    getClassificationChange () {
+      /* 话题标签 */
+      axios.post('common/code/label/list.json', {
+        profession: this.channelVal,
+        type: 0,
+        languages: "zh",
+        classes: 2,
+        level: 3,
+        parentId: this.classificationVal
+      })
+      .then( response => {
+        this.lableIdsList = response.data.result
+        console.log(this.lableIdsList)
+      })
+      .catch( error => {
+        console.log(error)
+      })
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
@@ -248,13 +335,14 @@ export default {
       this.questionId = row.questionId
     },
     sure () {
-      /* 添加话题 */
-      axios.post('topic/detail/create.json', {
+      /* 修改话题 */
+      axios.post('topic/detail/update.json', {
+        id: this.id,
         name: this.title,
         content: this.content,
         business: this.channelVal,
         categorySigns: this.classificationVal,
-        lableIds: this.lableIds,
+        lableIds: this.lableIds1 +','+ this.lableIds2,
         adminId: this.adminId
       })
       .then( response => {
@@ -274,40 +362,43 @@ export default {
     },
     cancel () {
       this.$router.push({name: 'interlocution'})
+    },
+    postChannelList () {
+      /* 话题频道 */
+      return axios.post('common/code/channel/list.json')
+    },
+    postDetail () {
+      /* 话题详情 */
+      return axios.post('topic/detail/detail.json',{
+        id: this.$route.params.id,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize,
+        languages: 'zh'
+      })
     }
   },
   mounted () {
-    /* 话题频道 */
-    axios.post('common/code/channel/list.json', {
-    })
-    .then(function (response) {
-      this.channelList = response.data.result
-    }.bind(this))
-    .catch(function (error) {
-      console.log(error)
-    })
     this.id = Number(this.$route.params.id)
     this.currentPage = Number(this.$route.query.currentPage) || 1
-    /* 查询话题详情 */
-    axios.post('topic/detail/detail.json', {
-      id: this.$route.params.id,
-      pageNo: this.currentPage,
-      pageSize: 20,
-      languages: 'zh'
-    })
-    .then(function (response) {
-      this.title = response.data.result.name
-      this.channelVal = response.data.result.business
-      this.createdAt = response.data.result.createdAt
-      this.content = response.data.result.content
-      this.adminName = response.data.result.adminName
-      this.adminId = response.data.result.adminId
-      this.tableData = response.data.result.qaData
-      this.total = response.data.result.total
-    }.bind(this))
-    .catch(function (error) {
-      console.log(error)
-    })
+    /* 并发请求 */
+    allAxios.all([this.postChannelList(), this.postDetail()])
+      .then(allAxios.spread((res1, res2) => {
+        this.channelList = res1.data.result
+        this.title = res2.data.result.name
+        this.channelVal = res2.data.result.business
+        this.classificationVal = res2.data.result.categorySigns
+        res2.data.result.lableIds = ''
+        this.lableIds1 = res2.data.result.lableIds.split(',')[0]
+        this.lableIds2 = res2.data.result.lableIds.split(',')[1]
+        this.createdAt = res2.data.result.createdAt
+        this.content = res2.data.result.content
+        this.adminName = res2.data.result.adminName
+        this.adminId = res2.data.result.adminId
+        this.tableData = res2.data.result.qaData
+        this.total = res2.data.result.total
+        this.getChannelChange()
+        this.getClassificationChange()
+      }))
   }
 }
 </script>

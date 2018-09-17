@@ -4,8 +4,8 @@
       课题列表
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
-      <el-form-item label="话题ID">
-        <el-input v-model="id" size="small"></el-input>
+      <el-form-item label="话题ID" :label-width="formLabelWidth">
+        <el-input v-model="id" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="话题标题">
         <el-input v-model="title" size="small"></el-input>
@@ -24,13 +24,13 @@
         <el-select v-model="classificationVal" size="small" >
           <el-option
           v-for="item in classificationList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item.id"
+          :label="item.name"
+          :value="item.signs">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间">
+      <el-form-item label="创建时间" :label-width="formLabelWidth">
         <el-date-picker
           v-model="timeVal"
           type="datetimerange"
@@ -136,6 +136,7 @@ export default {
   name: 'interlocutionList',
   data () {
     return {
+      formLabelWidth: '80px',
       id: null,
       title: '',
       channelVal: null,
@@ -201,13 +202,13 @@ export default {
     channelChange () {
       axios.post('common/code/label/list.json', {
         profession: this.channelVal,
-        type: 1,
+        type: 0,
         languages: "zh",
         classes: 1,
         level: 1
       })
       .then( response => {
-        
+        this.classificationList = response.data.result
       })
       .catch( error => {
         console.log(error)
