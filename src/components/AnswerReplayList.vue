@@ -1,71 +1,67 @@
 <template>
   <el-dialog title="问答/回复列表" :visible.sync="dialogFormVisible" width="80%" :before-close="handleClose">
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="问答ID：" :label-width="formLabelWidth">
-        {{formInline.id}}
+        {{id}}
       </el-form-item>
       <el-form-item label="问答标题：" :label-width="formLabelWidth">
-        {{formInline.title}}
+        {{title}}
       </el-form-item>
       <el-form-item label="悬赏状态：" :label-width="formLabelWidth">
-        {{formInline.rewardState}}
+        {{statusVal}}
       </el-form-item>
       <el-form-item label="悬赏内容：" :label-width="formLabelWidth">
-        {{formInline.rewardContent}}
+        {{typeVal}} 
+        <span v-if = "type == 1" >
+        </span>
+        <span v-else-if = "type == 2" >
+          {{price}}积分
+        </span>
+        <span v-else-if = "type == 3" >
+          {{price}}
+        </span>
       </el-form-item>
       <el-form-item label="发布人ID：" :label-width="formLabelWidth">
-        {{formInline.userId}}
+        {{userId}}
       </el-form-item>
       <el-form-item label="发布人名称：" :label-width="formLabelWidth">
-        {{formInline.userName}}
+        {{userName}}
       </el-form-item>
       <el-form-item label="状态：" :label-width="formLabelWidth">
-        {{formInline.state}}
+        {{upDownVal}}
       </el-form-item>
     </el-form>
-    <el-form :inline="true" :model="formInline1" style="border:1px solid #dcdcdc">
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
       <div>一级回复</div>
       <el-form-item label="回复内容：" :label-width="formLabelWidth">
-        <el-input v-model="formInline1.replayContent" size="small"></el-input>
+        {{replayContent}}
       </el-form-item>
       <el-form-item label="回复人：" :label-width="formLabelWidth">
-        <el-input v-model="formInline1.replayName" size="small"></el-input>
+        {{replayName}}
       </el-form-item>
       <el-form-item label="回复ID：" :label-width="formLabelWidth">
-        <el-input v-model="formInline1.replayId" size="small"></el-input>
+        {{replayId}}
       </el-form-item>
-       <el-form-item label="回复时间：" :label-width="formLabelWidth">
-        <el-date-picker
-          v-model="formInline1.replayTime"
-          type="datetime"
-          placeholder="选择日期时间">
-        </el-date-picker>
+      <el-form-item label="回复时间：" :label-width="formLabelWidth">
+        {{replayTime}}
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+      <el-form-item label="最佳答案：" :label-width="formLabelWidth">
+        {{typeVal1}}
       </el-form-item>
     </el-form>
     <el-table
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
       border>
       <el-table-column
-        type="index"
+        type="slection"
         label="NO"
         width="55" >
       </el-table-column>
       <el-table-column
-        label="回复ID"
+        label="二级回复ID"
         width="80" align="center" >
-        <template slot-scope="scope">
-          <el-button
-          size="mini"
-          @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.replayId}}
-          </el-button>
-        </template>
       </el-table-column>
       <el-table-column
         prop="replayContent"
@@ -112,9 +108,9 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px;height:50px">
+      :total="total" style="text-align:center;margin-top:20px;height:50px">
     </el-pagination>
   </el-dialog>
 </template>
@@ -122,56 +118,64 @@
 <script>
 export default {
   name: 'answerReplayList',
-  props: ['dialogFormVisible'],
+  props: ['dialogFormVisible','replyId'],
   data () {
     return {
-      formInline: {
-        id: '',
-        title: '',
-        rewardState: '悬赏中',
-        rewardContent: '积分500',
-        userId: '15242755275',
-        userName: 'thl'
-      },
-      formInline1: {
-        replayContent: '',
-        replayName: '',
-        replayId: '',
-        replayTime: ''
-      },
+      id: '',
+      title: '',
+      statusVal: '',
+      type: '',
+      typeVal: '',
+      price: '',
+      userId: '',
+      userName: '',
+      upDownVal: '',
+      replayContent: '',
+      replayName: '',
+      replayId: '',
+      replayTime: '',
+      typeVal1: '',
       formLabelWidth: '100px',
-      tableData: [{
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }, {
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }, {
-        replayId: '10001',
-        replayContent: '美国留学非常好啊',
-        replayName: 'thl',
-        replayTime: '2018-8-23',
-        replayChannel: 'PC',
-        bestAnswer: '是',
-        replayTwoNumber: '10'
-      }],
-      currentPage: 1
+      tableData: [],
+      currentPage: 1,
+      total: 0,
+      pageSize: 20
+    }
+  },
+  watch: {
+    replyId: function(newVal, oldVal) {
+      this.id = newVal
+      /* 查询问答回复列表 */
+      axios.post('topic/qa/list.json', {
+        id: this.$route.params.id,
+        answerId: this.replyId,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(response => {
+        this.total = response.data.result.total
+        this.tableData = response.data.result.answerData
+        this.id = response.data.result.id
+        this.title = response.data.result.title
+        this.statusVal = response.data.result.statusVal
+        this.type = response.data.result.type
+        this.typeVal = response.data.result.typeVal
+        this.price = response.data.result.price
+        this.userId = response.data.result.userId
+        this.userName = response.data.result.userName
+        this.upDownVal = response.data.result.upDownVal
+        this.replayContent = response.data.result.details1
+        this.replayName = response.data.result.userName1
+        this.replayId = response.data.result.userId1
+        this.replayTime = response.data.result.createdAt1
+        this.typeVal1 = response.data.result.typeVal1
+      })
+      .catch(error => {
+        console.log(error);
+      })
     }
   },
   methods: {
-    onSubmit () {
-
-    },
     handleClose (done) {
       this.$emit('update:dialogFormVisible',false)
     },
@@ -187,6 +191,8 @@ export default {
     handleDelete (index, row) {
 
     }
+  },
+  mounted () {
   }
 }
 </script>

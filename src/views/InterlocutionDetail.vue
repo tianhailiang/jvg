@@ -39,18 +39,18 @@
         <el-input v-model="content" size="small" type="textarea" maxlength="100" style="width:995px"></el-input>
       </el-form-item>
       <el-form-item label="话题标签" :label-width="formLabelWidth">
-        <el-select v-model="lableIds1" size="small" style="width:180px;margin-right:10px">
+        <el-select v-model="lableIds[0]" size="small" style="width:180px;margin-right:10px">
           <el-option
           v-for="item in lableIdsList"
-          :key="item.value"
+          :key="item.id"
           :label="item.name"
           :value="item.id">
           </el-option>
         </el-select>
-        <el-select v-model="lableIds2" size="small" style="width:180px">
+        <el-select v-model="lableIds[1]" size="small" style="width:180px">
           <el-option
           v-for="item in lableIdsList"
-          :key="item.value"
+          :key="item.id"
           :label="item.name"
           :value="item.id">
           </el-option>
@@ -168,8 +168,7 @@ export default {
       classificationList: [],
       createdAt: '',
       content: '',
-      lableIds1: null,
-      lableIds2: null,
+      lableIds: [],
       lableIdsList: [],
       adminName: '',
       adminId: null,
@@ -199,6 +198,8 @@ export default {
       .then( response => {
         this.classificationList = response.data.result
         this.classificationVal = null
+        this.lableIdsList = []
+        this.lableIds = []
       })
       .catch( error => {
         console.log(error)
@@ -215,18 +216,25 @@ export default {
       })
       .then( response => {
         this.classificationList = response.data.result
-        console.log(this.classificationVal)
+        let classificationId = null
         this.classificationList.map(item => {
           if (this.classificationVal == item.signs) {
-            console.log(100)
+            classificationId = item.id
           }
         })
+        this.getClassificationChange(classificationId)
       })
       .catch( error => {
         console.log(error)
       })
     },
     classificationChange () {
+      let classificationId = null
+      this.classificationList.map(item => {
+        if (this.classificationVal == item.signs) {
+          classificationId = item.id
+        }
+      })
       /* 话题标签 */
       axios.post('common/code/label/list.json', {
         profession: this.channelVal,
@@ -234,16 +242,17 @@ export default {
         languages: "zh",
         classes: 2,
         level: 3,
-        parentId: this.classificationVal
+        parentId: classificationId
       })
-      .then( response => {
+      .then(response => {
         this.lableIdsList = response.data.result
+        this.lableIds = []
       })
-      .catch( error => {
+      .catch(error => {
         console.log(error)
       })
     },
-    getClassificationChange () {
+    getClassificationChange (parentId) {
       /* 话题标签 */
       axios.post('common/code/label/list.json', {
         profession: this.channelVal,
@@ -251,13 +260,12 @@ export default {
         languages: "zh",
         classes: 2,
         level: 3,
-        parentId: this.classificationVal
+        parentId: parentId
       })
-      .then( response => {
+      .then(response => {
         this.lableIdsList = response.data.result
-        console.log(this.lableIdsList)
       })
-      .catch( error => {
+      .catch(error => {
         console.log(error)
       })
     },
@@ -309,7 +317,7 @@ export default {
       if (multipleQaid.length == 0) {
         this.$message({
           type: 'warning',
-          message: '请勾选问答'
+          message: '请勾选至少一个'
         })
         return false
       }
@@ -335,6 +343,50 @@ export default {
       this.questionId = row.questionId
     },
     sure () {
+      if (!this.title) {
+        this.$message({
+          type: 'warning',
+          message: '话题标题不能为空'
+        })
+        return false
+      }
+      if (!this.content) {
+        this.$message({
+          type: 'warning',
+          message: '话题内容不能为空'
+        })
+        return false
+      }
+      if (!this.channelVal) {
+        this.$message({
+          type: 'warning',
+          message: '话题频道不能为空'
+        })
+        return false
+      }
+      if (!this.classificationVal) {
+        this.$message({
+          type: 'warning',
+          message: '话题分类不能为空'
+        })
+        return false
+      }
+      if (this.lableIds.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '话题标签不能为空'
+        })
+        return false
+      }
+      let lableIdsStr = ''
+      this.lableIds.forEach((item, index, arr) => {
+        if (item) {
+          lableIdsStr += item + ','
+        }
+        if(index == arr.length -1) {
+          lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
+        } 
+      })
       /* 修改话题 */
       axios.post('topic/detail/update.json', {
         id: this.id,
@@ -342,7 +394,7 @@ export default {
         content: this.content,
         business: this.channelVal,
         categorySigns: this.classificationVal,
-        lableIds: this.lableIds1 +','+ this.lableIds2,
+        lableIds: lableIdsStr,
         adminId: this.adminId
       })
       .then( response => {
@@ -387,9 +439,9 @@ export default {
         this.title = res2.data.result.name
         this.channelVal = res2.data.result.business
         this.classificationVal = res2.data.result.categorySigns
-        res2.data.result.lableIds = ''
-        this.lableIds1 = res2.data.result.lableIds.split(',')[0]
-        this.lableIds2 = res2.data.result.lableIds.split(',')[1]
+        this.lableIds = res2.data.result.lableIds.split(',').map(item => {
+          return Number(item)
+        })
         this.createdAt = res2.data.result.createdAt
         this.content = res2.data.result.content
         this.adminName = res2.data.result.adminName
@@ -397,7 +449,6 @@ export default {
         this.tableData = res2.data.result.qaData
         this.total = res2.data.result.total
         this.getChannelChange()
-        this.getClassificationChange()
       }))
   }
 }
