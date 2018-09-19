@@ -204,7 +204,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/courseComment.vue')
         },
         {
-          path: '/courseDetail', /* 课程详情 */
+          path: '/courseDetail/:id', /* 课程详情 */
           name: 'courseDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
         },

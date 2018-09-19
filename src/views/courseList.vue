@@ -79,7 +79,7 @@
         <el-table-column prop="beginTime" label="直播时间" width="120" align="center"></el-table-column>
         <el-table-column prop="upDownValue" label="销售状态" width="100" align="center"></el-table-column>
         <el-table-column prop="liveStatusValue" label="直播状态" width="100" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
+        <el-table-column label="操作" show-overflow-tooltip align="center">
             <template slot-scope="scope">
                 <el-button size="mini" type="danger" @click="dialogVisible = true" class="btn-edit">冻结</el-button>
                 <el-button size="mini" type="danger" @click="removeCourse" class="btn-edit">删除</el-button>
@@ -214,7 +214,7 @@ export default {
         this.total = res.data.result.total
         this.loading = false
       }).catch(error => {
-          console.log(error)
+        console.log(error)
       })
     },
     jiedCourse() { // 冻结课程
@@ -229,10 +229,7 @@ export default {
       })
     },
     handleCard(){
-        this.$router.push({ 
-            name: 'courseDetail', 
-            params: { id: this.id }
-        })
+      this.$router.push({ name: 'courseDetail', params: { id: this.id }})
     }
   },
     created() {
