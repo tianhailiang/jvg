@@ -62,85 +62,60 @@
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="index" label="NO" align="center" width="55"></el-table-column>
-                <el-table-column prop="collegesId" label="标签ID" align="center"></el-table-column>
-                <el-table-column prop="collegesName" label="标签语种" align="center"></el-table-column>
-                <el-table-column prop="country" label="标签频道" align="center"></el-table-column>
-                <el-table-column prop="phone" label="标签类别" align="center"></el-table-column>
-                <el-table-column prop="userName" label="标签名称" align="center"></el-table-column>
-                <el-table-column prop="category" label="创建人" align="center"></el-table-column>
-                <el-table-column prop="collegesNature" label="类型" align="center"></el-table-column>
-                <el-table-column prop="registertime" label="创建人ID" align="center"></el-table-column>
-                <el-table-column prop="registertime" label="创建时间" align="center"></el-table-column>
-                <el-table-column prop="redu" label="热度" align="center"></el-table-column>
+                <el-table-column prop="id" label="标签ID" align="center"></el-table-column>
+                <el-table-column prop="signs" label="标签语种" align="center"></el-table-column>
+                <el-table-column prop="professionName" label="标签频道" align="center"></el-table-column>
+                <el-table-column prop="category" label="标签类别" align="center"></el-table-column>
+                <el-table-column prop="name" label="标签名称" align="center"></el-table-column>
+                <el-table-column prop="userName" label="创建人" align="center"></el-table-column>
+                <el-table-column prop="type" label="类型" align="center">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.type == 1">课程</div>
+                        <div v-if="scope.row.type == 2">照片</div>
+                        <div v-if="scope.row.type == 3">文章</div>
+                        <div v-if="scope.row.type == 4">出版物</div>
+                        <div v-if="scope.row.type == 5">圈子</div>
+                        <div v-if="scope.row.type == 6">问答</div>
+                        <div v-if="scope.row.type == 7">讲师标签</div>
+                        <div v-if="scope.row.type == 8">院校</div>
+                        <div v-if="scope.row.type == 9">话题</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="userId" label="创建人ID" align="center"></el-table-column>
+                <el-table-column prop="createdAt" label="创建时间" align="center"></el-table-column>
+                <el-table-column prop="hiaoqiaot" label="热度" align="center"></el-table-column>
             </el-table>
             <!-- </div> -->
         </el-col>
-        <div style="height:30px"></div>
-
-        <el-col :span="18" style="text-align: center;">
-            <el-col :span="12">
-                <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
-            </el-col>
-            <el-col :span="3">
-                <el-button size="small" type="primary">确定</el-button>
-            </el-col>
-            <!-- <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量删除</el-button>
-            </el-col> -->
+        <!-- 分页 -->
+        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
+        <el-col :span="11">
+            <el-pagination background layout="prev, pager, next, jumper" 
+            :total="total"
+            :page-size="20"></el-pagination>
         </el-col>
+        <el-col :span="8">
+            <el-button size="small" type="primary">确定</el-button>
+        </el-col>
+        <el-col :span="5">
+            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
+        </el-col>
+        </el-row>
+        </el-col>
+        <!-- 分页end -->
     </div>
 </template>
 <script>
+import { labelHotlList } from '@/api/url.js'
 export default {
   data () {
     return {
       region: '',
+      total: '',
       isDialogShow: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: []
     }
   },
   methods: {
@@ -152,7 +127,23 @@ export default {
     },
     onDelClick () {
       this.isDialogShow = true
+    },
+    postData () {
+      labelHotlList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>

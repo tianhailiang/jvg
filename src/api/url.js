@@ -284,13 +284,17 @@ export const institudeList = (parms) => {
 export const fansList = (parms) => {
   return http.fetchPost('https://www.dxz.com/api/p/lt/fans/list.json', parms)
 }
+// 查询标签热度列表
+export const labelHotlList = (parms) => {
+  return http.fetchPost(url + 'label/hot/list.json', parms)
+}
 // 查询标签列表
 export const labelList = (parms) => {
   return http.fetchPost(url + 'label/list.json', parms)
 }
 // 标签删除/批量删除
 export const labelDelete = (parms) => {
-  return http.fetchPost(url + 'lable/delete.json', parms)
+  return http.fetchPost(url + 'label/delete.json', parms)
 }
 // 标签排序保存
 export const labelSort = (parms) => {
@@ -298,11 +302,11 @@ export const labelSort = (parms) => {
 }
 // 标签排序搜索
 export const labelSortQuery = (parms) => {
-  return http.fetchPost(url + 'label/sort-list-query.json', parms)
+  return http.fetchPost(url + 'label/sort-list.json', parms)
 }
 // 查询标签关系列表
 export const labelRelationshipList = (parms) => {
-  return http.fetchPost(url + 'label/relationshipList.json', parms)
+  return http.fetchPost(url + 'label/relationship-list.json', parms)
 }
 // 删除标签关系
 export const labelShipDelete = (parms) => {
@@ -326,7 +330,7 @@ export const labelRelationship = (parms) => {
 }
 // 添加标签
 export const labelCrate = (parms) => {
-  return http.fetchPost(url + 'lable/crate.json', parms)
+  return http.fetchPost(url + 'label/create.json', parms)
 }
 // 查询标签详情
 export const labelDetail = (parms) => {
@@ -334,7 +338,7 @@ export const labelDetail = (parms) => {
 }
 // 编辑标签
 export const labelUpdate = (parms) => {
-  return http.fetchPost(url + 'lable/update.json', parms)
+  return http.fetchPost(url + 'label/update.json', parms)
 }
 // 查询用户新增数据
 export const dataUser = (parms) => {
