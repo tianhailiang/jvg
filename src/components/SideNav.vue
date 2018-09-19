@@ -124,7 +124,6 @@
     <el-submenu index="16">
       <template slot="title">课程管理</template>
       <el-menu-item index="/courseList">课程列表</el-menu-item>
-      <el-menu-item index="/courseDetail">课程详情页</el-menu-item>
       <el-menu-item index="/courseComment">课程评论列表</el-menu-item>
       <!-- <el-menu-item index="/courseCommentDetail">课程评论详情页</el-menu-item> -->
       <el-menu-item index="/courseReview">课程审批管理</el-menu-item>

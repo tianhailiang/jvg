@@ -1,5 +1,6 @@
 <template>
     <section class="advert-container" style="overflow:hidden;margin-left:260px;">
+      <h3>广告列表</h3>
       <el-row :gutter="20">
         <el-form class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
@@ -45,13 +46,6 @@
                 </el-form-item>
             </div></el-col>
             <el-col :span="6">
-                <div class="grid-content bg_purple">
-                    <el-form-item label="购买人名称">
-                        <el-input placeholder=""></el-input>
-                    </el-form-item>
-                </div>
-            </el-col>
-            <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="联系方式">
                         <el-input placeholder=""></el-input>
@@ -90,45 +84,62 @@
                                   </el-option>
                                 </el-select>
                             </el-form-item>
-                        </div></el-col>
-        </el-form>
+                      </div>
+                    </el-col>
+                    <el-col :span="6">
+                      <div class="grid-content bg_purple">
+                          <el-form-item label="购买人名称">
+                              <el-input placeholder=""></el-input>
+                          </el-form-item>
+                      </div>
+                  </el-col>
+            </el-form>
       </el-row>
       <!--  -->
        <el-row :gutter="20" class="row-bg">
           <el-form class="demo-form-inline" label-width="80px" size="mini">
           <div class="btn-planes">
               <el-row>
-                  <el-button type="primary" size="medium">搜索</el-button>
-                  <el-button type="primary" size="medium">添加广告</el-button>
+                  <el-button type="primary" size="small" @click="searchAdvertList()">搜索</el-button>
+                  <el-button type="primary" size="small">添加广告</el-button>
               </el-row>
             </div>
         </el-form>
         </el-row>
-        <el-table :data="tableData3" border>
+        <el-table :data="advertData" border v-loading="loading" element-loading-text="努力奔跑中...">
             <el-table-column type="selection" width="45"></el-table-column>
-            <el-table-column prop="num" label="广告位ID" width="90" align="center"></el-table-column>
-            <el-table-column prop="name1" label="广告名称" width="90" align="center"></el-table-column>
-            <el-table-column prop="name1" label="广告位模板" width="110" align="center"></el-table-column>
-            <el-table-column prop="name1" label="广告位类型" width="110" align="center"></el-table-column>
-            <el-table-column prop="name2" label="所有权" width="90" align="center"></el-table-column>
-            <el-table-column prop="name3" label="开始时间" width="100" align="center"></el-table-column>
-            <el-table-column prop="name4" label="结束时间" width="100" align="center"></el-table-column>
-            <el-table-column prop="name5" label="渠道" width="90" align="center"></el-table-column>
-            <el-table-column prop="name6" label="业务频道" width="90" align="center"></el-table-column>
-            <el-table-column prop="name7" label="状态" width="100" align="center"></el-table-column>
-            <el-table-column prop="name8" label="购买人名称" width="100" align="center"></el-table-column>
-            <el-table-column prop="name9" label="购买人" width="80" align="center"></el-table-column>
-            <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
+            <el-table-column prop="id" label="广告位ID" width="90" align="center">
+              <template slot-scope="scope">
+                <el-button size="mini">{{scope.row.id}}</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="广告名称" width="90" align="center"></el-table-column>
+            <el-table-column prop="typeName" label="广告位类型" width="110" align="center"></el-table-column>
+            <el-table-column prop="ownershipName" label="所有权" width="90" align="center"></el-table-column>
+            <el-table-column prop="startTime" label="开始时间" width="100" align="center"></el-table-column>
+            <el-table-column prop="endTime" label="结束时间" width="100" align="center"></el-table-column>
+            <el-table-column prop="sourceName" label="渠道" width="90" align="center"></el-table-column>
+            <el-table-column prop="channelName" label="业务频道" width="90" align="center"></el-table-column>
+            <el-table-column prop="upDownName" label="状态" width="100" align="center"></el-table-column>
+            <el-table-column prop="linkName" label="购买人名称" width="100" align="center"></el-table-column>
+            <el-table-column prop="phone" label="购买人联系方式" width="80" align="center"></el-table-column>
+            <el-table-column label="操作" show-overflow-tooltip align="center">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="danger">冻结</el-button>
+                    <el-button size="mini" type="danger" @click="advertFreezeCopy(scope.$index, scope.row)">冻结</el-button>
+                    <el-button size="mini" type="danger" class="btn-default" @click="removeAdvertlist(scope.$index, scope.row)">删除</el-button>
                   </template>
                 </el-table-column>
         </el-table>
-        <div style="height:30px;"></div>
         <!-- 分页 -->
-        <el-row :gutter="20">
+        <el-row :gutter="20" v-if="advertData.length" style="margin:30px 0;">
             <el-col :span="11">
-                <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+                <el-pagination 
+                background 
+                layout="prev, pager, next, jumper" 
+                :total="total"
+                :page-size="20"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"></el-pagination>
             </el-col>
             <el-col :span="6">
                 <el-button size="small" type="primary">确定</el-button>
@@ -146,58 +157,100 @@ export default {
   data () {
     return {
       options: [
-        {value: '选项1', label: '使用中'},
-        {value: '选项2', label: '冻结'},
-        {value: '选项3', label: '未使用'},
-        {value: '选项4', label: '全部'}
+        {value: '1', label: '使用中'},
+        {value: '2', label: '冻结'},
+        {value: '3', label: '未使用'},
+        {value: '4', label: '全部'}
       ],
       options2: [
-        {values: '选项1', label: '移民'},
-        {values: '选项2', label: '语培'},
-        {values: '选项3', label: '院校直通'},
-        {values: '选项4', label: '留学'}
+        {values: '1', label: '移民'},
+        {values: '2', label: '语培'},
+        {values: '3', label: '院校直通'},
+        {values: '4', label: '留学'}
       ],
       advertvalue: '',
       advert: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '轮播'},
-        {value: '选项3', label: '单页'},
+        {value: '1', label: '全部'},
+        {value: '2', label: '轮播'},
+        {value: '3', label: '单页'},
       ],
       suoyoudata: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '平台'},
-        {value: '选项3', label: '用户'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '平台'},
+        {value: '3', label: '用户'}
       ],
-      tableData3: [
-        {num: 10001, name1: '留学首页', name2: '留学首页', name3: '轮播', name4: '使用中', name5: '平台', name6: '固定', name7: '2018-08-12', name8: '00:00:00', name9: 'PC'}],
+      advertData: [],
       value: '',
       values: '',
       advertactive: '',
       suoyou: '',
       qudaoval: '',
+      loading: false,
+      total: null,
       advertsData: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '留学首页'},
-        {value: '选项3', label: '问答详情'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '留学首页'},
+        {value: '3', label: '问答详情'}
       ],
       qudaovalData: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: 'APP'},
-        {value: '选项3', label: 'PC'},
-        {value: '选项4', label: 'WAP'}
+        {value: '1', label: '全部'},
+        {value: '2', label: 'APP'},
+        {value: '3', label: 'PC'},
+        {value: '4', label: 'WAP'}
       ]
+    }
+  },
+  methods: {
+    handleSizeChange(val) {
+      console.log(val)
+    },
+    handleCurrentChange(val) {
+      console.log(val)
+      this.searchAdvertList()
+    },
+    searchAdvertList() {
+      this.loading = true
+      axios.post(this.$store.state.api.searchAdvertList).then(res => {
+        console.log()
+        this.advertData = res.data.result.modelData
+        this.total = res.data.result.total
+        this.loading = false
+      })
+    },
+    removeAdvertlist(index, rows) {
+      axios.post(this.$store.state.api.removeAdvertlist, {id: [rows.id]}).then(res => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(error => {
+        this.$message({
+          type: 'info',
+          message: '删除失败'
+        });   
+      })
+    },
+    advertFreezeCopy(index, rows) {
+      axios.post(this.$store.state.api.advertFreezeCopy,{id: [rows.id]}).then(res => {
+        console.log(res)
+        this.$message({
+          type: 'success',
+          message: '冻结成功!'
+        })
+      }).catch(error => {
+        this.$message({
+          type: 'info',
+          message: '冻结失败'
+        })
+      })
     }
   }
 }
 </script>
 <style scoped>
-  .advert-container .bg_purple .el-input--mini{position: absolute;}
-  .advert-container .bg_purple .el-form-item__label{
-    width:auto !important;
-  }
-  .btn-planes{
-    margin-bottom: 20px;
-    text-align: right;
-    padding-right:100px;
-  }
+.advert-container .bg_purple .el-input--mini{position: absolute;}
+.advert-container .bg_purple .el-form-item__label{width:auto !important;}
+.btn-planes{margin-bottom: 20px;text-align: right;padding-right:100px;}
+.btn-default{ display: block; margin: 10px 0;}
+.advert-container h3{ height:30px; line-height: 30px; border-bottom:solid 1px #dcdfe6;margin-bottom:20px;}
 </style>
