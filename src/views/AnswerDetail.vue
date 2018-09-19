@@ -18,7 +18,7 @@
         <span v-if = "type == 1" >
         </span>
         <span v-else-if = "type == 2" >
-          500积分
+          {{price}}积分
         </span>
         <span v-else-if = "type == 3" >
           {{price}}
@@ -43,7 +43,7 @@
         <el-input v-model="replayName" size="small"></el-input>
       </el-form-item>
       <el-form-item label="回复ID：" :label-width="formLabelWidth">
-        <el-input v-model="replayId" size="small"></el-input>
+        <el-input v-model="replayId" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="回复时间：" :label-width="formLabelWidth">
         <el-date-picker
@@ -68,8 +68,8 @@
         tooltip-effect="dark"
         border>
         <el-table-column
-          type="index"
-          label="NO"
+          type="selection"
+          label="全部"
           width="55" >
         </el-table-column>
         <el-table-column
@@ -86,7 +86,8 @@
         <el-table-column
           prop="details"
           label="回复内容"
-          width="200" align="center" show-overflow-tooltip>
+          width="200" align="center" 
+          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="userName"
@@ -120,7 +121,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              @click="handleDelete([scope.row.id])">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -134,10 +135,14 @@
       :current-page.sync="currentPage"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="total" style="text-align:center;margin-top:20px;height:50px" v-if="total > 0">
+      :total="total" style="text-align:center;margin-top:20px;height:50px" 
+      v-if="total > 0">
     </el-pagination>
+    <div class="info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div>
     <div class="answer-count">
-      <span>问答统计：</span>
+      <span style="margin-left:18px">问答统计：</span>
       <el-table
           :data="tableData1" border >
           <el-table-column
@@ -170,7 +175,7 @@
         </el-table>
     </div>
     <!-- 弹出问答/回复列表 -->
-    <AnswerReplayList :dialogFormVisible.sync="dialogFormVisible" />
+    <AnswerReplayList :dialogFormVisible.sync="dialogFormVisible" :replyId="replyId" />
   </div>
 </template>
 
@@ -225,7 +230,9 @@ export default {
       currentPage: 1,
       dialogFormVisible: false,
       total: 0,
-      pageSize: 1
+      pageSize: 1,
+      infoTotal: 1,
+      replyId: null
     }
   },
   components: {
@@ -233,6 +240,7 @@ export default {
   },
   methods: {
     onSubmit () {
+      /* 搜索回复列表 */
       axios.post('topic/qadetail/list.json', {
         id: this.$route.params.id,
         pageNo: this.currentPage,
@@ -243,11 +251,12 @@ export default {
         createAtFrom: this.replayTime[0],
         createAtTo: this.replayTime[1]
       })
-      .then( response => {
+      .then(response => {
         this.total = response.data.result.total
         this.tableData = response.data.result.qaData
+        this.infoTotal = this.total
       })
-      .catch( error => {
+      .catch(error => {
         console.log(error);
       })
     },
@@ -261,11 +270,43 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
-
+      this.currentPage = val
+      this.onSubmit()
     },
-    handleDelete (index, row) {
-
+    handleDelete (arrId) {
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post('topic/qadetail/delete.json', {
+          id: arrId
+        })
+        .then( response => {
+          if (response.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              window.location.reload()
+            },500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.message
+            })
+          }
+        })
+        .catch( error => {
+          console.log(error)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })     
+      })
     },
     batchDelete () {
       let multipleQaid = []
@@ -283,15 +324,17 @@ export default {
     },
     goDetail (index, row) {
       this.dialogFormVisible = true
+      this.replyId = row.id
     }
   },
   mounted () {
+    /* 问题详情 */
     axios.post('topic/qadetail/list.json', {
       id: this.$route.params.id,
       pageNo: this.currentPage,
       pageSize: this.pageSize
     })
-    .then( response => {
+    .then(response => {
       this.title = response.data.result.title
       this.statusVal = response.data.result.statusVal
       this.type = response.data.result.type
@@ -300,8 +343,8 @@ export default {
       this.userId = response.data.result.userId
       this.userName = response.data.result.userName
       this.upDownVal = response.data.result.upDownVal
-      // this.total = response.data.result.total
-      // this.tableData = response.data.result.qaData
+      this.total = response.data.result.total
+      this.tableData = response.data.result.qaData
       let countObj = {}
       countObj.browseNum = response.data.result.browseNum
       countObj.transpondNum = response.data.result.transpondNum
@@ -311,7 +354,7 @@ export default {
       countObj.thumpNum = response.data.result.thumpNum
       this.tableData1.push(countObj)
     })
-    .catch( error => {
+    .catch(error => {
       console.log(error);
     })
   }
@@ -335,6 +378,12 @@ export default {
   }
   .answer-count {
     display: flex;
+  }
+  .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px
   }
 </style>
 <style>

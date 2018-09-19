@@ -166,7 +166,6 @@ export default {
     },
     forbidden () {
       this.dialogFormVisible = true
-      console.log(this.$route.params.id)
       this.dialogForm.id = Number(this.$route.params.id)
       this.dialogForm.title = this.title
       this.dialogForm.realName = this.realName

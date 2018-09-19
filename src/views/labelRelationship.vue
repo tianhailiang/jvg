@@ -55,16 +55,28 @@
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
                 <el-table-column label="一级类目" align="center">
                     <template slot-scope="scope">
-                        <el-button @click="onDisableClik" type="text" size="small">{{scope.row.collegesId}}</el-button>
+                        <el-button @click="onDisableClik" type="text" size="small">{{scope.row.firstName}}</el-button>
                     </template>
                 </el-table-column>
-                <el-table-column prop="collegesName" label="二级类目" align="center"></el-table-column>
-                <el-table-column prop="country" label="三级类目" align="center"></el-table-column>
-                <el-table-column prop="phone" label="语种" align="center"></el-table-column>
-                <el-table-column prop="userName" label="频道" align="center"></el-table-column>
-                <el-table-column prop="category" label="类别" align="center"></el-table-column>
+                <el-table-column prop="secondName" label="二级类目" align="center"></el-table-column>
+                <el-table-column prop="thirdName" label="三级类目" align="center"></el-table-column>
+                <el-table-column prop="languagesName" label="语种" align="center"></el-table-column>
+                <el-table-column prop="professionName" label="频道" align="center"></el-table-column>
+                <el-table-column prop="type" label="类别" align="center">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.type == 1">课程</div>
+                        <div v-if="scope.row.type == 2">照片</div>
+                        <div v-if="scope.row.type == 3">文章</div>
+                        <div v-if="scope.row.type == 4">出版物</div>
+                        <div v-if="scope.row.type == 5">圈子</div>
+                        <div v-if="scope.row.type == 6">问答</div>
+                        <div v-if="scope.row.type == 7">讲师标签</div>
+                        <div v-if="scope.row.type == 8">院校</div>
+                        <div v-if="scope.row.type == 9">话题</div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="collegesNature" label="类型" align="center"></el-table-column>
-                <el-table-column prop="registertime" label="创建时间" align="center"></el-table-column>
+                <el-table-column prop="createdAt" label="创建时间" align="center"></el-table-column>
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
@@ -73,19 +85,24 @@
             </el-table>
             <!-- </div> -->
         </el-col>
-        <div style="height:30px"></div>
-
-        <el-col :span="18" style="text-align: center;">
-            <el-col :span="12">
-                <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
-            </el-col>
-            <el-col :span="3">
-                <el-button size="small" type="primary">确定</el-button>
-            </el-col>
-            <el-col :span="3" style="float: right;">
-                <el-button size="small" type="primary">批量删除</el-button>
-            </el-col>
+        <!-- 分页 -->
+        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
+        <el-col :span="11">
+            <el-pagination background layout="prev, pager, next, jumper" 
+            :total="total"
+            :page-size="20"></el-pagination>
         </el-col>
+        <el-col :span="8">
+            <el-button size="small" type="primary">确定</el-button>
+        </el-col>
+        <el-col :span="5">
+            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
+        </el-col>
+        </el-row>
+        </el-col>
+        <!-- 分页end -->
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
             <p style="font-size: 30px;">请确认是否继续删除</p>
@@ -195,6 +212,7 @@
     </div>
 </template>
 <script>
+import { labelRelationshipList,labelShipDelete,labelRecommendationOrCancellation,labelLevelOneList,labelLevelOneToThirdList,labelRelationship } from '@/api/url.js'
 export default {
   data () {
     return {
@@ -203,51 +221,7 @@ export default {
       isDialogShow1: false,
       isTabShow: false,
       isTabShow1: false,
-      tableData: [{
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        collegesId: '15242',
-        collegesName: 'hhhh哈哈',
-        userName: 'hhhh哈哈',
-        userClassify: '普通个人',
-        registertime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: []
     }
   },
   methods: {
@@ -265,7 +239,23 @@ export default {
     },
     onDelClick () {
       this.isDialogShow = true
+    },
+    postData () {
+      labelRelationshipList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>

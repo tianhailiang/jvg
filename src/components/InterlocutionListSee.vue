@@ -11,25 +11,27 @@
         <el-input v-model="details" size="small"></el-input>
       </el-form-item>
       <el-form-item label="问答标签：" :label-width="formLabelWidth">
-        <el-select v-model="lableIds1" size="small" style="width:130px;margin-right:10px">
+        <el-select v-model="lableIds[0]" size="small"
+          style="width:130px;margin-right:10px">
           <el-option
-          v-for="item in lableIdsList"
-          :key="item.id"
-          :label="item.name"
-          :value="item.value">
+            v-for="item in lableIdsList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.signs">
           </el-option>
         </el-select>
-        <el-select v-model="lableIds2" size="small" style="width:130px">
+        <el-select v-model="lableIds[1]" size="small" style="width:130px">
           <el-option
-          v-for="item in lableIdsList"
-          :key="item.id"
-          :label="item.name"
-          :value="item.value">
+            v-for="item in lableIdsList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.signs">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="最佳答案：" :label-width="formLabelWidth">
-        <el-select v-model="answerType" size="small" placeholder="请选择" style="width:130px">
+        <el-select v-model="answerType" size="small" placeholder="请选择" 
+        style="width:130px">
           <el-option
             v-for="item in answerTypeList"
             :key="item.value"
@@ -56,7 +58,8 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      @selection-change="handleSelectionChange" border>
+      @selection-change="handleSelectionChange" border 
+      v-if="total > 0">
       <el-table-column
         type="selection"
         label="全部"
@@ -118,6 +121,9 @@
       :total="total" style="text-align:center;margin-top:20px"
       v-if="total >0">
     </el-pagination>
+    <div class="info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div>
     <div slot="footer" class="dialog-footer">
       <el-button @click="$emit('update:dialogFormVisible',false)">取 消</el-button>
       <el-button type="primary" @click="sure()">确 定</el-button>
@@ -133,17 +139,8 @@ export default {
       id: null,
       title: null,
       details: null,
-      lableIds1: null,
-      lableIds2: null,
-      lableIdsList: [{
-        value: 0,
-        name: '美国',
-        id: 0
-      }, {
-        value: 1,
-        name: '日本',
-        id: 1
-      }],
+      lableIds: [],
+      lableIdsList: [],
       answerType: null,
       answerTypeList: [{
         value: 0,
@@ -159,20 +156,26 @@ export default {
       multipleSelection: [],
       currentPage: 1,
       total: 0,
-      pageSize: 20
+      pageSize: 20,
+      infoTotal: 1
     }
   },
   methods: {
     onSubmit () {
-      let lableIds = null;
-      if (this.lableIds1 || this.lableIds2) {
-        lableIds = this.lableIds1 +','+ this.lableIds2
-      }
+      let lableIdsStr = ''
+      this.lableIds.forEach((item, index, arr) => {
+        if (item) {
+          lableIdsStr += item + ','
+        }
+        if(index == arr.length -1) {
+          lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
+        } 
+      })
       axios.post('topic/qalist/list.json', {
         id: this.id,
         title: this.title,
         details: this.details,
-        lableIds: lableIds,
+        lableIds: lableIdsStr,
         answerType: this.answerType,
         userId: this.userId,
         pageNo: this.currentPage,
@@ -182,6 +185,7 @@ export default {
         if (response.data.code == 'OK') {
           this.tableData = response.data.result.qaData
           this.total = response.data.result.total
+          this.infoTotal = this.total
         }
       })
       .catch(error => {
@@ -198,7 +202,6 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
       this.currentPage = val
     },
     sure () {
@@ -231,15 +234,37 @@ export default {
       .catch( error => {
         console.log(error)
       })
+    },
+    goDetail (index, row) {
+      
     }
   },
   mounted () {
     this.onSubmit()
+    /* 问答标签 */
+    axios.post('common/code/label/list.json', {
+      profession: 1,
+      type: 6,
+      languages: "zh",
+      classes: 2,
+      level: 3
+    })
+    .then(response => {
+      this.lableIdsList = response.data.result
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px
+  }
 </style>
 

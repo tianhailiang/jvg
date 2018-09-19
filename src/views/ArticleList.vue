@@ -4,8 +4,8 @@
       文章列表
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
-      <el-form-item label="文章ID">
-        <el-input v-model="articleId" size="small"></el-input>
+      <el-form-item label="文章ID" :label-width="formLabelWidth">
+        <el-input v-model="articleId" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="文章标题">
         <el-input v-model="title" size="small"></el-input>
@@ -30,8 +30,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="用户ID">
-        <el-input v-model="userId" size="small"></el-input>
+      <el-form-item label="用户ID" :label-width="formLabelWidth">
+        <el-input v-model="userId" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="用户名称">
         <el-input v-model="userName" size="small"></el-input>
@@ -141,6 +141,7 @@ export default {
   name: 'articleList',
   data () {
     return {
+      formLabelWidth: '80px',
       articleId: null,
       title: '',
       userClassify: null,
@@ -193,7 +194,7 @@ export default {
         upDown: this.state,
         userId: this.userId,
         realName: this.userName,
-        pageNo: 1,
+        pageNo: this.currentPage,
         pageSize: this.pageSize
       })
       .then( response => {
@@ -291,23 +292,8 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      axios.post('article/list/list.json', {
-        // id: this.articleId,
-        // title: this.title,
-        // userType: this.userClassify,
-        // upDown: this.state,
-        // userId: this.userId,
-        // realName: this.userName,
-        pageNo: val,
-        pageSize: this.pageSize
-      })
-      .then( response => {
-        this.tableData = response.data.result.modelData
-        this.total = response.data.result.total
-      })
-      .catch( error => {
-        console.log(error);
-      })
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index,row) {
       this.$router.push({name: 'articleDetail', params: {id: row.id}})

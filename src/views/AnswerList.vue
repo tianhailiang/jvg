@@ -5,7 +5,7 @@
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="问答ID：" :label-width="formLabelWidth">
-        <el-input v-model="id" size="small"></el-input>
+        <el-input v-model="id" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="问答标题：" :label-width="formLabelWidth">
         <el-input v-model="title" size="small"></el-input>
@@ -14,7 +14,23 @@
         <el-input v-model="details" size="small"></el-input>
       </el-form-item>
       <el-form-item label="问答标签：" :label-width="formLabelWidth">
-        <el-input v-model="lableIds" size="small"></el-input>
+        <el-select v-model="lableIds[0]" size="small"
+          style="width:130px;margin-right:10px">
+          <el-option
+            v-for="item in lableIdsList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.signs">
+          </el-option>
+        </el-select>
+        <el-select v-model="lableIds[1]" size="small" style="width:130px">
+          <el-option
+            v-for="item in lableIdsList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.signs">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="最佳答案：" :label-width="formLabelWidth">
         <el-radio v-model="answerType" label="1">是</el-radio>
@@ -103,10 +119,13 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="10"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
+    <div class="info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div>
   </div>
 </template>
 
@@ -115,47 +134,62 @@ export default {
   name: 'answerList',
   data () {
     return {
-      id: '',
+      id: null,
       title: '',
       details: '',
-      lableIds: '',
-      answerType: '',
-      userId: '',
+      lableIds: [],
+      lableIdsList: [],
+      answerType: null,
+      userId: null,
       formLabelWidth: '100px',
       tableData: [],
       multipleSelection: [],
       currentPage: 1,
-      total: 0
+      total: 0,
+      pageSize: 20,
+      infoTotal: 1
     }
   },
   methods: {
     onSubmit () {
+      let lableIdsStr = ''
+      this.lableIds.forEach((item, index, arr) => {
+        if (item) {
+          lableIdsStr += item + ','
+        }
+        if(index == arr.length -1) {
+          lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
+        } 
+      })
       axios.post('topic/qalist/list.json', {
-        // id: this.id,
-        // title: this.title,
-        // details: this.details,
-        // lableIds: this.lableIds,
-        // answerType: this.answerType,
-        // userId: this.userId,
-        pageNo: 1,
-        pageSize: 10
+        id: this.id,
+        title: this.title,
+        details: this.details,
+        lableIds: lableIdsStr,
+        answerType: this.answerType,
+        userId: this.userId,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
       })
-      .then( response => {
-        this.total = response.data.result.total
-        this.tableData = response.data.result.qaData
+      .then(response => {
+        if (response.data.code == 'OK') {
+          this.tableData = response.data.result.qaData
+          this.total = response.data.result.total
+          this.infoTotal = this.total
+        }
       })
-      .catch( error => {
-        console.log(error);
+      .catch(error => {
+        console.log(error)
       })
     },
-    handleDelete (qaId) {
+    handleDelete (arrId) {
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         axios.post('topic/qalist/delete.json', {
-          id: qaId
+          id: arrId
         })
         .then( response => {
           if (response.data.code == 'OK') {
@@ -191,7 +225,7 @@ export default {
       if (multipleQaid.length == 0) {
         this.$message({
           type: 'warning',
-          message: '请勾选问答'
+          message: '请勾选至少一个'
         })
         return false
       }
@@ -204,20 +238,28 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      axios.post('topic/qalist/list.json', {
-        pageNo: val,
-        pageSize: 10
-      })
-      .then( response => {
-        this.tableData = response.data.result.qaData
-      })
-      .catch( error => {
-        console.log(error);
-      })
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index, row) {
       this.$router.push({name: 'answerDetail', params: {id: row.questionId}})
     }
+  },
+  mounted () {
+    /* 问答标签 */
+    axios.post('common/code/label/list.json', {
+      profession: 1,
+      type: 6,
+      languages: "zh",
+      classes: 2,
+      level: 3
+    })
+    .then(response => {
+      this.lableIdsList = response.data.result
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 }
 </script>
@@ -236,6 +278,12 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top:10px
+  }
+  .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px
   }
 </style>
 

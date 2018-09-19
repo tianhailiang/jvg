@@ -129,6 +129,9 @@
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
+    <div class="info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div>
   </div>
 </template>
 <script>
@@ -175,7 +178,8 @@ export default {
       multipleSelection: [],
       currentPage: 1,
       total: 0,
-      pageSize: 20
+      pageSize: 20,
+      infoTotal: 1
     }
   },
   methods: {
@@ -191,11 +195,12 @@ export default {
         pageNo: this.currentPage,
         pageSize: this.pageSize
       })
-      .then(function (response) {
+      .then(response => {
         this.total = response.data.result.total
         this.tableData = response.data.result.modelData
-      }.bind(this))
-      .catch(function (error) {
+        this.infoTotal = this.total
+      })
+      .catch(error => {
         console.log(error);
       })
     },
@@ -306,5 +311,11 @@ export default {
   .btn-box {
     display: flex;
     justify-content: flex-end
+  }
+  .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px
   }
 </style>
