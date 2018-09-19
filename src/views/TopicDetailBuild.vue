@@ -1,13 +1,10 @@
 <template>
   <div class="right-box">
     <div class="nav" >
-      话题详情（新建/编辑）
+      话题详情（新建）
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
-      <el-form-item label="话题ID：" class="topic-id" :label-width="formLabelWidth">
-        {{id}}
-      </el-form-item>
-      <el-form-item label="话题标题">
+      <el-form-item label="话题标题" :label-width="formLabelWidth">
         <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="话题频道">
@@ -31,9 +28,6 @@
           :value="item.signs">
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="创建时间">
-        {{createdAt}}
       </el-form-item>
       <el-form-item label="话题内容" style="display:block" :label-width="formLabelWidth">
         <el-input v-model="content" size="small" type="textarea" maxlength="100" style="width:995px"></el-input>
@@ -154,19 +148,16 @@
 <script>
 import InterlocutionListSee from '@/components/InterlocutionListSee.vue'
 import InterlocutionDetailSee from '@/components/InterlocutionDetailSee.vue'
-import allAxios from 'axios'
 export default {
-  name: 'interlocutionDetail',
+  name: 'topicDetailBuild',
   data () {
     return {
       formLabelWidth: '80px',
-      id: null,
       title: '',
       channelVal: null,
       channelList: [],
       classificationVal: null,
       classificationList: [],
-      createdAt: '',
       content: '',
       lableIds: [],
       lableIdsList: [],
@@ -205,29 +196,6 @@ export default {
         console.log(error)
       })
     },
-    getChannelChange () {
-      /* 话题分类 */
-      axios.post('common/code/label/list.json', {
-        profession: this.channelVal,
-        type: 0,
-        languages: "zh",
-        classes: 1,
-        level: 1
-      })
-      .then( response => {
-        this.classificationList = response.data.result
-        let classificationId = null
-        this.classificationList.map(item => {
-          if (this.classificationVal == item.signs) {
-            classificationId = item.id
-          }
-        })
-        this.getClassificationChange(classificationId)
-      })
-      .catch( error => {
-        console.log(error)
-      })
-    },
     classificationChange () {
       let classificationId = null
       this.classificationList.map(item => {
@@ -247,23 +215,6 @@ export default {
       .then(response => {
         this.lableIdsList = response.data.result
         this.lableIds = []
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    },
-    getClassificationChange (parentId) {
-      /* 话题标签 */
-      axios.post('common/code/label/list.json', {
-        profession: this.channelVal,
-        type: 0,
-        languages: "zh",
-        classes: 2,
-        level: 3,
-        parentId: parentId
-      })
-      .then(response => {
-        this.lableIdsList = response.data.result
       })
       .catch(error => {
         console.log(error)
@@ -327,9 +278,8 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
       this.$router.push({
-        name: 'interlocutionDetail', 
+        name: 'topicDetail', 
         params: {id: this.id}, 
         query: {currentPage: val}
       })
@@ -413,43 +363,23 @@ export default {
       })
     },
     cancel () {
-      this.$router.push({name: 'interlocution'})
+      this.$router.push({name: 'topicList'})
     },
     postChannelList () {
       /* 话题频道 */
       return axios.post('common/code/channel/list.json')
-    },
-    postDetail () {
-      /* 话题详情 */
-      return axios.post('topic/detail/detail.json',{
-        id: this.$route.params.id,
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
-        languages: 'zh'
-      })
     }
   },
   mounted () {
-    this.id = Number(this.$route.params.id)
     this.currentPage = Number(this.$route.query.currentPage) || 1
-    /* 并发请求 */
-    allAxios.all([this.postChannelList(), this.postDetail()])
-      .then(allAxios.spread((res1, res2) => {
-        this.channelList = res1.data.result
-        this.title = res2.data.result.name
-        this.channelVal = res2.data.result.business
-        this.classificationVal = res2.data.result.categorySigns
-        this.lableIds = res2.data.result.lableIds.split(',').map(item => {
-          return Number(item)
-        })
-        this.createdAt = res2.data.result.createdAt
-        this.content = res2.data.result.content
-        this.adminName = res2.data.result.adminName
-        this.adminId = res2.data.result.adminId
-        this.tableData = res2.data.result.qaData
-        this.total = res2.data.result.total
-        this.getChannelChange()
-      }))
+    /* 话题频道 */
+    axios.post('common/code/channel/list.json')
+      .then(res => {
+        this.channelList = res.data.result
+      })
+      .catch( error => {
+        console.log(error)
+      })
   }
 }
 </script>
@@ -467,9 +397,6 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: 10px
-  }
-  .topic-id .el-form-item__label {
-    padding-right: 0
   }
   .operation-btn-box {
     display: flex;

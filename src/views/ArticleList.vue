@@ -1,6 +1,6 @@
 <template>
-  <div class="right-box">
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       文章列表
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
@@ -116,7 +116,7 @@
         </template>
         </el-table-column>
       </el-table>
-      <div class="btn-box" >
+      <div class="vue-btn-box" >
         <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
       </div>
     </template>
@@ -128,7 +128,7 @@
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
-    <div class="info" v-if="infoTotal == 0">
+    <div class="vue-info" v-if="infoTotal == 0">
       没有搜索到相关内容
     </div>
     <!-- 禁用编辑窗口 -->
@@ -197,12 +197,12 @@ export default {
         pageNo: this.currentPage,
         pageSize: this.pageSize
       })
-      .then( response => {
+      .then(response => {
         this.tableData = response.data.result.modelData
         this.total = response.data.result.total
         this.infoTotal = this.total
       })
-      .catch( error => {
+      .catch(error => {
         console.log(error);
       })
     },
@@ -302,27 +302,7 @@ export default {
 }
 </script>
 <style scoped>
-  .right-box {
-    display: flex;
-    flex-direction: column
-  }
-  .nav {
-    height:40px;
-    font-size: 18px;
-    line-height: 40px
-  }
-  .btn-box {
-    display: flex;
-    justify-content: flex-end;
-    margin-top:10px
-  }
   .demonstration {
     margin-right:10px
-  }
-  .info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px
   }
 </style>

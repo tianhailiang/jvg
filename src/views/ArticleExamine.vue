@@ -1,142 +1,160 @@
 <template>
-  <div >
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       文章审核列表
     </div>
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
-      <el-form-item label="文章ID">
-        <el-input v-model="formInline.articleId" size="small"></el-input>
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
+      <el-form-item label="文章ID" :label-width="formLabelWidth">
+        <el-input v-model="articleId" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="文章标题">
-        <el-input v-model="formInline.title" size="small"></el-input>
+        <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="用户角色">
-        <el-select v-model="formInline.userRole" size="small" >
+        <el-select v-model="userType" size="small" >
           <el-option
-          v-for="item in formInline.userRoleList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          v-for="item in userTypeList"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="状态" >
-        <el-select v-model="formInline.state" size="small" >
+        <el-select v-model="state" size="small" >
           <el-option
-          v-for="item in formInline.stateList"
+          v-for="item in stateList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="用户ID">
-        <el-input v-model="formInline.userId" size="small"></el-input>
+      <el-form-item label="用户ID" :label-width="formLabelWidth">
+        <el-input v-model="userId" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="用户名称">
-        <el-input v-model="formInline.userName" size="small"></el-input>
+        <el-input v-model="userName" size="small"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
-    <el-table
-      ref="multipleTable"
-      :data="tableData"
-      tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
-      @selection-change="handleSelectionChange" border>
-      <el-table-column
-        type="selection"
-        label="全部"
-        width="55" >
-      </el-table-column>
-      <el-table-column
-        label="文章ID"
-        align="center" width="120">
-        <template slot-scope="scope">
-          <el-button
-          size="mini"
-          @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.articleId}}
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="文章标题"
-        width="120" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="describe"
-        label="文章描述（简述）"
-        width="200" align="center" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column
-        prop="userId"
-        label="发布用户ID"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="userName"
-        label="发布用户姓名"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="userRole"
-        label="发布人角色"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="time"
-        label="文章发布时间"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="examineState"
-        label="审核状态"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="160">
-        <template slot-scope="scope">
-          <template  v-if="scope.row.examineCode==0">
+    <template v-if="total > 0" >
+      <el-table
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        @selection-change="handleSelectionChange" border>
+        <el-table-column
+          type="selection"
+          label="全部"
+          width="55" >
+        </el-table-column>
+        <el-table-column
+          label="文章ID"
+          align="center" width="100">
+          <template slot-scope="scope">
             <el-button
-              size="mini"
-              @click="adopt(scope.$index, scope.row)">通过</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="noadopt(scope.$index, scope.row)">不通过</el-button>
+            size="mini"
+            @click="goDetail(scope.$index, scope.row)">
+              {{scope.row.id}}
+            </el-button>
           </template>
-          <template v-else>
-            <el-button
-              size="mini"
-              @click="goDetail(scope.$index, scope.row)">查看</el-button>
+        </el-table-column>
+        <el-table-column
+          prop="title"
+          label="文章标题"
+          width="120"
+          align="center"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="memo"
+          label="文章描述（简述）"
+          width="150"
+          align="center"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="userId"
+          label="发布用户ID"
+          width="80"
+          align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="realName"
+          label="发布用户姓名"
+          width="120"
+          align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="userTypeVal"
+          label="发布人角色"
+          width="80"
+          align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="createdAt"
+          label="文章发布时间"
+          width="120"
+          align="center" >
+        </el-table-column>
+        <el-table-column
+          prop="statusVal"
+          label="审核状态"
+          width="105"
+          align="center" >
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          align="center" width="160">
+          <template slot-scope="scope">
+            <template  v-if="scope.row.status == 2">
+              <el-button
+                size="mini"
+                @click="adopt(scope.$index, scope.row)">通过</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="noadopt(scope.$index, scope.row)">不通过</el-button>
+            </template>
+            <template v-else>
+              <el-button
+                size="mini"
+                @click="goDetail(scope.$index, scope.row)">查看</el-button>
+            </template>
           </template>
-        </template>
-      </el-table-column>
-    </el-table>
+        </el-table-column>
+      </el-table>
+      <div class="vue-btn-box">
+        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+      </div>
+    </template>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total"
+      style="text-align:center;margin-top:20px"
+      v-if="total > 0">
     </el-pagination>
+    <div class="vue-info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div>
     <!-- 不同过编辑窗口 -->
     <el-dialog title="不通过编辑窗口" :visible.sync="dialogFormVisible">
       <el-form >
         <el-form-item label="文章ID：" label-width="120px">
-          {{dialogForm.articleId}}
+          {{dialogForm.id}}
         </el-form-item>
         <el-form-item label="文章标题：" label-width="120px">
           {{dialogForm.title}}
         </el-form-item>
         <el-form-item label="发布用户名：" label-width="120px">
-          {{dialogForm.userName}}
+          {{dialogForm.realName}}
         </el-form-item>
         <el-form-item label="不通过原因：" label-width="120px">
           <el-input type="textarea" v-model="reason" maxlength="50"></el-input>
@@ -156,79 +174,61 @@ export default {
   name: 'examine',
   data () {
     return {
-      formInline: {
-        articleId: '',
-        title: '',
-        userRole: '0',
-        userRoleList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '普通个人'
-        }, {
-          value: '2',
-          label: '讲师'
-        }],
-        state: '0',
-        stateList: [{
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '禁用'
-        }, {
-          value: '2',
-          label: '正常'
-        }],
-        userId: '',
-        userName: ''
+      formLabelWidth: '80px',
+      articleId: null,
+      title: '',
+      userType: null,
+      userTypeList: [],
+      state: null,
+      stateList: [{
+        value: 1,
+        label: '草稿'
       },
-      tableData: [{
-        articleId: '100001',
-        title: '美国留学1',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl1',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        examineState: '待审核',
-        examineCode: '0'
+      {
+        value: 2,
+        label: '申请中'
       }, {
-        articleId: '100002',
-        title: '美国留学2',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl2',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        examineState: '不通过',
-        examineCode: '1'
+        value: '3',
+        label: '审核通过'
       }, {
-        articleId: '100003',
-        title: '美国留学3',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl3',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        examineState: '通过',
-        examineCode: '2'
+        value: '4',
+        label: '审核失败'
       }],
-      multipleSelection: [],
+      userId: null,
+      userName: '',
       currentPage: 1,
+      pageSize: 20,
+      tableData: [],
+      multipleSelection: [],
       dialogFormVisible: false,
-      dialogForm: {
-        articleId: '',
-        title: ''
-      },
-      reason: ''
+      dialogForm: '',
+      reason: '',
+      total: 0,
+      infoTotal: 1
     }
   },
   methods: {
     onSubmit (e) {
-      console.log('submit!')
+      axios.post('article/verify/list.json', {
+        id: this.articleId,
+        title: this.title,
+        userType: this.userType,
+        status: this.state,
+        userId: this.userId,
+        realName: this.userName,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(res => {
+        if(res.data.code == 'OK') {
+          this.tableData = res.data.result.modelData
+          this.total = res.data.result.total
+          this.infoTotal = this.total
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -244,26 +244,56 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index,row) {
-      this.$router.push({name: 'articleDetail', params: {id: row.articleId}})
+      this.$router.push({name: 'articleDetail', params: {id: row.id}})
     },
     dialogAdopt () {
       window.location.reload()
     },
     dialogNoAdopt () {
-
+      if (this.reason == '') {
+        this.$message({
+          type: 'warning',
+          message: '请填写不通过原因!'
+        })
+        return false
+      }
+      axios.post('article/verify/verify.json', {
+        id: this.dialogForm.id,
+        status: 4,
+        statusMemo: this.reason
+      })
+      .then(res => {
+        if (res.data.code == 'Ok') {
+          this.$message({
+            type: 'succes',
+            message: res.data.message
+          })
+          setTimeout(function () {
+            window.location.reload()
+          },500)
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
     }
+  },
+  mounted () {
+    axios.post('common/code/role/list.json')
+    .then(res => {
+      this.userTypeList = res.data.result
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
 }
 </script>
 
 <style scoped>
-  .nav{
-    width:100%;
-    height:40px;
-    font-size: 18px;
-    line-height: 40px;
-  }
+  
 </style>

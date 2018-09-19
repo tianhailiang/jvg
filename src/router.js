@@ -144,14 +144,19 @@ export default new Router({
           component: () => import('@/views/member.vue')
         },
         {
-          path: '/interlocution', /* 问答管理模块 话题列表 */
-          name: 'interlocution',
-          component: () => import('./views/InterlocutionList.vue')
+          path: '/topicList', /* 问答管理模块 话题列表 */
+          name: 'topicList',
+          component: () => import('./views/TopicList.vue')
         },
         {
-          path: '/interlocution/:id', /* 问答管理模块 话题详情 */
-          name: 'interlocutionDetail',
-          component: () => import('./views/InterlocutionDetail.vue')
+          path: '/topicDetail', /* 问答管理模块 话题详情新建 */
+          name: 'topicDetailBuild',
+          component: () => import('./views/TopicDetailBuild.vue')
+        },
+        {
+          path: '/topicDetail/:id', /* 问答管理模块 话题详情编辑 */
+          name: 'topicDetail',
+          component: () => import('./views/TopicDetail.vue')
         },
         {
           path: '/answer', /* 问答管理模块 问答列表 */

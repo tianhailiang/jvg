@@ -136,7 +136,7 @@
 </template>
 <script>
 export default {
-  name: 'interlocutionList',
+  name: 'topicList',
   data () {
     return {
       formLabelWidth: '80px',
@@ -283,7 +283,7 @@ export default {
       this.onSubmit()
     },
     goDetail (index, row) {
-      this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})
+      this.$router.push({name: 'topicDetail', params: {id: row.id}})
     }
   },
   mounted () {

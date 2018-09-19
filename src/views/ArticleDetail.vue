@@ -1,6 +1,6 @@
 <template>
-  <div class="right-box">
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       文章详情
     </div>
     <el-form>
@@ -272,28 +272,19 @@ export default {
 </script>
 
 <style scoped>
-  .right-box {
-    display: flex;
-    flex-direction: column
-  }
-  .nav {
-    height:40px;
-    font-size: 18px;
-    line-height: 40px;
-  }
-  .article-ul{
+  .article-ul {
     border:1px solid #dcdcdc;
     display: flex;
     width:850px;
     flex-wrap: wrap
   }
-  .article-ul li{
+  .article-ul li {
     width:150px;
     height:150px;
     margin:10px;
     margin-right:0
   }
-  .btn-box{
+  .btn-box {
     display: flex;
     justify-content: center
   }
