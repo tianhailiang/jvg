@@ -1,6 +1,6 @@
 <template>
-  <div class="right-box">
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       话题详情（编辑）
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
@@ -61,86 +61,74 @@
       </el-form-item>
       <el-button @click="addWenda">添加问答</el-button>
     </el-form>
-    <template v-if="total > 0" >
-      <el-table
-        ref="multipleTable"
-        :data="tableData"
-        tooltip-effect="dark"
-        @selection-change="handleSelectionChange" border>
-        <el-table-column
-          type="selection"
-          label="全部"
-          width="55" >
-        </el-table-column>
-        <el-table-column
-          label="问答id"
-          width="80" align="center" >
-          <template slot-scope="scope">
-            <el-button
-            size="mini"
-            @click="goDetail(scope.$index, scope.row)">
-              {{scope.row.questionId}}
-            </el-button>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="questionTitle"
-          label="问答标题"
-          width="120" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="questionDetails"
-          label="问题内容"
-          width="180" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="bestDetails"
-          label="最佳答案"
-          width="120" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="answerNum"
-          label="回复数"
-          width="80" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="joinNum"
-          label="参与人数"
-          width="80" align="center">
-        </el-table-column>
-        <el-table-column
-          prop="questionUserId"
-          label="问题创建人"
-          width="100" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="questionCreatedAt"
-          label="问题创建时间"
-          width="120" align="center" >
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          align="center" width="160" >
-          <template slot-scope="scope">
+    <el-table
+      ref="multipleTable"
+      :data="tableData"
+      tooltip-effect="dark"
+      @selection-change="handleSelectionChange"
+      border v-if="tableData.length > 0">
+      <el-table-column
+        type="index"
+        label="NO"
+        width="55" align="center">
+      </el-table-column>
+      <el-table-column
+        label="问答id"
+        width="80" align="center" >
+        <template slot-scope="scope">
           <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          size="mini"
+          @click="goDetail(scope.$index, scope.row)">
+            {{scope.row.questionId}}
+          </el-button>
         </template>
-        </el-table-column>
-      </el-table>
-      <div class="btn-box" >
-        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
-      </div>
-    </template>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage"
-      :page-size="pageSize"
-      layout="prev, pager, next, jumper"
-      :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
-    </el-pagination>
+      </el-table-column>
+      <el-table-column
+        prop="questionTitle"
+        label="问答标题"
+        width="120" align="center" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column
+        prop="questionDetails"
+        label="问题内容"
+        width="180" align="center" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column
+        prop="bestDetails"
+        label="最佳答案"
+        width="120" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="answerNum"
+        label="回复数"
+        width="80" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="joinNum"
+        label="参与人数"
+        width="80" align="center">
+      </el-table-column>
+      <el-table-column
+        prop="questionUserId"
+        label="问题创建人"
+        width="100" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="questionCreatedAt"
+        label="问题创建时间"
+        width="120" align="center" >
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        align="center" width="160" >
+        <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">x</el-button>
+      </template>
+      </el-table-column>
+    </el-table>
     <div class="operation-btn-box">
       <el-button @click="sure">提交</el-button>
       <el-button @click="cancel">取消</el-button>
@@ -174,9 +162,6 @@ export default {
       adminId: null,
       tableData: [],
       multipleSelection: [],
-      currentPage: 1,
-      total: 0,
-      pageSize: 4,
       dialogFormVisible: false,
       dialogFormVisible1: false,
       questionId: '',
@@ -188,8 +173,6 @@ export default {
       this.questionIdArr = this.tableData.map((item, index) => {
         return item.questionId
       })
-      console.log(this.tableData)
-      console.log(this.questionIdArr)
     }
   },
   components: {
@@ -284,63 +267,11 @@ export default {
     },
     handleDelete (index,row) {
       this.tableData.splice(index, 1)
-      // this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(() => {
-      //   axios.post('topic/detail/delete.json', {
-      //     id: this.id,
-      //     qaId: qaId
-      //   })
-      //   .then(function (response) {
-      //     console.log(response)
-      //     if (response.data.code == 'OK') {
-      //       this.$message({
-      //         type: 'success',
-      //         message: '删除成功!'
-      //       })
-      //       setTimeout(function () {
-      //         window.location.reload()
-      //       },500)
-      //     } else {
-      //       this.$message({
-      //         type: 'error',
-      //         message: response.data.message
-      //       })
-      //     }
-      //   }.bind(this))
-      //   .catch(function (error) {
-      //     console.log(error)
-      //   })
-      // }).catch(() => {
-      //   this.$message({
-      //     type: 'info',
-      //     message: '已取消删除'
-      //   })     
-      // })
-    },
-    batchDelete () {
-      if (this.multipleSelection.length == 0) {
-        this.$message({
-          type: 'warning',
-          message: '请勾选至少一个'
-        })
-        return false
-      }
-      this.handleDelete(multipleQaid)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
-      this.$router.push({
-        name: 'topicDetail', 
-        params: {id: this.id}, 
-        query: {currentPage: val}
-      })
-      window.location.reload()
     },
     addWenda () {
       this.dialogFormVisible = true
@@ -393,10 +324,7 @@ export default {
         if(index == arr.length -1) {
           lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
         } 
-      })
-      this.multipleSelection.forEach((item, index) => {
-        questionIdArr.unshift(item.questionId)
-      })
+      })  
       /* 修改话题 */
       axios.post('topic/detail/update.json', {
         id: this.id,
@@ -406,7 +334,7 @@ export default {
         categorySigns: this.classificationVal,
         lableIds: lableIdsStr,
         adminId: this.adminId,
-        questionId: questionIdArr
+        questionId: this.questionIdArr
       })
       .then( response => {
         if (response.data.code == 'OK') {
@@ -434,8 +362,6 @@ export default {
       /* 话题详情 */
       return axios.post('topic/detail/detail.json',{
         id: this.$route.params.id,
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
         languages: 'zh'
       })
     },
@@ -446,7 +372,6 @@ export default {
   },
   mounted () {
     this.id = Number(this.$route.params.id)
-    this.currentPage = Number(this.$route.query.currentPage) || 1
     /* 并发请求 */
     allAxios.all([this.postChannelList(), this.postDetail()])
       .then(allAxios.spread((res1, res2) => {
@@ -461,34 +386,21 @@ export default {
         this.content = res2.data.result.content
         this.adminName = res2.data.result.adminName
         this.adminId = res2.data.result.adminId
-        this.tableData = res2.data.result.qaData
-        this.total = res2.data.result.total
+        this.tableData = res2.data.result.qaData || []
         this.getChannelChange()
       }))
   }
 }
 </script>
-<style>
-  .right-box {
-    display: flex;
-    flex-direction: column
-  }
-  .nav {
-    height: 40px;
-    font-size: 18px;
-    line-height: 40px
-  }
-  .btn-box {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px
-  }
-  .topic-id .el-form-item__label {
-    padding-right: 0
-  }
+<style scoped>
   .operation-btn-box {
     display: flex;
     justify-content: center;
     margin-top: 10px
+  }
+</style>
+<style>
+  .topic-id .el-form-item__label {
+    padding-right: 0
   }
 </style>

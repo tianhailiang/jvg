@@ -49,7 +49,7 @@
         <el-table-column
           type="selection"
           label="全部"
-          width="55" >
+          width="55">
         </el-table-column>
         <el-table-column
           label="文章ID"
@@ -128,7 +128,7 @@
         </el-table-column>
       </el-table>
       <div class="vue-btn-box">
-        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+        <el-button type="danger" @click="batchAdopt()" >批量通过</el-button>
       </div>
     </template>
     <el-pagination
@@ -161,7 +161,6 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogAdopt()">通过</el-button>
         <el-button @click="dialogNoAdopt()">不通过</el-button>
         <el-button @click="dialogFormVisible=false">取 消</el-button>
       </div>
@@ -234,7 +233,24 @@ export default {
       this.multipleSelection = val
     },
     adopt (index, row) {
-
+      axios.post('article/verify/verify.json', {
+        id: row.id,
+        status: 3
+      })
+      .then(res => {
+        if (res.data.code == 'OK') {
+          this.$message({
+            type: 'succes',
+            message: res.data.message
+          })
+          setTimeout(function () {
+            window.location.reload()
+          },500)
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
     },
     noadopt (index, row) {
       this.dialogFormVisible = true
@@ -250,9 +266,6 @@ export default {
     goDetail (index,row) {
       this.$router.push({name: 'articleDetail', params: {id: row.id}})
     },
-    dialogAdopt () {
-      window.location.reload()
-    },
     dialogNoAdopt () {
       if (this.reason == '') {
         this.$message({
@@ -267,7 +280,7 @@ export default {
         statusMemo: this.reason
       })
       .then(res => {
-        if (res.data.code == 'Ok') {
+        if (res.data.code == 'OK') {
           this.$message({
             type: 'succes',
             message: res.data.message
@@ -280,6 +293,9 @@ export default {
       .catch(error => {
         console.log(error);
       })
+    },
+    batchAdopt () {
+      
     }
   },
   mounted () {

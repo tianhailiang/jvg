@@ -1,40 +1,40 @@
 <template>
-  <div >
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       文章打赏列表
     </div>
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
-      <el-form-item label="文章ID">
-        <el-input v-model="formInline.articleId" size="small"></el-input>
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
+      <el-form-item label="文章ID" :label-width="formLabelWidth">
+        <el-input v-model="articleId" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="文章标题">
-        <el-input v-model="formInline.title" size="small"></el-input>
+        <el-input v-model="title" size="small"></el-input>
       </el-form-item>
       <el-form-item label="用户角色">
-        <el-select v-model="formInline.userRole" size="small" >
+        <el-select v-model="userType" size="small" >
           <el-option
-          v-for="item in formInline.userRoleList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          v-for="item in userTypeList"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="状态" >
-        <el-select v-model="formInline.state" size="small" >
+        <el-select v-model="state" size="small" >
           <el-option
-          v-for="item in formInline.stateList"
+          v-for="item in stateList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="用户ID">
-        <el-input v-model="formInline.userId" size="small"></el-input>
+      <el-form-item label="用户ID" :label-width="formLabelWidth">
+        <el-input v-model="userId" size="small" type="numer"></el-input>
       </el-form-item>
       <el-form-item label="用户名称">
-        <el-input v-model="formInline.userName" size="small"></el-input>
+        <el-input v-model="userName" size="small"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
@@ -44,7 +44,8 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px" border>
+      border
+      v-if="total > 0">
       <el-table-column
         type="index"
         label="NO"
@@ -52,165 +53,173 @@
       </el-table-column>
       <el-table-column
         label="文章ID"
-        align="center" width="120">
+        align="center" width="80">
         <template slot-scope="scope">
           <el-button
           size="mini"
           @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.articleId}}
+            {{scope.row.id}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column
         prop="title"
         label="文章标题"
-        width="120" align="center" show-overflow-tooltip>
+        width="120"
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="describe"
+        prop="memo"
         label="文章描述（简述）"
-        width="200" align="center" show-overflow-tooltip>
+        width="240"
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="userId"
         label="发布用户ID"
-        width="120" align="center" >
+        width="80"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="userName"
+        prop="realName"
         label="发布用户姓名"
-        width="120" align="center" >
+        width="80"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="userRole"
+        prop="userTypeVal"
         label="发布人角色"
-        width="120" align="center" >
+        width="80"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="time"
+        prop="createdAt"
         label="文章发布时间"
-        width="120" align="center" >
+        width="120"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="state"
+        prop="upDownVal"
         label="状态"
-        width="120" align="center" >
+        width="80"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="rewardNumber"
+        prop="rewardNum"
         label="打赏数"
-        width="120" align="center" >
+        width="80"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="rewardMoney"
+        prop="rewardPrice"
         label="打赏金额"
-        width="120" align="center" >
+        width="80"
+        align="center" >
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total"
+      style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
+    <div class="vue-info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div>
+    <!-- 打赏详情弹框 -->
+    <ArticleRewardDetail :dialogFormVisible.sync="dialogFormVisible" :id ="rewardId" />
   </div>
 </template>
 
 <script>
+import ArticleRewardDetail from '@/components/ArticleRewardDetail.vue'
 export default {
-  name: 'examine',
+  name: 'articleRewardList',
   data () {
     return {
-      formInline: {
-        articleId: '',
-        title: '',
-        userRole: '0',
-        userRoleList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '普通个人'
-        }, {
-          value: '2',
-          label: '讲师'
-        }],
-        state: '0',
-        stateList: [{
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '禁用'
-        }, {
-          value: '2',
-          label: '正常'
-        }],
-        userId: '',
-        userName: ''
+      formLabelWidth: '80px',
+      articleId: null,
+      title: '',
+      userType: null,
+      userTypeList: [],
+      state: null,
+      stateList: [{
+        value: null,
+        label: '全部'
       },
-      tableData: [{
-        articleId: '100001',
-        title: '美国留学1',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl1',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
-        rewardMoney: '10000'
+      {
+        value: 1,
+        label: '正常'
       }, {
-        articleId: '100002',
-        title: '美国留学2',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl2',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
-        rewardMoney: '10000'
-      }, {
-        articleId: '100003',
-        title: '美国留学3',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl3',
-        userRole: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '禁用',
-        rewardNumber: '1000',
-        rewardMoney: '10000'
+        value: 2,
+        label: '禁用'
       }],
-      currentPage: 1
+      userId: null,
+      userName: '',
+      tableData: [],
+      currentPage: 1,
+      pageSize: 20,
+      total: 0,
+      infoTotal: 1,
+      dialogFormVisible: false,
+      rewardId: null
     }
+  },
+  components: {
+    ArticleRewardDetail
   },
   methods: {
     onSubmit (e) {
-      console.log('submit!')
+      axios.post('article/reward/list.json', {
+        id: this.articleId,
+        title: this.title,
+        userType: this.userType,
+        upDown: this.state,
+        userId: this.userId,
+        realName: this.userName,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(res => {
+        if(res.data.code == 'OK') {
+          this.tableData = res.data.result.modelData
+          this.total = res.data.result.total
+          this.infoTotal = this.total
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index,row) {
-      this.$router.push({name: 'rewardDetail', params: {id: row.articleId}})
+      this.dialogFormVisible = true
+      this.rewardId = row.id
     }
+  },
+  mounted () {
+    axios.post('common/code/role/list.json')
+    .then(res => {
+      this.userTypeList = res.data.result
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
 }
 </script>
 
 <style scoped>
-  .nav{
-    width:100%;
-    height:40px;
-    font-size: 18px;
-    line-height: 40px;
-  }
+  
 </style>

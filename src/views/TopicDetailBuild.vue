@@ -1,6 +1,6 @@
 <template>
-  <div class="right-box">
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       话题详情（新建）
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
@@ -55,86 +55,74 @@
       </el-form-item>
       <el-button @click="addWenda">添加问答</el-button>
     </el-form>
-    <template v-if="total > 0" >
-      <el-table
-        ref="multipleTable"
-        :data="tableData"
-        tooltip-effect="dark"
-        @selection-change="handleSelectionChange" border>
-        <el-table-column
-          type="selection"
-          label="全部"
-          width="55" >
-        </el-table-column>
-        <el-table-column
-          label="问答id"
-          width="80" align="center" >
-          <template slot-scope="scope">
-            <el-button
-            size="mini"
-            @click="goDetail(scope.$index, scope.row)">
-              {{scope.row.questionId}}
-            </el-button>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="questionTitle"
-          label="问答标题"
-          width="120" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="questionDetails"
-          label="问题内容"
-          width="180" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="bestDetails"
-          label="最佳答案"
-          width="120" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="answerNum"
-          label="回复数"
-          width="80" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="joinNum"
-          label="参与人数"
-          width="80" align="center">
-        </el-table-column>
-        <el-table-column
-          prop="questionUserId"
-          label="问题创建人"
-          width="100" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="questionCreatedAt"
-          label="问题创建时间"
-          width="120" align="center" >
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          align="center" width="160" >
-          <template slot-scope="scope">
+    <el-table
+      ref="multipleTable"
+      :data="tableData"
+      tooltip-effect="dark"
+      @selection-change="handleSelectionChange" border
+      v-if="tableData.length > 0">
+      <el-table-column
+        type="selection"
+        label="全部"
+        width="55" >
+      </el-table-column>
+      <el-table-column
+        label="问答id"
+        width="80" align="center" >
+        <template slot-scope="scope">
           <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete([scope.row.questionId])">删除</el-button>
+          size="mini"
+          @click="goDetail(scope.$index, scope.row)">
+            {{scope.row.questionId}}
+          </el-button>
         </template>
-        </el-table-column>
-      </el-table>
-      <div class="btn-box" >
-        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
-      </div>
-    </template>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage"
-      :page-size="pageSize"
-      layout="prev, pager, next, jumper"
-      :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
-    </el-pagination>
+      </el-table-column>
+      <el-table-column
+        prop="questionTitle"
+        label="问答标题"
+        width="120" align="center" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column
+        prop="questionDetails"
+        label="问题内容"
+        width="180" align="center" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column
+        prop="bestDetails"
+        label="最佳答案"
+        width="120" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="answerNum"
+        label="回复数"
+        width="80" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="joinNum"
+        label="参与人数"
+        width="80" align="center">
+      </el-table-column>
+      <el-table-column
+        prop="questionUserId"
+        label="问题创建人"
+        width="100" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="questionCreatedAt"
+        label="问题创建时间"
+        width="120" align="center" >
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        align="center" width="160" >
+        <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+      </el-table-column>
+    </el-table>
     <div class="operation-btn-box">
       <el-button @click="sure">提交</el-button>
       <el-button @click="cancel">取消</el-button>
@@ -165,12 +153,17 @@ export default {
       adminId: null,
       tableData: [],
       multipleSelection: [],
-      currentPage: 1,
-      total: 0,
-      pageSize: 20,
       dialogFormVisible: false,
       dialogFormVisible1: false,
-      questionId: ''
+      questionId: '',
+      questionIdArr: []
+    }
+  },
+  watch: {
+    tableData (newVal ,oldVal) {
+      this.questionIdArr = this.tableData.map((item, index) => {
+        return item.questionId
+      })
     }
   },
   components: {
@@ -186,8 +179,8 @@ export default {
         classes: 1,
         level: 1
       })
-      .then( response => {
-        this.classificationList = response.data.result
+      .then(res => {
+        this.classificationList = res.data.result
         this.classificationVal = null
         this.lableIdsList = []
         this.lableIds = []
@@ -212,8 +205,8 @@ export default {
         level: 3,
         parentId: classificationId
       })
-      .then(response => {
-        this.lableIdsList = response.data.result
+      .then(res => {
+        this.lableIdsList = res.data.result
         this.lableIds = []
       })
       .catch(error => {
@@ -223,67 +216,13 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    handleDelete (qaId) {
-      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        axios.post('topic/detail/delete.json', {
-          id: this.id,
-          qaId: qaId
-        })
-        .then(function (response) {
-          console.log(response)
-          if (response.data.code == 'OK') {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
-            setTimeout(function () {
-              window.location.reload()
-            },500)
-          } else {
-            this.$message({
-              type: 'error',
-              message: response.data.message
-            })
-          }
-        }.bind(this))
-        .catch(function (error) {
-          console.log(error)
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })     
-      })
-    },
-    batchDelete () {
-      let multipleQaid = []
-      this.multipleSelection.forEach((item, index) => {
-        multipleQaid.push(item.questionId)
-      })
-      if (multipleQaid.length == 0) {
-        this.$message({
-          type: 'warning',
-          message: '请勾选至少一个'
-        })
-        return false
-      }
-      this.handleDelete(multipleQaid)
+    handleDelete (index, row) {
+      this.tableData.splice(index, 1)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      this.$router.push({
-        name: 'topicDetail', 
-        params: {id: this.id}, 
-        query: {currentPage: val}
-      })
-      window.location.reload()
     },
     addWenda () {
       this.dialogFormVisible = true
@@ -337,47 +276,42 @@ export default {
           lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
         } 
       })
-      /* 修改话题 */
-      axios.post('topic/detail/update.json', {
-        id: this.id,
+      /* 添加话题 */
+      axios.post('topic/detail/create.json', {
         name: this.title,
         content: this.content,
         business: this.channelVal,
         categorySigns: this.classificationVal,
         lableIds: lableIdsStr,
-        adminId: this.adminId
+        adminId: this.adminId,
+        questionId: this.questionIdArr
       })
-      .then( response => {
-        if (response.data.code == 'OK') {
+      .then(res => {
+        if (res.data.code == 'OK') {
           this.$message({
             type: 'success',
-            message: response.data.message
+            message: res.data.message
           })
           setTimeout(function () {
-            window.location.reload()
-          },500)
+            this.$router.push({name: 'topicDetail', params: {id: res.data.result}})
+          }.bind(this),500)
         }
       })
-      .catch( error => {
+      .catch(error => {
         console.log(error)
       })
     },
     cancel () {
       this.$router.push({name: 'topicList'})
-    },
-    postChannelList () {
-      /* 话题频道 */
-      return axios.post('common/code/channel/list.json')
     }
   },
   mounted () {
-    this.currentPage = Number(this.$route.query.currentPage) || 1
     /* 话题频道 */
     axios.post('common/code/channel/list.json')
       .then(res => {
         this.channelList = res.data.result
       })
-      .catch( error => {
+      .catch(error => {
         console.log(error)
       })
   }
