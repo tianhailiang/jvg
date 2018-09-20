@@ -17,13 +17,13 @@
                     <div><i style="background-color: #2f4554;"></i><span>金额</span></div>
                 </div>
                 <el-table :data="tableData" stripe border style="width: 662px;float: left;">
-                <el-table-column prop="courses" label="课程" width="110" align="center"></el-table-column>
-                <el-table-column prop="publication" label="出版物" width="110" align="center"></el-table-column>
-                <el-table-column prop="member" label="会员" width="110" align="center"></el-table-column>
-                <el-table-column prop="overseas" label="留学" width="110" align="center"></el-table-column>
-                <el-table-column prop="reward" label="打赏" width="110" align="center"></el-table-column>
-                <el-table-column prop="offer" label="悬赏" width="110" align="center"></el-table-column>
-            </el-table>
+                  <el-table-column prop="courses" label="课程" width="110" align="center"></el-table-column>
+                  <el-table-column prop="publication" label="出版物" width="110" align="center"></el-table-column>
+                  <el-table-column prop="member" label="会员" width="110" align="center"></el-table-column>
+                  <el-table-column prop="overseas" label="留学" width="110" align="center"></el-table-column>
+                  <el-table-column prop="reward" label="打赏" width="110" align="center"></el-table-column>
+                  <el-table-column prop="offer" label="悬赏" width="110" align="center"></el-table-column>
+                </el-table>
             </el-row>
         </el-col>
         <el-col :span='18' class='chart'>
@@ -48,6 +48,7 @@
     </div>
 </template>
 <script>
+import { businessQuery } from '@/api/url.js'
 import echarts from 'echarts'
 export default {
   data () {
@@ -72,7 +73,14 @@ export default {
   },
   methods: {
     getUserChartInit () {
-      // 加载新增趋势图表
+      // 渠道
+      var data = {"startTime": "2018-09-02 00:00:00", "endTime": "2018-09-10 00:00:00"}
+      businessQuery(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          // 加载新增趋势图表
+          var data = res.result
+          var type = []
       const myChart = echarts.init(document.getElementById('userChart'))
       myChart.showLoading()
       var option = {
@@ -121,6 +129,12 @@ export default {
       }
       myChart.setOption(option)
       myChart.hideLoading()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
   },
   mounted () {
