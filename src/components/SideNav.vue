@@ -119,7 +119,7 @@
     </el-submenu>
     <el-submenu index="15">
       <template slot="title">私信管理</template>
-      <el-menu-item index="/private_letter">私信列表</el-menu-item>
+      <el-menu-item index="/privateLetter">私信列表</el-menu-item>
     </el-submenu>
     <el-submenu index="16">
       <template slot="title">课程管理</template>

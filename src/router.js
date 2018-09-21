@@ -169,9 +169,9 @@ export default new Router({
           component: () => import('./views/AnswerDetail.vue')
         },
         {
-          path: '/private_letter', /* 私信管理模块 私信列表 */
-          name: 'private_letter',
-          component: () => import('./views/Private_letter_list.vue')
+          path: '/privateLetter', /* 私信管理模块 私信列表 */
+          name: 'privateLetter',
+          component: () => import('./views/PrivateLetterList.vue')
         },
         {
           path: '/article', /* 文章管理模块 文章列表 */

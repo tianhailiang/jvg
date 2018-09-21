@@ -62,9 +62,9 @@
       @selection-change="handleSelectionChange" border
       v-if="tableData.length > 0">
       <el-table-column
-        type="selection"
-        label="全部"
-        width="55" >
+        type="index"
+        label="NO"
+        width="55" align="center">
       </el-table-column>
       <el-table-column
         label="问答id"
@@ -119,7 +119,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          @click="handleDelete(scope.$index, scope.row)">X</el-button>
       </template>
       </el-table-column>
     </el-table>
@@ -128,7 +128,7 @@
       <el-button @click="cancel">取消</el-button>
     </div>
     <!-- 问答列表查看 -->
-    <InterlocutionListSee :dialogFormVisible.sync="dialogFormVisible" />
+    <InterlocutionListSee :dialogFormVisible.sync="dialogFormVisible" v-on:select-question="onSelectQuestion"/>
     <!-- 问答详情查看 -->
     <InterlocutionDetailSee :dialogFormVisible1.sync="dialogFormVisible1" :id="questionId" />
   </div>
@@ -303,6 +303,10 @@ export default {
     },
     cancel () {
       this.$router.push({name: 'topicList'})
+    },
+    onSelectQuestion ($event) {
+      this.tableData.unshift(...$event)
+      this.tableData = [...new Set(this.tableData)] /* 数组去重 */
     }
   },
   mounted () {
@@ -317,21 +321,7 @@ export default {
   }
 }
 </script>
-<style>
-  .right-box {
-    display: flex;
-    flex-direction: column
-  }
-  .nav {
-    height: 40px;
-    font-size: 18px;
-    line-height: 40px
-  }
-  .btn-box {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px
-  }
+<style scoped>
   .operation-btn-box {
     display: flex;
     justify-content: center;
