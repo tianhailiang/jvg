@@ -1,5 +1,6 @@
 <template>
-    <section class="advert-space-detail" style="overflow:hidden;">
+    <section class="advert-space-detail" style="overflow:hidden;margin-left:260px;">
+      <h3>广告位详情</h3>
         <el-row :gutter="20">
           <el-form class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
@@ -229,5 +230,11 @@ export default {
 .advert-space-detail .add-upload{
   display: block;
   margin:20px auto;
+}
+.advert-space-detail > h3{
+  height: 30px;
+  line-height: 30px;
+  margin-bottom:15px;
+  border-bottom:1px solid #dcdfe6;
 }
 </style>
