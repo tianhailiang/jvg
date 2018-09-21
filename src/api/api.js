@@ -27,15 +27,23 @@ export default {
     'reviewListInfo': URL + 'publication/verify.json', // 审核出版物信息
     'reviewDetail': URL + 'publication/comment/detail.json', // 出版物评论详情
     'removePublishing':URL + 'publication/comment/delete.json', //删除出版物评论
+    'searchPublishdetail': URL + 'publication/detail.json', //查询出版物详情
+    'addPublishing': URL + 'publication/create.json', // 新建出版物
     'searchAdvert': URL + 'advert/advertising-management/list.json', //查询广告位列表
     'searchAdvertList': URL + 'advert/advertisement/list.json', // 查询广告列表
     'removeAdvert': URL + 'advert/advertising-management/delete.json', //删除广告位列表
     'removeAdvertlist': URL + 'advert/advertisement/delete.json', //删除广告列表
     'advertFreeze': URL + 'advert/advertising-management/frozen.json', //广告位冻结
     'advertFreezeCopy': URL + 'advert/advertisement/frozen.json', //广告冻结
-    'replaceAdvert':URL + 'advert/advertising-management/replace.json' //替换广告位
+    'replaceAdvert':URL + 'advert/advertising-management/replace.json', //一键替换广告位
+    // 'addAdvert':URL + 'advert/advertising-management/crate.json' // 广告位新增..
+    // 'addAdvertlist':URL + 'advert/advertisement/create.json' // 广告新增..
+    'searchadvertDetail': URL + 'advert/advertising-management/detail.json', //查询广告位详情
+    'searchCommerDetail': URL + 'advert/advertisement/detail.json', //查询广告详情
+    'advertreviewList': URL + 'advert/advertisement/auditing/list.json', //广告审核管理
+    'passadvert': URL + 'advert/advertisement/auditing/notThrough.json' //广告审核通过(不通过)
   },
-  mutations: {  },
-  actions: {  },
-  getters: {  }
+  mutations: { },
+  actions: { },
+  getters: { }
 }

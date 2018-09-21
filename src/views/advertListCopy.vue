@@ -110,7 +110,7 @@
             <el-table-column type="selection" width="45"></el-table-column>
             <el-table-column prop="id" label="广告位ID" width="90" align="center">
               <template slot-scope="scope">
-                <el-button size="mini">{{scope.row.id}}</el-button>
+                <el-button size="mini" @click="openhandelClick(scope.$index, scope.row)">{{scope.row.id}}</el-button>
               </template>
             </el-table-column>
             <el-table-column prop="name" label="广告名称" width="90" align="center"></el-table-column>
@@ -227,7 +227,7 @@ export default {
         this.$message({
           type: 'info',
           message: '删除失败'
-        });   
+        });
       })
     },
     advertFreezeCopy(index, rows) {
@@ -243,6 +243,9 @@ export default {
           message: '冻结失败'
         })
       })
+    },
+    openhandelClick(index, row) {
+      this.$router.push({name: 'advertDetail', params: {id: row.id}})
     }
   }
 }

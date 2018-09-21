@@ -54,7 +54,11 @@
       <el-table :data="tableData" border ref="tableCont" 
       @selection-change="handleSelectionChange" v-loading="loading" element-loading-text="努力奔跑中...">
           <el-table-column type="selection" width="45"></el-table-column>
-          <el-table-column prop="id" label="出版物ID" width="60" align="center"></el-table-column>
+          <el-table-column prop="id" label="出版物ID" width="60" align="center">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handelClicktetail()">{{scope.row.id}}</el-button>
+            </template>
+          </el-table-column>
           <el-table-column prop="title" label="出版物名称" width="100" align="center"></el-table-column>
           <el-table-column prop="memo" label="出版物介绍" width="100" align="center"></el-table-column>
           <el-table-column prop="realName" label="讲师名称" width="100" align="center"></el-table-column>
@@ -187,7 +191,7 @@ export default {
         axios.post(this.$store.state.api.freezePublish, {
             ids: [this.id],
             upDown: "3",
-	        downMemo: this.downMemo
+	          downMemo: this.downMemo
         }).then(res => {
             console.log(res)
         }).catch(error => {
@@ -220,6 +224,10 @@ export default {
         }).catch((error) => {
             console.log(`请求出错啦`)
         })
+    },
+    handelClicktetail() {
+      // this.route.push()
+      this.$router.push({ name: 'publishingDetail', params: {id: this.id} })
     }
   }
 }

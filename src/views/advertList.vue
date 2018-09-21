@@ -102,7 +102,7 @@
       <div class="btn-planes">
         <el-row>
             <el-button type="primary" size="medium" @click="searchAdvert()">搜索</el-button>
-            <el-button type="primary" size="medium">创建广告位</el-button>
+            <el-button type="primary" size="medium" @click="openaddAdvert()">创建广告位</el-button>
             <el-button type="primary" size="medium" @click="isShow = true">一键替换</el-button>
           </el-row>
       </div>
@@ -110,7 +110,7 @@
           <el-table-column type="selection" width="50" align="center"></el-table-column>
           <el-table-column label="广告位ID" width="65" align="center" prop="id">
             <template slot-scope="scope">
-              <el-button size="mini">{{scope.row.id}}</el-button>
+              <el-button size="mini" @click="openaddAdvertdetail(scope.$index, scope.row)">{{scope.row.id}}</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="广告位名称" width="120" align="center"></el-table-column>
@@ -258,34 +258,34 @@ export default {
   data () {
     return {
       options: [
-        {value: '选项1', label: '使用中'},
-        {value: '选项2', label: '冻结'},
-        {value: '选项3', label: '未使用'},
-        {value: '选项4', label: '全部'}
+        {value: '1', label: '使用中'},
+        {value: '2', label: '冻结'},
+        {value: '3', label: '未使用'},
+        {value: '4', label: '全部'}
       ],
       options: [
-        {value: '选项1', label: '问答详情'},
-        {value: '选项2', label: '留学首页'},
-        {value: '选项3', label: '全部'}
+        {value: '1', label: '问答详情'},
+        {value: '2', label: '留学首页'},
+        {value: '3', label: '全部'}
       ],
       advertoption: [
-      {value: '选项1', label: '使用中'},
-      {value: '选项2', label: '冻结'},
-      {value: '选项3', label: '未使用'},
-      {value: '选项4', label: '全部'}
+        {value: '1', label: '使用中'},
+        {value: '2', label: '冻结'},
+        {value: '3', label: '未使用'},
+        {value: '4', label: '全部'}
       ],
       options2: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '移民'},
-        {value: '选项3', label: '语培'},
-        {value: '选项4', label: '院校直通'},
-        {value: '选项5', label: '留学'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '移民'},
+        {value: '3', label: '语培'},
+        {value: '4', label: '院校直通'},
+        {value: '5', label: '留学'}
       ],
       options3: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: 'PC'},
-        {value: '选项3', label: 'APP'},
-        {value: '选项4', label: 'WAP'}
+        {value: '1', label: '全部'},
+        {value: '2', label: 'PC'},
+        {value: '3', label: 'APP'},
+        {value: '4', label: 'WAP'}
       ],
       options4: [
         {value: '1', label: '全部'},
@@ -299,9 +299,9 @@ export default {
         {label: "APP", value: '3'}
       ],
       totaleval: [
-        {label: '全部', value:'选项1'},
-        {label: '用户', value:'选项2'},
-        {label: '平台', value:'选项3'}
+        {label: '全部', value:'1'},
+        {label: '用户', value:'2'},
+        {label: '平台', value:'3'}
       ],
       adverttypes: [
         {label: '轮播', value:'1'},
@@ -321,26 +321,26 @@ export default {
       currentId: '',
       forceUrl: '',
       value: '',
-      values: '',
-      values3: '',
-      values4: '',
-      values2: '',
-      values1: '',
-      value5: '',
       dialogVisible: false,
       isShow: false,
       defalutVal: '',
       advertval: '',
-      ywvalue: '',
       forceEndTime: '',
       forceStartTime: '',
       channel: '',
       ownership: '',
+      values: '',
+      values1: '',
+      values2: '',
+      values3: '',
+      values4: '',
+      value5: '',
       options6: [
         {label: '全部', value: '1'},
         {label: '留学首页', value: '2'},
         {label: '问答详情页', value: '3'}
       ],
+
       form: {
         autoReplace: 1
       }
@@ -403,6 +403,13 @@ export default {
           message: '替换失败'
         });
       })
+    },
+    openaddAdvert() {
+
+    },
+    openaddAdvertdetail(index, rows) {
+      this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})
+      // this.$router.push({ name: 'advertSpaceDetail', params: {id: this.id} })
     }
   }
 }
