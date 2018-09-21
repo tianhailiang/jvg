@@ -6,23 +6,23 @@
         <el-col :span='18' class="chart-shu">
             <p class="personnel-title">用户数据</p>
             <el-row :gutter="20" style="margin-top: 20px;text-align: center;">
-                <el-col :span="4"><div class="red-title">35000</div><div>昨日新增</div></el-col>
-                <el-col :span="4"><div class="red-title">219000</div><div>昨日活跃</div></el-col>
-                <el-col :span="4"><div class="red-title">30000</div><div>本月新增</div></el-col>
-                <el-col :span="4"><div class="red-title">170000</div><div>本月活跃</div></el-col>
-                <el-col :span="4"><div class="red-title">170000</div><div>本月流失</div></el-col>
-                <el-col :span="4"><div class="red-title">170000</div><div>累计注册用户</div></el-col>
+                <el-col :span="4"><div class="red-title">{{userdata.newlyAddedYesterday}}</div><div>昨日新增</div></el-col>
+                <el-col :span="4"><div class="red-title">{{userdata.activeYesterday}}</div><div>昨日活跃</div></el-col>
+                <el-col :span="4"><div class="red-title">{{userdata.newMonth}}</div><div>本月新增</div></el-col>
+                <el-col :span="4"><div class="red-title">{{userdata.activeThinsMonth}}</div><div>本月活跃</div></el-col>
+                <el-col :span="4"><div class="red-title">{{userdata.lossOfTheMonth}}</div><div>本月流失</div></el-col>
+                <el-col :span="4"><div class="red-title">{{userdata.accumulativeRegisteredRsers}}</div><div>累计注册用户</div></el-col>
             </el-row>
         </el-col>
         <el-col :span='18' class="chart-shu">
             <p class="personnel-title">业务数据</p>
             <el-row :gutter="20" style="margin-top: 20px;text-align: center;">
-                <el-col :span="4"><div class="red-title">35000</div><div>本月会员收入</div></el-col>
-                <el-col :span="4"><div class="red-title">219000</div><div>本月邀请返利</div></el-col>
-                <el-col :span="4"><div class="red-title">30000</div><div>累计订单数</div></el-col>
-                <el-col :span="4"><div class="red-title">170000</div><div>累计商品收入</div></el-col>
-                <el-col :span="4"><div class="red-title">170000</div><div>累计打赏金额</div></el-col>
-                <el-col :span="4"><div class="red-title">170000</div><div>累计悬赏金额</div></el-col>
+                <el-col :span="4"><div class="red-title" v-text="businessdata.membershipIncomeThisTonth-MY"></div><div>本月会员收入</div></el-col>
+                <el-col :span="4"><div class="red-title"></div><div>本月邀请返利</div></el-col>
+                <el-col :span="4"><div class="red-title"></div><div>累计订单数</div></el-col>
+                <el-col :span="4"><div class="red-title"></div><div>累计商品收入</div></el-col>
+                <el-col :span="4"><div class="red-title"></div><div>累计打赏金额</div></el-col>
+                <el-col :span="4"><div class="red-title"></div><div>累计悬赏金额</div></el-col>
             </el-row>
         </el-col>
         <el-col :span='25' class='chart'>
@@ -74,16 +74,38 @@
     </section>
 </template>
 <script>
+import { dataUser,dataOrder,dataUserActive,dataUserList } from '@/api/url.js'
 import echarts from 'echarts'
 export default {
   data () {
-    return {}
+    return {
+      userdata: [],
+      businessdata: [],
+      dataUser: [],
+      dataUserList: []
+    }
   },
   methods: {
-    // 加载用户来源图
     getUserChartInit () {
+      // 用户新增数据
+      var data1 = {'addUserFrom': '2018-03', 'addUserTo': '2018-09'}
+      dataUser(data1).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          console.log('aaaaaa')
+          var dataUser1 = res.result
+          // 新增用户趋势
       const myChart = echarts.init(document.getElementById('userChart'))
       myChart.showLoading()
+      var days = []
+      var values = []
+      console.log('datauser',dataUser1)
+      for (var i = 0;i < dataUser1.length;i++) {
+        days.push(dataUser1[i].days)
+        values.push(dataUser1[i].value)
+      }
+      console.log('days',days)
+      console.log('values',values)
       var option = {
         title: {
           y: '15'
@@ -98,7 +120,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            data: days
           }
         ],
         yAxis: [
@@ -112,14 +134,37 @@ export default {
             type: 'bar',
             stack: '总量',
             areaStyle: { normal: {} },
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: values
           }
         ]
       }
       myChart.setOption(option)
       myChart.hideLoading()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    getActiveChartInit () {
+      // 用户活跃数据
+      var data = {'activeFrom': '2018-03', 'activeTo': '2018-09'}
+      dataUserActive(data).then(res => {
+      console.log('data', res)
+      if (res.success) {
+        console.log('aaaaaa')
+        var dataUserList = res.result
+        // 活动用户趋势
       const myChart1 = echarts.init(document.getElementById('userChart1'))
       myChart1.showLoading()
+      var days = []
+      var values = []
+      console.log('datauser',dataUserList)
+      for (var i = 0;i < dataUserList.length;i++) {
+        days.push(dataUserList[i].days)
+        values.push(dataUserList[i].value)
+      }
       var option = {
         title: {
           y: '15'
@@ -134,7 +179,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            data: days
           }
         ],
         yAxis: [
@@ -148,17 +193,51 @@ export default {
             type: 'line',
             stack: '总量',
             areaStyle: { normal: {} },
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: values
           }
         ]
       }
       myChart1.setOption(option)
       myChart1.hideLoading()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    postData () {
+      // 用户数据
+      dataUserList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.userdata = res.result
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+      // 业务数据
+      dataOrder().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          console('aaaaaa')
+          this.businessdata = res.result
+          console.log('ddddd',this.businessdata)
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
   },
   mounted () {
     this.$nextTick(function () {
+      this.postData()
       this.getUserChartInit()
+      this.getActiveChartInit()
     })
   }
 }

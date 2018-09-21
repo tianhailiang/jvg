@@ -60,38 +60,35 @@
         width="55" >
       </el-table-column>
       <el-table-column
+        prop="answerId"
         label="二级回复ID"
-        width="80" align="center" >
+        width="120"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="replayContent"
-        label="回复内容"
-        width="200" align="center" show-overflow-tooltip>
+        prop="answerParentName"
+        label="二级回复内容"
+        width="300"
+        align="center"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="replayName"
+        prop="answerUserName"
         label="回复人"
-        width="120" align="center" >
+        width="120"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="replayTime"
+        prop="answerCreatedAt"
         label="回复时间"
-        width="120" align="center" >
+        width="163"
+        align="center" >
       </el-table-column>
       <el-table-column
-        prop="replayChannel"
+        prop="sourceVal"
         label="回复渠道"
-        width="120" align="center">
-      </el-table-column>
-      <el-table-column
-        prop="bestAnswer"
-        label="最佳答案"
-        width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="replayTwoNumber"
-        label="二级回复数"
-        width="120" align="center" >
+        width="120"
+        align="center">
       </el-table-column>
       <el-table-column
         label="操作"
@@ -188,8 +185,40 @@ export default {
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
     },
-    handleDelete (index, row) {
-
+    handleDelete (arrId) {
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post('topic/qadetail/delete.json', {
+          id: arrId
+        })
+        .then( response => {
+          if (response.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              window.location.reload()
+            },500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.message
+            })
+          }
+        })
+        .catch( error => {
+          console.log(error)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })     
+      })
     }
   },
   mounted () {

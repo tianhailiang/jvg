@@ -32,78 +32,85 @@
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="index" label="NO" align="center"></el-table-column>
-                <el-table-column prop="coverFollowId" label="被关注id" align="center"></el-table-column>
-                <el-table-column prop="coverFollowName" label="被关注名称" align="center"></el-table-column>
-                <el-table-column prop="category" label="类别" align="center"></el-table-column>
-                <el-table-column prop="followId" label="关注id" align="center"></el-table-column>
-                <el-table-column prop="followName" label="关注名称" align="center"></el-table-column>
-                <el-table-column prop="followTime" label="注册时间" align="center"></el-table-column>
+                <el-table-column prop="pUserId" label="被关注id" align="center"></el-table-column>
+                <el-table-column prop="pUserName" label="被关注名称" align="center"></el-table-column>
+                <el-table-column prop="type" label="类型" align="center"></el-table-column>
+                <el-table-column prop="userId" label="关注id" align="center"></el-table-column>
+                <el-table-column prop="userName" label="关注名称" align="center"></el-table-column>
+                <el-table-column prop="createdAt" label="注册时间" align="center"></el-table-column>
             </el-table>
             <!-- </div> -->
         </el-col>
-        <div style="height:30px"></div>
-
-        <el-col :span="18" style="text-align: center;">
-            <el-col :span="12">
-                <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
-            </el-col>
-            <el-col :span="3">
-                <el-button size="small" type="primary">确定</el-button>
-            </el-col>
+        <!-- 分页 -->
+        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
+        <el-col :span="11">
+            <el-pagination background layout="prev, pager, next, jumper" 
+            :total="total"
+            :page-size="20"></el-pagination>
         </el-col>
+        <el-col :span="8">
+            <el-button size="small" type="primary">确定</el-button>
+        </el-col>
+        <el-col :span="5">
+            <!-- <el-button size="small" type="primary" @click="">批量删除</el-button> -->
+            <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
+        </el-col>
+        </el-row>
+        </el-col>
+        <!-- 分页end -->
     </section>
 </template>
 <script>
+import { fansList } from '@/api/url.js'
 export default {
   data () {
     return {
       region: '',
-      tableData: [{
-        phone: '15200000001',
-        coverFollowId: '15242',
-        coverFollowName: 'hhhh哈哈',
-        followId: '15200000001',
-        followName: 'aaaa呵呵',
-        followTime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        coverFollowId: '15242',
-        coverFollowName: 'hhhh哈哈',
-        followId: '15200000001',
-        followName: 'aaaa呵呵',
-        followTime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        coverFollowId: '15242',
-        coverFollowName: 'hhhh哈哈',
-        followId: '15200000001',
-        followName: 'aaaa呵呵',
-        followTime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }, {
-        phone: '15200000001',
-        coverFollowId: '15242',
-        coverFollowName: 'hhhh哈哈',
-        followId: '15200000001',
-        followName: 'aaaa呵呵',
-        followTime: '2018-8-29 00:00:00',
-        collegesNature: '私立研究型大学',
-        state: '正常',
-        country: '美国',
-        category: '院校'
-      }]
+      tableData: [],
+      total: ''
     }
+  },
+  methods: {
+    postData () {
+      fansList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    //   // 国家列表
+    //   codeCountry().then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.option_guo = res.result
+    //     } else {
+    //       this.$message(res.message)
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
+    //   // 频道
+    //   codeChannel().then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.option_pin = res.result
+    //       this.option_addpin = res.result
+    //     } else {
+    //       this.$message(res.message)
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
+    }
+  },
+  mounted () {
+    this.postData()
   }
 }
 </script>

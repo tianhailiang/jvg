@@ -1,6 +1,6 @@
 <template>
-  <div class="right-box">
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       课题列表
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
@@ -117,7 +117,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="btn-box" >
+      <div class="vue-btn-box" >
         <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
       </div>
     </template>
@@ -129,14 +129,14 @@
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
-    <div class="info" v-if="infoTotal == 0">
+    <div class="vue-info" v-if="infoTotal == 0">
       没有搜索到相关内容
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'interlocutionList',
+  name: 'topicList',
   data () {
     return {
       formLabelWidth: '80px',
@@ -283,7 +283,7 @@ export default {
       this.onSubmit()
     },
     goDetail (index, row) {
-      this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})
+      this.$router.push({name: 'topicDetail', params: {id: row.id}})
     }
   },
   mounted () {
@@ -299,23 +299,5 @@ export default {
 }
 </script>
 <style scoped>
-  .right-box {
-    display: flex;
-    flex-direction: column
-  }
-  .nav {
-    height:40px;
-    font-size: 18px;
-    line-height: 40px
-  }
-  .btn-box {
-    display: flex;
-    justify-content: flex-end
-  }
-  .info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px
-  }
+  
 </style>

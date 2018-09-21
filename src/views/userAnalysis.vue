@@ -48,6 +48,7 @@
     </section>
 </template>
 <script>
+import { dataUserSex,dataUserAge,dataUserLogin,dataCreated,dataBusiness } from '@/api/url.js'
 import echarts from 'echarts'
 export default {
   data () {
@@ -55,7 +56,13 @@ export default {
   },
   methods: {
     getUserChartInit () {
-      // 加载新增趋势图表
+      // 用户新增趋势
+      var data = {'startTime': '2018-03-01 00:00:00', 'endTime': '2018-09-01 00:00:00'}
+      dataUserLogin(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.userdata = res.result
+          // 加载新增趋势图表
       const myChart = echarts.init(document.getElementById('userChart'))
       myChart.showLoading()
       var option = {
@@ -92,94 +99,13 @@ export default {
       }
       myChart.setOption(option)
       myChart.hideLoading()
-      // 加载用户渠道图表
-      const myChart1 = echarts.init(document.getElementById('userChart1'))
-      myChart1.showLoading()
-      var option1 = {
-        title: {
-          y: '15'
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          }
-        },
-        legend: {
-          data: ['华东', '华北', '华南']
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }
-        ],
-        series: [
-          {
-            name: '华东',
-            type: 'line',
-            stack: '总量',
-            areaStyle: { normal: {} },
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '华北',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {normal: {}},
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '华南',
-            type: 'line',
-            stack: '总量',
-            areaStyle: {normal: {}},
-            data: [150, 232, 201, 154, 190, 330, 410]
-          }
-        ]
-      }
-      myChart1.setOption(option1)
-      myChart1.hideLoading()
-      // 加载性别统计图表
-      const myChart2 = echarts.init(document.getElementById('userChart2'))
-      myChart2.showLoading()
-      var option2 = {
-        title: {
-          y: '15'
-        },
-        legend: {
-        },
-        xAxis: [
-          {
-            type: 'category',
-            boundaryGap: true,
-            data: ['MAN', 'Woman']
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }
-        ],
-        series: [
-          {
-            name: '',
-            type: 'bar',
-            stack: '总量',
-            areaStyle: { normal: {} },
-            data: [120, 132]
-          }
-        ]
-      }
-      myChart2.setOption(option2)
-      myChart2.hideLoading()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+      
       // 加载用户年龄分布图表
       const myChart3 = echarts.init(document.getElementById('userChart3'))
       myChart3.showLoading()
@@ -223,11 +149,211 @@ export default {
       }
       myChart3.setOption(option3)
       myChart3.hideLoading()
+    },
+    getQudaoChartInit () {
+      // 渠道
+      var data = {"startTime": "2018-09-02 00:00:00", "endTime": "2018-09-10 00:00:00"}
+      dataUserLogin(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          var data1 = res.result
+          // 加载用户渠道图表
+      const myChart1 = echarts.init(document.getElementById('userChart1'))
+      myChart1.showLoading()
+      var days = []
+      var yupei = []
+      var liuxue = []
+      var yuanxiao = []
+      var yimin = []
+      for (var i = 0; i < data1.length; i++) {
+        days.push(data1[i].days)
+        yupei.push(data1[i].value1)
+        liuxue.push(data1[i].value2)
+        yuanxiao.push(data1[i].value3)
+        yimin.push(data1[i].value4)
+      }
+      var option1 = {
+        title: {
+          y: '15'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        legend: {
+          data: ['华东', '华北', '华南']
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: days
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '语培',
+            type: 'line',
+            stack: '总量',
+            areaStyle: { normal: {} },
+            data: yupei
+          },
+          {
+            name: '留学',
+            type: 'line',
+            stack: '总量',
+            areaStyle: {normal: {}},
+            data: liuxue
+          },
+          {
+            name: '院校',
+            type: 'line',
+            stack: '总量',
+            areaStyle: {normal: {}},
+            data: yuanxiao
+          },
+          {
+            name: '移民',
+            type: 'line',
+            stack: '总量',
+            areaStyle: {normal: {}},
+            data: yimin
+          }
+        ]
+      }
+      myChart1.setOption(option1)
+      myChart1.hideLoading()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    getSexChartInit () {
+      // 性别
+      dataUserSex().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          // 加载性别统计图表
+          var data1 = res.result
+          var values = []
+          // for (var i = 0 ; i < data1.length ; i++) {
+            // 男
+            values.push(data1[1].count)
+            // 女
+            values.push(data1[2].count)
+          // }
+      const myChart2 = echarts.init(document.getElementById('userChart2'))
+      myChart2.showLoading()
+      var option2 = {
+        title: {
+          y: '15'
+        },
+        legend: {
+        },
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: true,
+            data: ['男', '女']
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '',
+            type: 'bar',
+            stack: '总量',
+            areaStyle: { normal: {} },
+            data: values
+          }
+        ]
+      }
+      myChart2.setOption(option2)
+      myChart2.hideLoading()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    getAgeChartInit () {
+      // 年龄
+      dataUserAge().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          // 加载用户年龄分布图表
+          var data1 = res.result
+          var years = '['
+          for (var i = 0 ; i < data1.length ; i++) {
+            years +='{value: '+data1[i].count+',name: "'+data1[i].years+'"},'
+          }
+          years += ']'
+          console.log('y', years)
+      const myChart3 = echarts.init(document.getElementById('userChart3'))
+      myChart3.showLoading()
+      var option3 = {
+        title: {
+          y: '20'
+        },
+        grid: {
+          top: '10%',
+          left: '-6%',
+          right: '0%',
+          bottom: '3%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        series: [
+          {
+            name: '用户年龄分布',
+            type: 'pie',
+            radius: '90%',
+            center: ['45%', '50%'],
+            data: "'"+years+"'",
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 50,
+                shadowOffsetX: 20,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      }
+      myChart3.setOption(option3)
+      myChart3.hideLoading()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     }
   },
   mounted () {
     this.$nextTick(function () {
       this.getUserChartInit()
+      this.getQudaoChartInit()
+      this.getSexChartInit()
+      this.getAgeChartInit()
     })
   }
 }

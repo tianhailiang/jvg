@@ -32,7 +32,8 @@
     </el-submenu>
     <el-submenu index="6">
       <template slot="title">问答管理</template>
-      <el-menu-item index="/interlocution">话题列表</el-menu-item>
+      <el-menu-item index="/topicList">话题列表</el-menu-item>
+      <el-menu-item index="/topicDetail">话题详情</el-menu-item>
       <el-menu-item index="/answer">问答列表</el-menu-item>
     </el-submenu>
     <el-submenu index="7">
@@ -177,8 +178,8 @@ export default {
     if(this.activeIndex.includes('comment')){
       this.activeIndex = '/comment' /* 打赏列表和打赏详情匹配一个路由 */
     }
-    if(this.activeIndex.includes('interlocution')){
-      this.activeIndex = '/interlocution' /* 话题列表和话题详情匹配一个路由 */
+    if(this.activeIndex.includes('topicDetail')){
+      this.activeIndex = '/topicDetail' /* 话题详情匹配一个路由 */
     }
     if(this.activeIndex.includes('answer')){
       this.activeIndex = '/answer' /* 话题列表和话题详情匹配一个路由 */

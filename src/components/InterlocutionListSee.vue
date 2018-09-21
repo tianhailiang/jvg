@@ -41,12 +41,18 @@
         </el-select>
       </el-form-item>
       <el-form-item label="问题创建人：" :label-width="formLabelWidth">
-        <el-select v-model="userId" filterable placeholder="请选择" size="small">
+        <el-select
+          v-model="userId"
+          filterable
+          remote
+          placeholder="请输入关键词"
+          :remote-method="remoteMethod"
+          :loading="loading">
           <el-option
             v-for="item in userIdList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            :key="item.userId"
+            :label="item.realName"
+            :value="item.userId">
           </el-option>
         </el-select>
       </el-form-item>
@@ -151,6 +157,7 @@ export default {
       }],
       userId: null,
       userIdList: [],
+      loading: false,
       formLabelWidth: '100px',
       tableData: [],
       multipleSelection: [],
@@ -216,27 +223,30 @@ export default {
         })
         return false
       }
-      axios.post('topic/qalist/create.json', {
-        topicId: this.$route.params.id,
-        questionId: questionId
-      })
-      .then( response => {
-        if (response.data.code == 'OK') {
-          this.$message({
-            type: 'success',
-            message: response.data.message
-          })
-          setTimeout(function () {
-            window.location.reload()
-          },2000)
-        }
-      })
-      .catch( error => {
-        console.log(error)
-      })
+      this.$emit('update:dialogFormVisible', false)
+      this.$emit('select-question', this.multipleSelection)
     },
     goDetail (index, row) {
-      
+    },
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true
+        /* 查询用户信息列表 */
+        axios.post('common/code/user-info/list.json', {
+          realName: query
+        })
+        .then(response => {
+          this.loading = false
+          if (response.data.code == 'OK') {
+            this.userIdList = response.data.result
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      } else {
+        this.userIdList = [];
+      }
     }
   },
   mounted () {

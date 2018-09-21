@@ -37,7 +37,20 @@
         <el-radio v-model="answerType" label="0">否</el-radio>
       </el-form-item>
       <el-form-item label="问题创建人：" :label-width="formLabelWidth">
-        <el-input v-model="userId" size="small"></el-input>
+        <el-select
+          v-model="userId"
+          filterable
+          remote
+          placeholder="请输入关键词"
+          :remote-method="remoteMethod"
+          :loading="loading">
+          <el-option
+            v-for="item in userIdList"
+            :key="item.userId"
+            :label="item.realName"
+            :value="item.userId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
@@ -141,6 +154,8 @@ export default {
       lableIdsList: [],
       answerType: null,
       userId: null,
+      userIdList: [],
+      loading: false,
       formLabelWidth: '100px',
       tableData: [],
       multipleSelection: [],
@@ -243,6 +258,26 @@ export default {
     },
     goDetail (index, row) {
       this.$router.push({name: 'answerDetail', params: {id: row.questionId}})
+    },
+     remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true
+        /* 查询用户信息列表 */
+        axios.post('common/code/user-info/list.json', {
+          realName: query
+        })
+        .then(response => {
+          this.loading = false
+          if (response.data.code == 'OK') {
+            this.userIdList = response.data.result
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      } else {
+        this.userIdList = [];
+      }
     }
   },
   mounted () {

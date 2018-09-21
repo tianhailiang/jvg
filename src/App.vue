@@ -63,4 +63,24 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+.vue-right-box {
+  display: flex;
+  flex-direction: column
+}
+.vue-nav {
+  height:40px;
+  font-size: 18px;
+  line-height: 40px
+}
+.vue-btn-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top:10px
+}
+.vue-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px
+}
 </style>

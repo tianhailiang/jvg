@@ -358,17 +358,26 @@ export const dataUserList = (parms) => {
 }
 // 查询用户性别分布数据
 export const dataUserSex = (parms) => {
-  return http.fetchPost(url + 'data/user/sex/query.json', parms)
+  return http.fetchPost(url + 'data/analysis/user/sex/query.json', parms)
 }
-// 查询用户性别分布数据
-export const codeUser = (parms) => {
-  return http.fetchPost(url + 'code/user/age/query.json', parms)
+// 查询用户年龄分布
+export const dataUserAge = (parms) => {
+  return http.fetchPost(url + 'data/analysis/user/age/query.json', parms)
 }
 // 查询用户渠道分布
 export const dataUserLogin = (parms) => {
-  return http.fetchPost(url + 'data/user/login/query.json', parms)
+  return http.fetchPost(url + 'data/analysis/user/channel/query.json', parms)
+}
+// 查询用户新增(按月)
+export const dataCreated = (parms) => {
+  return http.fetchPost(url + 'data/analysis/user/created/month-query.json', parms)
 }
 // 查询用户新增
 export const dataBusiness = (parms) => {
-  return http.fetchPost(url + 'data/business/query.json', parms)
+  return http.fetchPost(url + 'data/analysis/user/created/query.json', parms)
 }
+// 查询订单数据
+export const businessQuery = (parms) => {
+  return http.fetchPost(url + 'data/analysis/business/order/query.json', parms)
+}
+// 查询页面明细数据
