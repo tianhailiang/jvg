@@ -113,7 +113,7 @@
             <template  v-if="scope.row.status == 2">
               <el-button
                 size="mini"
-                @click="adopt(scope.$index, scope.row)">通过</el-button>
+                @click="adopt([scope.row.id])">通过</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -232,9 +232,9 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    adopt (index, row) {
+    adopt (arrId) {
       axios.post('article/verify/verify.json', {
-        id: row.id,
+        id: arrId,
         status: 3
       })
       .then(res => {
@@ -275,7 +275,7 @@ export default {
         return false
       }
       axios.post('article/verify/verify.json', {
-        id: this.dialogForm.id,
+        id: [this.dialogForm.id],
         status: 4,
         statusMemo: this.reason
       })
@@ -295,7 +295,20 @@ export default {
       })
     },
     batchAdopt () {
-      
+      let multipleId = []
+      this.multipleSelection.forEach((item, index) => {
+        if (item.status == 2) {
+          multipleId.push(item.id)
+        }
+      })
+      if (multipleId.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选待审核状态至少一个'
+        })
+        return false
+      }
+      this.adopt(multipleId)
     }
   },
   mounted () {

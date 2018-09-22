@@ -169,9 +169,9 @@ export default new Router({
           component: () => import('./views/AnswerDetail.vue')
         },
         {
-          path: '/private_letter', /* 私信管理模块 私信列表 */
-          name: 'private_letter',
-          component: () => import('./views/Private_letter_list.vue')
+          path: '/privateLetter', /* 私信管理模块 私信列表 */
+          name: 'privateLetter',
+          component: () => import('./views/PrivateLetterList.vue')
         },
         {
           path: '/article', /* 文章管理模块 文章列表 */
@@ -249,7 +249,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/publishingCommentList.vue')
         },
         {
-          path: '/publishingDetail', /* 出版物详情 */
+          path: '/publishingDetail/:id', /* 出版物详情 */
           name: 'publishingDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/publishingDetail.vue')
         },
@@ -349,7 +349,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/advertReview.vue')
         },
         {
-          path: '/advertDetail', /* 广告详情 */
+          path: '/advertDetail/:id', /* 广告详情 */
           name: 'advertDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/advertDetail.vue')
         },
@@ -374,7 +374,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/advertSelect.vue')
         },
         {
-          path: '/advertSpaceDetail', /* 广告位详情（平台+固定+单页轮播）*/
+          path: '/advertSpaceDetail/:id', /* 广告位详情（平台+固定+单页轮播）*/
           name: 'advertSpaceDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail.vue')
         },

@@ -1,7 +1,7 @@
 <template>
   <section class="advert-detail-content" style="overflow:hidden;margin-left:260px;">
     <section class="advert-detail_head">
-      <h3 style="margin:10px 0; text-indent:20px">广告位信息</h3>
+      <h3>广告位信息</h3>
       <div class="detail_head">
           <el-row :gutter="20">
               <el-form class="demo-form-inline" label-width="80px" size="small">
@@ -13,14 +13,14 @@
                 <el-col :span="6">
                   <div class="grid-content bg-purple">
                     <el-form-item label="创建人ID">
-                        <el-input placeholder=""></el-input>
+                        <el-input placeholder="" :disabled="true"></el-input>
                       </el-form-item>
                   </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content bg_purple">
                       <el-form-item label="创建人名称" class="bg_purple_name">
-                          <el-input placeholder=""></el-input>
+                          <el-input placeholder="" :disabled="true"></el-input>
                         </el-form-item>
                     </div>
                   </el-col>
@@ -32,88 +32,88 @@
           <el-col :span="6">
             <div class="grid-content bg-purple">
                 <el-form-item label="ID">
-                    <el-input placeholder=""></el-input>
+                    <el-input v-model="FormData.id" :disabled="true"></el-input>
                 </el-form-item>
             </div>
           </el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="名称">
-                  <el-input placeholder=""></el-input>
+                  <el-input placeholder="" :disabled="true"></el-input>
               </el-form-item>  
           </div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
              <el-form-item label="广告类型">
-                <el-input placeholder=""></el-input>
+                <el-input placeholder="" :disabled="true"></el-input>
               </el-form-item>  
           </div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="所有权">
-                <el-input placeholder=""></el-input>
+                <el-input placeholder="" :disabled="true"></el-input>
               </el-form-item>
           </div></el-col>
           <el-col :span="6">
               <div class="grid-content bg_purple">
                   <el-form-item label="图片尺寸">
-                      <el-input placeholder=""></el-input>
+                      <el-input placeholder="" :disabled="true"></el-input>
                   </el-form-item>
               </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg_purple">
                     <el-form-item label="广告模板">
-                        <el-input placeholder=""></el-input>
+                        <el-input placeholder="" :disabled="true"></el-input>
                     </el-form-item>
                 </div>
               </el-col>
               <el-col :span="6">
                   <div class="grid-content bg-purple">
                       <el-form-item label="轮播帧数">
-                          <el-input placeholder=""></el-input>
+                          <el-input placeholder="" :disabled="true"></el-input>
                       </el-form-item>
                   </div>
               </el-col>
           <el-col :span="6">
               <div class="grid-content bg_purple">
                   <el-form-item label="渠道">
-                      <el-input placeholder=""></el-input>
+                      <el-input placeholder="" :disabled="true"></el-input>
                   </el-form-item>
               </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="业务频道">
-                        <el-input placeholder=""></el-input>
+                        <el-input placeholder="" :disabled="true"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="位置类型">
-                        <el-input placeholder=""></el-input>
+                        <el-input placeholder="" :disabled="true"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="创建时间">
-                        <el-input placeholder=""></el-input>
+                        <el-input placeholder="" :disabled="true"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
-            <el-col :span="6">
+            <!-- <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="所有者ID">
-                        <el-input placeholder=""></el-input>
+                        <el-input placeholder="" :disabled="true"></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="名称">
-                        <el-input placeholder=""></el-input>
+                        <el-input placeholder="" :disabled="true"></el-input>
                     </el-form-item>
                 </div>
-            </el-col>
+            </el-col> -->
         </el-form>
         </el-row>
     </section>
@@ -123,20 +123,20 @@
             <h3 style="margin-bottom:20px;">广告设置</h3>
             <el-form label-width="80px" size="small">
                 <el-form-item label="轮播顺序">
-                  <el-input placeholder="1"></el-input>
+                  <el-input v-model="FormData.sort"></el-input>
                 </el-form-item>
-                <el-form-item label="">
+                <el-form-item>
                     <el-input placeholder="URL"></el-input>
                 </el-form-item>
-                <el-form-item label="">
+                <el-form-item>
                     <el-col :span="12" style="padding-left:0;">
-                        <el-input type="text" placeholder="人民币" style="width: 100%;"></el-input>
+                        <el-input v-model="FormData.priceType" placeholder="人民币" style="width: 100%;"></el-input>
                     </el-col>
                     <el-col :span="12">
-                        <el-input type="text" placeholder="美金" style="width: 100%;"></el-input>
+                        <el-input v-model="FormData.priceType" placeholder="美金" style="width: 100%;"></el-input>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="">
+                <el-form-item>
                       <el-input placeholder="图片"></el-input>
                       <el-upload class="upload-demo" action="">
                         <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
@@ -144,18 +144,18 @@
                 </el-form-item>
                 <el-form-item>
                   <el-col :span="11">
-                    <el-date-picker type="date" placeholder="开始时间" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="开始时间" v-model="FormData.startTime"></el-date-picker>
                   </el-col>
                   <el-col class="line" :span="2">-</el-col>
                   <el-col :span="11">
-                    <el-time-picker type="fixed-time" placeholder="结束时间" style="width: 100%;"></el-time-picker>
+                    <el-time-picker type="fixed-time" placeholder="结束时间" v-model="FormData.endTime"></el-time-picker>
                   </el-col>
                 </el-form-item>
                 <el-form-item label="购买人名称">
-                    <el-input placeholder=""></el-input>
+                    <el-input v-model="FormData.linkName"></el-input>
                 </el-form-item>
                 <el-form-item label="联系方式">
-                    <el-input placeholder=""></el-input>
+                    <el-input v-model="FormData.phone"></el-input>
                 </el-form-item>
               </el-form>
               <p style="text-align:center;">PS：每个广告购买一次生产一条订单记录</p>
@@ -164,13 +164,13 @@
         <el-col :span="6">
           <section class="advert-detail_right">
             <h3 style="margin-bottom:20px;">广告位模板</h3>
-            <img src="https://imgsa.baidu.com/news/q%3D100/sign=1136fe85adec08fa200017a769ee3d4d/342ac65c103853431dc7dd1b9e13b07eca808884.jpg" alt="" height="350" width="400">
+            <img :src="FormData.image" alt="" height="350" width="400">
           </section>
         </el-col>
       </el-row>
       <div class="btn-group">
           <el-row>
-              <el-button size="medium" type="primary">提交</el-button>
+              <el-button size="medium" type="primary" @click="">提交</el-button>
               <el-button size="medium" type="primary">删除</el-button>
               <el-button size="medium" type="primary">取消</el-button>
             </el-row>
@@ -281,10 +281,62 @@ export default {
   name: 'advertDetail',
   data () {
     return {
-        dialogFormVisible: false,
-        data: [
-            {currentid: '001'}
-        ]
+      dialogFormVisible: false,
+      data: [
+        {currentid: '001'}
+      ],
+      FormData: {
+        startTime: '',
+        endTime: '',
+        linkName: '',
+        phone: '',
+        id: '',
+        categorId: '',
+        url: '',
+        price:'',
+        priceType: '',
+        sort: '',
+        image: ''
+      }
+    }
+  },
+  created() {
+    this.searchCommerDetail()
+  },
+  methods: {
+    openaddvert() {
+      axios.post(this.$store.state.api.addAdvertlist, {
+        adsTempId: this.adsTempId,
+        sort:	this.sort,
+        categorId: this.categorId,
+        url: this.url,
+        price:this.price,
+        priceType: this.priceType,	
+        startTime: this.startTime,	
+        endTime: this.endTime,
+        linkName: this.linkName,
+        phone: this.phone
+      }).then(res => {
+
+      })
+    },
+    searchCommerDetail() {
+      const DEFAULT = this.$route.params.id
+      // console.log(DEFAULT)
+      axios.post(this.$store.state.api.searchCommerDetail, {
+        id: DEFAULT
+      }).then(res => {
+        this.FormData.id = DEFAULT
+        this.FormData.startTime = res.data.result.startTime
+        this.FormData.endTime = res.data.result.endTime
+        this.FormData.linkName = res.data.result.linkName
+        this.FormData.phone = res.data.result.phone
+        this.FormData.startTime = res.data.result.startTime
+        this.FormData.image = res.data.result.image
+        console.log(res)
+      }).catch(error => {
+
+      })
     }
   }
 }
@@ -297,4 +349,5 @@ export default {
 .advert-detail-content .btn-group{margin-right:50px;height:90px;text-align:right;}
 .model-seacher,.row-container{display:flex;margin-bottom:20px;justify-content:flex-end;}
 .bg_purple .bg_purple_name .el-input--small{position:absolute;}
+.advert-detail_head > h3{ height: 30px; line-height: 30px;margin-bottom: 15px; border-bottom:solid 1px #dcdfe6;}
 </style>

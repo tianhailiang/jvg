@@ -1,6 +1,6 @@
 <template>
-  <div class="right-box">
-    <div class="nav" >
+  <div class="vue-right-box">
+    <div class="vue-nav" >
       问答详情
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc" class="answer-detail-form">
@@ -125,7 +125,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="btn-box" >
+      <div class="vue-btn-box" >
         <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
       </div>
     </template>
@@ -138,7 +138,7 @@
       :total="total" style="text-align:center;margin-top:20px;height:50px" 
       v-if="total > 0">
     </el-pagination>
-    <div class="info" v-if="infoTotal == 0">
+    <div class="vue-info" v-if="infoTotal == 0">
       没有搜索到相关内容
     </div>
     <div class="answer-count">
@@ -362,28 +362,8 @@ export default {
 </script>
 
 <style scoped>
-  .right-box {
-    display: flex;
-    flex-direction: column
-  }
-  .nav {
-    height:40px;
-    font-size: 18px;
-    line-height: 40px;
-  }
-  .btn-box {
-    display: flex;
-    justify-content: flex-end;
-    margin-top:10px
-  }
   .answer-count {
     display: flex;
-  }
-  .info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px
   }
 </style>
 <style>

@@ -119,7 +119,7 @@
     </el-submenu>
     <el-submenu index="15">
       <template slot="title">私信管理</template>
-      <el-menu-item index="/private_letter">私信列表</el-menu-item>
+      <el-menu-item index="/privateLetter">私信列表</el-menu-item>
     </el-submenu>
     <el-submenu index="16">
       <template slot="title">课程管理</template>
@@ -133,7 +133,7 @@
     <el-submenu index="17">
       <template slot="title">出版物管理</template>
       <el-menu-item index="/publishingList">出版物列表</el-menu-item>
-      <el-menu-item index="/publishingDetail">出版物详情页</el-menu-item>
+      <!-- <el-menu-item index="/publishingDetail">出版物详情页</el-menu-item> -->
       <el-menu-item index="/publishingCommentList">出版物评论列表</el-menu-item>
       <el-menu-item index="/publishingReview">出版物审批管理</el-menu-item>
       <!-- <el-menu-item index="">删除提示窗口</el-menu-item>

@@ -132,7 +132,7 @@
       没有搜索到相关内容
     </div>
     <!-- 打赏详情弹框 -->
-    <ArticleRewardDetail :dialogFormVisible.sync="dialogFormVisible" :id ="rewardId" />
+    <!-- <ArticleRewardDetail :dialogFormVisible.sync="dialogFormVisible" :id ="rewardId" /> -->
   </div>
 </template>
 
@@ -171,7 +171,7 @@ export default {
     }
   },
   components: {
-    ArticleRewardDetail
+    // ArticleRewardDetail
   },
   methods: {
     onSubmit (e) {
@@ -204,8 +204,9 @@ export default {
       this.onSubmit()
     },
     goDetail (index,row) {
-      this.dialogFormVisible = true
-      this.rewardId = row.id
+      // this.dialogFormVisible = true
+      // this.rewardId = row.id
+      this.$router.push({name: 'rewardDetail', params: {id: row.id}})
     }
   },
   mounted () {
@@ -214,7 +215,7 @@ export default {
       this.userTypeList = res.data.result
     })
     .catch(error => {
-      console.log(error);
+      console.log(error)
     })
   }
 }
