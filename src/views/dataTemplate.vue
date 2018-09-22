@@ -17,12 +17,12 @@
         <el-col :span='18' class="chart-shu">
             <p class="personnel-title">业务数据</p>
             <el-row :gutter="20" style="margin-top: 20px;text-align: center;">
-                <el-col :span="4"><div class="red-title" v-text="businessdata.membershipIncomeThisTonth-MY"></div><div>本月会员收入</div></el-col>
-                <el-col :span="4"><div class="red-title"></div><div>本月邀请返利</div></el-col>
-                <el-col :span="4"><div class="red-title"></div><div>累计订单数</div></el-col>
-                <el-col :span="4"><div class="red-title"></div><div>累计商品收入</div></el-col>
-                <el-col :span="4"><div class="red-title"></div><div>累计打赏金额</div></el-col>
-                <el-col :span="4"><div class="red-title"></div><div>累计悬赏金额</div></el-col>
+                <el-col :span="4"><div class="red-title">{{businessdata.AccumulatedOfferARewardAmountRMB}}</div><div>本月会员收入</div></el-col>
+                <el-col :span="4"><div class="red-title">{{businessdata.membershipIncomeThisTonthRMB}}</div><div>本月邀请返利</div></el-col>
+                <el-col :span="4"><div class="red-title">{{businessdata.allOrderCount}}</div><div>累计订单数</div></el-col>
+                <el-col :span="4"><div class="red-title">{{businessdata.allGoodsMoneyRMB}}</div><div>累计商品收入</div></el-col>
+                <el-col :span="4"><div class="red-title">{{businessdata.accumulatedRewardAmountRMB}}</div><div>累计打赏金额</div></el-col>
+                <el-col :span="4"><div class="red-title">{{businessdata.AccumulatedOfferARewardAmountRMB}}</div><div>累计悬赏金额</div></el-col>
             </el-row>
         </el-col>
         <el-col :span='25' class='chart'>
@@ -222,9 +222,8 @@ export default {
       dataOrder().then(res => {
         console.log('data', res)
         if (res.success) {
-          console('aaaaaa')
+          console.log('aaaaaa')
           this.businessdata = res.result
-          console.log('ddddd',this.businessdata)
         } else {
           this.$message(res.message)
         }

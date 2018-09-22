@@ -17,12 +17,12 @@
                     <div><i style="background-color: #2f4554;"></i><span>金额</span></div>
                 </div>
                 <el-table :data="tableData" stripe border style="width: 662px;float: left;">
-                  <el-table-column prop="courses" label="课程" width="110" align="center"></el-table-column>
-                  <el-table-column prop="publication" label="出版物" width="110" align="center"></el-table-column>
-                  <el-table-column prop="member" label="会员" width="110" align="center"></el-table-column>
-                  <el-table-column prop="overseas" label="留学" width="110" align="center"></el-table-column>
-                  <el-table-column prop="reward" label="打赏" width="110" align="center"></el-table-column>
-                  <el-table-column prop="offer" label="悬赏" width="110" align="center"></el-table-column>
+                  <el-table-column v-if="kecheng == 1001" prop="kecheng" label="课程" width="110" align="center"></el-table-column>
+                  <el-table-column v-if="chubanwu == 1002" prop="chubanwu" label="出版物" width="110" align="center"></el-table-column>
+                  <el-table-column v-if="vip == 1005" prop="vip" label="VIP会员购买" width="110" align="center"></el-table-column>
+                  <el-table-column v-if="liuxue == 1006" prop="liuxue" label="留学" width="110" align="center"></el-table-column>
+                  <el-table-column v-if="dashang == 1003" prop="dashang" label="打赏订单" width="110" align="center"></el-table-column>
+                  <el-table-column v-if="xuanshang == 1004" prop="xuanshang" label="悬赏" width="110" align="center"></el-table-column>
                 </el-table>
             </el-row>
         </el-col>
@@ -55,20 +55,26 @@ export default {
     return {
       region: '',
       tableData: [{
-        courses: '120',
-        publication: '132',
-        member: '101',
-        overseas: '134',
-        reward: '90',
-        offer: '230'
+        kecheng: '',
+        chubanwu: '',
+        vip: '',
+        liuxue: '',
+        dashang: '',
+        xuanshang: ''
       }, {
-        courses: '150',
-        publication: '232',
-        member: '201',
-        overseas: '154',
-        reward: '190',
-        offer: '330'
-      }]
+        kecheng: '',
+        chubanwu: '',
+        vip: '',
+        liuxue: '',
+        dashang: '',
+        xuanshang: ''
+      }],
+      chubanwu: '',
+      dashang: '',
+      kecheng: '',
+      xuanshang: '',
+      vip: '',
+      liuxue: ''
     }
   },
   methods: {
@@ -81,6 +87,39 @@ export default {
           // 加载新增趋势图表
           var data = res.result
           var type = []
+          var count = []
+          var totalPrice = []
+          for (var i = 0;i < data.length;i++) {
+            type.push(data[i].typeName)
+            count.push(data[i].count)
+            totalPrice.push(data[i].price)
+            if (data[i].type === 1002) {
+              this.chubanwu = data[i].type
+              this.tableData[0].chubanwu = data[i].count
+              this.tableData[1].chubanwu = data[i].price
+            } else if (data[i].type === 1003) {
+              this.dashang = data[i].type
+              this.tableData[0].dashang = data[i].count
+              this.tableData[1].dashang = data[i].price
+            } else if (data[i].type === 1001) {
+              this.kecheng = data[i].type
+              this.tableData[0].kecheng = data[i].count
+              this.tableData[1].kecheng = data[i].price
+            } else if (data[i].type === 1004) {
+              this.xuanshang = data[i].type
+              this.tableData[0].xuanshang = data[i].count
+              this.tableData[1].xuanshang = data[i].price
+            } else if (data[i].type === 1005) {
+              this.vip = data[i].type
+              this.tableData[0].vip = data[i].count
+              this.tableData[1].vip = data[i].price
+            } else if (data[i].type === 1006) {
+              this.liuxue = data[i].type
+              this.tableData[0].liuxue = data[i].count
+              this.tableData[1].liuxue = data[i].price
+            }
+          }
+          console.log('tab',this.tableData)
       const myChart = echarts.init(document.getElementById('userChart'))
       myChart.showLoading()
       var option = {
@@ -117,13 +156,13 @@ export default {
             name: '数量',
             type: 'bar',
             areaStyle: { normal: {} },
-            data: [120, 132, 101, 134, 90, 230]
+            data: count
           },
           {
             name: '金额',
             type: 'bar',
             areaStyle: {normal: {}},
-            data: [150, 232, 201, 154, 190, 330]
+            data: totalPrice
           }
         ]
       }

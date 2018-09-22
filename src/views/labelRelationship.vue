@@ -117,14 +117,14 @@
             <p class="personnel-title">标签关系编辑</p>
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
                 <el-col :span="10">
-                    <el-form-item label="级别：" label-width="80px">
-                        <el-input placeholder="请输入标签级别" disabled></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="标签名称：" label-width="100px">
-                        <el-input placeholder="请输入标签名称"></el-input>
-                    </el-form-item>
+                <el-form-item label="语种：" label-width="80px">
+                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                      <el-option label="全部" :value="0" :key="0"></el-option>
+                      <el-option label="热搜" :value="1" :key="1"></el-option>
+                      <el-option label="分类" :value="2" :key="2"></el-option>
+                      <el-option label="特征" :value="3" :key="3"></el-option>
+                    </el-select>
+                </el-form-item>
                 </el-col>
                 <el-col :span="10">
                   <el-form-item label="频道：" label-width="80px">
@@ -146,19 +146,9 @@
                     </el-select>
                 </el-form-item>
                 </el-col>
-                <el-col :span="10">
-                <el-form-item label="类型：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="热搜" :value="1" :key="1"></el-option>
-                      <el-option label="分类" :value="2" :key="2"></el-option>
-                      <el-option label="特征" :value="3" :key="3"></el-option>
-                    </el-select>
-                </el-form-item>
-                </el-col>
-                <el-col :span="2">
+                <!-- <el-col :span="2">
                   <el-button size="small" type="primary">搜索</el-button>
-                </el-col>
+                </el-col> -->
             </el-form>
             <p style="font-size: 20px;">———————————————————————————————</p>
             <!-- <div style="float: right;"> -->
@@ -235,7 +225,22 @@ export default {
       this.isDialogShow1 = true
     },
     onDisableClik () {
+      // 新建标签关系
       this.isDialogShow1 = true
+    },
+    onDisable () {
+      // 新建标签关系接口
+      var data = {'id': 5, 'labelid': 6}
+      labelRelationship(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow1 = false
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onDelClick () {
       this.isDialogShow = true
