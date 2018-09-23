@@ -1,18 +1,9 @@
 <template>
   <div class="vue-right-box">
     <div class="vue-nav">
-      通知详情（编辑）
+      通知详情（新建）
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
-      <el-form-item label="ID：" :label-width="formLabelWidth">
-        {{$route.params.id}}
-      </el-form-item>
-      <el-form-item label="创建人：" :label-width="formLabelWidth">
-        {{adminName}}
-      </el-form-item>
-      <el-form-item label="创建时间：" :label-width="formLabelWidth" style="margin-right:26%">
-        {{createdAt}}
-      </el-form-item>
       <el-form-item label="频道：" :label-width="formLabelWidth">
         <el-select v-model="channel" size="small">
           <el-option
@@ -59,7 +50,7 @@
       </el-form-item>
       <el-form-item class="btn-box">
         <el-button @click="sureBtn" type="primary" >确定</el-button>
-        <el-button @click="cancel" type="primary" >取消</el-button>
+        <!-- <el-button @click="cancel" type="primary" >取消</el-button> -->
       </el-form-item>
     </el-form>
   </div>
@@ -68,7 +59,7 @@
 
 <script>
 export default {
-  name: 'noticeDetail',
+  name: 'noticeDetailBuild',
   data () {
     return {  
       formLabelWidth: '100px',
@@ -123,32 +114,8 @@ export default {
     .catch(error => {
       console.log(error)
     })
-    this.fetchData()
-  },
-  watch: {
-    '$route': 'fetchData'
   },
   methods: {
-    fetchData () {
-      axios.post('operation-management/notice/detail.json', {
-        id: this.$route.params.id
-      })
-      .then(res => {
-        this.id = res.data.result.id
-        this.adminId = res.data.result.adminId
-        this.adminName = res.data.result.adminName
-        this.createdAt = res.data.result.createdAt
-        this.channel = res.data.result.channel
-        this.rolesId = res.data.result.rolesId
-        this.type = res.data.result.type
-        this.contents = res.data.result.contents
-        this.isAuto = res.data.result.isAuto.toString()
-        this.sendTime = res.data.result.startTime
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    },
     sureBtn () {
       if (this.contents) {
         this.$message({
@@ -171,6 +138,9 @@ export default {
             type: 'success',
             message: res.data.message
           })
+          setTimeout(function() {
+            this.$router.push({name: 'noticeDetail', params: {id: res.data.result.id}})
+          }.bind(this),500)
         } else {
           this.$message({
             type: 'error',
@@ -183,7 +153,7 @@ export default {
       })
     },
     cancel () {
-      this.$router.push({name: 'notice'})
+      
     }
   }
 }

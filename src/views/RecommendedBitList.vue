@@ -1,19 +1,19 @@
 <template>
-  <div>
-    <div class="nav">
+  <div class="vue-right-box">
+    <div class="vue-nav">
       推荐位列表
     </div>
-    <el-form :inline="true" :model="formInline" style="border:1px solid #dcdcdc">
+    <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="ID：">
-        <el-input v-model="formInline.id" size="small"></el-input>
+        <el-input v-model="id" size="small" type="number"></el-input>
       </el-form-item>
       <el-form-item label="推荐位名称：">
-        <el-input v-model="formInline.recommendName" size="small"></el-input>
+        <el-input v-model="name" size="small"></el-input>
       </el-form-item>
       <el-form-item label="渠道：">
-        <el-select v-model="formInline.platform" >
+        <el-select v-model="platform" >
           <el-option
-            v-for="item in formInline.platformList"
+            v-for="item in platformList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -21,9 +21,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="频道：">
-        <el-select v-model="formInline.channel" >
+        <el-select v-model="channel" >
           <el-option
-            v-for="item in formInline.channelList"
+            v-for="item in channelList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -31,9 +31,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="位置：">
-        <el-select v-model="formInline.position" >
+        <el-select v-model="position" >
           <el-option
-            v-for="item in formInline.positionList"
+            v-for="item in positionList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -41,9 +41,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="类型：">
-        <el-select v-model="formInline.type" >
+        <el-select v-model="type" >
           <el-option
-            v-for="item in formInline.typeList"
+            v-for="item in typeList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -72,7 +72,7 @@
         width="120" align="center">
       </el-table-column>
       <el-table-column
-        prop="recommendName"
+        prop="name"
         label="推荐位名称"
         width="80" align="center">
       </el-table-column>
@@ -134,72 +134,61 @@ export default {
   name: 'recommendedBitList',
   data () {
     return {
-      formInline: {
-        id: '',
-        recommendName: '',
-        platform: '0',
-        platformList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: 'APP'
-        }, {
-          value: '2',
-          label: 'WAP'
-        }, {
-          value: '3',
-          label: 'PC'
-        }],
-        channel: '0',
-        channelList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '语培'
-        }, {
-          value: '2',
-          label: '留学'
-        }],
-        position: '0',
-        positionList:[{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '留学首页'
-        }, {
-          value: '2',
-          label: '语培首页'
-        }, {
-          value: '3',
-          label: '留学达人'
-        }, {
-          value: '4',
-          label: '语培达人'
-        }],
-        type: '0',
-        typeList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '课程'
-        }, {
-          value: '2',
-          label: '文章'
-        }, {
-          value: '3',
-          label: '讲师'
-        }, {
-          value: '4',
-          label: '顾问'
-        }, {
-          value: '5',
-          label: '页面'
-        }]
-      },
+      id: null,
+      name: '',
+      platform: '0',
+      platformList: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: 'APP'
+      }, {
+        value: '2',
+        label: 'WAP'
+      }, {
+        value: '3',
+        label: 'PC'
+      }],
+      channel: null,
+      channelList: [],
+      position: '0',
+      positionList:[{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '留学首页'
+      }, {
+        value: '2',
+        label: '语培首页'
+      }, {
+        value: '3',
+        label: '留学达人'
+      }, {
+        value: '4',
+        label: '语培达人'
+      }],
+      type: '0',
+      typeList: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '课程'
+      }, {
+        value: '2',
+        label: '文章'
+      }, {
+        value: '3',
+        label: '讲师'
+      }, {
+        value: '4',
+        label: '顾问'
+      }, {
+        value: '5',
+        label: '页面'
+      }],
       tableData: [{
         id: '10001',
         recommendName: '美国留学',

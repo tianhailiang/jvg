@@ -65,6 +65,7 @@
       <el-submenu index="10-3">
         <template slot="title">通知管理</template>
         <el-menu-item index="/notice">通知列表</el-menu-item>
+        <el-menu-item index="/noticeDetail">通知详情</el-menu-item>
       </el-submenu>
       <el-submenu index="10-4">
         <template slot="title">留言管理</template>
@@ -184,8 +185,8 @@ export default {
     if(this.activeIndex.includes('answer')){
       this.activeIndex = '/answer' /* 话题列表和话题详情匹配一个路由 */
     }
-    if(this.activeIndex.includes('notice')){
-      this.activeIndex = '/notice' /* 通知列表和通知详情匹配一个路由 */
+    if(this.activeIndex.includes('noticeDetail')){
+      this.activeIndex = '/noticeDetail' /* 通知详情新建和通知详情编辑匹配一个路由 */
     }
     if(this.activeIndex.includes('recommendedBit')){
       this.activeIndex = '/recommendedBit' /* 通知推荐位列表和推荐位编辑匹配一个路由 */

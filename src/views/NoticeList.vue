@@ -243,6 +243,16 @@ export default {
       infoTotal: 1
     }
   },
+  created () {
+    axios.post('common/code/channel/list.json', {
+    })
+    .then(res => {
+      this.channelList = res.data.result
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  },
   methods: {
     onSubmit () {
       axios.post('operation-management/notice/list.json', {
@@ -269,7 +279,7 @@ export default {
       })
     },
     createNotice () {
-
+      this.$router.push({name: 'noticeDetailBuild'})
     },
     handleDelete (arrId) {
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
@@ -335,14 +345,7 @@ export default {
     }
   },
   mounted () {
-    axios.post('common/code/channel/list.json', {
-    })
-    .then(res => {
-      this.channelList = res.data.result
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    
   }
 }
 </script>

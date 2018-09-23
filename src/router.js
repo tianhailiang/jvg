@@ -409,9 +409,14 @@ export default new Router({
           component: () => import('./views/NoticeList.vue')
         },
         {
-          path: '/notice/:id', /* 运营管理模块 通知详情 */
+          path: '/noticeDetail/:id', /* 运营管理模块 通知详情编辑 */
           name: 'noticeDetail',
           component: () => import('./views/NoticeDetail.vue')
+        },
+        {
+          path: '/noticeDetail', /* 运营管理模块 通知详情新建 */
+          name: 'noticeDetailBuild',
+          component: () => import('./views/NoticeDetailBuild.vue')
         },
         {
           path: '/leave', /* 运营管理模块 留言答疑列表 */
@@ -419,7 +424,7 @@ export default new Router({
           component: () => import('./views/LeaveList.vue')
         },
         {
-          path: '/report', /* 运营管理模块 留言答疑列表 */
+          path: '/report', /* 运营管理模块 举报列表 */
           name: 'report',
           component: () => import('./views/ReportList.vue')
         },
