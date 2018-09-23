@@ -53,7 +53,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
     <template v-if="total > 0" >
@@ -136,7 +136,7 @@
       layout="prev, pager, next, jumper"
       :total="total" style="text-align:center;margin-top:20px" v-if="total > 0">
     </el-pagination>
-    <div class="vue-info" v-if="vue-infoTotal == 0">
+    <div class="vue-info" v-if="infoTotal == 0">
       没有搜索到相关内容
     </div>
   </div>
@@ -166,7 +166,10 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
       let lableIdsStr = ''
       this.lableIds.forEach((item, index, arr) => {
         if (item) {
@@ -259,7 +262,7 @@ export default {
     goDetail (index, row) {
       this.$router.push({name: 'answerDetail', params: {id: row.questionId}})
     },
-     remoteMethod(query) {
+    remoteMethod(query) {
       if (query !== '') {
         this.loading = true
         /* 查询用户信息列表 */

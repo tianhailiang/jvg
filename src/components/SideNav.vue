@@ -75,6 +75,7 @@
       <el-submenu index="10-5">
         <template slot="title">推荐位管理</template>
         <el-menu-item index="/recommendedBit">推荐位列表</el-menu-item>
+        <el-menu-item index="/recommendedBitDetail">推荐位详情</el-menu-item>
       </el-submenu>
       <el-submenu index="10-6">
         <template slot="title">分成返利管理</template>
@@ -188,8 +189,8 @@ export default {
     if(this.activeIndex.includes('noticeDetail')){
       this.activeIndex = '/noticeDetail' /* 通知详情新建和通知详情编辑匹配一个路由 */
     }
-    if(this.activeIndex.includes('recommendedBit')){
-      this.activeIndex = '/recommendedBit' /* 通知推荐位列表和推荐位编辑匹配一个路由 */
+    if(this.activeIndex.includes('recommendedBitDetail')){
+      this.activeIndex = '/recommendedBitDetail' /* 通知推荐位详情新建和推荐位详情编辑匹配一个路由 */
     }
     if(this.activeIndex.includes('operational')){
       this.activeIndex = '/operational' /* 运营活动列表和运营活动详情匹配一个路由 */

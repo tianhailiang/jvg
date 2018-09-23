@@ -62,7 +62,7 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -217,7 +217,10 @@ export default {
     
   },
   methods: {
-    onSubmit (e) {
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
       axios.post('article/comment/detail.json', {
         id: this.$route.params.id,
         commentDetails: this.commentDetails,

@@ -439,9 +439,14 @@ export default new Router({
           component: () => import('./views/RecommendedBitList.vue')
         },
         {
-          path: '/recommendedBit/:id', /* 运营管理模块 推荐位新建编辑 */
-          name: 'recommendedBitEditor',
-          component: () => import('./views/RecommendedBitEditor.vue')
+          path: '/recommendedBitDetail', /* 运营管理模块 推荐位新建 */
+          name: 'recommendedBitDetailBuild',
+          component: () => import('./views/RecommendedBitDetailBuild.vue')
+        },
+        {
+          path: '/recommendedBitDetail/:id', /* 运营管理模块 推荐位新建编辑 */
+          name: 'recommendedBitDetail',
+          component: () => import('./views/RecommendedBitDetail.vue')
         },
         {
           path: '/divideIntoRules', /* 运营管理模块 分成规则列表 */

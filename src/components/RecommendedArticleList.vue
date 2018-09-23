@@ -1,35 +1,25 @@
 <template>
   <el-dialog title="文章推荐列表" :visible.sync="dialogFormVisible" :before-close="handleClose" 
   width="80%">
-    <el-form :inline="true" :model="formInline">
+    <el-form :inline="true">
       <div >
         <el-form-item label="渠道：" >
-          {{formInline.platform}}
+          {{dialogForm.platformName}}
         </el-form-item>
         <el-form-item label="频道：" >
-          {{formInline.channel}}
+          {{dialogForm.channelName}}
         </el-form-item>
       </div>
       <el-form-item label="文章ID：" >
-        <el-input v-model="formInline.articleId" size="small" ></el-input>
+        <el-input v-model="articleId" size="small" type="number" style="width:105px"></el-input>
       </el-form-item>
       <el-form-item label="文章标题：">
-        <el-input v-model="formInline.title" size="small" ></el-input>
+        <el-input v-model="title" size="small" style="width:120px"></el-input>
       </el-form-item>
       <el-form-item label="用户分类">
-        <el-select v-model="formInline.userClassify" size="small" >
+        <el-select v-model="userType" size="small" style="width:110px">
           <el-option
-          v-for="item in formInline.userClassifyList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="状态" >
-        <el-select v-model="formInline.state" size="small" >
-          <el-option
-          v-for="item in formInline.stateList"
+          v-for="item in userTypeList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -37,13 +27,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="用户ID">
-        <el-input v-model="formInline.userId" size="small"></el-input>
+        <el-input v-model="userId" size="small" type="number" style="width:105px"></el-input>
       </el-form-item>
       <el-form-item label="用户名称">
-        <el-input v-model="formInline.userName" size="small"></el-input>
+        <el-input v-model="realName" size="small" style="width:120px"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -55,7 +45,7 @@
       <el-table-column
         type="selection"
         label="全部"
-        width="55" >
+        width="55" align="center">
       </el-table-column>
       <el-table-column
         label="文章ID"
@@ -64,7 +54,7 @@
           <el-button
           size="mini"
           @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.articleId}}
+            {{scope.row.id}}
           </el-button>
         </template>
       </el-table-column>
@@ -74,7 +64,7 @@
         width="120" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="describe"
+        prop="memo"
         label="文章描述（简述）"
         width="138" align="center" show-overflow-tooltip>
       </el-table-column>
@@ -89,19 +79,14 @@
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="userClassify"
+        prop="userTypeVal"
         label="用户分类"
         width="120" align="center" >
       </el-table-column>
       <el-table-column
-        prop="time"
+        prop="createdAt"
         label="文章发布时间"
         width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="state"
-        label="状态"
-        width="80" align="center" >
       </el-table-column>
       <el-table-column
         label="操作"
@@ -110,20 +95,24 @@
         <el-button
           size="mini"
           @click="recommend(scope.$index, scope.row)">推荐</el-button>
-       </template>
+      </template>
       </el-table-column>
     </el-table>
+    <div class="vue-btn-box" v-if="total > 0">
+      <el-button type="primary" @click="batchRecommend()" >批量推荐</el-button>
+    </div>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total" style="text-align:center;margin-top:20px"
+      v-if="total > 0">
     </el-pagination>
-    <div class="btn-box" >
-      <el-button type="primary" @click="batchRecommend()" >批量推荐</el-button>
-    </div>
+    <!-- <div class="vue-info" v-if="infoTotal == 0">
+      没有搜索到相关内容
+    </div> -->
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="$emit('update:dialogFormVisible',false)">确定</el-button>
       <el-button @click="$emit('update:dialogFormVisible',false)">取 消</el-button>
@@ -137,93 +126,65 @@ export default {
   props: ['dialogFormVisible','dialogForm'],
   data () {
     return {
-      formInline: {
-        platform: this.dialogForm.platform,
-        channel: this.dialogForm.channel,
-        articleId: '',
-        title: '',
-        userClassify: '0',
-        userClassifyList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '人员'
-        }, {
-          value: '2',
-          label: '机构'
-        }, {
-          value: '3',
-          label: '院校'
-        }],
-        state: '0',
-        stateList: [{
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '禁用'
-        }, {
-          value: '2',
-          label: '正常'
-        }],
-        userId: '',
-        userName: ''
-      },
-      tableData: [{
-        articleId: '100001',
-        title: '美国留学1',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl1',
-        userClassify: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+      articleId: null,
+      title: '',
+      userType: null,
+      userTypeList: [{
+        value: 1,
+        label: '人员'
       }, {
-        articleId: '100002',
-        title: '美国留学2',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl2',
-        userClassify: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+        value: 2,
+        label: '机构'
       }, {
-        articleId: '100003',
-        title: '美国留学3',
-        describe: '美国留学非常好啊',
-        userId: '15242755275',
-        userName: 'thl3',
-        userClassify: '人员',
-        time: '2018-8-29 00:00:00',
-        state: '正常',
-        editTxt: '禁用'
+        value: 3,
+        label: '院校'
       }],
+      userId: null,
+      realName: '',
+      tableData: [],
       multipleSelection: [],
-      currentPage: 1
+      currentPage: 1,
+      pageSize: 20,
+      total: 0,
+      infoTotal: 1
     }
   },
-  watch: {
-    dialogForm (newValue, oldValue) {
-      this.formInline.platform = newValue.platform
-      this.formInline.channel = newValue.channel
-    }
+  created () {
+    this.onSubmit()
   },
   methods: {
     handleClose (done) {
       this.$emit('update:dialogFormVisible',false)
     },
-    onSubmit (e) {
-      console.log('submit!')
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
+      axios.post('operation-management/arrposid/article/list.json', {
+        id: this.articleId,
+        title: this.title,
+        userType: this.userType,
+        userId: this.userId,
+        realName: this.realName,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(res => {
+        if (res.data.code == 'OK') {
+          this.tableData = res.data.result.modelData
+          this.total = res.data.result.total
+          this.infoTotal = this.total
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
     recommend () {
-
+      
     },
     batchRecommend () {
 
@@ -232,7 +193,8 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index,row) {
       this.$router.push({name: 'articleDetail', params: {id: row.articleId}})
@@ -245,10 +207,6 @@ export default {
 </script>
 
 <style scoped>
-  .btn-box {
-    display: flex;
-    justify-content: flex-end
-  }
   .dialog-footer {
     display: flex;
     justify-content: center

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vue-right-box">
     <div class="nav" v-if="formInline.id">
       推荐位编辑
     </div>

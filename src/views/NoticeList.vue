@@ -66,7 +66,7 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item class="submit-box">
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
         <el-button @click="createNotice" size="small" >创建通知</el-button>
       </el-form-item>
     </el-form>
@@ -254,7 +254,10 @@ export default {
     })
   },
   methods: {
-    onSubmit () {
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
       axios.post('operation-management/notice/list.json', {
         id: this.id,
         contents: this.contents,
