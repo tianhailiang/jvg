@@ -14,7 +14,7 @@
       <el-menu-item index="/seoList">SEO管理</el-menu-item>
       <el-menu-item index="/journal">日志管理</el-menu-item>
       <el-menu-item index="/whiteList">白名单管理</el-menu-item>
-      <el-menu-item index="/pageList">页面管理</el-menu-item>
+      <!-- <el-menu-item index="/pageList">页面管理</el-menu-item> -->
       <el-menu-item index="/apiList">API管理</el-menu-item>
     </el-submenu>
     <el-submenu index="3">

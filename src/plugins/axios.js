@@ -10,7 +10,8 @@ import axios from "axios"
 
 
 let config = {
-  baseURL: 'https://tdxzback.jjldxz.com/api/c/'
+  baseURL: 'https://tdxzback.jjldxz.com/api/c/',
+  changeOrigin: true
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 }

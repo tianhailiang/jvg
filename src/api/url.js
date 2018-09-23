@@ -24,6 +24,18 @@ export const codeChannel = (params) => {
 export const codeRole = (params) => {
   return http.fetchPost(url + 'common/code/role/list.json', params)
 }
+// 登录
+export const memberLogin = (params) => {
+  return http.fetchPost(url + 'member/login.json', params)
+}
+// 搜狐获取ip地址
+export const ipdizhi = (params) => {
+  return http.fetchGet('http://pv.sohu.com/cityjson?ie=utf-8', params)
+}
+// 获取验证码
+export const loginCode = (params) => {
+  return http.fetchPost(url + 'member/login/code.json', params)
+}
 // 主页
 export const mainList = (params) => {
   return http.fetchPost(url + 'index/detail.json', params)
@@ -282,7 +294,7 @@ export const institudeList = (parms) => {
 }
 // 查询关注管理列表
 export const fansList = (parms) => {
-  return http.fetchPost('https://www.dxz.com/api/p/lt/fans/list.json', parms)
+  return http.fetchPost(url + 'fans/list.json', parms)
 }
 // 查询标签热度列表
 export const labelHotlList = (parms) => {
