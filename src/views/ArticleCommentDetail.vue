@@ -62,86 +62,84 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
-    <template v-if="total > 0" >
-      <el-table
-        ref="multipleTable"
-        :data="tableData"
-        tooltip-effect="dark"
-        @selection-change="handleSelectionChange"
-        border>
-        <el-table-column
-          type="selection"
-          label="全部"
-          width="55">
-        </el-table-column>
-        <el-table-column
-          prop="commentUser"
-          label="评论ID"
-          width="80" align="center">
-        </el-table-column>
-        <el-table-column
-          prop="commentDetails"
-          label="评论内容"
-          width="120" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="commentUserName"
-          label="评论人"
-          width="80" align="center">
-        </el-table-column>
-        <el-table-column
-          prop="commentDate"
-          label="评论时间"
-          width="120" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="commentSourceVal"
-          label="评论渠道"
-          width="80" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="reCommentUser"
-          label="回复ID"
-          width="70" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="reCommentUserName"
-          label="回复人"
-          width="80" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="reCommentDetails"
-          label="回复内容"
-          width="130" align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="reCommentDate"
-          label="回复时间"
-          width="100" align="center" >
-        </el-table-column>
-        <el-table-column
-          prop="reCommentSourceVal"
-          label="回复渠道"
-          width="80" align="center" >
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          align="center" width="100">
-          <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete([scope.row.commentId])">删除</el-button>
-        </template>
-        </el-table-column>
-      </el-table>
-      <div class="vue-btn-box" >
-        <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
-      </div>
-    </template>
+    <el-table
+      ref="multipleTable"
+      :data="tableData"
+      tooltip-effect="dark"
+      @selection-change="handleSelectionChange"
+      border>
+      <el-table-column
+        type="selection"
+        label="全部"
+        width="55">
+      </el-table-column>
+      <el-table-column
+        prop="commentUser"
+        label="评论ID"
+        width="80" align="center">
+      </el-table-column>
+      <el-table-column
+        prop="commentDetails"
+        label="评论内容"
+        width="120" align="center" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column
+        prop="commentUserName"
+        label="评论人"
+        width="80" align="center">
+      </el-table-column>
+      <el-table-column
+        prop="commentDate"
+        label="评论时间"
+        width="120" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="commentSourceVal"
+        label="评论渠道"
+        width="80" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="reCommentUser"
+        label="回复ID"
+        width="70" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="reCommentUserName"
+        label="回复人"
+        width="80" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="reCommentDetails"
+        label="回复内容"
+        width="130" align="center" show-overflow-tooltip>
+      </el-table-column>
+      <el-table-column
+        prop="reCommentDate"
+        label="回复时间"
+        width="100" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="reCommentSourceVal"
+        label="回复渠道"
+        width="80" align="center" >
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        align="center" width="100">
+        <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete([scope.row.commentId])">删除</el-button>
+      </template>
+      </el-table-column>
+    </el-table>
+    <div class="vue-btn-box" v-if="total > 0">
+      <el-button type="danger" @click="batchDelete()" >批量删除</el-button>
+    </div>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -151,9 +149,9 @@
       :total="total" style="text-align:center;margin-top:20px"
       v-if="total > 0">
     </el-pagination>
-    <div class="vue-info" v-if="infoTotal == 0">
+    <!-- <div class="vue-info" v-if="infoTotal == 0">
       没有搜索到相关内容
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -209,11 +207,20 @@ export default {
         },
     }
   },
+  created () {
+    this.onSubmit()
+  },
+  watch: {
+    '$route': 'onSubmit'
+  },
   components: {
     
   },
   methods: {
-    onSubmit (e) {
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
       axios.post('article/comment/detail.json', {
         id: this.$route.params.id,
         commentDetails: this.commentDetails,
@@ -303,9 +310,6 @@ export default {
       this.currentPage = val
       this.onSubmit()
     }
-  },
-  mounted () {
-    this.onSubmit()
   }
 }
 </script>

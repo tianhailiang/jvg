@@ -37,7 +37,7 @@
         <el-input v-model="userName" size="small"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -132,7 +132,7 @@
       没有搜索到相关内容
     </div>
     <!-- 打赏详情弹框 -->
-    <ArticleRewardDetail :dialogFormVisible.sync="dialogFormVisible" :id ="rewardId" />
+    <!-- <ArticleRewardDetail :dialogFormVisible.sync="dialogFormVisible" :id ="rewardId" /> -->
   </div>
 </template>
 
@@ -171,10 +171,13 @@ export default {
     }
   },
   components: {
-    ArticleRewardDetail
+    // ArticleRewardDetail
   },
   methods: {
-    onSubmit (e) {
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
       axios.post('article/reward/list.json', {
         id: this.articleId,
         title: this.title,
@@ -204,8 +207,9 @@ export default {
       this.onSubmit()
     },
     goDetail (index,row) {
-      this.dialogFormVisible = true
-      this.rewardId = row.id
+      // this.dialogFormVisible = true
+      // this.rewardId = row.id
+      this.$router.push({name: 'rewardDetail', params: {id: row.id}})
     }
   },
   mounted () {
@@ -214,7 +218,7 @@ export default {
       this.userTypeList = res.data.result
     })
     .catch(error => {
-      console.log(error);
+      console.log(error)
     })
   }
 }

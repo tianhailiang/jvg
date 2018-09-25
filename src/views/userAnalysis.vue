@@ -35,7 +35,7 @@
         <el-col :span='8.5' class='chart'>
             <p class="hui-title">用户性别分布</p>
             <el-row style="float: left;width: 400px;">
-                <div>性别统计 <span>52%</span> <i>男</i> <em>|</em> <span>48%</span> <i>女</i></div>
+                <div>性别统计 <span>{{nan}}</span> <i>男</i> <em>|</em> <span>{{nv}}</span> <i>女</i></div>
                 <div id='userChart2' style='height: 400px;width: 400px;margin-left: 10px;' >图表加载失败</div>
             </el-row>
         </el-col>
@@ -52,16 +52,25 @@ import { dataUserSex,dataUserAge,dataUserLogin,dataCreated,dataBusiness } from '
 import echarts from 'echarts'
 export default {
   data () {
-    return {}
+    return {
+      nan: '',
+      nv: ''
+    }
   },
   methods: {
     getUserChartInit () {
       // 用户新增趋势
       var data = {'startTime': '2018-03-01 00:00:00', 'endTime': '2018-09-01 00:00:00'}
-      dataUserLogin(data).then(res => {
+      dataCreated(data).then(res => {
         console.log('data', res)
         if (res.success) {
-          this.userdata = res.result
+          var userdata = res.result
+          var created = []
+          var count = []
+          for (var i = 0;i < userdata.length;i++) {
+            created.push(userdata[i].createdAt)
+            count.push(userdata[i].count)
+          }
           // 加载新增趋势图表
       const myChart = echarts.init(document.getElementById('userChart'))
       myChart.showLoading()
@@ -79,7 +88,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            data: created
           }
         ],
         yAxis: [
@@ -93,7 +102,7 @@ export default {
             type: 'bar',
             stack: '总量',
             areaStyle: { normal: {} },
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: count
           }
         ]
       }
@@ -105,50 +114,6 @@ export default {
       }).catch(error => {
         console.log(`请求错误`)
       })
-      
-      // 加载用户年龄分布图表
-      const myChart3 = echarts.init(document.getElementById('userChart3'))
-      myChart3.showLoading()
-      var option3 = {
-        title: {
-          y: '20'
-        },
-        grid: {
-          top: '10%',
-          left: '-6%',
-          right: '0%',
-          bottom: '3%',
-          containLabel: true
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        series: [
-          {
-            name: '用户年龄分布',
-            type: 'pie',
-            radius: '90%',
-            center: ['45%', '50%'],
-            data: [
-              {value: 335, name: '直接访问'},
-              {value: 310, name: '邮件营销'},
-              {value: 234, name: '联盟广告'},
-              {value: 135, name: '视频广告'},
-              {value: 1548, name: '搜索引擎'}
-            ],
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 50,
-                shadowOffsetX: 20,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      }
-      myChart3.setOption(option3)
-      myChart3.hideLoading()
     },
     getQudaoChartInit () {
       // 渠道
@@ -246,12 +211,24 @@ export default {
           // 加载性别统计图表
           var data1 = res.result
           var values = []
-          // for (var i = 0 ; i < data1.length ; i++) {
-            // 男
-            values.push(data1[1].count)
-            // 女
-            values.push(data1[2].count)
-          // }
+          var zong = 0
+          var nan = 0
+          var nv = 0
+          for (var i = 0 ; i < data1.length ; i++) {
+            if (data1[i].sex === 1) {
+              // 男
+              values.push(data1[i].count)
+              nan = data1[i].count
+              zong += data1[i].count
+            } else if (data1[i].sex === 2) {
+              // 女
+              values.push(data1[i].count)
+              nv = data1[i].count
+              zong += data1[i].count
+            }
+          }
+          this.nan = Math.round(nan/zong*100) +'%'
+          this.nv = Math.round(nv/zong*100) +'%'
       const myChart2 = echarts.init(document.getElementById('userChart2'))
       myChart2.showLoading()
       var option2 = {
@@ -300,9 +277,10 @@ export default {
           var data1 = res.result
           var years = '['
           for (var i = 0 ; i < data1.length ; i++) {
-            years +='{value: '+data1[i].count+',name: "'+data1[i].years+'"},'
+            years +='{value: '+data1[i].count+',name: '+data1[i].years+'},'
           }
           years += ']'
+          years += ''
           console.log('y', years)
       const myChart3 = echarts.init(document.getElementById('userChart3'))
       myChart3.showLoading()
@@ -311,7 +289,7 @@ export default {
           y: '20'
         },
         grid: {
-          top: '10%',
+          top: '0%',
           left: '-6%',
           right: '0%',
           bottom: '3%',
@@ -325,9 +303,9 @@ export default {
           {
             name: '用户年龄分布',
             type: 'pie',
-            radius: '90%',
+            radius: '85%',
             center: ['45%', '50%'],
-            data: "'"+years+"'",
+            data: [{value: 1,name: 70},{value: 1,name: 80},{value: 35,name: 90},{value: 1,name: 10},],
             itemStyle: {
               emphasis: {
                 shadowBlur: 50,

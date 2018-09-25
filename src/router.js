@@ -169,9 +169,9 @@ export default new Router({
           component: () => import('./views/AnswerDetail.vue')
         },
         {
-          path: '/private_letter', /* 私信管理模块 私信列表 */
-          name: 'private_letter',
-          component: () => import('./views/Private_letter_list.vue')
+          path: '/privateLetter', /* 私信管理模块 私信列表 */
+          name: 'privateLetter',
+          component: () => import('./views/PrivateLetterList.vue')
         },
         {
           path: '/article', /* 文章管理模块 文章列表 */
@@ -409,9 +409,14 @@ export default new Router({
           component: () => import('./views/NoticeList.vue')
         },
         {
-          path: '/notice/:id', /* 运营管理模块 通知详情 */
+          path: '/noticeDetail/:id', /* 运营管理模块 通知详情编辑 */
           name: 'noticeDetail',
           component: () => import('./views/NoticeDetail.vue')
+        },
+        {
+          path: '/noticeDetail', /* 运营管理模块 通知详情新建 */
+          name: 'noticeDetailBuild',
+          component: () => import('./views/NoticeDetailBuild.vue')
         },
         {
           path: '/leave', /* 运营管理模块 留言答疑列表 */
@@ -419,7 +424,7 @@ export default new Router({
           component: () => import('./views/LeaveList.vue')
         },
         {
-          path: '/report', /* 运营管理模块 留言答疑列表 */
+          path: '/report', /* 运营管理模块 举报列表 */
           name: 'report',
           component: () => import('./views/ReportList.vue')
         },
@@ -434,9 +439,14 @@ export default new Router({
           component: () => import('./views/RecommendedBitList.vue')
         },
         {
-          path: '/recommendedBit/:id', /* 运营管理模块 推荐位新建编辑 */
-          name: 'recommendedBitEditor',
-          component: () => import('./views/RecommendedBitEditor.vue')
+          path: '/recommendedBitDetail', /* 运营管理模块 推荐位新建 */
+          name: 'recommendedBitDetailBuild',
+          component: () => import('./views/RecommendedBitDetailBuild.vue')
+        },
+        {
+          path: '/recommendedBitDetail/:id', /* 运营管理模块 推荐位新建编辑 */
+          name: 'recommendedBitDetail',
+          component: () => import('./views/RecommendedBitDetail.vue')
         },
         {
           path: '/divideIntoRules', /* 运营管理模块 分成规则列表 */
@@ -459,7 +469,12 @@ export default new Router({
           component: () => import('./views/OperationalActivityList.vue')
         },
         {
-          path: '/operational/:id', /* 运营活动管理模块 运营活动详情 */
+          path: '/operationalActivityDetail', /* 运营活动管理模块 运营活动详情新建 */
+          name: 'operationalActivityDetailBuild',
+          component: () => import('./views/OperationalActivityDetailBuild.vue')
+        },
+        {
+          path: '/operationalActivityDetail/:id', /* 运营活动管理模块 运营活动详情编辑 */
           name: 'operationalActivityDetail',
           component: () => import('./views/OperationalActivityDetail.vue')
         },

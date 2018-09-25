@@ -1,12 +1,12 @@
 <template>
   <el-dialog title="商品选择画面" :visible.sync="dialogFormVisible" :before-close="handleClose" 
   width="80%">
-    <el-form :inline="true" :model="formInline">
+    <el-form :inline="true">
       <el-form-item >
-        <el-input v-model="formInline.commodityName" size="small" placeholder="请输入商品名称" ></el-input>
+        <el-input v-model="name" size="small" placeholder="请输入商品名称" ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -14,7 +14,8 @@
       :data="tableData"
       tooltip-effect="dark"
       style="max-width:100%;width: 1035px"
-      @selection-change="handleSelectionChange" border>
+      @selection-change="handleSelectionChange" border
+      v-if="total > 0">
       <el-table-column
         type="selection"
         label="全部"
@@ -27,40 +28,32 @@
           <el-button
           size="mini"
           @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.courseId}}
+            {{scope.row.productId}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column
-        prop="courseName"
+        prop="productName"
         label="课程名称（标题）"
-        width="120" align="center" show-overflow-tooltip>
+        width="640" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="coursePrice"
+        prop="productPrice"
         label="课程价格"
         width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="80">
-        <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="recommend(scope.$index, scope.row)">选择</el-button>
-       </template>
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total" style="text-align:center;margin-top:20px"
+      v-if="total > 0">
     </el-pagination>
-    <div class="btn-box" >
-      <el-button type="primary" @click="batchRecommend()" >批量选择</el-button>
+    <div class="vue-info" v-if="infoTotal == 0">
+      没有搜索到相关内容
     </div>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="$emit('update:dialogFormVisible',false)">确定</el-button>
@@ -75,37 +68,42 @@ export default {
   props: ['dialogFormVisible','dialogForm'],
   data () {
     return {
-      formInline: {
-        courseId: ''
-      },
-      tableData: [{
-        courseId: '100001',
-        courseName: '美国留学1',
-        coursePrice: '120$',
-        userId: '15242755275'
-      }, {
-        courseId: '100001',
-        courseName: '美国留学1',
-        coursePrice: '120$',
-        userId: '15242755275'
-      }, {
-        courseId: '100001',
-        courseName: '美国留学1',
-        coursePrice: '120$',
-        userId: '15242755275'
-      }],
+      name: '',
+      tableData: [],
       multipleSelection: [],
-      currentPage: 1
+      currentPage: 1,
+      pageSize: 20,
+      total: 0,
+      infoTotal: 1
     }
   },
   watch: {
+    dialogForm: function (newVal, oldVal) {
+      this.onSubmit()
+    }
   },
   methods: {
     handleClose (done) {
       this.$emit('update:dialogFormVisible',false)
     },
-    onSubmit (e) {
-      console.log('submit!')
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
+      axios.post('operation-activity/product/list.json', {
+        name: this.name,
+        productType: this.dialogForm,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(res => {
+        this.tableData = res.data.result.modelData
+        this.total = res.data.result.total
+        this.infoTotal = this.total
+      })
+      .catch(error => {
+        console.log(error);
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val

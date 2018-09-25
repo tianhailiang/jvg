@@ -14,7 +14,7 @@
       <el-menu-item index="/seoList">SEO管理</el-menu-item>
       <el-menu-item index="/journal">日志管理</el-menu-item>
       <el-menu-item index="/whiteList">白名单管理</el-menu-item>
-      <el-menu-item index="/pageList">页面管理</el-menu-item>
+      <!-- <el-menu-item index="/pageList">页面管理</el-menu-item> -->
       <el-menu-item index="/apiList">API管理</el-menu-item>
     </el-submenu>
     <el-submenu index="3">
@@ -65,6 +65,7 @@
       <el-submenu index="10-3">
         <template slot="title">通知管理</template>
         <el-menu-item index="/notice">通知列表</el-menu-item>
+        <el-menu-item index="/noticeDetail">通知详情</el-menu-item>
       </el-submenu>
       <el-submenu index="10-4">
         <template slot="title">留言管理</template>
@@ -74,6 +75,7 @@
       <el-submenu index="10-5">
         <template slot="title">推荐位管理</template>
         <el-menu-item index="/recommendedBit">推荐位列表</el-menu-item>
+        <el-menu-item index="/recommendedBitDetail">推荐位详情</el-menu-item>
       </el-submenu>
       <el-submenu index="10-6">
         <template slot="title">分成返利管理</template>
@@ -83,6 +85,7 @@
       <el-submenu index="10-7">
         <template slot="title">运营活动管理</template>
         <el-menu-item index="/operational">运营活动列表</el-menu-item>
+        <el-menu-item index="/operationalActivityDetail">运营活动详情</el-menu-item>
         <el-menu-item index="/operationalExamine">运营活动审核管理</el-menu-item>
       </el-submenu>
       <el-submenu index="10-8">
@@ -119,7 +122,7 @@
     </el-submenu>
     <el-submenu index="15">
       <template slot="title">私信管理</template>
-      <el-menu-item index="/private_letter">私信列表</el-menu-item>
+      <el-menu-item index="/privateLetter">私信列表</el-menu-item>
     </el-submenu>
     <el-submenu index="16">
       <template slot="title">课程管理</template>
@@ -184,14 +187,14 @@ export default {
     if(this.activeIndex.includes('answer')){
       this.activeIndex = '/answer' /* 话题列表和话题详情匹配一个路由 */
     }
-    if(this.activeIndex.includes('notice')){
-      this.activeIndex = '/notice' /* 通知列表和通知详情匹配一个路由 */
+    if(this.activeIndex.includes('noticeDetail')){
+      this.activeIndex = '/noticeDetail' /* 通知详情新建和通知详情编辑匹配一个路由 */
     }
-    if(this.activeIndex.includes('recommendedBit')){
-      this.activeIndex = '/recommendedBit' /* 通知推荐位列表和推荐位编辑匹配一个路由 */
+    if(this.activeIndex.includes('recommendedBitDetail')){
+      this.activeIndex = '/recommendedBitDetail' /* 通知推荐位详情新建和推荐位详情编辑匹配一个路由 */
     }
-    if(this.activeIndex.includes('operational')){
-      this.activeIndex = '/operational' /* 运营活动列表和运营活动详情匹配一个路由 */
+    if(this.activeIndex.includes('operationalActivityDetail')){
+      this.activeIndex = '/operationalActivityDetail' /* 运营活动详情新建和运营活动详情编辑匹配一个路由 */
     }
     if(this.activeIndex.includes('/rebateRegister')){
       this.activeIndex = '/rebateRule' /* 返利规则列表和返利新建注册匹配一个路由 */

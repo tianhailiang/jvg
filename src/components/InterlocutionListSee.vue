@@ -57,7 +57,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -127,7 +127,7 @@
       :total="total" style="text-align:center;margin-top:20px"
       v-if="total >0">
     </el-pagination>
-    <div class="info" v-if="infoTotal == 0">
+    <div class="vue-info" v-if="infoTotal == 0">
       没有搜索到相关内容
     </div>
     <div slot="footer" class="dialog-footer">
@@ -168,7 +168,10 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
       let lableIdsStr = ''
       this.lableIds.forEach((item, index, arr) => {
         if (item) {
@@ -210,13 +213,10 @@ export default {
     },
     handleCurrentChange (val) {
       this.currentPage = val
+      this.onSubmit()
     },
     sure () {
-      let questionId = []
-      this.multipleSelection.forEach((item, index) => {
-        questionId.push(item.questionId)
-      })
-      if (questionId.length == 0) {
+      if (this.multipleSelection.length == 0) {
         this.$message({
           type: 'warning',
           message: '请至少选中一个'
@@ -270,11 +270,6 @@ export default {
 </script>
 
 <style scoped>
-  .info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px
-  }
+
 </style>
 

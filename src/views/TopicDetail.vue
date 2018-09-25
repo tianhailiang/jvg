@@ -125,7 +125,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">x</el-button>
+          @click="handleDelete(scope.$index, scope.row)">X</el-button>
       </template>
       </el-table-column>
     </el-table>
@@ -164,15 +164,7 @@ export default {
       multipleSelection: [],
       dialogFormVisible: false,
       dialogFormVisible1: false,
-      questionId: '',
-      questionIdArr: []
-    }
-  },
-  watch: {
-    tableData (newVal ,oldVal) {
-      this.questionIdArr = this.tableData.map((item, index) => {
-        return item.questionId
-      })
+      questionId: ''
     }
   },
   components: {
@@ -324,7 +316,11 @@ export default {
         if(index == arr.length -1) {
           lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
         } 
-      })  
+      })
+      let questionIdArr = []
+      questionIdArr = this.tableData.map((item, index) => {
+        return item.questionId
+      })
       /* 修改话题 */
       axios.post('topic/detail/update.json', {
         id: this.id,
@@ -334,7 +330,7 @@ export default {
         categorySigns: this.classificationVal,
         lableIds: lableIdsStr,
         adminId: this.adminId,
-        questionId: this.questionIdArr
+        questionId: questionIdArr
       })
       .then( response => {
         if (response.data.code == 'OK') {
@@ -366,8 +362,15 @@ export default {
       })
     },
     onSelectQuestion ($event) {
-      this.tableData.unshift(...$event)
-      this.tableData = [...new Set(this.tableData)] /* 数组去重 */
+      /* 先初始化去重 */
+      this.tableData.forEach((item, index, arr) => {
+        $event.forEach((eitem, eindex, earr) => {
+          if (eitem.questionId === item.questionId) {
+            earr.splice(eindex, 1)
+          }
+        })
+      })
+      this.tableData = [...$event, ...this.tableData]
     }
   },
   mounted () {
