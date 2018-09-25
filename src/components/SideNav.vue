@@ -85,6 +85,7 @@
       <el-submenu index="10-7">
         <template slot="title">运营活动管理</template>
         <el-menu-item index="/operational">运营活动列表</el-menu-item>
+        <el-menu-item index="/operationalActivityDetail">运营活动详情</el-menu-item>
         <el-menu-item index="/operationalExamine">运营活动审核管理</el-menu-item>
       </el-submenu>
       <el-submenu index="10-8">
@@ -192,8 +193,8 @@ export default {
     if(this.activeIndex.includes('recommendedBitDetail')){
       this.activeIndex = '/recommendedBitDetail' /* 通知推荐位详情新建和推荐位详情编辑匹配一个路由 */
     }
-    if(this.activeIndex.includes('operational')){
-      this.activeIndex = '/operational' /* 运营活动列表和运营活动详情匹配一个路由 */
+    if(this.activeIndex.includes('operationalActivityDetail')){
+      this.activeIndex = '/operationalActivityDetail' /* 运营活动详情新建和运营活动详情编辑匹配一个路由 */
     }
     if(this.activeIndex.includes('/rebateRegister')){
       this.activeIndex = '/rebateRule' /* 返利规则列表和返利新建注册匹配一个路由 */

@@ -155,15 +155,7 @@ export default {
       multipleSelection: [],
       dialogFormVisible: false,
       dialogFormVisible1: false,
-      questionId: '',
-      questionIdArr: []
-    }
-  },
-  watch: {
-    tableData (newVal ,oldVal) {
-      this.questionIdArr = this.tableData.map((item, index) => {
-        return item.questionId
-      })
+      questionId: ''
     }
   },
   components: {
@@ -276,6 +268,10 @@ export default {
           lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
         } 
       })
+      let questionIdArr = []
+      questionIdArr = this.tableData.map((item, index) => {
+        return item.questionId
+      })
       /* 添加话题 */
       axios.post('topic/detail/create.json', {
         name: this.title,
@@ -284,7 +280,7 @@ export default {
         categorySigns: this.classificationVal,
         lableIds: lableIdsStr,
         adminId: this.adminId,
-        questionId: this.questionIdArr
+        questionId: questionIdArr
       })
       .then(res => {
         if (res.data.code == 'OK') {

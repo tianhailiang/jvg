@@ -41,7 +41,8 @@
       :data="tableData"
       tooltip-effect="dark"
       style="max-width:100%;width: 1035px"
-      @selection-change="handleSelectionChange" border>
+      @selection-change="handleSelectionChange" border
+      v-if="total > 0">
       <el-table-column
         type="selection"
         label="全部"
@@ -88,19 +89,19 @@
         label="文章发布时间"
         width="120" align="center" >
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         label="操作"
         align="center" width="80">
         <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="recommend(scope.$index, scope.row)">推荐</el-button>
-      </template>
-      </el-table-column>
+          <el-button
+            size="mini"
+            @click="recommend(scope.$index, scope.row)">推荐</el-button>
+        </template>
+      </el-table-column> -->
     </el-table>
-    <div class="vue-btn-box" v-if="total > 0">
+    <!-- <div class="vue-btn-box" v-if="total > 0">
       <el-button type="primary" @click="batchRecommend()" >批量推荐</el-button>
-    </div>
+    </div> -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -110,11 +111,11 @@
       :total="total" style="text-align:center;margin-top:20px"
       v-if="total > 0">
     </el-pagination>
-    <!-- <div class="vue-info" v-if="infoTotal == 0">
+    <div class="vue-info" v-if="infoTotal == 0">
       没有搜索到相关内容
-    </div> -->
+    </div>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="$emit('update:dialogFormVisible',false)">确定</el-button>
+      <el-button type="primary" @click="sure">确定</el-button>
       <el-button @click="$emit('update:dialogFormVisible',false)">取 消</el-button>
     </div>
   </el-dialog>
@@ -183,7 +184,7 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    recommend () {
+    recommend (index, row) {
       
     },
     batchRecommend () {
@@ -197,7 +198,25 @@ export default {
       this.onSubmit()
     },
     goDetail (index,row) {
-      this.$router.push({name: 'articleDetail', params: {id: row.articleId}})
+      this.$router.push({name: 'articleDetail', params: {id: row.id}})
+    },
+    sure () {
+      let productList = []
+      this.multipleSelection.forEach((item, index) => {
+        let productObj = {}
+        productObj.productId = item.id
+        productObj.productName = item.title
+        productList.push(productObj)
+      })
+      if (productList.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请至少选中一个'
+        })
+        return false
+      }
+      this.$emit('update:dialogFormVisible', false)
+      this.$emit('select-list', productList)
     }
   },
   mounted () {

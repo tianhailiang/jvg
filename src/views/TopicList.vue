@@ -109,7 +109,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              @click="goDetail(scope.$index, scope.row)">编辑</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -224,9 +224,6 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
-    },
-    handleEdit (index, row) {
-      this.$router.push({name: 'interlocutionDetail', params: {id: row.id}})
     },
     handleDelete (arrId) {
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {

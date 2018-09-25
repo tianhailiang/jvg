@@ -469,7 +469,12 @@ export default new Router({
           component: () => import('./views/OperationalActivityList.vue')
         },
         {
-          path: '/operational/:id', /* 运营活动管理模块 运营活动详情 */
+          path: '/operationalActivityDetail', /* 运营活动管理模块 运营活动详情新建 */
+          name: 'operationalActivityDetailBuild',
+          component: () => import('./views/OperationalActivityDetailBuild.vue')
+        },
+        {
+          path: '/operationalActivityDetail/:id', /* 运营活动管理模块 运营活动详情编辑 */
           name: 'operationalActivityDetail',
           component: () => import('./views/OperationalActivityDetail.vue')
         },

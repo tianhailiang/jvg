@@ -31,7 +31,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="类型：">
-        <el-select v-model="type" size="small" style="width:160px">
+        <el-select v-model="type" size="small" style="width:160px"
+        @change="onTypeChange">
           <el-option
             v-for="item in typeList"
             :key="item.value"
@@ -47,8 +48,8 @@
       tooltip-effect="dark"
       @selection-change="handleSelectionChange" border>
       <el-table-column
-        type="selection"
-        label="全部"
+        type="index"
+        label="NO"
         width="55" align="center">
       </el-table-column>
       <el-table-column
@@ -80,7 +81,7 @@
     <!-- 课程推荐列表 -->
     <RecommendedCourseList :dialogFormVisible.sync="dialogFormVisible1" :dialogForm="dialogForm1" />
     <!-- 文章推荐列表窗口 -->
-    <RecommendedArticleList :dialogFormVisible.sync="dialogFormVisible2" :dialogForm="dialogForm2" />
+    <RecommendedArticleList :dialogFormVisible.sync="dialogFormVisible2" :dialogForm="dialogForm2" v-on:select-list="onSelectList"/>
     <!-- 留学达人推荐列表窗口 -->
     <RecommendedDarenList :dialogFormVisible.sync="dialogFormVisible3" :dialogForm="dialogForm3" />
     <!-- 语培达人推荐列表窗口 -->
@@ -216,27 +217,51 @@ export default {
     remove (index, row) {
       this.tableData.splice(index, 1)
     },
+    onSelectList ($event) {
+      /* 先初始化去重 */
+      this.tableData.forEach((item, index, arr) => {
+        $event.forEach((eitem, eindex, earr) => {
+          if (eitem.productId === item.productId) {
+            earr.splice(eindex, 1)
+          }
+        })
+      })
+      this.tableData = [...$event, ...this.tableData]
+    },
+    onTypeChange (val) {
+      this.tableData = []
+    },
     btnSure () {
-
+      if (!this.name) {
+        this.$message({
+          type: 'warning',
+          message: '推荐位名称不能为空'
+        })
+        return false
+      }
+      axios.post('operation-management/arrposid/update.json', {
+        id: this.$route.params.id,
+        name: this.name,
+        source: this.platform,
+        channel: this.channel,
+        type: this.type,
+        productList: this.tableData 
+      })
+      .then(res => {
+        
+      })
+      .catch(error => {
+        console.log(error);
+      })
     }
   },
   mounted () {
-    if (this.$route.params.id == 0) {
-      this.id = ''
-    } else {
-      this.id = this.$route.params.id
-    }
+    
   }
 }
 </script>
 
 <style scoped>
-  .nav{
-    width:100%;
-    height:40px;
-    font-size: 18px;
-    line-height: 40px
-  }
   .btn-box{
     display: flex;
     justify-content: center;

@@ -242,7 +242,7 @@ export default {
         type: 'warning'
       }).then(() => {
         axios.post('operation-management/message-feedback/delete.json', {
-          ids: arrId
+          idList: arrId
         })
         .then( response => {
           if (response.data.code == 'OK') {
