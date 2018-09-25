@@ -207,7 +207,8 @@
         </el-table>
         <!--  -->
         <div class="row-container">
-            <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+            <el-pagination 
+            background layout="prev, pager, next, jumper" :total="100"></el-pagination>
             <el-button size="small" type="primary">确定</el-button>
           </div>
       </el-dialog>
@@ -221,14 +222,14 @@ export default {
       defaultValue: '',
       value: '',
       actives: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '使用中'},
-        {value: '选项3', label: '已过期'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '使用中'},
+        {value: '3', label: '已过期'}
       ],
       ktdatas: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '留学'},
-        {value: '选项3', label: '语培'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '留学'},
+        {value: '3', label: '语培'}
       ],
       dialogFormVisible: false,
       dialogVisible: false,
@@ -246,20 +247,20 @@ export default {
         {id: '001', idtime: '2018-8-31'}
       ],
       value1Data: [
-        {value: '选项1', label: '空'},
-        {value: '选项2', label: '男'},
-        {value: '选项3', label: '女'},
-        {value: '选项4', label: '全部'}
+        {value: '1', label: '空'},
+        {value: '2', label: '男'},
+        {value: '3', label: '女'},
+        {value: '4', label: '全部'}
       ],
       attestData: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '已认证'},
-        {value: '选项3', label: '未认证'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '已认证'},
+        {value: '3', label: '未认证'}
       ],
       qudao: [
-        {value: '选项一',label: '全部'},
-        {value: '选项二',label: '留学'},
-        {value: '选项三',label: '语培'}
+        {value: '1',label: '全部'},
+        {value: '2',label: '留学'},
+        {value: '3',label: '语培'}
       ]
     }
   }

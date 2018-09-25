@@ -50,14 +50,14 @@
     <!--  -->
     <el-table :data="memberListdata" style="width: 100%" border v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column prop="currentid" type="selection" width="50" label="" align="center"></el-table-column>
-        <el-table-column prop="id" width="90" label="会员ID" align="center"></el-table-column>
+        <el-table-column prop="id" width="70" label="会员ID" align="center"></el-table-column>
         <el-table-column prop="userName" label="会员名称" width="120" align="center"></el-table-column>
         <el-table-column prop="vipName" label="是否VIP" width="100" align="center"></el-table-column>
         <el-table-column prop="type" label="会员等级" width="120" align="center"></el-table-column>
         <el-table-column prop="statusName" label="当前状态" width="120" align="center"></el-table-column>
         <el-table-column prop="startTime" label="会员加入时间" width="120" align="center"></el-table-column>
         <el-table-column prop="totalIntegral" label="会员积分" width="120" align="center"></el-table-column>
-        <el-table-column prop="count" label="会员个数" width="140" align="center"></el-table-column>
+        <el-table-column prop="count" label="会员个数" width="100" align="center"></el-table-column>
         <el-table-column label="操作" width="170" align="center">
             <template slot-scope="scope">
                 <el-button size="small" type="danger">编辑</el-button>
@@ -79,9 +79,9 @@ export default {
     return {
       status: '',
       teacher: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '使用中'},
-        {value: '选项3', label: '已过期'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '使用中'},
+        {value: '3', label: '已过期'}
       ],
       data: [
         {currentid: '001'}
@@ -100,11 +100,16 @@ export default {
   },
   methods: {
     getMenberData() {
-      axios.post(this.$store.state.api.memberlist, {
-        "userName": this.userName
+      axios.post(this.$store.state.api.memberList, {
+        userName: this.userName,
+        minLevel:	100,
+        maxLevel:	200,
+        status:2,
+        pageNo:1,
+        pageSize:20
       }).then((res) => {
-        this.memberListdata = res.data.result
-        console.log(this.memberListdata)
+        console.log(res)
+        this.memberListdata = res.data.result.modelData
       }).catch((err) => {
         console.log(`请求出现错误`)
       })
@@ -123,5 +128,8 @@ export default {
   margin: 0 120px 0 10px;
   display: inline-block;
   font-size: 20px;
+}
+.member-content{
+  margin-left:260px;
 }
 </style>

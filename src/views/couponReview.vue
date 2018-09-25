@@ -5,17 +5,17 @@
         <el-row :gutter="20">
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="优惠券名">
-                      <el-input type="text" size="small"></el-input>
+                      <el-input type="text" size="small" v-model="dataReview.title"></el-input>
                     </el-form-item>  
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="发行人">
-                      <el-input type="text" size="small"></el-input>
+                      <el-input type="text" size="small" v-model="dataReview.userName"></el-input>
                     </el-form-item> 
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="参选商品">
-                  <el-select placeholder="" v-model="goodsVal" size="small">
+                  <el-select placeholder="" v-model="dataReview.productType" size="small">
                       <el-option 
                       :label="item.label" 
                       :value="item.value"
@@ -26,7 +26,7 @@
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="渠道">
-                  <el-select placeholder="" v-model="qudaoData" size="small">
+                  <el-select placeholder="" v-model="dataReview.source" size="small">
                       <el-option 
                       :label="item.label"
                       :value="item.value"
@@ -37,7 +37,7 @@
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="所属频道">
-                  <el-select placeholder="" v-model="suoshuData" size="small">
+                  <el-select placeholder="" v-model="dataReview.channel" size="small">
                       <el-option 
                       :label="item.label" 
                       :value="item.value"
@@ -48,7 +48,7 @@
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="领取方式">
-                  <el-select placeholder="" v-model="lingquData" size="small">
+                  <el-select placeholder="" v-model="dataReview.type" size="small">
                       <el-option 
                       :label="item.label" 
                       :value="item.value"
@@ -59,7 +59,7 @@
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="审核状态">
-                  <el-select placeholder="" v-model="shenheData" size="small">
+                  <el-select placeholder="" v-model="dataReview.shenheData" size="small">
                       <el-option 
                       :label="item.label" 
                       :value="item.value"
@@ -70,7 +70,7 @@
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="类型">
-                  <el-select placeholder="" v-model="typeData" size="small">
+                  <el-select placeholder="" v-model="dataReview.couponType" size="small">
                       <el-option 
                       :label="item.label" 
                       :value="item.value"
@@ -82,31 +82,52 @@
         </el-row>
       </el-form>
       <div class="search">
-        <el-button type="primary" size="medium">搜索</el-button>
+        <el-button type="primary" size="medium" @click="couponReviewlist()">搜索</el-button>
       </div>
       <!--  -->
       <el-table :data="tabeldata" style="width: 100%" border size="medium">
-            <el-table-column prop="currentid" type="selection" width="50" label="" align="center"></el-table-column>
-            <el-table-column prop="currentid" width="110" label="优惠券名称" align="center"></el-table-column>
-            <el-table-column prop="currentid" width="115" label="优惠金额/比例" align="center"></el-table-column>
-            <el-table-column prop="teacherid" label="有效期" width="120" align="center"></el-table-column>
-            <el-table-column prop="name" label="类型" width="100" align="center"></el-table-column>
-            <el-table-column prop="type" label="使用范围" width="140" align="center"></el-table-column>
-            <el-table-column prop="typenum" label="限量" width="100" align="center"></el-table-column>
-            <el-table-column prop="typenum" label="发行方" width="100" align="center"></el-table-column>
-            <el-table-column prop="typenum" label="审核状态" width="100" align="center"></el-table-column>
+            <el-table-column prop="" type="selection" width="50" label="" align="center"></el-table-column>
+            <el-table-column prop="title" width="110" label="优惠券名称" align="center"></el-table-column>
+            <el-table-column prop="priceRatio" width="115" label="优惠金额/比例" align="center"></el-table-column>
+            <el-table-column prop="couponTime" label="有效期" width="120" align="center"></el-table-column>
+            <el-table-column prop="couponTypeVal" label="类型" width="100" align="center"></el-table-column>
+            <el-table-column prop="useReceiveNumber" label="使用范围" width="140" align="center"></el-table-column>
+            <el-table-column prop="number" label="限量" width="100" align="center"></el-table-column>
+            <el-table-column prop="issuerVal" label="发行方" width="100" align="center"></el-table-column>
+            <el-table-column prop="statusVal" label="审核状态" width="100" align="center"></el-table-column>
             <el-table-column label="操作" width="170" align="center">
                 <template slot-scope="scope">
                     <el-button size="small" type="danger">删除</el-button>
-                    <el-button size="small" type="danger">发布</el-button>
+                    <el-button size="small" type="danger" @click="openModel()">不通过</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <div class="page-container">
-            <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+            <el-pagination background layout="prev, pager, next, jumper" :total="total"></el-pagination>
             <el-button size="small" type="primary">确定</el-button>
             <el-button size="small" type="primary" class="remove">批量删除</el-button>
         </div>
+        <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
+          <el-form label-width="100px" class="demo-ruleForm">
+              <el-form-item label="优惠券ID">
+                <el-input type="text" size="small" :disabled="true" v-model="id"></el-input>
+              </el-form-item>
+              <el-form-item label="优惠券名称">
+                  <el-input type="text" size="small" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="创建用户">
+                  <el-input type="text" size="small" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="原因">
+                <el-input type="textarea" size="small" v-model="statusMemo"></el-input>
+              </el-form-item>
+          </el-form>
+          <span>提示：用户重新申请审核</span>
+          <span slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="isOkCoupon()">确 定</el-button>
+          </span>
+      </el-dialog>
   </section>
 </template>
 <script>
@@ -114,48 +135,92 @@ export default {
   name: 'couponReview',
   data () {
     return{
-      goodsVal: '',
-      qudaoData: '',
       suoshuData: '',
-      lingquData: '',
       typeData: '',
       shenheData: '',
       defaultdata: [
-        {value: '选项1', label: 'WAP'},
-        {value: '选项2', label: 'APP'},
-        {value: '选项3', label: 'PC'}
+        {value: '1', label: 'WAP'},
+        {value: '2', label: 'APP'},
+        {value: '3', label: 'PC'}
       ],
       goods: [
-        {value: '选项1', label: '课程'},
-        {value: '选项2', label: '出版物'},
-        {value: '选项3', label: '留学'}
+        {value: '1', label: '课程'},
+        {value: '2', label: '出版物'},
+        {value: '3', label: '留学'}
       ],
       suoshu: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '留学'},
-        {value: '选项3', label: '语培'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '留学'},
+        {value: '3', label: '语培'}
       ],
       linqu: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '购买前领取'},
-        {value: '选项3', label: '购买后领取'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '购买前领取'},
+        {value: '3', label: '购买后领取'}
       ],
       shenhe: [
-        {value: '选项1', label: '全部'},
-        {value: '选项2', label: '已通过'},
-        {value: '选项3', label: '未通过'},
-        {value: '选项4', label: '待审核'}
+        {value: '1', label: '全部'},
+        {value: '2', label: '已通过'},
+        {value: '3', label: '未通过'},
+        {value: '4', label: '待审核'}
       ],
       types: [
-        {value: '选项2', label: '满减'},
-        {value: '选项3', label: '折扣'}
+        {value: '1', label: '满减'},
+        {value: '2', label: '折扣'}
       ],
-      tabeldata: [
-        {currentid: '001'}
-      ]
+      tabeldata: [],
+      total: null,
+      dataReview: {
+        title: '',
+        source: 1,
+        channel:1,
+        productType: 1,
+        issuer:1,
+        userName: '',
+        type:1,
+        status:1,	
+        couponType:''
+      },
+      dialogVisible: false,
+      statusMemo: '',
+      id: ''
     }
   },
-  methods: {}
+  methods: {
+    couponReviewlist() {
+      axios.post(this.$store.state.api.couponReviewlist, {
+        title: this.dataReview.title,
+        source: 1,
+        channel:1,
+        productType: 1,
+        issuer:1,
+        userName:this.dataReview.userName,
+        type:1,
+        status:1,	
+        couponType:this.dataReview.couponType
+      }).then(res => {
+        console.log(res)
+        this.total = res.data.result.total
+        this.tabeldata = res.data.result.modelData
+      }).catch(error => {
+
+      })
+    },
+    openModel() {
+      this.dialogVisible = true
+    },
+    isOkCoupon() {
+      axios.post(this.$store.state.api.Reviewlist, {
+        id: 2,
+        status: 2,
+        statusMemo : this.statusMemo
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+
+      })
+    }
+  }
 }
 </script>
 <style scoped>
