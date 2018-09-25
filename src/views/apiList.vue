@@ -11,7 +11,7 @@
             </el-col>
             <el-col :span="5">
               <el-form-item label="名称：" label-width="80px">
-                  <el-input placeholder="请输入名称"></el-input>
+                  <el-input placeholder="请输入名称" v-model="apiname"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="3">
@@ -222,7 +222,8 @@ export default {
       total: '',
       name: '',
       url: '',
-      id: ''
+      id: '',
+      apiname: '课程'
     }
   },
   methods: {
@@ -289,7 +290,7 @@ export default {
       })
     },
     postData () {
-      var data = {'source': 1, 'status': 1}
+      var data = {'source': 4, 'status': 1, 'channel': 1, 'name': this.apiname}
       apiList(data).then(res => {
         console.log('data', res)
         if (res.success) {

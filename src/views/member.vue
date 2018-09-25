@@ -312,7 +312,7 @@ export default {
         if (res.success) {
           if (this.type === 1) this.isDialogShow1 = false
           else if (this.type === 2) this.isDialogShow4 = false
-        //   window.location.reload()
+          window.location.reload()
         } else {
           this.$message(res.message)
         }

@@ -26,8 +26,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="5">
-              <el-button size="small" type="primary" @click="onDisableClik">追加父节点</el-button>
-              <el-button size="small" type="primary" @click="onDisableClik1">追加子节点</el-button>
+              <el-button size="small" type="primary" @click="onDisableClik(1)">追加父节点</el-button>
+              <!-- <el-button size="small" type="primary" @click="onDisableClik1">追加子节点</el-button> -->
               <!-- <el-button size="small" type="primary" @click="onQuery">查询</el-button> -->
             </el-col>
         </el-form>
@@ -38,23 +38,24 @@
                 <span>课程管理</span>
             </div>
             <div style="float: right;margin-bottom: 20px;">
-                <el-button type="danger" size="small">编辑</el-button>
+                <el-button @click="onDisableClik1" type="danger" size="small">追加子节点</el-button>
+                <el-button @click="onDisableClik(2)" type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
             </div>
             <el-table v-show="isShowTab" :data="tableDatak" stripe width="100%" border>
                 <el-table-column prop="name" label="节点" align="center"></el-table-column>
                 <el-table-column prop="description" label="说明" align="center"></el-table-column>
                 <el-table-column prop="uri" label="路径" align="center"></el-table-column>
-                <el-table-column prop="isShow" label="菜单是否显示" align="center">
+                <!-- <el-table-column prop="isShow" label="菜单是否显示" align="center">
                     <template slot-scope="scope">
                         <div v-if="scope.row.isShow == 1">是</div>
                         <div v-if="scope.row.isShow == 2">否</div>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column width="250" label="操作" show-overflow-tooltip align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-button type="danger" size="small">编辑</el-button>
-                        <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
+                        <el-button @click="onDelClick(scope.row.id)" type="danger" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -67,6 +68,7 @@
                 <span>文章管理</span>
             </div>
             <div style="float: right;margin-bottom: 20px;">
+                <el-button @click="onDisableClik1" type="danger" size="small">追加子节点</el-button>
                 <el-button type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick" type="danger" size="small">删除</el-button>
             </div>
@@ -89,7 +91,7 @@
             <p style="font-size: 30px;">请确认是否继续删除</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+                <el-button type="primary" @click="onDel">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 追加父节点 -->
@@ -160,6 +162,42 @@
                 <el-button type="primary" @click="onDisable1">提 交</el-button>
             </span>
         </el-dialog>
+        <!-- 追加API关联关系 -->
+        <el-dialog v-model="isDialogShow3" size="small" :visible.sync="isDialogShow3">
+            <p style="font-size: 30px;">追加API关联关系</p>
+            <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
+                <el-col :span="10">
+                    <el-form-item label="渠道：" label-width="80px">
+                        <el-input placeholder="自动生成" disabled v-model="zizhu"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="频道：" label-width="100px">
+                        <el-input placeholder="自动生成" disabled></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="API名称：" label-width="100px">
+                        <el-input placeholder="请输入API名称"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-button type="primary" @click="">搜 索</el-button>
+                </el-col>
+            </el-form>
+            <el-button @click="isDialogShow2 = false" type="primary">追加API关联关系</el-button>
+            <p style="color: #fff;">———————————————————————————————</p>
+            <el-table :data="tableDatakzi" stripe width="100%" border>
+                <el-table-column prop="name" label="APIID" align="center"></el-table-column>
+                <el-table-column prop="description" label="API名称" align="center"></el-table-column>
+                <el-table-column prop="uri" label="APIURL" align="center"></el-table-column>
+                <el-table-column type="selection" label="操作" width="55" align="center"></el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow3 = false">取 消</el-button>
+                <el-button type="primary" @click="onDisable1">提 交</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -222,6 +260,7 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
+      isDialogShow3: false,
       isShowTab: false,
       isShowTab1: false,
       labelData: [],
@@ -231,35 +270,56 @@ export default {
       fuzhu: '',
       fuName: '',
       fuExplain: '',
-      zizhu: ''
+      zizhu: '',
+      id: '',
+      type: ''
     }
   },
   methods: {
     onEditClick (index) {
       this.$router.replace({ path: '/institutionsEditors' })
     },
-    onDisableClik () { 
-    //   var data = {'name': this.tableDatak[0].name, 'description': this.tableDatak[0].description, 'category': this.tableDatak[0].category}
+    onZiShow (id) {
+
+    },
+    onDisableClik (type) { 
+      if (type === 1) {
+        // 追加父节点
+        if (this.region_category === '' && this.region_channel === '' && this.region_page === '') {
+          this.$message('请先选择筛选条件')
+          return false
+        }
+        this.type = type
+      } else if (type === 2) {
+        // 编辑父节点
+        this.type = type
+      }
       this.isDialogShow1 = true
     },
     ondisable () {
-      // 追加父节点
-      resourceCreate({'name': this.fuName,'description': this.fuExplain,'category': 0,'channel': 1,'page': 2}).then(res => {
-        console.log('data', res)
-        if (res.success) {
-          this.isDialogShow1 = false
-          this.fuzhu = res.result
-          this.$message(res.message)
-        } else {
-          this.$message(res.message)          
-        }
-      }).catch(error => {
-        console.log(`请求错误`)
-      })
+      if (this.type === 1) {
+        // 追加父节点
+        resourceCreate({'name': this.fuName,'description': this.fuExplain,'category': this.region_category,'channel': this.region_channel,'page': this.region_page}).then(res => {
+          console.log('data', res)
+          if (res.success) {
+            this.isDialogShow1 = false
+            this.fuzhu = res.result
+            window.location.reload()
+          } else {
+            this.$message(res.message)          
+          }
+        }).catch(error => {
+          console.log(`请求错误`)
+        })
+      } else if (this.type === 2) {
+        // 编辑/更新父节点
+        onSub_fu ()
+      }
     },
     onSub_fu () { 
       // 更新父节点
-      resourceUpdate({'id': this.fuzhu,'description': this.fuExplain,'name': this.fuName}).then(res => {
+      var data = {'id': this.fuzhu,'description': this.fuExplain,'name': this.fuName}
+      resourceUpdate(data).then(res => {
         console.log('data', res)
         if (res.success) {
           this.isDialogShow1 = false
@@ -271,6 +331,7 @@ export default {
       })
     },
     onDisableClik1 () { 
+      // 追加子节点
       if (this.fuzhu === null || this.fuzhu === '') {
         this.$message('请先选择追加父节点')
         return false
@@ -292,8 +353,29 @@ export default {
         console.log(`请求错误`)
       })
     },
-    onDelClick () {
+    onDelClick (id) {
+      // 删除节点
+      this.id = id
       this.isDialogShow = true
+    },
+    onDel () {
+      // 删除接口
+      var data = {'id': this.id}
+      resourceDelete(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow = false
+          window.location.reload()
+        } else {
+          if (/system.resource.existing.child.nodes/.test(res.message)) {
+            this.$message('父节点下面有子节点不能删除')
+          } else {
+            this.$message(res.message)   
+          }    
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onShow () {
       if (this.isShowTab) {
@@ -313,7 +395,7 @@ export default {
       
     },
     postData () {
-      var data = {'category': 4, 'channel': this.region_channel, 'page': this.region_page}
+      var data = {'category': 0, 'channel': 1, 'page': 2}
       resourceList(data).then(res => {
         console.log('data', res)
         if (res.success) {
