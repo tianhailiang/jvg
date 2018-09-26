@@ -215,10 +215,10 @@ export default {
         classes: 1,
         level: 1
       })
-      .then( response => {
+      .then(response => {
         this.classificationList = response.data.result
       })
-      .catch( error => {
+      .catch(error => {
         console.log(error)
       })
     },

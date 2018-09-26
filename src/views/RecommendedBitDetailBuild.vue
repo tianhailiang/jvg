@@ -274,12 +274,6 @@ export default {
 </script>
 
 <style scoped>
-  .nav{
-    width:100%;
-    height:40px;
-    font-size: 18px;
-    line-height: 40px
-  }
   .btn-box{
     display: flex;
     justify-content: center;

@@ -1,9 +1,14 @@
 <template>
-  <el-dialog title="商品选择画面" :visible.sync="dialogFormVisible" :before-close="handleClose" 
-  width="80%">
+  <el-dialog title="商品选择画面"
+    :visible.sync="dialogFormVisible"
+    :before-close="handleClose" 
+    width="80%" custom-class="goods-dialog">
     <el-form :inline="true">
-      <el-form-item >
-        <el-input v-model="name" size="small" placeholder="请输入商品名称" ></el-input>
+      <el-form-item>
+        <el-input v-model="name" size="small"
+          placeholder="请输入商品名称"
+          style="width:450px">
+        </el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
@@ -13,17 +18,16 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
       @selection-change="handleSelectionChange" border
-      v-if="total > 0">
+      v-if="total > 0" max-height="300">
       <el-table-column
         type="selection"
         label="全部"
-        width="55" >
+        width="55" align="center">
       </el-table-column>
       <el-table-column
         label="课程ID"
-        align="center" width="80">
+        align="center" width="120">
         <template slot-scope="scope">
           <el-button
           size="mini"
@@ -35,7 +39,7 @@
       <el-table-column
         prop="productName"
         label="课程名称（标题）"
-        width="640" align="center" show-overflow-tooltip>
+        width="742" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="productPrice"
@@ -56,7 +60,7 @@
       没有搜索到相关内容
     </div>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="$emit('update:dialogFormVisible',false)">确定</el-button>
+      <el-button type="primary" @click="sure">确定</el-button>
       <el-button @click="$emit('update:dialogFormVisible',false)">取 消</el-button>
     </div>
   </el-dialog>
@@ -108,20 +112,26 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    recommend () {
-
-    },
-    batchRecommend () {
-
-    },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index,row) {
-      this.$router.push({name: 'articleDetail', params: {id: row.articleId}})
+      this.$router.push({name: 'articleDetail', params: {id: row.productId}})
+    },
+    sure () {
+      if (this.multipleSelection.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请至少选中一个'
+        })
+        return false
+      }
+      this.$emit('update:dialogFormVisible', false)
+      this.$emit('select-question', this.multipleSelection)
     }
   },
   mounted () {
@@ -131,12 +141,14 @@ export default {
 </script>
 
 <style scoped>
-  .btn-box {
-    display: flex;
-    justify-content: flex-end
-  }
   .dialog-footer {
     display: flex;
     justify-content: center
+  }
+</style>
+<style>
+  .goods-dialog .el-dialog__body {
+    padding-top:0;
+    padding-bottom:0
   }
 </style>
