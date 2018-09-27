@@ -34,7 +34,7 @@
         <el-col v-for="(item,index) in tableDatak" :span='17' style="margin-right: 5%;margin-bottom: 20px;float: right;">
             <!-- <div style="float: right;"> -->
             <div style="float: left;text-align: left;" >
-                <i id="icon_plus" class="el-icon-plus" @click="onShow(index)" style="cursor: pointer;font-weight: 900;margin-left: 10px;margin-right: 10px;"></i>
+                <i id="icon_plus" :class="{'el-icon-plus': showIndex == -1 || index != showIndex, 'el-icon-minus': index == showIndex}" @click="onShow(index)" style="cursor: pointer;font-weight: 900;margin-left: 10px;margin-right: 10px;"></i>
                 <span>{{item.name}}</span>
             </div>
             <div style="float: right;margin-bottom: 20px;text-align: left;">
@@ -275,7 +275,7 @@ export default {
     onDisableClik (type) { 
       if (type === 1) {
         // 追加父节点
-        if (this.region_category === '' && this.region_channel === '' && this.region_page === '') {
+        if (this.region_category === '' || this.region_channel === '' || this.region_page === '') {
           this.$message('请先选择筛选条件')
           return false
         } else if (this.region_category === '4' && this.region_page !== '9') {
@@ -289,7 +289,7 @@ export default {
     onEditClick (id, name, description) {
       this.fuzhu = id
       this.fuName = name
-      this.fuExplain
+      this.fuExplain = description
       this.isDialogShow1 = true
     },
     ondisable () {
