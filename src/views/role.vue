@@ -5,7 +5,7 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
             <el-col :span="4" style="margin-left: 10px;margin-bottom: 20px;">
-              <el-button size="small" type="primary" @click="onDisableClik">新建角色</el-button>
+              <el-button size="small" type="primary" @click="onshowadd">新建角色</el-button>
             </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
@@ -74,7 +74,7 @@
             </span>
         </el-dialog>
         <!-- 角色编辑 -->
-        <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
+        <el-dialog v-model="isDialogShow2" size="small" :visible.sync="isDialogShow2">
             <p style="font-size: 30px;">角色编辑</p>
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
@@ -105,42 +105,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
-                    <el-form-item label="站点选择：" label-width="100px">
-                        <el-select v-model="region" placeholder="管理后台（pc）" style="width: 150px;">
-                            <el-option label="管理后台（pc）" :value="0" :key="0"></el-option>
-                            <el-option label="用户前端（pc）" :value="1" :key="1"></el-option>
-                            <el-option label="APP" :value="2" :key="2"></el-option>
-                            <el-option label="WAP" :value="3" :key="3"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="所属频道：" label-width="100px">
-                        <el-select v-model="region" placeholder="空" style="width: 80px;">
-                            <el-option label="空" :value="0" :key="0"></el-option>
-                            <el-option label="留学" :value="1" :key="1"></el-option>
-                            <el-option label="语培" :value="2" :key="2"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="所属页面：" label-width="100px">
-                        <el-select v-model="region" placeholder="空" style="width: 120px;">
-                            <el-option label="空" :value="0" :key="0"></el-option>
-                            <el-option label="普通个人中心" :value="1" :key="1"></el-option>
-                            <el-option label="个人讲师中心" :value="2" :key="2"></el-option>
-                            <el-option label="机构讲师中心" :value="3" :key="3"></el-option>
-                            <el-option label="院校大咖中心" :value="4" :key="4"></el-option>
-                            <el-option label="院校中心" :value="5" :key="5"></el-option>
-                            <el-option label="机构中心" :value="6" :key="6"></el-option>
-                            <el-option label="个人大咖中心" :value="7" :key="7"></el-option>
-                            <el-option label="顾问个人中心" :value="8" :key="8"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-button size="small" type="primary" @click="isDialogShow1 = false">提 交</el-button>
-                    <el-button size="small" type="primary" @click="isDialogShow1 = false">取 消</el-button>
+                    <el-button size="small" type="primary" @click="isDialogShow1 = true">添加权限管理</el-button>
+                    <el-button size="small" type="primary" @click="isDialogShow2 = false">取 消</el-button>
                 </el-col>
             </el-form>
             <p style="font-size: 20px;margin-bottom: 20px;">———————————————————————————————</p>
@@ -206,20 +172,24 @@ export default {
     onEditClick (index) {
       this.$router.replace({ path: '/institutionsEditors' })
     },
+    onshowadd () {
+      // 新建角色弹窗
+      this.isDialogShow2 = true
+    },
     onDisableClik (index) { 
       console.log('assasasasasas')
-    //   //新建角色
-    //   roleCreate({id: this.roleid}).then(res => {
-    //     console.log('data', res)
-    //     if (res.success) {
-    //       this.isDialogShow = false
-    //       window.location.reload()
-    //     } else {
-    //       this.$message(res.message)
-    //     }
-    //   }).catch(error => {
-    //     console.log(`请求错误`)
-    //   })
+      // 新建角色
+      roleCreate({id: this.roleid}).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onDelClick (id) { //删除按钮
       this.isDialogShow = true

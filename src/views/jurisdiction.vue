@@ -31,18 +31,18 @@
               <!-- <el-button size="small" type="primary" @click="onQuery">查询</el-button> -->
             </el-col>
         </el-form>
-        <el-col v-for="(item,index) in tableDatak" :span='18' style="margin-right: 5%;margin-bottom: 20px;float: right;">
+        <el-col v-for="(item,index) in tableDatak" :span='17' style="margin-right: 5%;margin-bottom: 20px;float: right;">
             <!-- <div style="float: right;"> -->
-            <div style="float: left;" >
+            <div style="float: left;text-align: left;" >
                 <i id="icon_plus" class="el-icon-plus" @click="onShow(index)" style="cursor: pointer;font-weight: 900;margin-left: 10px;margin-right: 10px;"></i>
                 <span>{{item.name}}</span>
             </div>
-            <div style="float: right;margin-bottom: 20px;">
+            <div style="float: right;margin-bottom: 20px;text-align: left;">
                 <el-button @click="onDisableClik1(item.id,item.channel,item.category)" type="danger" size="small">追加子节点</el-button>
                 <el-button @click="onEditClick(item.id,item.name,item.description)" type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick(item.id)" type="danger" size="small">删除</el-button>
             </div>
-            <el-table v-if="index == showIndex" :data="item.children" stripe width="100%" border>
+            <el-table v-if="index == showIndex" :data="item.children" stripe width="100%" border style="text-align: left;">
                 <el-table-column prop="name" label="节点" align="center"></el-table-column>
                 <el-table-column prop="description" label="说明" align="center"></el-table-column>
                 <el-table-column prop="uri" label="路径" align="center"></el-table-column>
@@ -135,7 +135,8 @@
             </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow2 = false">取 消</el-button>
-                <el-button v-if="zitype == 1" type="primary" @click="onDisable1">提 交</el-button>
+                <el-button v-if="zitype == 1" type="primary" @click="onDisable11">提 交</el-button>
+                <el-button v-if="zitype != 1" type="primary" @click="onDisable1">提 交</el-button>
             </span>
         </el-dialog>
         <!-- 追加API关联关系 -->
@@ -208,29 +209,32 @@ export default {
       }],
       region_page: '',
       option_page: [{
-        value: '10',
+        value: '1',
         label: '普通个人中心'
       }, {
-        value: '20',
+        value: '2',
         label: '个人讲师中心'
       }, {
-        value: '30',
+        value: '3',
         label: '机构讲师中心'
       }, {
-        value: '40',
+        value: '4',
         label: '院校大咖中心'
       }, {
-        value: '50',
+        value: '5',
         label: '院校中心'
       }, {
-        value: '60',
+        value: '6',
         label: '机构中心'
       }, {
-        value: '70',
+        value: '7',
         label: '个人大咖中心'
       }, {
-        value: '80',
+        value: '8',
         label: '顾问个人中心'
+      }, {
+        value: '9',
+        label: '管理后台中心'
       }],
       radio: '1',
       isDialogShow: false,
@@ -273,6 +277,9 @@ export default {
         // 追加父节点
         if (this.region_category === '' && this.region_channel === '' && this.region_page === '') {
           this.$message('请先选择筛选条件')
+          return false
+        } else if (this.region_category === '4' && this.region_page !== '9') {
+          this.$message('您选择了管理后台站点，请选择所属页面为管理后台中心')
           return false
         }
       }
@@ -368,7 +375,7 @@ export default {
       }
       var data = {'id': this.zizhu, 'name': this.ziname, 'description': this.zishuo, 'uri': this.ziurl, 'apiAuthorities': apiid}
       console.log(data)
-      resourceChild(data).then(res => {
+      resourceUpdateChild(data).then(res => {
         console.log('data', res)
         if (res.success) {
           this.isDialogShow2 = false
