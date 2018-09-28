@@ -65,7 +65,7 @@
           <el-table-column label="操作" width="170" align="center">
               <template slot-scope="scope">
                   <el-button size="small" type="danger" @click="removeUser(scope.$index, scope.row)">删除</el-button>
-                  <el-button size="small" type="danger">回复</el-button>
+                  <el-button size="small" type="danger" @click="openReplyModal(scope.$index, scope.row)">回复</el-button>
               </template>
           </el-table-column>
       </el-table>
@@ -77,6 +77,25 @@
         <el-button size="small" type="primary">确定</el-button>
         <el-button size="small" type="primary" class="remove">批量删除</el-button>
     </div>
+    <!-- 回复用户预约弹窗 -->
+    <el-dialog title="回复提示窗口" :visible.sync="dialogShow" width="30%">
+      <el-form label-width="100px" class="demo-ruleForm">
+          <el-form-item label="活动ID">
+            <el-input type="text" size="small" v-model="id" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="活动名称">
+              <el-input type="text" size="small" :disabled="true" v-model="title"></el-input>
+          </el-form-item>
+          <el-form-item label="回复内容">
+            <el-input type="textarea" size="small" v-model="replyMemo"></el-input>
+          </el-form-item>
+      </el-form>
+      <span>提示：用户重新申请审核</span>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogShow = false">取 消</el-button>
+          <el-button type="primary" @click="submitreplyUser()">确 定</el-button>               
+      </span>
+  </el-dialog>
   </section>
 </template>
 <script>
@@ -84,8 +103,10 @@ export default {
   name: 'userAppointmentList',
   data () {
     return {
-      value2: '',
-      name: '',
+      dialogShow: false,
+      replyMemo: '',
+      id: '',
+      title: '',
       Userform: {
         title: '',
         name: '',
@@ -125,13 +146,33 @@ export default {
 
       })
     },
+    openReplyModal(index, row) {
+      this.dialogShow = true
+      this.id = row.id
+      this.title = row.title
+    },
+    submitreplyUser() {
+      axios.post(this.$store.state.api.replyUser, {
+        id:this.id,
+        replyMemo: this.replyMemo
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.message
+        })
+        this.dialogShow = false
+        this.replyMemo = null
+      }).catch(error => {
+
+      })
+    },
     removeUser(index, row) {
       axios.post(this.$store.state.api.removeUser, {
         ids: [row.id]
       }).then(res => {
         this.$message({
           type: 'success',
-          message: '删除成功!'
+          message: res.data.message
         })
       }).catch(error => {
 

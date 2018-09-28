@@ -234,7 +234,7 @@
           name: 'demo',
           languages:"zh"
         }).then(res => {
-          console.log(res)
+          // console.log(res)
           this.$message({
             type: 'success',
             message: '创建成功!'

@@ -30,7 +30,8 @@ export default {
       vipdata: [],
       loading: false,
       newVal: '',
-      index: 0
+      index: 0,
+      name: ''
     }
   },
   created() {
@@ -48,19 +49,19 @@ export default {
       }).catch(error => {
         console.log(`请求出错啦`)
       })
-      // this.vipdata.splice(index, 1)
+      this.vipdata.splice(index, 1)
     },
     addmemberData() {
       let curentindex = this.index ++
       axios.post(this.$store.state.api.addVip, {
-        "name": name,
-        "minIntegral": 4000,
-        "maxIntegral": 8000
+        name: this.name,
+        minIntegral: 4000,
+        maxIntegral: 8000
       }).then(res => {
         this.vipdata.push({
-          "name": name,
-          "minIntegral": 4000,
-          "maxIntegral": 8000})
+          name: this.name,
+          minIntegral: 4000,
+          maxIntegral: 8000})
       }).catch(error => {
         console.log(`请求出错啦`)
       })

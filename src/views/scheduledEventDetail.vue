@@ -41,12 +41,21 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="开始时间">
-                    <el-input type="text" size="small" v-model="activityData.startTime"></el-input>
+                  <el-date-picker 
+                  type="datetime" 
+                  size="small" 
+                  v-model="activityData.startTime" 
+                  style="width:100%;"
+                  value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="结束时间">
-                    <el-input type="text" size="small" v-model="activityData.endTime"></el-input>
+                  <el-date-picker 
+                  type="datetime" 
+                  size="small" 
+                  v-model="activityData.endTime" 
+                  style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
@@ -80,7 +89,7 @@
         </el-form>
     </el-row>
     <div class="submit-group">
-        <el-button type="primary" size="small">提交</el-button>
+        <el-button type="primary" size="small" @click="submitreplyUser()">提交</el-button>
         <el-button type="primary" size="small">取消</el-button>
     </div>
   </section>
@@ -121,11 +130,24 @@ export default {
         {value: '1',label: '全部'},
         {value: '2',label: '留学'},
         {value: '3',label: '语培'}
-      ]
+      ],
+      // title: '',
+      // startTime: '',
+      // endTime: '',
+      // address: '',
+      // crowd: '',
+      // lightspot: '',
+      // tel:'',
+      // cityName:  '',
+      // content:  '',
+      // channel:1,
+      // source:1,
+      // channelName: '语培',
+      // sourceName:'PC'
     }
   },
   created() {
-    this.scheduledEventDetail()
+    // this.scheduledEventDetail()
   },
   methods: {
     querySearch(queryString, cb) {
@@ -140,40 +162,52 @@ export default {
       }
     },
     scheduledEventDetail() {
+      let paramsId = this.$route.params.id
       axios.post(this.$store.state.api.searchActivityDetail, {
-        id:1
+        id:paramsId
       }).then(res => {
-        console.log(res)
-        // this.activityData.id = res.data.result.id
-        // this.activityData.channelName = res.data.result.channelName
-        // this.activityData.title = res.data.result.title
-        // this.activityData.cityName = res.data.result.cityName
-        // this.activityData.content = res.data.result.content
-        // this.activityData.startTime = res.data.result.startTime
-        // this.activityData.endTime = res.data.result.endTime
-        // this.activityData.aaddress = res.data.result.aaddress
-        // this.activityData.crowd = res.data.result.crowd
-        // this.activityData.lightspot = res.data.result.lightspot
-        // this.activityData.tel = res.data.result.tel
-        // this.activityData.cityName = res.data.result.cityName
-        // this.activityData.content = res.data.result.content
-        // this.activityData.sourceName = res.data.result.sourceName
-        // this.activityData.address = res.data.result.address
-        let { id,
-              title,
-              startTime,
-              endTime,
-              crowd,
-              lightspot,
-              tel,
-              cityName,		
-              content,
-              source,
-              sourceName,
-              channel,
-              channelName,
-              address } = res.data.result
+        this.activityData.id = res.data.result.id
+        this.activityData.channelName = res.data.result.channelName
+        this.activityData.title = res.data.result.title
+        this.activityData.cityName = res.data.result.cityName
+        this.activityData.content = res.data.result.content
+        this.activityData.startTime = res.data.result.startTime
+        this.activityData.endTime = res.data.result.endTime
+        this.activityData.aaddress = res.data.result.aaddress
+        this.activityData.crowd = res.data.result.crowd
+        this.activityData.lightspot = res.data.result.lightspot
+        this.activityData.tel = res.data.result.tel
+        this.activityData.cityName = res.data.result.cityName
+        this.activityData.content = res.data.result.content
+        this.activityData.sourceName = res.data.result.sourceName
+        this.activityData.address = res.data.result.address
+      }).catch(error => {
 
+      })
+    },
+    submitreplyUser() {
+      axios.post(this.$store.state.api.addactivitydetail, {
+        // id: 20,
+        title: this.activityData.title,
+        startTime: this.activityData.startTime,
+        endTime: this.activityData.endTime,
+        address: this.activityData.address,
+        crowd: this.activityData.crowd,
+        lightspot: this.activityData.lightspot,
+        tel: this.activityData.tel,
+        cityName: this.activityData.cityName,
+        content: this.activityData.content,
+        channel:1,
+        source:1,
+        channelName: this.activityData.channelName,
+        sourceName: this.activityData.sourceName
+      }).then(res => {
+        // console.log(res)
+        this.$message({
+          type: 'success',
+          message: res.data.message
+        })
+        // window.location.reload()
       }).catch(error => {
 
       })

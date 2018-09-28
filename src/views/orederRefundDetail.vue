@@ -2,60 +2,48 @@
     <section class="order-details" style="overflow:hidden;margin-left:260px;">
       <div class="order-details-item">
           <h3>订单基本信息</h3>
-          <el-row :gutter="20">
-              <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
-                  <el-col :span="6"><div class="grid-content bg-purple">
-                      <el-form-item label="退款单号">
-                        <el-input type="text" :disabled="true"></el-input>
-                    </el-form-item> </div></el-col>
-                    <el-col :span="6"><div class="grid-content bg-purple">
-                        <el-form-item label="退款状态">
-                          <el-input type="text" :disabled="true"></el-input>
-                      </el-form-item> </div></el-col>
-              </el-form>
-          </el-row>
       </div>
       <div class="order-details-item">
         <el-row :gutter="20" class="from-group">
-            <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
+          <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small" style="overflow:hidden;">
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="订单编号">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" :disabled="true" v-model="snId"></el-input>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="订单状态">
-                  <el-input type="text" :disabled="true"></el-input>
+                  <el-input type="text" :disabled="true" v-model="status"></el-input>
               </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="下单时间">
-                  <el-input type="text" :disabled="true"></el-input>
+                  <el-input type="text" :disabled="true" v-model="createdAt"></el-input>
               </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="卖家ID">
-                  <el-input type="text" :disabled="true"></el-input>
+                  <el-input type="text" :disabled="true" v-model="shopUserId"></el-input>
               </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="卖家名称">
-                  <el-input type="text" :disabled="true"></el-input>
+                  <el-input type="text" :disabled="true" v-model="shopUserNm"></el-input>
               </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="买家ID">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" :disabled="true" v-model="userId"></el-input>
                 </el-form-item>
               </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="买家名称">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" :disabled="true" v-model="userName"></el-input>
                 </el-form-item>
               </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="订单类型">
-                  <el-input type="text" :disabled="true"></el-input>
+                  <el-input type="text" :disabled="true" v-model="type"></el-input>
               </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
@@ -65,36 +53,55 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="订单总额">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" :disabled="true" v-model="totalPrice"></el-input>
                 </el-form-item>
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="购买渠道">
-                      <el-input type="text" :disabled="true"></el-input>
+                      <el-input type="text" :disabled="true" v-model="source"></el-input>
                   </el-form-item>
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="支付方式">
-                        <el-input type="text" :disabled="true"></el-input>
+                        <el-input type="text" :disabled="true" v-model="payName"></el-input>
                     </el-form-item>
                   </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple">
                       <el-form-item label="支付时间">
-                          <el-input type="text" :disabled="true"></el-input>
+                          <el-input type="text" :disabled="true" v-model="payTime"></el-input>
                       </el-form-item>
                     </div></el-col>
                     <el-col :span="6" class="pay-warter">
                         <div class="grid-content bg-purple">
                         <el-form-item label="支付流水号">
-                            <el-input type="text" :disabled="true"></el-input>
+                            <el-input type="text" :disabled="true" v-model="tradeNo"></el-input>
                         </el-form-item>
                     </div></el-col>
             </el-form>
-            <div class="btn-plane-group">
-                <el-button type="primary" size="medium">同意</el-button>
-                <el-button type="primary" size="medium">拒绝</el-button>
-                <el-button type="primary" size="medium">返回</el-button>
-            </div>
+            <el-row :gutter="20" style="padding-left:10px;" class="order-refund">
+              <h3>订单退款详情</h3>
+              <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
+                <el-col :span="6"><div class="grid-content bg-purple">
+                  <el-form-item label="退款单号">
+                  <el-input type="text" :disabled="true"></el-input>
+                  </el-form-item> </div>
+                </el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                  <el-form-item label="退款状态">
+                  <el-input type="text" :disabled="true" v-model="status"></el-input>
+                  </el-form-item> </div>
+                </el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                  <el-form-item label="退款理由">
+                  <el-input type="text" :disabled="true"></el-input>
+                  </el-form-item> </div>
+                </el-col>
+              </el-form>
+              <div class="btn-plane-group">
+                  <el-button type="primary" size="medium">同意</el-button>
+                  <el-button type="primary" size="medium">拒绝</el-button>
+              </div>
+            </el-row>
           </el-row>
       </div>
       <div class="order-details-item" style="margin-bottom:12px;">
@@ -171,25 +178,63 @@ export default {
   data () {
     return {
       formInline: {},
-      priceData: [
-        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200},
-        {date: '001', name: 'CSS禅意花园', price: 10, number: 20, totalprice: 200}
-      ]
+      status: '',
+      priceData: [],
+      // createdAt: '',
+      payName: '',
+      userId:'',
+      shopUserName: '',
+      shopUserId: '',
+      userName: '',
+      payTime: '',
+      tradeNo: '',
+      source: '',
+      totalPrice: '',
+      type: '',
+      shopUserNm: '',
+      snId: '',
+      createdAt: ''
+    }
+  },
+  created() {
+    this.getarguments()
+  },
+  methods: {
+    getarguments() {
+      const _PARMES = this.$route.params.id
+      // this.refundSnid = _PARMES
+      console.log(_PARMES)
+      axios.post(this.$store.state.api.searchorderdetails, {
+        id: 2
+      }).then(res => {
+        console.log(res)
+        this.createdAt = res.data.result.createdAt,
+        this.payName = res.data.result.payName,
+        this.userName = res.data.result.userName,
+        this.userId = res.data.result.userId,
+        this.shopUserName = res.data.result.shopUserName,
+        this.shopUserId = res.data.result.shopUserId
+        this.payTime = res.data.result.payTime,
+        this.tradeNo = res.data.result.tradeNo,
+        this.source = res.data.result.source,
+        this.totalPrice = res.data.result.totalPrice,
+        this.type = res.data.result.type
+        this.shopUserNm = res.data.result.shopUserNm
+        this.snId = res.data.result.snId
+      })
     }
   }
 }
 </script>
 <style>
 .order-details{padding-left:7px;}
-.order-details-item h3{margin-bottom:12px;font-weight:600;}
+.order-details-item > h3,.order-refund > h3 { font-weight: 600; height: 30px; line-height: 30px; margin-bottom: 20px; border-bottom:solid 1px #e4e7ed;padding-bottom:5px;}
+.order-refund > h3 { padding-left: 10px;}
 .lines{margin-top:12px;margin-bottom:12px;width:100%;height:1px;background:#ccc;}
+.price-content{margin-right:20px;}
 .price-content ul{margin-bottom:15px;}
 .price-content ul li{position:relative;height:28px;text-align:right;line-height:28px;}
 .price-content ul li:nth-of-type(4)::after{position:absolute;right:0;display:block;width:30%;height:1px;background:#ccc;content:"";}
 .pay-warter .bg-purple > .el-form-item > .el-form-item__label{width:auto!important;}
-.btn-plane-group{display:inline-block;margin-top:32px;}
+.btn-plane-group{display:inline-block;margin-top:30px; margin-left: 10px;}
 </style>

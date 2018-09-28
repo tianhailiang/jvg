@@ -229,12 +229,12 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/orderRefund.vue')
         },
         {
-          path: '/orederRefundDetail', /* 订单退款详情 */
+          path: '/orederRefundDetail/:id', /* 订单退款详情 */
           name: 'orederRefundDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/orederRefundDetail.vue')
         },
         {
-          path: '/orderDetail', /* 订单详情 */
+          path: '/orderDetail/:id', /* 订单详情 */
           name: 'orderDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/orderDetail.vue')
         },
@@ -279,7 +279,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/scheduledEventList.vue')
         },
         {
-          path: '/scheduledEventDetail', /* 预约活动详情 */
+          path: '/scheduledEventDetail/:id', /* 预约活动详情 */
           name: 'scheduledEventDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/scheduledEventDetail.vue')
         },

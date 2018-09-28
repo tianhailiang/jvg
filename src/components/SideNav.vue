@@ -44,8 +44,8 @@
     </el-submenu>
     <!-- <el-menu-item index="8">类目管理</el-menu-item>
     <el-menu-item index="9">财务管理</el-menu-item> -->
-    <el-submenu index="10">
-      <template slot="title">运营管理</template>
+    <!-- <el-submenu index="10"> -->
+      <!-- <template slot="title">运营管理</template> -->
       <el-submenu index="10-1">
         <template slot="title">广告管理</template>
         <el-menu-item index="/advertList">广告位列表</el-menu-item>
@@ -97,7 +97,6 @@
       <el-submenu index="10-9">
         <template slot="title">预约管理</template>
         <el-menu-item index="/scheduledEventList">预约活动列表</el-menu-item>
-        <el-menu-item index="/scheduledEventDetail">预约活动详情</el-menu-item>
         <el-menu-item index="/userAppointmentList">用户预约列表</el-menu-item>
       </el-submenu>
       <el-submenu index="10-10">
@@ -108,9 +107,9 @@
         <el-menu-item index="/lecturerPrestige">讲师声望值规则</el-menu-item>
         <el-menu-item index="/lecturerStatistics">讲师声望值统计</el-menu-item>
         <el-menu-item index="/memberList">会员列表</el-menu-item>
-        <el-menu-item index="/memberDetails">会员详情</el-menu-item>
+        <!-- <el-menu-item index="/memberDetails">会员详情</el-menu-item> -->
       </el-submenu>
-    </el-submenu>
+    <!-- </el-submenu> -->
     <el-submenu index="13">
       <template slot="title">机构院校管理</template>
         <el-menu-item index="/institutions">机构院校列表</el-menu-item>
@@ -145,9 +144,9 @@
     <el-submenu index="18">
       <template slot="title">订单管理</template>
       <el-menu-item index="/orderList">订单列表</el-menu-item>
-      <el-menu-item index="/orderDetail">订单详情页</el-menu-item>
+      <!-- <el-menu-item index="/orderDetail">订单详情页</el-menu-item> -->
       <el-menu-item index="/orderRefund">订单退款列表</el-menu-item>
-      <el-menu-item index="/orederRefundDetail">订单退款详情</el-menu-item>
+      <!-- <el-menu-item index="/orederRefundDetail">订单退款详情</el-menu-item> -->
     </el-submenu>
     <el-submenu index="19">
       <template slot="title">数据中心</template>

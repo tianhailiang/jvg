@@ -1,41 +1,35 @@
 <template>
-  <section class="member-content">
+  <section class="member-content" style="margin-left:260px;">
     <h3 class="content-title">会员积分规则</h3>
-    <div class="create-gz"><el-button size="small" type="primary" >新建规则</el-button></div>
-    <el-table :data="vipdata" size="medium" :header-cell-style="rowClass">
-        <el-table-column prop="time" label="积分名称" align="center">
+    <div class="create-gz"><el-button size="small" type="primary" @click="addrule()">新建规则</el-button></div>
+    <el-table :data="vipData" size="medium" :header-cell-style="rowClass">
+        <el-table-column label="积分名称" align="center">
             <template slot-scope="scope">
-              <el-autocomplete size="small" class="inline-input" v-model="state1" :fetch-suggestions="querySearch" placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
+              <el-input type="text" size="small" v-model="vipData[scope.$index].name"></el-input>
             </template>
         </el-table-column>
-        <el-table-column prop="price" label="积分值" align="center">
+        <el-table-column prop="integral" label="积分值" align="center">
             <template slot-scope="scope">
                 <el-form label-width="80px" class="customize">
                   <el-form-item label="">
                       <el-col :span="15">
-                        <el-input type="text" size="small"></el-input>
+                        <el-input type="text" size="small" v-model="vipData[scope.$index].name"></el-input>
                         <span class="minute">分/次</span>
                       </el-col>
                   </el-form-item>
                 </el-form>
             </template>
         </el-table-column>
-        <el-table-column prop="price" label="积分说明" align="center">
-            <template slot-scope="scope">
-              <span>每天最多1次</span>
-            </template>
-        </el-table-column>
+        <el-table-column prop="memo" label="积分说明" align="center"></el-table-column>
         <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-                <el-button size="small" type="danger">删除</el-button>
+                <el-button size="small" type="danger" @click="removerule(scope.$index, scope.row)">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
     <div class="button-group">
         <el-button size="small" type="primary">保存</el-button>
-        <el-button size="small" type="primary">清除</el-button>
+        <el-button size="small" type="primary" @click="clearAllvip()">清除</el-button>
     </div>
   </section>
 </template>
@@ -44,36 +38,66 @@ export default {
     name: 'integralRule',
     data () {
       return {
-        vipdata: [
-          {time: '1个月', price: '300', operat: ''}
-        ],
+        vipData: [],
         state1: '',
-        restaurants: []
+        restaurants: [],
+        name: ''
       }
     },
-    mounted() {
-      this.restaurants = this.loadAll()
+    created() {
+      this.viprulelist()
     },
     methods: {
       rowClass ({row, rowIndex}) {
         return 'background:#f5f7fa'
       },
-      querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
-        var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-        // 调用 callback 返回建议列表的数据
-        cb(results)
+      viprulelist() {
+        axios.post(this.$store.state.api.viprulelist, {
+          pageNo:1,
+          pageSize:20
+        }).then(res => {
+          // console.log(res)
+          this.vipData = res.data.result.modelData
+        }).catch(error => {
+
+        })
       },
-      handleSelect(item) {
-        console.log(item)
+      removerule(index, row) {
+        axios.post(this.$store.state.api.removerule, {
+          id: row.id
+        }).then(res => {
+          this.viprulelist()
+          this.$message({
+            type: 'success',
+            message: res.data.message
+          })
+        }).catch(error => {
+
+        })
       },
-      loadAll() {
-        return [
-          { "value": "三全鲜食", "address": "长宁区新渔路144号" },
-          { "value": "Hot honey 首尔炸鸡", "address": "长宁区新渔路144号" },
-          { "value": "新旺角茶餐厅", "address": "长宁区新渔路144号" },
-          { "value": "泷千家", "address": "天山西路438号" }
-        ]
+      addrule() {
+        axios.post(this.$store.state.api.addrule, {
+          name: "签到积分2222",
+          integral: 1,
+          number:1,
+          memo: "每天最多1次"
+        }).then(res => {
+          console.log(res)
+          this.$message({
+            type: 'success',
+            message: res.data.message
+          })
+        }).catch(error => {
+
+        })
+      },
+      clearAllvip() {
+        axios.post(this.$store.state.api.clearAllvip).then(res => {
+          this.$message({
+            type: 'success',
+            message: res.data.message
+          })
+        })
       }
     }
   }

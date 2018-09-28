@@ -1,21 +1,22 @@
 <template>
     <section class="order-list" style="overflow:hidden;padding-left:10px;">
+      <h3>订单列表</h3>
       <div class="order-item">
         <el-row :gutter="20">
             <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="订单号">
-                    <el-input type="text"></el-input>
+                    <el-input type="text" v-model="orderListData.snId"></el-input>
                 </el-form-item>  
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <el-form-item label="卖家ID">
-                  <el-input type="text"></el-input>
+                  <el-input type="text" v-model="orderListData.snId"></el-input>
               </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="买家ID">
-                    <el-input type="text"></el-input>
+                    <el-input type="text" v-model="orderListData.snId"></el-input>
                 </el-form-item>
               </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
@@ -30,17 +31,17 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="买家名称">
-                    <el-input type="text"></el-input>
+                    <el-input type="text" v-model="orderListData.snId"></el-input>
                 </el-form-item>
               </div></el-col>
               <el-col :span="6"><div class="grid-content bg-purple">
                   <el-form-item label="卖家名称">
-                      <el-input type="text"></el-input>
+                      <el-input type="text" v-model="orderListData.snId"></el-input>
                   </el-form-item>
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="订单频道">
-                        <el-select v-model="orderpdval">
+                        <el-select v-model="channel">
                             <el-option 
                             :label="items.label"
                             :value="items.value"
@@ -60,7 +61,7 @@
             </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="支付方式">
-                        <el-select v-model="payval">
+                        <el-select v-model="orderListData.payval">
                             <el-option 
                             :label="items.label"  
                             :value="items.value"
@@ -70,7 +71,7 @@
                   </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple">
                       <el-form-item label="支付时间">
-                          <el-input type="text"></el-input>
+                          <el-input type="text" v-model="orderListData.createdAt"></el-input>
                       </el-form-item>
                     </div></el-col>
                     <el-col :span="6"><div class="grid-content bg-purple">
@@ -84,21 +85,21 @@
                         </el-form-item>
                       </div></el-col>
                       <el-col :span="6"><div class="grid-content bg-purple" style="margin-top:20px;">
-                          <el-button type="primary" size="medium">搜索</el-button>
+                          <el-button type="primary" size="medium" @click="getOrderdata()">搜索</el-button>
                       </div></el-col>
             </el-form>
           </el-row>
       </div>
       <div class="order-details-item" style="margin-bottom:30px;">
-        <el-table :data="priceData" border size="medium" align="center" :header-cell-style="{background:'#f0f9eb'}">
-            <el-table-column prop="date" label="商品信息" width="190" align="center"></el-table-column>
+        <el-table :data="priceData" border align="center" :header-cell-style="{background:'#f0f9eb'}">
+            <el-table-column prop="academyNature" label="商品信息" width="190" align="center"></el-table-column>
             <el-table-column prop="price" label="单价" width="190" align="center"></el-table-column>
             <el-table-column prop="number" label="数量" width="190" align="center"></el-table-column>
-            <el-table-column prop="totalprice" label="订单金额" width="190" align="center"></el-table-column>
-            <el-table-column prop="totalactive" label="订单状态" width="190" align="center"></el-table-column>
-            <el-table-column prop="totalprice" label="操作" width="98" align="center">
+            <el-table-column label="订单金额" width="190" align="center"></el-table-column>
+            <el-table-column prop="status" label="订单状态" width="190" align="center"></el-table-column>
+            <el-table-column label="操作" width="98" align="center">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="danger">订单详情</el-button>
+                    <el-button size="mini" type="danger" @click="openorderDetail(scope.$index, scope.row)">订单详情</el-button>
                   </template>
                 </el-table-column>
             </el-table-column>
@@ -115,8 +116,12 @@
         </el-table>
       </div>
       <!--  -->
-      <div class="row-container">
-          <el-pagination layout="prev, pager, next, jumper" :total="100"></el-pagination>
+      <div class="row-container" style="margin:30px 0;">
+          <el-pagination 
+          background 
+          layout="prev, pager, next, jumper" 
+          :total="total"
+          :page-size="20"></el-pagination>
           <el-button size="small" type="primary">确定</el-button>
       </div>
     </section>
@@ -126,59 +131,64 @@ export default {
     name: 'orderList',
     data () {
     return {
-        priceData: [
-        {date: '英语入门', price: 5, number: 100, totalprice: 500, totalactive: '已付款'},
-        {date: '俄语入门', price: 5, number: 100, totalprice: 500, totalactive: '已付款'}
-        ],
-        price: [{
-            dd: '订单号：1000120001201808120001',
-            mj: '买家：XXX',
-            mj2: '卖家：XXX',
-            time: '下单时间：2018-08-12 00:00:00',
-            type: '订单类型：课程订单',
-            moteh: '支付方式：支付宝',
-            ddp: '订单频道：语培',
-            buy: '购买渠'}
-        ],
+        priceData: [],
+        price: [],
         orderval: '',
         payval: '',
         buyvalue: '',
         ordertype: '',
-        orderpdval: '',
+        channel: '',
         orderdata: [
-            {label: '全部', value: '选项1'},
-            {label: '待付款', value: '选项2'},
-            {label: '待发货', value: '选项3'},
-            {label: '已发货', value: '选项4'},
-            {label: '已完成', value: '选项5'},
-            {label: '取消', value: '选项6'}
+            {label: '全部', value: '1'},
+            {label: '待付款', value: '2'},
+            {label: '待发货', value: '3'},
+            {label: '已发货', value: '4'},
+            {label: '已完成', value: '5'},
+            {label: '取消', value: '6'}
         ],
         paydata: [
-            {label: '支付宝', value: '选项1'},
-            {label: '微信', value: '选项2'},
-            {label: '银联', value: '选项3'},
-            {label: '全部', value: '选项4'}
+            {label: '支付宝', value: '1'},
+            {label: '微信', value: '2'},
+            {label: '银联', value: '3'},
+            {label: '全部', value: '4'}
         ],
         buydata: [
-            {label: '全部', value: '选项1'},
-            {label: 'APP', value: '选项2'},
-            {label: 'PC', value: '选项3'},
-            {label: 'WAP', value: '选项4'}
+            {label: '全部', value: '1'},
+            {label: 'APP', value: '2'},
+            {label: 'PC', value: '3'},
+            {label: 'WAP', value: '4'}
         ],
         orderlist: [
-            {label: '全部', value: '选项1'},
-            {label: '课程订单', value: '选项2'},
-            {label: '出版物订单', value: '选项3'},
-            {label: 'VIP', value: '选项4'},
-            {label: '打赏订单', value: '选项5'},
-            {label: '悬赏订单', value: '选项6'}
+            {label: '全部', value: '1'},
+            {label: '课程订单', value: '2'},
+            {label: '出版物订单', value: '3'},
+            {label: 'VIP', value: '4'},
+            {label: '打赏订单', value: '5'},
+            {label: '悬赏订单', value: '6'}
         ],
         orderpd: [
-            {label: '全部', value: '选项1'},
-            {label: '语培', value: '选项2'},
-            {label: '留学', value: '选项3'},
-            {label: '移民', value: '选项4'}
-        ]
+            {label: '全部', value: '1'},
+            {label: '语培', value: '2'},
+            {label: '留学', value: '3'},
+            {label: '移民', value: '4'}
+        ],
+        total: null,
+        orderListData: {
+          snId: '',
+          userId: '',
+          shopUserId: '',
+          userName: '',
+          shopUserName: '',
+          status:1,
+          createdAt:'',
+          payType:1,
+          source:1,
+          type:1,
+          channel:1,
+          pageNo:1,
+          pageSize:20
+        },
+        nullorderData: []
       }
     },
     created() {
@@ -186,24 +196,61 @@ export default {
     },
     methods: {
         getOrderdata() {
-            this.axios.post('/order/list.json', {"Id": 100021000210002}).then((res) => {
-                console.log(res.data)
-            }).catch((error) => {
-                console.log(`请求出错啦`)
-            })
-        }
+        axios.post(this.$store.state.api.searchorderlist, {
+          // snId: '1100315361307879485',
+          // userId: 100021,
+          // shopUserId: 100022,
+          // userName: '买家名称',
+          // shopUserName: '卖家名称',
+          // status:1,
+          // createdAtFrom:'2018-11-11 11:11:11',
+          // createdAtTo:'2018-11-12 11:11:11',
+          // payType:1,
+          // source:1,
+          // type:1,
+          // channel:1,
+          // userId: this.orderListData.userId,
+          // shopUserId: this.orderListData.shopUserId,
+          // userName: this.orderListData.userName,
+          // shopUserName: this.orderListData.shopUserName,
+          // status:this.orderListData.status,
+          // createdAt:this.orderListData.createdAt,
+          // payType:this.orderListData.payType,
+          // source:this.orderListData.source,
+          // type:this.orderListData.type,
+          // channel:this.orderListData.channel, orderInfoList
+          pageNo:1,
+          pageSize:20
+        }).then((res) => {
+          this.total = res.data.result.total
+          this.priceData = res.data.result.modelData
+          console.log(res)
+        }).catch((error) => {
+          console.log(`请求出错啦`)
+      })
+    },
+    openorderDetail(index, row) {
+      this.$router.push({name: 'orderDetail', params: {id: row.snid}})
     }
+  }
 }
 </script>
 <style>
 .row-container {
-    display: flex;
-    justify-content:center;
+  display: flex;
+  justify-content:center;
 }
 .el-table .warning-row {
-    background: oldlace;
+  background: oldlace;
 }
 .myel-tabel table .has-gutter{
-    display: none !important;
+  display: none !important;
+}
+.order-list > h3{
+  height: 30px;
+  line-height: 30px;
+  margin-bottom:15px;
+  border-bottom: 1px solid #dcdfe6;
+  padding-bottom: 5px;
 }
 </style>

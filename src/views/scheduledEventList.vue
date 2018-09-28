@@ -80,7 +80,7 @@
         <el-table-column label="操作" width="170" align="center">
             <template slot-scope="scope">
                 <el-button size="small" type="danger" @click="removereservation(scope.$index, scope.row)">删除</el-button>
-                <el-button size="small" type="danger" @click="searchActivityDetail()">编辑</el-button>
+                <el-button size="small" type="danger" @click="searchActivityDetail(scope.$index, scope.row)">编辑</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -163,33 +163,10 @@ export default {
       })
     },
     addactivitydetail() {
-      axios.post(this.$store.state.api.addactivitydetail, {
-        id: 11,
-        title: '成立二十周年',
-        startTime: '2019-01-01',
-        endTime: '2018-01-01',
-        address: '中国地质大学',
-        crowd: '本科',
-        lightspot: '人工智能',
-        tel: '1300000000',
-        cityName: '武汉',
-        content: '未来是AI天下',
-        source: 1,
-        sourceName:'全站',
-        channel:1,
-        channelName: '语培'
-      }).then(res => {
-        console.log(res)
-      }).catch(error => {
-
-      })
+      this.$router.push({name: 'scheduledEventDetail', params:{id: 2}})
     },
-    searchActivityDetail() {
-      axios.post(this.$store.state.api.searchActivityDetail, {
-        id: 11,
-      }).then(res => {
-        console.log()
-      })
+    searchActivityDetail(index, row) {
+      this.$router.push({name: 'scheduledEventDetail', params:{id: row.id}})
     }
   }
 }

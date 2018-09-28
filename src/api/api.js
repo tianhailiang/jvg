@@ -17,9 +17,28 @@ export default {
     'searchCourseDetail': URL +'course/detail.json', // 查询课程详情
     'searchmemberList': URL + 'user/rank/list.json', // 查询会员等级列表
     'memberList':URL + 'user/vip/list.json', //查询会员列表
-    'removeVip': URL + 'user/rank/delete.json', // 删除会员等级  
+    'removeVip': URL + 'user/rank/delete.json', // 删除会员等级信息
     'clearvipAll': URL + 'user/rank/clear.json', // 清除除会员等级
-    'addVip': URL + 'user/rank/create.json', // 添加会员等级
+    'addVip': URL + 'user/rank/create.json', // 添加会员等级信息
+    'searchTeacher': URL + 'operations/prestige-rule/list.json', // 查询讲师声望值规则列表
+    'removeTeacher': URL + 'operations/prestige-rule/delete.json', // 删除讲师声望值规则信息
+    'clearAll': URL + 'operations/prestige-rule/clear.json', // 清除讲师声望值规则信息
+    'addTeacher':URL + 'operations/prestige-rule/create.json', // 追加讲师声望值规则信息
+    'searchPrestige': URL + 'operations/prestige-statistics/list.json', //查询讲师声望值统计列表
+    'searchdetail': URL + 'operations/prestige-statistics/list-details.json', // 查询讲师声望值详细信息
+    'update':URL + 'user/prestige-statistics/update.json',// 更新讲师声望值初始值
+    'updateIntegral':URL + 'user/vip/update-integral.json', // 更新会员积分信息
+    'viprulelist':URL + 'operations/vip-integral/list.json', // 查询会员积分规则列表-
+    'removerule': URL + 'operations/vip-integral/delete.json', // 删除会员积分规则信息
+    'addrule': URL + 'operations/vip-integral/create.json', // 追加会员积分规则信息
+    'clearAllvip': URL + 'operations/vip-integral/clear.json', //清除会员积分规则信息
+    'searchIntegral': URL + 'user/vip/vip-details.json', // 查询会员积分详情
+
+    'searchviplist':URL + 'operations/vip-regulation/list.json', // 查询VIP会员规则列表
+    'removeviprule':URL + 'operations/vip-regulation/delete.json', // 删除VIP会员规则信息
+    'clearAllviprule':URL + 'operations/vip-regulation/clear.json', //清除VIP会员规则信息
+    'addToviprule':URL+ 'operations/vip-regulation/create.json', // 追加VIP会员规则信息
+
     'removePublish': URL + 'publication/delete.json', //删除出版物
     'searchPublishList': URL + 'publication/list.json', // 查询出版物
     'freezePublish': URL + 'publication/frozen.json', //冻结出版物
@@ -62,7 +81,7 @@ export default {
     'removeUser': URL + 'reservation/person/delete.json', // 删除用户预约列表
     'searchActivityDetail':URL + 'reservation/activity/detail.json', // 查询预约活动详情
     'addactivitydetail': URL + 'reservation/activity/update.json', // 追加/修改预约活动详情
-    'replyUser': URL + 'reservation/user/response.json', //回复用户预约回复用户预约
+    'replyUser': URL + 'reservation/person/response.json', //回复用户预约
 
     'searchHelp': URL + 'help/category/list.json', // 查询帮助中心栏目列表
     'addHelpCenter' : URL + 'help/category/create.json', // 创建帮助中心栏目
@@ -75,7 +94,13 @@ export default {
     'addquestion':URL + 'help/answer/create.json', // 创建帮助中心问题
     'removequestion':URL + 'help/answer/delete.json', // 批量删除帮助中心问题
     'sortquestion':URL + 'help/answer/sort.json', // 帮助中心问题排序
-    'editquestion':URL + 'help/answer/update.json' //编辑帮助中心问题
+    'editquestion':URL + 'help/answer/update.json', //编辑帮助中心问题
+
+    'searchOrder':URL + 'order/refund/list.json', // 查询退款列表
+    'searchorderdetails':URL + 'order/refund/detail.json', // 查询退款详情
+    'removeactive':URL + 'order/refund/status/list.json', // 【删除】查询退款单状态列表
+    'searchorderlist': URL + 'order/list.json', // 查询订单列表
+    'searchorderdetail': URL+'/order/detail.json' // 查询订单详情
   },
   mutations: { },
   actions: { },

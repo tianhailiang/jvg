@@ -60,11 +60,21 @@
               </template>
             </el-table-column>
         </el-table>
-        <div style="height:30px"></div>
         <!-- 分页 -->
-        <div class="row-container" v-if="tableData3.length">
-          <el-pagination layout="prev, pager, next, jumper" 
-          :total="total" background :page-size="20"></el-pagination>
+        <div class="row-container" v-if="tableData3.length" style="margin:30px 0;">
+          <!-- <el-pagination 
+          layout="prev, pager, next, jumper" 
+          :total="total" 
+          background 
+          :page-size="20" 
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"></el-pagination> -->
+          <el-pagination background
+          @current-change="handleCurrentChange"
+          :page-size="20" 
+          layout="total, sizes, prev, pager, next, jumper" 
+          :total="total">
+        </el-pagination>
           <el-button size="small" type="primary">确定</el-button>
         </div>
         <!-- 模态框 -->
@@ -117,7 +127,9 @@ export default {
       onOff: false,
       id:'',
       loading: false,
-      dialogVisible: false
+      dialogVisible: false,
+      pageNo: 1,
+      pageSize: 20
     }
   },
   mounted() {
@@ -130,6 +142,11 @@ export default {
     //     this.$refs.multipleTable.toggleRowSelection(row, true)
     //     this.tableData3.splice(row.index, 1)
     // },
+    handleCurrentChange(val) {
+      this.pageNo = val
+      console.log(this.pageNo)
+      this.publishingReview()
+    },
     publishingReview() {
       this.loading = true
       axios.post(this.$store.state.api.publishReviewList, {
@@ -138,8 +155,8 @@ export default {
         // "categorySigns": "tuofu",
         // "status": 2,
         // "userId": 1,
-        // "pageNo": 2,
-        // "pageSize": 20
+          // pageNo: 1,
+          // pageSize: 20
       }).then(res => {
         this.total = res.data.result.total
         this.tableData3 = res.data.result.modelData

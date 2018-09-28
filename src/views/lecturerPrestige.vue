@@ -2,12 +2,17 @@
   <section class="member-content">
     <h3 class="content-title">讲师声望值规则</h3>
     <div class="create-gz"><el-button size="small" type="primary" @click="add()">新建规则</el-button></div>
-    <el-table :data="data" style="width: 100%" border v-loading="loading">
-      <el-table-column prop="currentid" width="215" label="NO" align="center"></el-table-column>
-      <el-table-column prop="behaiver" label="行为" width="215" align="center"></el-table-column>
-      <el-table-column prop="number" label="占百分比" width="215" align="center"></el-table-column>
-      <el-table-column prop="variety" label="分值变化" width="215" align="center"></el-table-column>
-      <el-table-column label="操作" width="215" align="center">
+    <el-table :data="teacherData" style="width: 100%" border v-loading="loading">
+      <el-table-column prop="currentid" width="200" label="NO" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini">{{scope.row.id}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="行为" width="230" align="center"></el-table-column>
+      <el-table-column prop="name" label="行为次数/人数" width="130" align="center"></el-table-column>
+      <el-table-column prop="ratio" label="占百分比" width="180" align="center"></el-table-column>
+      <el-table-column prop="typeName" label="分值变化" width="145" align="center"></el-table-column>
+      <el-table-column label="操作" width="205" align="center">
           <template slot-scope="scope">
               <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
@@ -20,46 +25,81 @@
   </section>
 </template>
 <script>
+
 export default {
   name: 'lecturerPrestige',
   data () {
     return {
-      data: [
-        {currentid: '001', behaiver: '发布课程&出版物 ', number: '40%', variety: '增加'},
-        {currentid: '002', behaiver: '发布课程&出版物 ', number: '50%', variety: '增加'},
-        {currentid: '003', behaiver: '发布课程&出版物 ', number: '10%', variety: '增加'}
-      ],
-      loading: true,
-      currentNum: 4,
-      timer: null
+      teacherData: [],
+      loading: true
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.clearTime()
-    })
+  created() {
+    this.searchTeacher()
   },
   methods: {
     add() {
-      let pageNum = this.currentNum ++
-      this.data.push({currentid: `00${pageNum}`, behaiver: '发布课程&出版物 ', number: '20%', variety: '增加'})
+      axios.post(this.$store.state.api.addTeacher, {
+        name: "四大维度解锁Webpack前端工程化",
+        behaviorNumber: 100,
+        ratio: 0.98,
+        type:1
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.message
+        })
+      }).catch(error => {
+
+      })
+      // const _ADDDATA = {
+      //   typeName: this.teacherData[0].typeName,
+      //   ratio: this.teacherData[0].ratio,
+      //   name: this.teacherData[0].name,
+      // }
+      // this.teacherData.push(_ADDDATA)
     },
     clearAll() {
-      this.data = []
-      this.currentNum = 1
-    },
-    clearTime() {
-      this.timer = setTimeout(() => {
-        this.loading = false
-      }, 2000)
+      this.teacherData = []
+      axios.post(this.$store.state.api.clearAll,).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.message
+        })
+      }).catch(error => {
+
+      })
     },
     handleDelete(index, row) {
-      this.data.splice(index, 1)
-      this.num = 1
-    }
+      this.teacherData.splice(index, 1)
+      axios.post(this.$store.state.api.removeTeacher, {
+        id: row.id
+      }).then(res => {
+        console.log(res)
+        this.$message({
+          type: 'success',
+          message: res.data.message
+        })
+      }).catch(error => {
+
+      })
+    },
+    searchTeacher() {
+      axios.post(this.$store.state.api.searchTeacher, {
+        pageNo: 1,
+        pageSize: 20
+      }).then(res => {
+        console.log(res)
+        this.teacherData = res.data.result.modelData
+        this.loading = false
+      }).catch(error => {
+
+      })
     }
   }
+}
 </script>
 <style scoped>
 @import '../assets/style/common_title.css';
+.member-content{ margin-left:260px;}
 </style>
