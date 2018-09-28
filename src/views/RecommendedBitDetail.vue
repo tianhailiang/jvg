@@ -248,7 +248,15 @@ export default {
         productList: this.tableData 
       })
       .then(res => {
-        
+        if(res.data.code == 'OK') {
+          this.$message({
+            type: 'success',
+            message: res.data.message
+          })
+          setTimeout(function () {
+            window.location.reload()
+          },500)
+        }
       })
       .catch(error => {
         console.log(error);

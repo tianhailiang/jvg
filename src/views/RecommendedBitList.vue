@@ -215,7 +215,6 @@ export default {
       })
     },
     createRecommend () {
-      //代表新建
       this.$router.push({name: 'recommendedBitDetailBuild'})
     },
     editor (index, row) {

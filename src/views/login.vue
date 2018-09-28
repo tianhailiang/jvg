@@ -73,8 +73,9 @@ export default {
             this.$message('用户无权限') 
           } else if (res.code === 'E10000') {
             this.$message('用户未登录')
-          }
+          } else {
             this.$message(res.message)
+          }
         }
       }).catch(error => {
         console.log(`请求错误`)
@@ -110,13 +111,13 @@ export default {
       .then(function (res) {
         console.log(res)
         _this.ip = res.data
-        console.log('ip',_this.ip)
+        console.log('ip', _this.ip)
         _this.ip = _this.ip.split(':')
-        console.log('sss',_this.ip)
+        console.log('sss', _this.ip)
         _this.ip = _this.ip[1].split('"')
         console.log('aaaa', _this.ip)
         _this.ip = _this.ip[1]
-        console.log('qqqq',_this.ip)
+        console.log('qqqq', _this.ip)
       }, function (error) {
         console.log(error)
       })

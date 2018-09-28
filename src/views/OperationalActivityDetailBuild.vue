@@ -27,24 +27,15 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="活动状态：">
-        <el-select v-model="state" size="small">
-          <el-option
-            v-for="item in stateList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
       <el-form-item label="有效期：" :label-width="formLabelWidth">
         <el-date-picker
           v-model="activityTime"
           type="datetimerange"
+          :picker-options="pickerOptions"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期" size="small"
-          style="width:421px">
+          style="width:421px" value-format="yyyy-MM-dd HH:mm:ss">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="活动类型：">
@@ -95,17 +86,17 @@
           <el-button
           size="mini"
           @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.id}}
+            {{scope.row.productId}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column
-        prop="activityName"
+        prop="productName"
         label="课程名称（标题）"
         width="640" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="coursePrice"
+        prop="productPrice"
         label="课程价格"
         width="120" align="center">
       </el-table-column>
@@ -122,10 +113,11 @@
     </el-table>
     <div class="detail-btn-box">
       <el-button type="primary" @click="sure">提交</el-button>
-      <el-button @click="cancel">取消</el-button>
     </div>
     <!-- 商品选择弹框 -->
-    <GoodsSelectDialog :dialogFormVisible.sync="dialogFormVisible" :dialogForm="dialogForm" />
+    <GoodsSelectDialog :dialogFormVisible.sync="dialogFormVisible"
+      :dialogForm.sync="dialogForm"
+      v-on:select-question="onSelectQuestion"/>
   </div>
 </template>
 
@@ -139,7 +131,7 @@ export default {
       title: '',
       platform: null,
       platformList: [{
-        value: null,
+        value: 0,
         label: '全部'
       }, {
         value: 1,
@@ -153,18 +145,7 @@ export default {
       }],
       channel: null,
       channelList: [],
-      state: null,
-      stateList: [{
-        value: 1,
-        label: '未开始'
-      }, {
-        value: 2,
-        label: '进行中'
-      }, {
-        value: 3,
-        label: '已结束'
-      }],
-      activityTime: [],
+      activityTime: '',
       activityType: null,
       activityTypeList: [{
         value: 1,
@@ -187,12 +168,39 @@ export default {
         value: 3,
         label: '留学服务'
       }],
-      discountAmount: null,
-      ratio: null,
+      discountAmount: 0,
+      ratio: 0,
       tableData: [],
       multipleSelection: [],
       dialogFormVisible: false,
-      dialogForm: ''
+      dialogForm: '',
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      }
     }
   },
   components: {
@@ -225,28 +233,89 @@ export default {
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
-    sure () {
-      // axios.post('operation-activity/detail/create.json', {
-      //   title: this.activityName,
-      //   activityStatus: this.state,
-      //   source: this.platform,
-      //   channel: this.channel,
-      //   startTime: this.activityTime[0],
-      //   endTime: this.activityTime[1],
-      //   pageNo: this.currentPage,
-      //   pageSize: this.pageSize
-      // })
-      // .then(res => {
-      //   this.tableData = res.data.result.modelData
-      //   this.total = res.data.result.total
-      //   this.infoTotal = this.total
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      // })
+    onSelectQuestion ($event) {
+      /* 先初始化去重 */
+      this.tableData.forEach((item, index, arr) => {
+        $event.forEach((eitem, eindex, earr) => {
+          if (eitem.productId === item.productId) {
+            earr.splice(eindex, 1)
+          }
+        })
+      })
+      this.tableData = [...$event, ...this.tableData]
     },
-    cancel () {
-
+    sure () {
+      if (!this.title) {
+        this.$message({
+          type: 'warning',
+          message: '活动标题不能为空'
+        })
+        return false
+      }
+      if (this.platform == null) {
+        this.$message({
+          type: 'warning',
+          message: '渠道不能为空'
+        })
+        return false
+      }
+      if (!this.channel) {
+        this.$message({
+          type: 'warning',
+          message: '频道不能为空'
+        })
+        return false
+      }
+      if (!this.activityTime) {
+        this.$message({
+          type: 'warning',
+          message: '有效期不能为空'
+        })
+        return false
+      }
+      if (!this.activityType) {
+        this.$message({
+          type: 'warning',
+          message: '活动类型不能为空'
+        })
+        return false
+      }
+      if (!this.goods) {
+        this.$message({
+          type: 'warning',
+          message: '参与商品不能为空'
+        })
+        return false
+      }
+      axios.post('operation-activity/detail/create.json', {
+        title: this.title,
+        source: this.platform,
+        channel: this.channel,
+        issuer: 1,
+        startTime: this.activityTime[0],
+        endTime: this.activityTime[1],
+        operationActivityTypeId: this.activityType,
+        discountAmount: this.discountAmount,
+        ratio: this.ratio,
+        productType: this.goods,
+        productData: this.tableData,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(res => {
+        if(res.data.code == 'OK') {
+          this.$message({
+            type: 'success',
+            message: res.data.message
+          })
+          setTimeout(function () {
+            this.$router.push({name: 'operationalActivityDetail', params: {id: res.data.result}})
+          }.bind(this),500)
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
     }
   },
   mounted () {

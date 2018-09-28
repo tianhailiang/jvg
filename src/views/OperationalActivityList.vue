@@ -67,12 +67,12 @@
         <el-table-column
           prop="title"
           label="活动名称"
-          width="300" align="center" show-overflow-tooltip>
+          width="340" align="center" show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           prop="startTime"
           label="活动开始时间"
-          width="120" align="center">
+          width="180" align="center">
         </el-table-column>
         <el-table-column
           prop="activityStatusVal"
@@ -99,7 +99,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              @click="handleDelete([scope.row.id])">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -227,16 +227,59 @@ export default {
       })
     },
     createActivity () {
-      this.$router.push({name: 'operationalActivityDetail', params: {id: 0}})
+      this.$router.push({name: 'operationalActivityDetailBuild'})
     },
     editor (index, row) {
       this.$router.push({name: 'operationalActivityDetail', params: {id: row.id}})
     },
-    handleDelete (index, row) {
-
+    handleDelete (arrId) {
+      this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post('operation-activity/list/delete.json', {
+          id: arrId
+        })
+        .then(res => {
+          if (res.data.code == 'OK') {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            setTimeout(function () {
+              window.location.reload()
+            },500)
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.data.message
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })     
+      })
     },
     batchDelete () {
-
+      let multipleId = []
+      this.multipleSelection.forEach((item, index) => {
+        multipleId.push(item.id)
+      })
+      if (multipleId.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选至少一个'
+        })
+        return false
+      }
+      this.handleDelete(multipleId)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -245,7 +288,8 @@ export default {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.onSubmit()
     }
   }
 }
