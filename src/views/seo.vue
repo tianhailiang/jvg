@@ -4,7 +4,6 @@
             <p class="personnel-title">SEO管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="3">
               <el-form-item label="频道：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -12,12 +11,9 @@
                       <el-option label="语培" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="15">
-                <el-form-item label="网站描述：" >
-                    <el-input placeholder="请输入网站描述" style="width: 700px"></el-input>
-                </el-form-item>
-            </el-col>
+              <el-form-item label="网站描述：" >
+                  <el-input placeholder="请输入网站描述" style="width: 700px"></el-input>
+              </el-form-item>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>

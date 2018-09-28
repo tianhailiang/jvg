@@ -4,17 +4,12 @@
             <p class="personnel-title">成员管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="5">
               <el-form-item label="成员ID：" label-width="80px">
                   <el-input placeholder="请输入成员ID"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="5">
               <el-form-item label="成员名称：" label-width="100px">
                   <el-input placeholder="请输入成员名称"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="5">
                 <el-form-item label="角色类型：" label-width="100px">
                     <el-select v-model="region" placeholder="空" style="width: 100px;">
                         <el-option label="空" :value="0" :key="0"></el-option>
@@ -25,8 +20,6 @@
                         <el-option label="会员" :value="5" :key="5"></el-option>
                     </el-select>
                 </el-form-item>
-            </el-col>
-            <el-col :span="5">
                 <el-form-item label="状态：" label-width="80px">
                     <el-select v-model="region" placeholder="全部" style="width: 100px;">
                         <el-option label="全部" :value="0" :key="0"></el-option>
@@ -34,12 +27,9 @@
                         <el-option label="禁用" :value="2" :key="2"></el-option>
                     </el-select>
                 </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <el-button size="small" type="primary"  @click="onDisableClik()">新建成员</el-button>
               <el-button size="small" type="primary">查询</el-button>
               <el-button size="small" type="primary" @click="onDelClick2()">清除</el-button>
-            </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
@@ -338,7 +328,8 @@ export default {
       })
     },
     postData () {
-      memberList().then(res => {
+      var data = {'employeeNumber': 1222223, 'username': '王子', 'roleId': 1, 'status': 1, 'pageNo': 1, 'pageSize': 20}
+      memberList(data).then(res => {
         console.log('data', res)
         if (res.success) {
           this.tableData = res.result.modelData

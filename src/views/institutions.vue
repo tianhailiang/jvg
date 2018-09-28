@@ -4,30 +4,21 @@
             <p class="personnel-title">机构院校管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="6">
               <el-form-item label="机构/院校名称：">
                   <el-input placeholder="请输入机构/院校名称"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item label="联系人手机号：">
                   <el-input placeholder="请输入联系人手机号"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item label="联系人姓名：">
                   <el-input placeholder="请输入联系人姓名"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="3">
               <el-form-item label="状态：" label-width="80px">
                   <el-select v-model="region" placeholder="正常" style="width: 80px;">
                       <el-option label="正常" :value="0" :key="0"></el-option>
                       <el-option label="禁用" :value="1" :key="1"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="3.5">
               <el-form-item label="所属国家：" label-width="100px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -40,8 +31,6 @@
                       <el-option label="俄罗斯" :value="7" :key="7"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="3.5">
               <el-form-item label="类别：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 100px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -49,8 +38,6 @@
                       <el-option label="院校" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="3.5">
               <el-form-item label="机构院校性质：" label-width="120px">
                   <el-select v-model="region" placeholder="全部" style="width: 120px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -59,17 +46,12 @@
                       <el-option label="独立研究型大学" :value="3" :key="3"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="10">
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">注册年份：</span>
                     <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
-            </el-col>
-            <el-col :span="3">
               <el-button size="small" type="primary">搜索</el-button>
               <el-button @click="onEditClick" size="small" type="primary">新增</el-button>
-          </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->

@@ -4,22 +4,15 @@
             <p class="personnel-title">人员管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline personnel" label-width="150px" size="mini">
-          <el-col :span="6">
               <el-form-item label="用户/联系人名称：">
                   <el-input placeholder="请输入用户/联系人名称"></el-input>
               </el-form-item>
-          </el-col>
-          <el-col :span="6">
               <el-form-item label="用户/联系人手机：">
                   <el-input placeholder="请输入用户/联系人手机"></el-input>
               </el-form-item>
-          </el-col>
-          <el-col :span="6">
               <el-form-item label="用户昵称：">
                   <el-input placeholder="请输入用户昵称"></el-input>
               </el-form-item>
-          </el-col>
-          <el-col :span="2.5">
               <el-form-item label="频道：" label-width="55px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -27,8 +20,6 @@
                       <el-option label="语培" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
-          </el-col>
-          <el-col :span="2.5">
               <el-form-item label="性别：" label-width="55px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="男" :value="0" :key="0"></el-option>
@@ -36,8 +27,6 @@
                       <el-option label="空" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
-          </el-col>
-          <el-col :span="2.5">
               <el-form-item label="认证：" label-width="55px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -45,8 +34,6 @@
                       <el-option label="已认证" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
-          </el-col>
-          <el-col :span="4">
               <el-form-item label="用户角色：" label-width="95px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -59,19 +46,14 @@
                       <el-option label="经纪人" :value="7" :key="7"></el-option>
                     </el-select>
               </el-form-item>
-          </el-col>
-          <el-col :span="2.5">
               <el-form-item label="状态：" label-width="55px">
                   <el-select v-model="region" placeholder="正常" style="width: 80px;">
                       <el-option label="正常" :value="0" :key="0"></el-option>
                       <el-option label="禁用" :value="1" :key="1"></el-option>
                     </el-select>
               </el-form-item>
-          </el-col>
-          <el-col :span="3">
               <el-button size="small" type="primary">搜索</el-button>
               <el-button @click="onshowuser" size="small" type="primary">新增用户</el-button>
-          </el-col>
         </el-form>
 
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">

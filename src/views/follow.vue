@@ -4,29 +4,21 @@
             <p class="personnel-title">关注管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="6">
-              <el-form-item label="被关注id：">
-                  <el-input placeholder="请输入被关注id"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="被关注名称：">
-                  <el-input placeholder="请输入被关注名称"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2.5">
-              <el-form-item label="类别：" label-width="55px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="机构" :value="1" :key="1"></el-option>
-                      <el-option label="院校" :value="2" :key="2"></el-option>
-                      <el-option label="人员" :value="3" :key="3"></el-option>
-                    </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-button size="small" type="primary">搜索</el-button>
-            </el-col>
+            <el-form-item label="被关注id：">
+                <el-input placeholder="请输入被关注id"></el-input>
+            </el-form-item>
+            <el-form-item label="被关注名称：">
+                <el-input placeholder="请输入被关注名称"></el-input>
+            </el-form-item>
+            <el-form-item label="类别：" label-width="55px">
+                <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                    <el-option label="全部" :value="0" :key="0"></el-option>
+                    <el-option label="机构" :value="1" :key="1"></el-option>
+                    <el-option label="院校" :value="2" :key="2"></el-option>
+                    <el-option label="人员" :value="3" :key="3"></el-option>
+                  </el-select>
+            </el-form-item>
+            <el-button size="small" type="primary">搜索</el-button>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->

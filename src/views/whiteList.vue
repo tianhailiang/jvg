@@ -4,17 +4,12 @@
             <p class="personnel-title">白名单管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="5">
               <el-form-item label="白名单ID：" label-width="100px">
                   <el-input placeholder="请输入白名单ID"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="5">
               <el-form-item label="白名单内容：" label-width="100px">
                   <el-input placeholder="请输入白名单内容"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <el-form-item label="白名单分类：" label-width="100px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -22,8 +17,6 @@
                       <el-option label="宣传" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <el-form-item label="审核状态：" label-width="100px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -32,8 +25,6 @@
                       <el-option label="不通过" :value="3" :key="3"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="3">
               <el-form-item label="状态：" label-width="80px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -41,18 +32,13 @@
                       <el-option label="冻结" :value="2" :key="2"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="11">
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">创建时间：</span>
                     <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <el-button size="small" type="primary" @click="onEditClick">添加</el-button>
               <el-button size="small" type="primary">搜索</el-button>
               <el-button size="small" type="primary" @click="onDelClick">一键清除</el-button>
-            </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
@@ -69,7 +55,7 @@
                     <template slot-scope="scope">
                         <el-button v-if="scope.row.status == 1" @click="onDisableClik(scope.$index,scope.row.status)" type="danger" size="small">冻结</el-button>
                         <el-button v-if="scope.row.status == 2" @click="onDisableClik(scope.$index,scope.row.status)" type="danger" size="small">解冻</el-button>
-                        <el-button @click="onTong" type="danger" size="small">通过</el-button>
+                        <el-button @click="onTong(scope.$index)" type="danger" size="small">通过</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -176,35 +162,35 @@
             <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
-                        <el-input placeholder="请输入ID" disabled></el-input>
+                        <el-input placeholder="请输入ID" disabled v-model="appid"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="白名单内容：" label-width="100px">
-                        <el-input placeholder="请输入白名单内容" disabled></el-input>
+                        <el-input placeholder="请输入白名单内容" disabled v-model="appcon"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
                   <el-form-item label="白名单分类：" label-width="100px">
-                    <el-input placeholder="请输入白名单内容" disabled></el-input>
+                    <el-input placeholder="请输入白名单内容" disabled v-model="appfen"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="10">
                   <el-form-item label="状态：" label-width="80px">
-                    <el-input placeholder="请输入白名单内容" disabled></el-input>
+                    <el-input placeholder="请输入白名单内容" disabled v-model="status"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="20">
                     <el-form-item label="不通过原因：" label-width="100px">
-                        <el-input type="textarea" placeholder="请录入不通过原因" :rows="5" style="width: 400px"></el-input>
+                        <el-input type="textarea" v-model="appming" placeholder="请录入不通过原因" :rows="5" style="width: 400px"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow3 = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow3 = false">通 过</el-button>
-                <el-button type="primary" @click="isDialogShow3 = false">不 通 过</el-button>
+                <el-button type="primary" @click="onTong1(1)">通 过</el-button>
+                <el-button type="primary" @click="onTong1(2)">不 通 过</el-button>
             </span>
         </el-dialog>
     </div>
@@ -243,6 +229,7 @@ export default {
       choosenItem: [],
       appcon: '',
       appming: '',
+      appfen: '',
       appid: '',
       status: ''
     }
@@ -270,8 +257,32 @@ export default {
         console.log(`请求错误`)
       })
     },
-    onTong () {
+    onTong (index) {
+      this.appid = this.tableData[index].id
+      this.appcon = this.tableData[index].url
+      this.appfen = this.tableData[index].typeName
+      this.status = this.tableData[index].statusName
       this.isDialogShow3 = true
+    },
+    onTong1 (type) {
+      if (type === 1) {
+        // 通过
+        var data = {'id': this.appid, 'applyStatus': 2}
+      } else if (type === 2) {
+        // 不通过
+        var data = {'id': this.appid, 'applyStatus': 3, 'applyMemo': this.appming}
+      }
+      whiteVerify(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow1 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onDisableClik (index,type) {
       if (type === 1) {

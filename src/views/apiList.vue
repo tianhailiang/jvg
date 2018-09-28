@@ -4,62 +4,48 @@
             <p class="personnel-title">API管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="5">
-              <el-form-item label="ID：" label-width="80px">
-                  <el-input placeholder="请输入ID"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="名称：" label-width="80px">
-                  <el-input placeholder="请输入名称" v-model="apiname"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="渠道：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="APP" :value="1" :key="1"></el-option>
-                      <el-option label="PC" :value="2" :key="2"></el-option>
-                      <el-option label="WAP" :value="3" :key="3"></el-option>
-                    </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="业务频道：" label-width="100px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="留学" :value="1" :key="1"></el-option>
-                      <el-option label="语培" :value="2" :key="2"></el-option>
-                      <el-option label="院校通道" :value="3" :key="3"></el-option>
-                      <el-option label="移民" :value="4" :key="4"></el-option>
-                    </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="页面名称：" label-width="100px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="留学" :value="1" :key="1"></el-option>
-                      <el-option label="语培" :value="2" :key="2"></el-option>
-                      <el-option label="院校通道" :value="3" :key="3"></el-option>
-                      <el-option label="移民" :value="4" :key="4"></el-option>
-                    </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="状态：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="正常" :value="1" :key="1"></el-option>
-                      <el-option label="冻结" :value="2" :key="2"></el-option>
-                      <el-option label="删除" :value="3" :key="3"></el-option>
-                    </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-button size="small" type="primary">搜索</el-button>
-              <el-button size="small" type="primary" @click="onDisableClik">追加</el-button>
-            </el-col>
+            <el-form-item label="ID：" label-width="80px">
+                <el-input placeholder="请输入ID"></el-input>
+            </el-form-item>
+            <el-form-item label="名称：" label-width="80px">
+                <el-input placeholder="请输入名称" v-model="apiname"></el-input>
+            </el-form-item>
+            <el-form-item label="渠道：" label-width="80px">
+                <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                    <el-option label="全部" :value="0" :key="0"></el-option>
+                    <el-option label="APP" :value="1" :key="1"></el-option>
+                    <el-option label="PC" :value="2" :key="2"></el-option>
+                    <el-option label="WAP" :value="3" :key="3"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="业务频道：" label-width="100px">
+                <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                    <el-option label="全部" :value="0" :key="0"></el-option>
+                    <el-option label="留学" :value="1" :key="1"></el-option>
+                    <el-option label="语培" :value="2" :key="2"></el-option>
+                    <el-option label="院校通道" :value="3" :key="3"></el-option>
+                    <el-option label="移民" :value="4" :key="4"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="页面名称：" label-width="100px">
+                <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                    <el-option label="全部" :value="0" :key="0"></el-option>
+                    <el-option label="留学" :value="1" :key="1"></el-option>
+                    <el-option label="语培" :value="2" :key="2"></el-option>
+                    <el-option label="院校通道" :value="3" :key="3"></el-option>
+                    <el-option label="移民" :value="4" :key="4"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="状态：" label-width="80px">
+                <el-select v-model="region" placeholder="全部" style="width: 80px;">
+                    <el-option label="全部" :value="0" :key="0"></el-option>
+                    <el-option label="正常" :value="1" :key="1"></el-option>
+                    <el-option label="冻结" :value="2" :key="2"></el-option>
+                    <el-option label="删除" :value="3" :key="3"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-button size="small" type="primary">搜索</el-button>
+            <el-button size="small" type="primary" @click="onDisableClik">追加</el-button>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
@@ -239,7 +225,7 @@ export default {
         console.log('data', res)
         if (res.success) {
           this.isDialogShow3 = false
-        //   window.location.reload()
+          window.location.reload()
         } else {
           this.$message(res.message)          
         }
@@ -256,7 +242,7 @@ export default {
     },
     onDisable () {
       // 追加API
-      var data = {'name': this.name, 'pageURl': this.url, 'source': this.region_qu, 'channel': this.region_pin}
+      var data = {'name': this.name, 'uri': this.url, 'source': this.region_qu, 'channel': this.region_pin}
       apiCreate(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -291,7 +277,7 @@ export default {
     },
     postData () {
       var data = {'source': 4, 'status': 1, 'channel': 1, 'name': this.apiname}
-      apiList(data).then(res => {
+      apiList().then(res => {
         console.log('data', res)
         if (res.success) {
           this.tableData = res.result.modelData
