@@ -4,17 +4,12 @@
             <p class="personnel-title">实名认证管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="6">
               <el-form-item label="用户名称：">
                   <el-input placeholder="请输入用户名称"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item label="用户手机号：">
                   <el-input placeholder="请输入用户手机号"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item label="用户角色：">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部"  :value="0" :key="0"></el-option>
@@ -27,18 +22,12 @@
                       <el-option label="经纪人" :value="7" :key="7"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item label="用户id：">
                   <el-input placeholder="请输入用户id"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="6">
               <el-form-item label="用户昵称：">
                   <el-input placeholder="请输入用户昵称"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="5">
               <el-form-item label="审核状态：" >
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部"  :value="0" :key="0"></el-option>
@@ -47,10 +36,7 @@
                       <el-option label="撤销" :value="3" :key="3"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="1">
               <el-button size="small" type="primary">搜索</el-button>
-          </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;text-align: center;">
         <!-- <div style="float: right;"> -->

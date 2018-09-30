@@ -4,17 +4,12 @@
             <p class="personnel-title">日志管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="5">
               <el-form-item label="操作者ID：" label-width="100px">
                   <el-input placeholder="请输入操作者ID"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="5">
               <el-form-item label="操作者名称：" label-width="100px">
                   <el-input placeholder="请输入操作者名称"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <el-form-item label="操作类型：" label-width="100px">
                   <el-select v-model="region" placeholder="全部" style="width: 80px;">
                       <el-option label="全部" :value="0" :key="0"></el-option>
@@ -24,17 +19,12 @@
                       <el-option label="登录" :value="4" :key="4"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="11">
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">操作时间：</span>
                     <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <el-button size="small" type="primary">搜索</el-button>
               <el-button size="small" type="primary" @click="onDelClick()">一键清除</el-button>
-            </el-col>
         </el-form>
         <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>

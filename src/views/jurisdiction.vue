@@ -1,37 +1,34 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+<section class="advert-container" style="overflow:hidden;">
+    <el-row :gutter="20">
+        <el-col :span='20' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">权限管理</p>
         </el-col>
-        <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="5">
-              <el-form-item label="站点选择：" label-width="100px">
+    </el-row>
+    <el-row :gutter="20">
+        <el-form :inline="true" class="demo-form-inline" label-width="100px" size="small">
+              <el-form-item label="站点选择：">
                   <el-select v-model="region_category" placeholder="管理后台（pc）" style="width: 150px;">
                       <el-option v-for="(item, index) in option_category" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="所属频道：" label-width="100px">
+              <el-form-item label="所属频道：">
                   <el-select v-model="region_channel" placeholder="空" style="width: 80px;">
                       <el-option v-for="(item, index) in option_channel" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="所属页面：" label-width="100px">
+              <el-form-item label="所属页面：">
                   <el-select v-model="region_page" placeholder="空" style="width: 120px;">
                       <el-option v-for="(item,index) in option_page" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="5">
               <el-button size="small" type="primary" @click="onDisableClik(1)">追加父节点</el-button>
               <!-- <el-button size="small" type="primary" @click="onDisableClik1">追加子节点</el-button> -->
               <!-- <el-button size="small" type="primary" @click="onQuery">查询</el-button> -->
-            </el-col>
         </el-form>
-        <el-col v-for="(item,index) in tableDatak" :span='17' style="margin-right: 5%;margin-bottom: 20px;float: right;">
+    </el-row>
+    <el-row :gutter="20">
+        <el-col v-for="(item,index) in tableDatak" :span='20' style="margin-right: 5%;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <div style="float: left;text-align: left;" >
                 <i id="icon_plus" :class="{'el-icon-plus': showIndex == -1 || index != showIndex, 'el-icon-minus': index == showIndex}" @click="onShow(index)" style="cursor: pointer;font-weight: 900;margin-left: 10px;margin-right: 10px;"></i>
@@ -42,7 +39,7 @@
                 <el-button @click="onEditClick(item.id,item.name,item.description)" type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick(item.id)" type="danger" size="small">删除</el-button>
             </div>
-            <el-table v-if="index == showIndex" :data="item.children" stripe width="100%" border style="text-align: left;">
+            <el-table v-if="index == showIndex" :data="item.children" stripe width="100%" border style="margin-left: 10px;text-align: left;">
                 <el-table-column prop="name" label="节点" align="center"></el-table-column>
                 <el-table-column prop="description" label="说明" align="center"></el-table-column>
                 <el-table-column prop="uri" label="路径" align="center"></el-table-column>
@@ -61,6 +58,7 @@
             </el-table>
             <!-- </div> -->
         </el-col>
+    </el-row>
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
             <p style="font-size: 30px;">请确认是否继续删除</p>
@@ -174,7 +172,7 @@
                 <el-button type="primary" @click="onTiAPI">提 交</el-button>
             </span>
         </el-dialog>
-    </div>
+</section>
 </template>
 <script>
 import { resourceList,resourceCreate,resourceUpdate,resourceChild,resourceUpdateChild,resourceSort,resourceDelete,apiList,apiDelete } from '../api/url.js'
@@ -464,7 +462,7 @@ export default {
     },
     postData () {
       var data = {'category': 0, 'channel': 1, 'page': 2}
-      resourceList(data).then(res => {
+      resourceList().then(res => {
         console.log('data', res)
         if (res.success) {
           this.tableDatak = res.result
