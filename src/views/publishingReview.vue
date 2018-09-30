@@ -1,5 +1,5 @@
 <template>
-  <section class="publishing-review-content" style="overflow:hidden;padding-left:10px;">
+  <section class="publishing-review-content" style="overflow:hidden;margin-left:260px;">
         <el-row :gutter="20">
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
               <el-col :span="6">
@@ -70,12 +70,15 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"></el-pagination> -->
           <el-pagination background
-          @current-change="handleCurrentChange"
-          :page-size="20" 
-          layout="total, sizes, prev, pager, next, jumper" 
-          :total="total">
+          layout="total, sizes, prev, pager, next, jumper"
+          :page-size="20"
+          :total="total"
+          :current-page="pageNo"
+          :page-sizes="[10, 20, 30, 40, 50]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange">
         </el-pagination>
-          <el-button size="small" type="primary">确定</el-button>
+          <!-- <el-button size="small" type="primary">确定</el-button> -->
         </div>
         <!-- 模态框 -->
         <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
@@ -128,7 +131,7 @@ export default {
       id:'',
       loading: false,
       dialogVisible: false,
-      pageNo: 1,
+      pageNo: 0,
       pageSize: 20
     }
   },
@@ -144,8 +147,11 @@ export default {
     // },
     handleCurrentChange(val) {
       this.pageNo = val
-      console.log(this.pageNo)
       this.publishingReview()
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      console.log(`每页 ${this.pageSize} 条`)
     },
     publishingReview() {
       this.loading = true
@@ -155,13 +161,13 @@ export default {
         // "categorySigns": "tuofu",
         // "status": 2,
         // "userId": 1,
-          // pageNo: 1,
-          // pageSize: 20
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
       }).then(res => {
         this.total = res.data.result.total
         this.tableData3 = res.data.result.modelData
         this.loading = false
-        // console.log(res)
+        console.log(res)
       }).catch(error => {
         console.log(`请求出错啦`)
       })

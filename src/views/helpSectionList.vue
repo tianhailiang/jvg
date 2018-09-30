@@ -65,7 +65,15 @@
     <!-- 分页 -->
     <el-row :gutter="20"  class="page-content" v-if="tableData3.length">
         <el-col :span="11">
-            <el-pagination layout="prev, pager, next, jumper" :total="total" background></el-pagination>
+            <el-pagination 
+            background 
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-size="20"
+            :total="total"
+            :current-page="pageNo"
+            :page-sizes="[20, 30, 40, 50]"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
             <el-button size="small" type="primary">确定</el-button>
@@ -189,6 +197,8 @@
         type:1,
         loading: false,
         total: null,
+        pageSize: 20,
+        pageNo: 0,
         qudaodate: [
           {value: '1',label: 'APP'},
           {value: '2',label: 'PC'},
@@ -205,6 +215,14 @@
       }
     },
     methods: {
+      handleSizeChange(val) {
+        this.pageSize = val
+        console.log(val)
+      },
+      handleCurrentChange(val) {
+        this.pageNo = val
+        this.searchHelp()
+      },
       searchHelp() {
         axios.post(this.$store.state.api.searchHelp, {
           // id:this.helpData.id,
@@ -215,7 +233,10 @@
           createdFrom:this.helpData.createdFrom,
           createdTo:this.helpData.createdTo,
           adminName: this.helpData.adminName,
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
         }).then(res => {
+          console.log(res.data)
           this.tableData3 = res.data.result.modelData
           this.total = res.data.result.total
           this.$message({
@@ -304,6 +325,7 @@
 <style scoped>
 .help-content{
   overflow: hidden;
+  margin-left: 260px;
 }
 .page-content{
   margin-top:30px;
@@ -312,8 +334,9 @@
   height: 30px;
   line-height: 30px;
   border-bottom: solid 1px #ccc;
-  text-indent: 20px;
+  text-indent: 10px;
   margin-bottom: 15px;
+  font-weight: bold;
 }
 .btn-group {
   display: inline-block;

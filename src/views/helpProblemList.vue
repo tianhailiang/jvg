@@ -74,7 +74,16 @@
       <!-- 分页 -->
       <el-row :gutter="20" class="page-content" v-if="tableData3.length">
           <el-col :span="11">
-              <el-pagination background layout="prev, pager, next, jumper" :total="total"></el-pagination>
+              <el-pagination 
+              background
+              layout="total, sizes, prev, pager, next, jumper"
+              :page-size="20"
+              :total="total"
+              :current-page="pageNo"
+              :page-sizes="[20, 30, 40, 50]"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange">
+              ></el-pagination>
           </el-col>
           <el-col :span="8">
               <el-button size="small" type="primary">确定</el-button>
@@ -237,13 +246,23 @@ export default {
         ],
         sortData: [
           {name:123}
-        ]
+        ],
+        pageNo: 1,
+        pageSize: 20,
     }
   },
   created() {
     this.searchquestion()
   },
   methods: {
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.searchquestion()
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      console.log(`每页 ${this.pageSize} 条`)
+    },
     searchquestion() {
       axios.post(this.$store.state.api.searchquestion, {
         // id:1001,
@@ -254,6 +273,8 @@ export default {
         createdFrom: this.questData.createdFrom,
         createdTo:this.questData.createdTo,
         adminName:this.questData.adminName,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
       }).then(res => {
         // console.log(res)
         this.$message({

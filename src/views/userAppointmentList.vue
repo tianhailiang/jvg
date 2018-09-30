@@ -70,10 +70,15 @@
           </el-table-column>
       </el-table>
       <div class="page-container" v-if="tabeldata.length">
-        <el-pagination 
-        layout="prev, pager, next, jumper"
-        background
-        :total="total" :page-size="20"></el-pagination>
+          <el-pagination background
+          layout="total, sizes, prev, pager, next, jumper"
+          :page-size="20"
+          :total="total"
+          :current-page="pageNo"
+          :page-sizes="[20, 30, 40, 50]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange">
+        </el-pagination>
         <el-button size="small" type="primary">确定</el-button>
         <el-button size="small" type="primary" class="remove">批量删除</el-button>
     </div>
@@ -121,13 +126,23 @@ export default {
         {value: '3',label: '未回复'}
       ],
       tabeldata: [],
-      loading: false
+      loading: false,
+      pageNo: 1,
+      pageSize: 20
     }
   },
   created() {
     this.searchUser()
   },
   methods: {
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.searchUser()
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      console.log(`每页 ${this.pageSize} 条`)
+    },
     searchUser() {
       this.loading = true
       axios.post(this.$store.state.api.searchUser, {
@@ -137,6 +152,7 @@ export default {
         // startTime: this.Userform.startTime,
         // countries: this.Userform.countries,
         // replyStatus: this.Userform.replyStatus,
+
       }).then(res => {
         // console.log(res)
         this.tabeldata = res.data.result.modelData
@@ -183,6 +199,9 @@ export default {
 </script>
 <style scoped>
 @import '../assets/style/common_reserva.css';
+.reservation-content{
+  margin-left: 260px;
+}
 .btn-search{
   margin-top:5px;
   margin-left: 20px;

@@ -56,7 +56,14 @@
     <div class="page-center" v-if="courseComentTabel.length">
       <el-pagination 
       background
-      layout="prev, pager, next, jumper" :page-size="20" :total="total"></el-pagination>
+      layout="total, sizes, prev, pager, next, jumper"
+      :page-size="20"
+      :total="total"
+      :current-page="pageNo"
+      :page-sizes="[20, 30, 40, 50]"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange">
+      </el-pagination>
       <el-button size="small" type="primary" style="margin-left:20px;">确定</el-button>
     </div>
     <!-- 课程详情model -->
@@ -192,6 +199,8 @@ export default {
         raveTo: '',
         CourseDetailData: [],
         courseId: '',
+        pageNo: 1,
+        pageSize: 20,
         options: [
             {value: '1',label: '好评'},
             {value: '2',label: '中评'},
@@ -214,19 +223,30 @@ export default {
     }
   },
   methods: {
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.getCourseComent()
+      console.log(`每页 ${this.pageNo} 条`)
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+    },
     openDatilog (row) {
       this.formVisible = true
       this.row = row
     },
     getCourseComent () {
       this.loading = true
-      axios.post(this.$store.state.api.courseComent, {id:this.id}).then(res => {
+      axios.post(this.$store.state.api.courseComent, {
+        id:this.id,
+        pageSize: this.pageSize,
+        pageNo: this.pageNo
+      }).then(res => {
         if (res.data.success) {
             let dataComment = res.data.result.modelData
             this.courseComentTabel = dataComment
             this.total = res.data.result.total
             this.loading = false
-            
         }
       }).catch(error => {
           console.log(`返回错误消息`)

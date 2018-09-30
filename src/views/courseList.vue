@@ -88,13 +88,17 @@
     </el-table>
     <!-- 分页 -->
     <el-row :gutter="20" v-if="courseTableData.length" class="pagina-tion">
-        <el-col :span="11">
-            <el-pagination background layout="prev, pager, next, jumper" 
+        <el-col :span="17">
+            <el-pagination 
+            background 
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-size="20"
             :total="total"
-            :page-size="20"></el-pagination>
-        </el-col>
-        <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            :current-page="pageNo"
+            :page-sizes="[20, 30, 40, 50]"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"></el-pagination>
+            <!-- <el-button size="small" type="primary">确定</el-button> -->
         </el-col>
         <el-col :span="5">
             <el-button size="small" type="primary" @click="">批量删除</el-button>
@@ -165,10 +169,20 @@ export default {
         {label: '直播中' , value: '2'},
         {label: '未开始' , value: '3'},
         {label: '已结束' , value: '4'}
-      ]
+      ],
+      pageNo:0,
+      pageSize: 20
     }
   },
   methods: {
+    handleSizeChange(val) {
+      this.pageSize = val
+    },
+    handleCurrentChange(val) {
+      
+      this.pageNo = val
+      this.searchData()
+    },
     removeCourse() {    //删除课程
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -198,16 +212,16 @@ export default {
     searchData() {
         this.loading = true
         axios.post(this.$store.state.api.courseList, {
-        "id": this.id,
-        "title": "",
+        id: this.id,
+        title: "",
         // // "categorySigns": "",
         // // "couresModel": 1,
         // // "userId": 1,
         // // "upDown": 1,
         // // "liveStatus": 1,
         // // "profession": 1,
-        // // "pageNo": 2,
-        // // "pageSize": 20
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
       })
       .then(res => {
         this.courseTableData = res.data.result.modelData
@@ -220,8 +234,8 @@ export default {
     jiedCourse() { // 冻结课程
       axios.post(this.$store.state.api.jdCourse, {
         "ids":[22],
-	    "upDown": 3,
-	    "downMemo": "不合理不合理"
+        "upDown": 3,
+        "downMemo": "不合理不合理"
       }).then(res => {
         this.dialogVisible = false
       }).catch(error => {
@@ -239,6 +253,6 @@ export default {
 </script>
 <style scoped>
 .btn-edit{display:block; margin-top: 5px;}
-.pagina-tion{ margin-bottom: 30px; margin-top:30px;}
+.pagina-tion{ margin-bottom: 30px; margin-top:30px; display: flex; justify-content: space-around;}
 .courselist-title{height: 30px; line-height: 30px; border-bottom: 1px solid #dcdfe6; margin-bottom:15px;font-weight: 600;}
 </style>

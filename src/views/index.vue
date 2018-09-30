@@ -1,15 +1,13 @@
 <template>
-<div>
-    <div>
-        <top-nav></top-nav>
-    </div>
+  <div>
     <el-row>
         <div>
             <side-nav></side-nav>
         </div>
+        <top-nav></top-nav>
         <router-view></router-view>
     </el-row>
-</div>
+  </div>
 </template>
 <script>
 import TopNav from '@/components/nav.vue'

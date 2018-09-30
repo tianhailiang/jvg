@@ -68,17 +68,21 @@
             </template>
         </el-table-column>
     </el-table>
-    <div style="height:30px"></div>
     <!-- 分页 -->
-    <el-row :gutter="20" v-if="courseReviewData.length">
+    <el-row :gutter="20" v-if="courseReviewData.length" style="margin:30px 0; display:flex; justify-content:space-around;">
         <el-col :span="11">
             <el-pagination 
-            layout="prev, pager, next, jumper" 
+            background 
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-size="20"
             :total="total"
-            background></el-pagination>
+            :current-page="pageNo"
+            :page-sizes="[20, 30, 40, 50]"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <!-- <el-button size="small" type="primary">确定</el-button> -->
         </el-col>
         <el-col :span="5">
             <el-button size="small" type="primary">批量通过</el-button>
@@ -161,6 +165,14 @@ export default {
     // this.getCourseReviewData()
   },
   methods: {
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.getCourseReviewData()
+      console.log(`每页 ${this.pageNo} 条`)
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+    },
     getCourseReviewData() {
       axios.post(this.$store.state.api.courseReview, {
             id:this.id,
@@ -169,8 +181,8 @@ export default {
             // "couresModel": 1,
             // "userId": 1,
             // "status": 2,
-            // "pageNo": 2,
-            // "pageSize": 20
+            pageNo: this.pageNo,
+            pageSize: this.pageSize
         }).then(res => {
             this.courseReviewData = res.data.result.modelData
             this.total = res.data.result.total

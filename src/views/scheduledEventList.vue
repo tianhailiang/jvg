@@ -13,7 +13,7 @@
           <el-col :span="6">
             <div class="grid-content bg-purple">
                 <el-form-item label="所属频道">
-                    <el-select placeholder="" v-model="reserform.channelName" size="small">
+                    <el-select placeholder="" v-model="reserform.channel" size="small">
                         <el-option 
                         :label="item.label" 
                         :value="item.value"
@@ -26,7 +26,7 @@
           <el-col :span="6">
             <div class="grid-content bg-purple">
                 <el-form-item label="渠道">
-                    <el-select placeholder="" v-model="reserform.sourceName" size="small">
+                    <el-select placeholder="" v-model="reserform.source" size="small">
                         <el-option 
                         :label="item.label" 
                         :value="item.value"
@@ -51,15 +51,15 @@
           </el-col>
           <el-col :span="12">
               <div class="grid-content bg-purple">
-                  <el-form-item label="活动时间">
-                      <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="reserform.activityStartTime" size="small"></el-date-picker>
-                      </el-col>
-                      <el-col class="line" :span="2">-</el-col>
-                      <el-col :span="11">
-                        <el-time-picker type="fixed-time" placeholder="选择时间" v-model="reserform.activityEntTime" style="width: 100%;" size="small"></el-time-picker>
-                      </el-col>
-                  </el-form-item>
+                <el-form-item label="活动时间">
+                  <el-col :span="11">
+                    <el-date-picker type="date" placeholder="选择日期" v-model="reserform.activityStartTime" size="small"></el-date-picker>
+                  </el-col>
+                  <el-col class="line" :span="2">-</el-col>
+                  <el-col :span="11">
+                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="reserform.activityEntTime" style="width: 100%;" size="small"></el-time-picker>
+                  </el-col>
+                </el-form-item>
               </div>
           </el-col>
           <div class="search">
@@ -69,7 +69,7 @@
       </el-form>
     </el-row>
     <!--  -->
-    <el-table :data="tabeldata" style="width: 100%" border size="medium" v-loading="loading">
+    <el-table :data="tabeldata" style="width: 100%" border size="medium" v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="60" label="" align="center"></el-table-column>
         <el-table-column prop="title" width="160" label="活动名称" align="center"></el-table-column>
         <el-table-column prop="startTime" label="活动开始时间" width="165" align="center"></el-table-column>
@@ -85,11 +85,16 @@
         </el-table-column>
     </el-table>
     <!-- 分页组件 -->
-    <div class="page-container" v-if="tabeldata.length">
-        <el-pagination 
-        layout="prev, pager, next, jumper"
-        background
-        :total="total" :page-size="20"></el-pagination>
+    <div class="page-container" v-if="tabeldata.length" style="margin:30px 0;">
+        <el-pagination background
+        layout="total, sizes, prev, pager, next, jumper"
+        :page-size="20"
+        :total="total"
+        :current-page="pageNo"
+        :page-sizes="[20, 30, 40, 50]"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange">
+      </el-pagination>
         <el-button size="small" type="primary">确定</el-button>
         <el-button size="small" type="primary" class="remove">批量删除</el-button>
     </div>
@@ -105,8 +110,8 @@ export default {
         activityEntTime: '',
         activityStartTime: '',
         status: '',
-        sourceName: '',
-        channelName: ''
+        source: '',
+        channel: ''
       },
       loading: false,
       total: null,
@@ -125,23 +130,37 @@ export default {
         {value: '2',label: '进行中'},
         {value: '3',label: '已结束'}
       ],
-      tabeldata: []
+      tabeldata: [],
+      pageNo: 1,
+      pageSize: 20
     }
   },
   created() {
     // this.searchreservation()
   },
   methods: {
+    handleSizeChange(val) {
+      this.pageSize = val
+
+    },
+    handleCurrentChange(val) {
+     
+      this.pageNo = val
+      this.searchreservation()
+    },
     searchreservation() {
       this.loading = true
       axios.post(this.$store.state.api.searchreservation, {
         title: this.reserform.title,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
         // activityEntTime: this.reserform.activityEntTime,
         // activityStartTime: this.reserform.activityStartTime,
         // status: this.reserform.status,
-        // sourceName: this.reserform.sourceName,
-        // channelName: this.reserform.channelName
+        // source: this.reserform.source,
+        // channel: this.reserform.channel
       }).then(res => {
+        console.log(res)
         this.tabeldata = res.data.result.modelData
         this.total = res.data.result.total
         this.loading = false

@@ -104,7 +104,15 @@
         </el-table-column>
     </el-table>
     <div class="row-container" v-if="tableData.length" style="margin:30px 0;">
-        <el-pagination background layout="prev, pager, next, jumper" :total="total" :page-size="20"></el-pagination>
+      <el-pagination 
+        background
+        layout="total, sizes, prev, pager, next, jumper"
+        :page-size="20"
+        :total="total"
+        :current-page="pageNo"
+        :page-sizes="[20, 30, 40, 50]"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"></el-pagination>
         <el-button size="small" type="primary">确定</el-button>
         <el-button size="small" type="primary" style="margin-left:200px">导出</el-button>
     </div>
@@ -152,6 +160,8 @@ export default {
         {label: '拒绝退款', value: '6'}
       ],
       buy: '',
+      pageSize: 20,
+      pageNo: 0,
       buyData: [
         {label: '全部', value: '1'},
         {label: 'APP', value: '2'},
@@ -177,8 +187,8 @@ export default {
         // orderType:1,
         // payType:1,
         // channel: 1,
-        pageNo:1,
-        pageSize:20,
+        pageNo:this.pageNo,
+        pageSize:this.pageSize,
         orderCreatedAtTo: this.orderData.orderCreatedAtTo,
         orderCreatedAtFrom: this.orderData.orderCreatedAtFrom,
         shopUserNm: this.orderData.shopUserNm,
@@ -195,6 +205,14 @@ export default {
       }).catch(error => {
 
       })
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+    },
+    handleCurrentChange(val) {
+      
+      this.pageNo = val
+      this.searchOrder()
     },
     hanldclick(index, row) {
       this.$router.push({

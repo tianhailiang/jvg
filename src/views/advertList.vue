@@ -1,5 +1,5 @@
 <template>
-  <section class="advert-container" style="overflow:hidden;">
+  <section class="advert-container" style="overflow:hidden;margin-left:260px;">
     <el-row :gutter="20">
       <el-form class="demo-form-inline" label-width="80px" size="small">
       <el-col :span="6">
@@ -106,36 +106,42 @@
             <el-button type="primary" size="medium" @click="isShow = true">一键替换</el-button>
           </el-row>
       </div>
-      <el-table :data="advertTableData" style="width: 100%" border v-loading="loading" element-loading-text="努力奔跑中...">
-          <el-table-column type="selection" width="50" align="center"></el-table-column>
-          <el-table-column label="广告位ID" width="65" align="center" prop="id">
+    <el-table :data="advertTableData" style="width: 100%" border v-loading="loading" element-loading-text="努力奔跑中...">
+        <el-table-column type="selection" width="50" align="center"></el-table-column>
+        <el-table-column label="广告位ID" width="65" align="center" prop="id">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="openaddAdvertdetail(scope.$index, scope.row)">{{scope.row.id}}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="广告位名称" width="120" align="center"></el-table-column>
+        <el-table-column prop="advertisingTemplate" label="广告位模板" width="120" align="center"></el-table-column>
+        <el-table-column prop="type" label="广告位类型" width="100" align="center"></el-table-column>
+        <el-table-column prop="upDown" label="广告位状态" width="120" align="center"></el-table-column>
+        <el-table-column prop="ownership" label="所有权" width="80" align="center"></el-table-column>
+        <el-table-column prop="addressType" label="位置类型" width="80" align="center"></el-table-column>
+        <el-table-column prop="createdAt" label="创建时间" width="120" align="center"></el-table-column>
+        <el-table-column prop="source" label="渠道" width="80" align="center"></el-table-column>
+        <el-table-column prop="channelName" label="业务频道" width="100" align="center"></el-table-column>
+        <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-              <el-button size="mini" @click="openaddAdvertdetail(scope.$index, scope.row)">{{scope.row.id}}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column prop="name" label="广告位名称" width="120" align="center"></el-table-column>
-          <el-table-column prop="advertisingTemplate" label="广告位模板" width="120" align="center"></el-table-column>
-          <el-table-column prop="type" label="广告位类型" width="100" align="center"></el-table-column>
-          <el-table-column prop="upDown" label="广告位状态" width="120" align="center"></el-table-column>
-          <el-table-column prop="ownership" label="所有权" width="80" align="center"></el-table-column>
-          <el-table-column prop="addressType" label="位置类型" width="80" align="center"></el-table-column>
-          <el-table-column prop="createdAt" label="创建时间" width="120" align="center"></el-table-column>
-          <el-table-column prop="source" label="渠道" width="80" align="center"></el-table-column>
-          <el-table-column prop="channelName" label="业务频道" width="100" align="center"></el-table-column>
-          <el-table-column label="操作" align="center">
-              <template slot-scope="scope">
-                  <el-button size="mini" type="danger" @click="advertFreeze(scope.$index, scope.row)">冻结</el-button>
-                  <el-button size="mini" type="danger" @click="removeAdvert(scope.$index, scope.row)" style="margin:10px 0">删除</el-button>
-                </template>
-          </el-table-column>
-      </el-table>
+                <el-button size="mini" type="danger" @click="batchAdvertfreeze(scope.$index, scope.row)">解冻</el-button>
+                <el-button size="mini" type="danger" @click="advertFreeze(scope.$index, scope.row)">冻结</el-button>
+                <el-button size="mini" type="danger" @click="removeAdvert(scope.$index, scope.row)" style="margin:10px 0">删除</el-button>
+              </template>
+        </el-table-column>
+    </el-table>
       <!-- 分页 -->
       <el-row :gutter="20" style="margin:30px 0;" v-if="advertTableData.length">
           <el-col :span="11">
-              <el-pagination layout="prev, pager, next, jumper"
+              <el-pagination
+              background 
+              layout="total, sizes, prev, pager, next, jumper"
               :page-size="20"
               :total="total"
-              background></el-pagination>
+              :current-page="pageNo"
+              :page-sizes="[20, 30, 40, 50]"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"></el-pagination>
           </el-col>
           <el-col :span="5">
               <el-button size="small" type="primary">确定</el-button>
@@ -340,7 +346,8 @@ export default {
         {label: '留学首页', value: '2'},
         {label: '问答详情页', value: '3'}
       ],
-
+      pageNo: 0,
+      pageSize: 20,
       form: {
         autoReplace: 1
       }
@@ -352,10 +359,22 @@ export default {
   methods: {
     searchAdvert() {
       this.loading = true
-      axios.post(this.$store.state.api.searchAdvert).then(res => {
+      axios.post(this.$store.state.api.searchAdvert,{
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      }).then(res => {
         this.total = res.data.result.total
         this.advertTableData = res.data.result.modelData
         this.loading = false
+      }).catch(error => {
+
+      })
+    },
+    batchAdvertfreeze(index, row) {
+      axios.post(this.$store.state.api.advertisingfreeze, {
+        id: row.id
+      }).then(res => {
+        console.log(res)
       }).catch(error => {
 
       })
@@ -404,13 +423,22 @@ export default {
         });
       })
     },
-    openaddAdvert() {
-
+    openaddAdvert() { //添加广告位
+      // this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})
     },
     openaddAdvertdetail(index, rows) {
       this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})
       // this.$router.push({ name: 'advertSpaceDetail', params: {id: this.id} })
-    }
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      console.log(val)
+    },
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.searchAdvert()
+    },
+
   }
 }
 </script>

@@ -50,20 +50,28 @@ export default {
     'searchPublishdetail': URL + 'publication/detail.json', //查询出版物详情
     'addPublishing': URL + 'publication/create.json', // 新建出版物
     'editPublishing': URL + 'publication/update.json', //编辑出版物(youwenti)
+
+
+
+    'searchadvertising':URL + 'advert/advertising-management/select-list.json', // 查询选择广告位列表
     'searchAdvert': URL + 'advert/advertising-management/list.json', //查询广告位列表
     'searchAdvertList': URL + 'advert/advertisement/list.json', // 查询广告列表
     'removeAdvert': URL + 'advert/advertising-management/delete.json', //删除广告位列表
     'removeAdvertlist': URL + 'advert/advertisement/delete.json', //删除广告列表
     'advertFreeze': URL + 'advert/advertising-management/frozen.json', //广告位冻结
-    'advertFreezeCopy': URL + 'advert/advertisement/frozen.json', //广告冻结
+    'advertFreezeCopy': URL + 'advert/advertisement/frozen.json', //广告冻结(批量冻结)
     'replaceAdvert':URL + 'advert/advertising-management/replace.json', //一键替换广告位
-    // 'addAdvert':URL + 'advert/advertising-management/crate.json' // 广告位新增..
-    // 'addAdvertlist':URL + 'advert/advertisement/create.json' // 广告新增..
+    'addAdvertlist':URL + 'advert/advertisement/create.json', // 添加广告
+    'addvertlistcopy': URL + 'advert/advertising-management/create.json', //添加广告位
     'searchadvertDetail': URL + 'advert/advertising-management/detail.json', //查询广告位详情
     'searchCommerDetail': URL + 'advert/advertisement/detail.json', //查询广告详情
     'advertreviewList': URL + 'advert/advertisement/auditing/list.json', //广告审核管理
     'passadvert': URL + 'advert/advertisement/auditing/notThrough.json', //广告审核通过(不通过)
+    'advertThaw': URL + 'advert/advertisement/thaw.json', //广告解冻/批量解冻
+    'updateAdvert': URL + 'advert/advertising-management/update.json', // 更新广告位
+    'advertisingfreeze':URL + 'advert/advertising-management/thaw.json', // 广告位解冻/批量解冻
 
+    
     'couponList': URL + 'release-coupon/list/list.json', //查询优惠券列表
     'removecouponList':URL + 'release-coupon/list/delete.json', //删除优惠券列表
     'disableCoupon': URL + 'release-coupon/list/change-updown.json', //禁用解禁优惠券(youwenti)

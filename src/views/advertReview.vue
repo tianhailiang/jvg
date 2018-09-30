@@ -117,9 +117,14 @@
     <el-row :gutter="20" v-if="tabeladvert.length" style="margin:30px 0;">
       <el-col :span="11">
           <el-pagination 
-          layout="prev, pager, next, jumper"
-          background
-          :total="total"></el-pagination>
+          background 
+          layout="total, sizes, prev, pager, next, jumper"
+          :page-size="20"
+          :total="total"
+          :current-page="pageNo"
+          :page-sizes="[20, 30, 40, 50]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"></el-pagination>
       </el-col>
       <el-col :span="6">
           <el-button size="small" type="primary">确定</el-button>
@@ -174,6 +179,8 @@ export default {
       totalval: '',
       tabeladvert: [],
       total:null,
+      pageSize: 20,
+      pageNo: 1,
       adverttype: [
         {value: '1', label: '单页'},
         {value: '2', label: '轮播'},
@@ -209,7 +216,6 @@ export default {
         type: '',	
         ownership: '',
         temp: '',
-        channel: '',
         statusMemo: ''
       }
     }
@@ -220,23 +226,25 @@ export default {
   methods: {
     advertreviewList() {
       axios.post(this.$store.state.api.advertreviewList, {
-        id: this.dataGroup.id,
-        name: this.dataGroup.name,
-        source: this.dataGroup.source,
-        channel: this.dataGroup.channel,
-        status: this.dataGroup.status,
-        linkName: this.dataGroup.linkName,
-        phone: this.dataGroup.type,
-        type: this.dataGroup.type,	
-        ownership: this.dataGroup.ownership,
-        source: this.dataGroup.source
+        // id: this.dataGroup.id,
+        // name: this.dataGroup.name,
+        // source: this.dataGroup.source,
+        // channel: this.dataGroup.channel,
+        // status: this.dataGroup.status,
+        // linkName: this.dataGroup.linkName,
+        // phone: this.dataGroup.phone,
+        // type: this.dataGroup.type,	
+        // ownership: this.dataGroup.ownership,
+        // source: this.dataGroup.source
+        pageSize:this.pageSize,
+        pageNo: this.pageNo
       }).then(res => {
         console.log(res.data)
         this.tabeladvert = res.data.result.modelData
         this.total = res.data.result.total
         this.$message({
           type: 'success',
-          message: '查询成功!'
+          message: res.data.message
         })
       }).catch(error => {
         this.$message({
@@ -254,6 +262,14 @@ export default {
       }).catch(error => {
 
       })
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+    },
+    handleCurrentChange(val) {
+      this.pageNo = val
+      console.log(val)
+      this.advertreviewList()
     }
   }
 }

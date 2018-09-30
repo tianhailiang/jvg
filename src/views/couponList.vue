@@ -117,12 +117,21 @@
         </el-table-column>
     </el-table>
     <!-- 分页组件 -->
-    <div class="row-container">
-        <el-pagination 
+    <div class="row-container" style="margin:30px 0;">
+        <!-- <el-pagination 
         background 
         layout="prev, pager, next, jumper" 
         :total="total"
-        :page-size="15"></el-pagination>
+        :page-size="15"></el-pagination> -->
+        <el-pagination background
+        layout="total, sizes, prev, pager, next, jumper"
+        :page-size="15"
+        :total="total"
+        :current-page="pageNo"
+        :page-sizes="[10, 15, 20, 25, 30]"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange">
+      </el-pagination>
         <el-button size="small" type="primary">确定</el-button>
         <el-button size="small" type="primary" class="remove">批量删除</el-button>
     </div>
@@ -204,16 +213,25 @@
         dataCoupon:[],
         downMemo: '',
         id: '' ,
-        dialogVisible: false
+        dialogVisible: false,
+        pageNo: 0,
+        pageSize: 15
       }
     },
     created() {
       this.searchcouponList()
     },
     methods: {
+      handleSizeChange(val) {
+        this.pageSize = val
+      },
+      handleCurrentChange(val) {
+        this.pageNo = val
+        this.searchcouponList()
+      },
       searchcouponList() {
         axios.post(this.$store.state.api.couponList, {
-          title: this.formgroup.title
+          title: this.formgroup.title,
           // productType:'',
           // source: '',
           // channel: '',
@@ -222,8 +240,8 @@
           // type:'',
           // status:'',
           // couponType: ,
-          // pageNo:'',
-          // pageSize:''
+          pageNo:this.pageNo,
+          pageSize:this.pageSize
         }).then(res => {
           this.dataCoupon = res.data.result.modelData
           this.total = res.data.result.total
@@ -280,6 +298,7 @@
 <style scoped>
 .coupon-content{
   overflow: hidden;
+  margin-left:260px;
 }
 .coupon-title{
   height: 30px;

@@ -76,14 +76,22 @@
           </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-row :gutter="20" style="margin:30px 0;" v-show="tableData.length">
+      <el-row :gutter="20" style="margin:30px 0; display:flex; justify-content:space-between;" v-show="tableData.length" >
           <el-col :span="11">
-              <el-pagination background layout="prev, pager, next, jumper" 
-              :total="total" :page-size="20"></el-pagination>
+              <el-pagination 
+              background
+              layout="total, sizes, prev, pager, next, jumper"
+              :page-size="20"
+              :total="total"
+              :current-page="pageNo"
+              :page-sizes="[20, 30, 40, 50]"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange">
+              ></el-pagination>
           </el-col>
-          <el-col :span="7">
+          <!-- <el-col :span="7">
               <el-button size="small" type="primary">确定</el-button>
-          </el-col>
+          </el-col> -->
           <el-col :span="5">
               <el-button size="small" type="primary" @click="clearAll">批量删除</el-button>
               <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
@@ -136,24 +144,24 @@ export default {
       userId: '',
       upDown: 1,
       categorySigns: '',
-      pageNo: 2,
+      pageNo: 1,
       pageSize: 20,
       downMemo: '',
       xsdata: [
-          {label: '全部', value: '1'},
-          {label: '已上架', value: '2'},
-          {label: '已下架', value: '3'},
-          {label: '冻结', value: '4'}
+        {label: '全部', value: '1'},
+        {label: '已上架', value: '2'},
+        {label: '已下架', value: '3'},
+        {label: '冻结', value: '4'}
       ],
       types: [
-          {label: '全部', value: '1'},
-          {label: '实体', value: '2'},
-          {label: '数字', value: '3'}
+        {label: '全部', value: '1'},
+        {label: '实体', value: '2'},
+        {label: '数字', value: '3'}
       ],
       coursedata: [
-          {label: '全部', value: '1'},
-          {label: '托福', value: '2'},
-          {label: 'GRE', value: '3'}
+        {label: '全部', value: '1'},
+        {label: '托福', value: '2'},
+        {label: 'GRE', value: '3'}
       ],
       multipleSelection: []
     }
@@ -162,6 +170,14 @@ export default {
     //   this.getOrderdata()
   },
   methods: {
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.getOrderdata()
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      console.log(`每页 ${this.pageSize} 条`)
+    },
     openMadel (index, row) {
       this.$confirm('请确认是否继续删除', '删除提示窗口', {
         confirmButtonText: '确定',
@@ -209,14 +225,14 @@ export default {
     getOrderdata() {
         this.loading = true
         axios.post(this.$store.state.api.searchPublishList,{
-            "id": this.id,
+            id: this.id,
             // "title": "this.title",
             // "categorySigns": "tuofu",
             // "type": 1,
             // "userId": 1,
             // "updown": 1,
-            // "pageNo": 2,
-            // "pageSize": 20
+            pageNo: this.pageNo,
+            pageSize: this.pageSize
         }).then((res) => {
             this.tableData = res.data.result.modelData
             this.total = res.data.result.total
@@ -226,7 +242,6 @@ export default {
         })
     },
     handelClicktetail() {
-      // this.route.push()
       this.$router.push({ name: 'publishingDetail', params: {id: this.id} })
     }
   }

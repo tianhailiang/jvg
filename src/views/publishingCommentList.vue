@@ -1,5 +1,5 @@
 <template>
-    <section class="publishinglist-tabel" style="overflow:hidden; padding-left:10px;">
+    <section class="publishinglist-tabel" style="overflow:hidden; margin-left:260px;">
       <el-row :gutter="20">
         <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
@@ -50,9 +50,13 @@
       <div class="row-container" v-if="tableData3.length">
           <el-pagination 
           background 
-          layout="prev, pager, next, jumper" 
+          layout="total, sizes, prev, pager, next, jumper"
+          :page-size="20"
           :total="total"
-          :page-size="20"></el-pagination>
+          :current-page="pageNo"
+          :page-sizes="[20, 30, 40, 50]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"></el-pagination>
           <el-button size="small" type="primary">确定</el-button>
       </div>
         <!-- 弹窗 -->
@@ -149,20 +153,17 @@
                         </el-table-column>
                     </el-table>
                     <!--  -->
-                    <el-row :gutter="20" style="margin-top:20px;">
-                            <el-col :span="11">
-                                <el-pagination 
-                                background 
-                                layout="prev, pager, next, jumper" 
-                                :total="total"></el-pagination>
-                            </el-col>
-                            <el-col :span="7">
-                                <el-button size="small" type="primary">确定</el-button>
-                            </el-col>
-                            <el-col :span="5">
-                                <el-button size="small" type="primary">批量删除</el-button>
-                            </el-col>
-                    </el-row>
+            <el-row :gutter="20" style="margin-top:20px;">
+                <el-col :span="11">
+                  <el-pagination
+                  background 
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :page-size="20"
+                  :total="total"></el-pagination>
+                </el-col>
+              <el-col :span="7"><el-button size="small" type="primary">确定</el-button></el-col>
+              <el-col :span="5"><el-button size="small" type="primary">批量删除</el-button></el-col>
+            </el-row>
         </el-dialog>
     </section>
   </template>
@@ -189,7 +190,7 @@ export default {
       raveFrom: 50,
       raveTo: 100,
       realName: '',
-      pageNo: 2,
+      pageNo: 1,
       pageSize: 20,
       value: '',
       loading: false,
@@ -197,51 +198,59 @@ export default {
     }
   },
   created() {
-    // this.getreviewDetail()
+    // this.searchCommentList()
   },
   methods: {
-      openDatilog (row) {
-        this.formVisible = true
-        this.row = row
-      },
-      searchCommentList() {
-        this.loading = true
-        axios.post(this.$store.state.api.searchCommentList, {
-            id:this.id,
-            // "title": "测试",
-            // "raveFrom": 50,
-            // "raveTo": 100,
-            // "userId": 1,
-            // "pageNo": 2,
-            // "pageSize": 20
-        }).then(res => {
-            this.total = res.data.result.total
-            this.tableData3 = res.data.result.modelData
-            this.loading = false
-        }).catch(error => {
-            console.log(`请求出错啦`)
-        })
+    openDatilog (row) {
+      this.formVisible = true
+      this.row = row
     },
-    getreviewDetail() {
-        axios.post(this.$store.state.api.reviewDetail, {goodsId: this.id}).then(res => {
-            // console.log(res.data.result)
-            this.tableData4 = res.data.result.commentList
-        }).catch(error => {
-            console.log(`请求出错啦`)
-        })
-    },
-    removePublishing() { //待定
-        axios.post(this.$store.state.api.removePublishing, {
-            ids: [101]
-        }).then(res => {
-            console.log(res)
-        }).catch(error => {
-            console.log(`请求出错啦`)
-        })
-    },
+    searchCommentList() {
+      this.loading = true
+      axios.post(this.$store.state.api.searchCommentList, {
+          id:this.id,
+          // "title": "测试",
+          // "raveFrom": 50,
+          // "raveTo": 100,
+          // "userId": 1,
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+      }).then(res => {
+          this.total = res.data.result.total
+          this.tableData3 = res.data.result.modelData
+          this.loading = false
+      }).catch(error => {
+          console.log(`请求出错啦`)
+      })
+  },
+  getreviewDetail() {
+      axios.post(this.$store.state.api.reviewDetail, {goodsId: this.id}).then(res => {
+          // console.log(res.data.result)
+          this.tableData4 = res.data.result.commentList
+      }).catch(error => {
+          console.log(`请求出错啦`)
+      })
+  },
+  removePublishing() { //待定
+      axios.post(this.$store.state.api.removePublishing, {
+          ids: [101]
+      }).then(res => {
+          console.log(res)
+      }).catch(error => {
+          console.log(`请求出错啦`)
+      })
+  },
     openDeatail() {
         this.formVisible = true
-    }
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      console.log(val)
+    },
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.searchCommentList()
+    },
   }
 }
 </script>

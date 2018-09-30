@@ -102,12 +102,20 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div class="page-container">
-            <el-pagination background layout="prev, pager, next, jumper" :total="total"></el-pagination>
-            <el-button size="small" type="primary">确定</el-button>
+        <div class="page-container" v-if="tabeldata.length">
+            <el-pagination background
+            layout="total, sizes, prev, pager, next, jumper"
+            :page-size="20"
+            :total="total"
+            :current-page="pageNo"
+            :page-sizes="[20, 30, 40, 50]"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange">
+            </el-pagination>
+            <!-- <el-button size="small" type="primary">确定</el-button> -->
             <el-button size="small" type="primary" class="remove">批量删除</el-button>
         </div>
-        <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
+      <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
           <el-form label-width="100px" class="demo-ruleForm">
               <el-form-item label="优惠券ID">
                 <el-input type="text" size="small" :disabled="true" v-model="id"></el-input>
@@ -183,10 +191,20 @@ export default {
       },
       dialogVisible: false,
       statusMemo: '',
-      id: ''
+      id: '',
+      pageNo: 1,
+      pageSize: 20
     }
   },
   methods: {
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.couponReviewlist()
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      console.log(`每页 ${this.pageSize} 条`)
+    },
     couponReviewlist() {
       axios.post(this.$store.state.api.couponReviewlist, {
         title: this.dataReview.title,
@@ -197,7 +215,9 @@ export default {
         userName:this.dataReview.userName,
         type:1,
         status:1,	
-        couponType:this.dataReview.couponType
+        couponType:this.dataReview.couponType,
+        pageSize:this.pageSize,
+        pageNo: this.pageNo
       }).then(res => {
         console.log(res)
         this.total = res.data.result.total
@@ -224,8 +244,8 @@ export default {
 }
 </script>
 <style scoped>
-.coupon-content{overflow:hidden;}
+.coupon-content{overflow:hidden;margin-left:260px;}
 .coupon-title{margin-bottom:15px;height:30px;border-bottom:solid 1px #dcdfe6;text-indent:20px;font-weight:600;line-height:30px;}
 .coupon-content .search{ display: flex; justify-content: flex-end;padding-right:30px;border-bottom:solid 1px #dcdfe6;padding-bottom:15px;margin-bottom:15px; }
-.page-container{ display: flex; justify-content: center;margin-top:20px;}
+.page-container{ display: flex; justify-content: space-around; margin:30px 0;}
 </style>

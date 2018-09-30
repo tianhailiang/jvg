@@ -101,7 +101,7 @@
           <div class="btn-planes">
               <el-row>
                   <el-button type="primary" size="small" @click="searchAdvertList()">搜索</el-button>
-                  <el-button type="primary" size="small">添加广告</el-button>
+                  <el-button type="primary" size="small" @click="addAdvert()">添加广告</el-button>
               </el-row>
             </div>
         </el-form>
@@ -133,13 +133,15 @@
         <!-- 分页 -->
         <el-row :gutter="20" v-if="advertData.length" style="margin:30px 0;">
             <el-col :span="11">
-                <el-pagination 
-                background 
-                layout="prev, pager, next, jumper" 
-                :total="total"
-                :page-size="20"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"></el-pagination>
+              <el-pagination 
+              background 
+              layout="total, sizes, prev, pager, next, jumper"
+              :page-size="20"
+              :total="total"
+              :current-page="pageNo"
+              :page-sizes="[20, 30, 40, 50]"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"></el-pagination>
             </el-col>
             <el-col :span="6">
                 <el-button size="small" type="primary">确定</el-button>
@@ -187,6 +189,8 @@ export default {
       qudaoval: '',
       loading: false,
       total: null,
+      pageNo: 0,
+      pageSize: 20,
       advertsData: [
         {value: '1', label: '全部'},
         {value: '2', label: '留学首页'},
@@ -202,16 +206,20 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
+      this.pageSize = val
       console.log(val)
     },
     handleCurrentChange(val) {
-      console.log(val)
+      this.pageNo = val
       this.searchAdvertList()
     },
     searchAdvertList() {
       this.loading = true
-      axios.post(this.$store.state.api.searchAdvertList).then(res => {
-        console.log()
+      axios.post(this.$store.state.api.searchAdvertList, {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      }).then(res => {
+        console.log(res)
         this.advertData = res.data.result.modelData
         this.total = res.data.result.total
         this.loading = false
