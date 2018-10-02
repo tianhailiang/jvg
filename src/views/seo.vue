@@ -5,16 +5,15 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="频道：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="留学" :value="1" :key="1"></el-option>
-                      <el-option label="语培" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_pin" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_pin" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="网站描述：" >
                   <el-input placeholder="请输入网站描述" style="width: 700px"></el-input>
               </el-form-item>
-              <el-button type="primary" @click="onshowadd">追加关键词</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
+              <el-button size="small" type="primary" @click="onshowadd">追加关键词</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>
@@ -105,7 +104,7 @@
     </section>
 </template>
 <script>
-import { seosList,seosUpdate,seosDelete,seosCreate } from '@/api/url.js'
+import { seosList,seosUpdate,seosDelete,seosCreate,codeSource } from '@/api/url.js'
 export default {
   data () {
     return {
@@ -117,7 +116,9 @@ export default {
       bianid: '',
       bianming: '',
       bianshuo: '',
-      bianguan: ''
+      bianguan: '',
+      region_pin: '',
+      option_pin: []
     }
   },
   methods: {
@@ -186,11 +187,36 @@ export default {
         console.log(`请求错误`)
       })
     },
+    queryClik () {
+      // 搜索按钮
+      var data = {}
+      seosList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     postData () {
       seosList().then(res => {
         console.log('data', res)
         if (res.success) {
           this.tableData = res.result
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+      // 频道
+      codeSource().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.option_pin = res.result
         } else {
           this.$message(res.message)
         }

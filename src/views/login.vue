@@ -1,5 +1,5 @@
 <template>
-    <section class="advert-container personnel chart-container" style="overflow:hidden;">
+    <section class="advert-container" style="overflow:hidden;">
         <div>
             <top-nav></top-nav>
         </div>

@@ -8,48 +8,32 @@
                 <el-input placeholder="请输入ID"></el-input>
             </el-form-item>
             <el-form-item label="名称：" label-width="80px">
-                <el-input placeholder="请输入名称" v-model="apiname"></el-input>
+                <el-input placeholder="请输入名称" v-model="qu_name"></el-input>
             </el-form-item>
             <el-form-item label="渠道：" label-width="80px">
-                <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                    <el-option label="全部" :value="0" :key="0"></el-option>
-                    <el-option label="APP" :value="1" :key="1"></el-option>
-                    <el-option label="PC" :value="2" :key="2"></el-option>
-                    <el-option label="WAP" :value="3" :key="3"></el-option>
+                <el-select v-model="region_qu_qu" placeholder="全部" style="width: 80px;">
+                    <el-option v-for="(item) in option_qu" :key="item.value" :label="item.name" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="业务频道：" label-width="100px">
-                <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                    <el-option label="全部" :value="0" :key="0"></el-option>
-                    <el-option label="留学" :value="1" :key="1"></el-option>
-                    <el-option label="语培" :value="2" :key="2"></el-option>
-                    <el-option label="院校通道" :value="3" :key="3"></el-option>
-                    <el-option label="移民" :value="4" :key="4"></el-option>
+                <el-select v-model="region_pin_qu" placeholder="全部" style="width: 80px;">
+                    <el-option v-for="(item) in option_pin" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="页面名称：" label-width="100px">
-                <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                    <el-option label="全部" :value="0" :key="0"></el-option>
-                    <el-option label="留学" :value="1" :key="1"></el-option>
-                    <el-option label="语培" :value="2" :key="2"></el-option>
-                    <el-option label="院校通道" :value="3" :key="3"></el-option>
-                    <el-option label="移民" :value="4" :key="4"></el-option>
-                </el-select>
+                <el-button @click="isDialogShow4 = true">点击选择页面</el-button>
             </el-form-item>
             <el-form-item label="状态：" label-width="80px">
-                <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                    <el-option label="全部" :value="0" :key="0"></el-option>
-                    <el-option label="正常" :value="1" :key="1"></el-option>
-                    <el-option label="冻结" :value="2" :key="2"></el-option>
-                    <el-option label="删除" :value="3" :key="3"></el-option>
+                <el-select v-model="region_zhaung" placeholder="全部" style="width: 80px;">
+                    <el-option v-for="(item) in option_zhuang" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>
-            <el-button size="small" type="primary">搜索</el-button>
+            <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
             <el-button size="small" type="primary" @click="onDisableClik">追加</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData" stripe width="100%" border>
+            <el-table :data="tableData" stripe width="100%" border @selection-change="handleSelectionChange">
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
                 <el-table-column prop="id" label="APIId" align="center"></el-table-column>
                 <el-table-column prop="name" label="API名称" align="center"></el-table-column>
@@ -74,14 +58,15 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="">批量删除</el-button>
-            <el-button size="small" type="primary" @click="">批量冻结</el-button>
+            <el-button size="small" type="primary" @click="onDelClick1">批量删除</el-button>
+            <el-button size="small" type="primary" @click="onDongShow1">批量冻结</el-button>
         </el-col>
         </el-row>
         </el-col>
@@ -101,6 +86,60 @@
                 <el-button @click="isDialogShow = false">取 消</el-button>
                 <el-button type="primary" @click="onDel">确 定</el-button>
             </span>
+        </el-dialog>
+        <!-- 批量冻结窗口 -->
+        <el-dialog v-model="isDialogShow5" size="small" :visible.sync="isDialogShow5">
+            <p style="font-size: 30px;">请确认是否继续批量冻结</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow5 = false">取 消</el-button>
+                <el-button type="primary" @click="onDong1">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 批量删除窗口 -->
+        <el-dialog v-model="isDialogShow6" size="small" :visible.sync="isDialogShow6">
+            <p style="font-size: 30px;">请确认是否继续批量删除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow6 = false">取 消</el-button>
+                <el-button type="primary" @click="onDel1">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 选择页面 -->
+        <el-dialog v-model="isDialogShow4" size="small" :visible.sync="isDialogShow4">
+            <p style="font-size: 30px;">选择页面</p>
+            <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
+                <el-col :span="10">
+                    <el-form-item label="名称：" label-width="100px">
+                        <el-input placeholder="请输入API名称" v-model="ye_name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="渠道：" label-width="80px">
+                        <el-select v-model="region_qu_ye" placeholder="全部" style="width: 80px;">
+                            <el-option v-for="(item) in option_qu" :key="item.value" :label="item.name" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="业务频道：" label-width="100px">
+                        <el-select v-model="region_pin_ye" placeholder="全部" style="width: 80px;">
+                            <el-option v-for="(item) in option_pin" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                <el-button size="small" @click="isDialogShow4 = false">取 消</el-button>
+                <el-button size="small" type="primary" @click="queryClik1">搜 索</el-button>
+                </el-col>
+            </el-form>
+            <p >————————————————————————————————————————————</p>
+            <el-table  :data="tableDatak" stripe width="100%" border>
+                <el-table-column prop="id" label="页面ID" align="center"></el-table-column>
+                <el-table-column prop="name" label="页面名称" align="center"></el-table-column>
+                <el-table-column prop="name" label="页面URL" align="center"></el-table-column>
+                <el-table-column prop="name" label="渠道" align="center"></el-table-column>
+                <el-table-column prop="name" label="业务频道" align="center"></el-table-column>
+                <el-table-column type="selection" label="操作" show-overflow-tooltip align="center"></el-table-column>
+            </el-table>
         </el-dialog>
         <!-- 添加API -->
         <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
@@ -204,15 +243,120 @@ export default {
       isDialogShow1: false,
       isDialogShow2: false,
       isDialogShow3: false,
+      isDialogShow4: false,
+      isDialogShow5: false,
+      isDialogShow6: false,
       tableData: [],
       total: '',
       name: '',
       url: '',
       id: '',
-      apiname: '课程'
+      apiname: '课程',
+      qu_name: '',
+      region_qu_qu: '',
+      region_pin_qu: '',
+      region_zhaung: '',
+      option_zhuang: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '正常'
+      }, {
+        value: '2',
+        label: '冻结'
+      }, {
+        value: '3',
+        label: '删除'
+      }],
+      tableDatak: [],
+      ye_name: '',
+      region_qu_ye: '',
+      region_pin_ye: '',
+      multipleSelection: [],
+      allpi: [],
+      pageNo: ''
     }
   },
   methods: {
+    handleCurrentChange(val) {
+      // 分页监听
+      this.pageNo = val
+      this.onfen()
+    },
+    handleSelectionChange (val) {
+      // 表格监听
+      this.multipleSelection = val
+      console.log('val',val)
+    },
+    onfen () {
+      // 分页按钮
+      var data = {'name': this.qu_name, 'source': this.region_qu_qu, 'channel': this.region_pin_qu, 'pageId': '20', 'status': this.region_zhaung, 'pageNo': this.pageNo, 'pageSize': 20}
+      apiList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+        } else {
+          this.$message(res.message)          
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onDongShow1 () {
+      // 批量冻结弹框
+      if (this.multipleSelection.length === 0) {
+        this.$message('请在列表勾选')  
+        return false
+      }
+      this.allpi = []
+      for (var i = 0;i < this.multipleSelection.length;i++) {
+        this.allpi.push(this.multipleSelection[i].id)
+      }
+      this.isDialogShow5 = true
+    },
+    onDong1 () {
+      // 批量冻结
+      var data = {'allApi': this.allpi}
+      apiStatusBatch(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow5 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)          
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onDelClick1 () {
+      // 批量删除弹框
+      if (this.multipleSelection.length === 0) {
+        this.$message('请在列表勾选')  
+        return false
+      }
+      this.allpi = []
+      for (var i = 0;i < this.multipleSelection.length;i++) {
+        this.allpi.push(this.multipleSelection[i].id)
+      }
+      this.isDialogShow6 = true
+    },
+    onDel1 () {
+      // 批量删除
+      var data = {'allApi': this.allpi}
+      apiDelete(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow3 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)          
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     onDongShow (id) {
       // 冻结/解冻
       this.id = id
@@ -274,6 +418,52 @@ export default {
       }).catch(error => {
         console.log(`请求错误`)
       })
+    },
+    queryClik () {
+      // 搜索按钮
+      var data = {'name': this.qu_name, 'source': this.region_qu_qu, 'channel': this.region_pin_qu, 'pageId': '20', 'status': this.region_zhaung}
+      if (this.qu_name === '') {
+        this.$message('请输入API名称内容')
+        return false
+      } else if (this.region_qu_qu === '') {
+        this.$message('请选择API渠道分类')
+        return false
+      } else if (this.region_pin_qu === '') {
+        this.$message('请选择API业务分类')
+        return false
+      } else if (this.region_zhaung === '') {
+        this.$message('请选择API状态')
+        return false
+      } else if (this.tableDatak.length === 0) {
+        this.$message('请选择API页面名称')
+        return false
+      }
+      apiList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+        } else {
+          this.$message(res.message)          
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik1 () {
+      // 选择页面搜索
+    //   var data = {'name': this.ye_name, 'source': this.region_qu_ye, 'channel': this.region_pin_ye}
+    //   apiList(data).then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.tableDatak = res.result.modelData
+    //     } else {
+    //       this.$message(res.message)          
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
+    this.tableDatak[0] = '点过'
+    this.isDialogShow4 = false
     },
     postData () {
       var data = {'source': 4, 'status': 1, 'channel': 1, 'name': this.apiname}

@@ -5,30 +5,23 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="成员ID：" label-width="80px">
-                  <el-input placeholder="请输入成员ID"></el-input>
+                  <el-input placeholder="请输入成员ID" v-model="qu_id"></el-input>
               </el-form-item>
               <el-form-item label="成员名称：" label-width="100px">
-                  <el-input placeholder="请输入成员名称"></el-input>
+                  <el-input placeholder="请输入成员名称" v-model="qu_name"></el-input>
               </el-form-item>
                 <el-form-item label="角色类型：" label-width="100px">
-                    <el-select v-model="region" placeholder="空" style="width: 100px;">
-                        <el-option label="空" :value="0" :key="0"></el-option>
-                        <el-option label="运营人员" :value="1" :key="1"></el-option>
-                        <el-option label="运维人员" :value="2" :key="2"></el-option>
-                        <el-option label="机构院校" :value="3" :key="3"></el-option>
-                        <el-option label="个人" :value="4" :key="4"></el-option>
-                        <el-option label="会员" :value="5" :key="5"></el-option>
+                    <el-select v-model="region_jiaoname_qu" placeholder="空" style="width: 100px;">
+                        <el-option v-for="(item) in option_jiaoname_qu" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="状态：" label-width="80px">
-                    <el-select v-model="region" placeholder="全部" style="width: 100px;">
-                        <el-option label="全部" :value="0" :key="0"></el-option>
-                        <el-option label="正常" :value="1" :key="1"></el-option>
-                        <el-option label="禁用" :value="2" :key="2"></el-option>
+                    <el-select v-model="region_zhuang" placeholder="全部" style="width: 100px;">
+                        <el-option v-for="(item) in option_zhuang" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
               <el-button size="small" type="primary"  @click="onDisableClik()">新建成员</el-button>
-              <el-button size="small" type="primary">查询</el-button>
+              <el-button size="small" type="primary" @click="queryClik">查询</el-button>
               <el-button size="small" type="primary" @click="onDelClick2()">清除</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
@@ -63,15 +56,16 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
-        <el-col :span="5">
+        <!-- <el-col :span="5">
             <el-button size="small" type="primary" @click="">批量删除</el-button>
-            <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
-        </el-col>
+            <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
+        </el-col> -->
         </el-row>
         </el-col>
         <!-- 分页end -->
@@ -174,7 +168,19 @@ import { memberList,memberStatus,memberCreate,memberDelete,memberUpdate,memberCl
 export default {
   data () {
     return {
-      region: '',
+      region_zhuang: '',
+      option_zhuang: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '正常'
+      }, {
+        value: '2',
+        label: '禁用'
+      }],
+      region_jiaoname_qu: '',
+      option_jiaoname_qu: '',
       region_jiao: '',
       option_jiao: [{
         value: '0',
@@ -204,7 +210,10 @@ export default {
       typejin: '',
       id: '',
       choosenItem: [],
-      choosenItem1: []
+      choosenItem1: [],
+      qu_id: '',
+      qu_name: '',
+      pageNo: ''
     }
   },
   methods: {
@@ -215,6 +224,10 @@ export default {
     choose1 (value) {
       this.choosenItem1 = this.option_jiaoname.filter(item => item.id === value)[0];
       console.log('choose', this.choosenItem1)
+    },
+    handleCurrentChange(val) {
+      this.pageNo = val
+      this.onfen()
     },
     onEditClick (index) {
       this.$router.replace({ path: '/institutionsEditors' })
@@ -327,8 +340,51 @@ export default {
         console.log(`请求错误`)
       })
     },
+    onfen () {
+      // 分页按钮
+      var data = {'employeeNumber': parseInt(this.qu_id), 'username': this.qu_name, 'roleId': this.region_jiaoname_qu, 'status': parseInt(this.region_zhuang), "pageNo": this.pageNo, "pageSize":20}
+      memberList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 查询按钮
+      var data = {'employeeNumber': parseInt(this.qu_id), 'username': this.qu_name, 'roleId': this.region_jiaoname_qu, 'status': parseInt(this.region_zhuang)}
+      if (this.qu_id === '') {
+        this.$message('请输入成员ID')
+        return false
+      } else if (this.qu_name === '') {
+        this.$message('请输入成员姓名')
+        return false
+      } else if (this.region_jiaoname_qu === '') {
+        this.$message('请选择角色类型')
+        return false
+      } else if (this.region_zhuang === '') {
+        this.$message('请选状态')
+        return false
+      }
+      memberList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     postData () {
-      var data = {'employeeNumber': 1222223, 'username': '王子', 'roleId': 1, 'status': 1, 'pageNo': 1, 'pageSize': 20}
+      var data = {'employeeNumber': 1222223, 'username': '王子', 'roleId': 1, "pageNo":1, "pageSize":20}
       memberList(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -345,6 +401,7 @@ export default {
         console.log('data', res)
         if (res.success) {
           this.option_jiaoname = res.result
+          this.option_jiaoname_qu = res.result
         } else {
           this.$message(res.message)
         }

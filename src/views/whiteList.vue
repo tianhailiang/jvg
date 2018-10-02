@@ -5,39 +5,32 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="白名单ID：" label-width="100px">
-                  <el-input placeholder="请输入白名单ID"></el-input>
+                  <el-input placeholder="请输入白名单ID" v-model="qu_id"></el-input>
               </el-form-item>
               <el-form-item label="白名单内容：" label-width="100px">
-                  <el-input placeholder="请输入白名单内容"></el-input>
+                  <el-input placeholder="请输入白名单内容" v-model="qu_name"></el-input>
               </el-form-item>
               <el-form-item label="白名单分类：" label-width="100px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="广告" :value="1" :key="1"></el-option>
-                      <el-option label="宣传" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_fen_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_fen" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="审核状态：" label-width="100px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="待审核" :value="1" :key="1"></el-option>
-                      <el-option label="通过" :value="2" :key="2"></el-option>
-                      <el-option label="不通过" :value="3" :key="3"></el-option>
+                  <el-select v-model="region_shen" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_shen" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="状态：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="正常" :value="1" :key="1"></el-option>
-                      <el-option label="冻结" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_dong" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_dong" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">创建时间：</span>
-                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
+                    <el-date-picker v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
               <el-button size="small" type="primary" @click="onEditClick">添加</el-button>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
               <el-button size="small" type="primary" @click="onDelClick">一键清除</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
@@ -202,6 +195,7 @@ export default {
     return {
       region: '',
       region_fen: '',
+      region_fen_qu: '',
       option_fen: [{
         value: '0',
         label: '空'
@@ -217,8 +211,25 @@ export default {
         value: '0',
         label: '空'
       }, {
+        value: '1',
+        label: '正常'
+      }, {
         value: '2',
         label: '冻结'
+      }],
+      region_shen: '',
+      option_shen: [{
+        value: '0',
+        label: '空'
+      }, {
+        value: '1',
+        label: '待审核'
+      }, {
+        value: '2',
+        label: '通过'
+      }, {
+        value: '3',
+        label: '不通过'
       }],
       isDialogShow: false,
       isDialogShow1: false,
@@ -231,7 +242,10 @@ export default {
       appming: '',
       appfen: '',
       appid: '',
-      status: ''
+      status: '',
+      qu_id: '',
+      qu_name: '',
+      dataTime: ''
     }
   },
   methods: {
@@ -339,6 +353,37 @@ export default {
         window.location.reload()
         } else {
         this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 搜索按钮
+      console.log('data', this.dataTime)
+      var data = {'url': this.qu_name, 'type': this.region_fen_qu, 'status': this.region_dong, 'applyStatus': this.region_shen, 'regFrom': this.dataTime[0], 'regTo': this.dataTime[1]}
+      if (this.qu_name === '') {
+        this.$message('请输入白名单内容')
+        return false
+      } else if (this.region_fen_qu === '') {
+        this.$message('请选择白名单分类')
+        return false
+      } else if (this.region_dong === '') {
+        this.$message('请选择白名单状态')
+        return false
+      } else if (this.region_shen === '') {
+        this.$message('请选择白名单审核状态')
+        return false
+      } else if (this.dataTime === '') {
+        this.$message('请选择白名单创建时间')
+        return false
+      }
+      whiteList().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+        } else {
+          this.$message(res.message)
         }
       }).catch(error => {
         console.log(`请求错误`)
