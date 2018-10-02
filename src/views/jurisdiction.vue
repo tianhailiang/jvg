@@ -1,11 +1,11 @@
 <template>
-<section class="advert-container" style="overflow:hidden;">
-    <el-row :gutter="20">
-        <el-col :span='20' style="margin-left: 10px;margin-bottom: 20px;">
+<section class='chart-container'>
+    <el-row :gutter="24">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">权限管理</p>
         </el-col>
     </el-row>
-    <el-row :gutter="20">
+    <el-row :gutter="24">
         <el-form :inline="true" class="demo-form-inline" label-width="100px" size="small">
               <el-form-item label="站点选择：">
                   <el-select v-model="region_category" placeholder="管理后台（pc）" style="width: 150px;">
@@ -27,8 +27,8 @@
               <!-- <el-button size="small" type="primary" @click="onQuery">查询</el-button> -->
         </el-form>
     </el-row>
-    <el-row :gutter="20">
-        <el-col v-for="(item,index) in tableDatak" :span='20' style="margin-right: 5%;margin-bottom: 20px;">
+    <el-row :gutter="24">
+        <el-col v-for="(item,index) in tableDatak" :span='24' style="margin-right: 5%;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <div style="float: left;text-align: left;" >
                 <i id="icon_plus" :class="{'el-icon-plus': showIndex == -1 || index != showIndex, 'el-icon-minus': index == showIndex}" @click="onShow(index)" style="cursor: pointer;font-weight: 900;margin-left: 10px;margin-right: 10px;"></i>

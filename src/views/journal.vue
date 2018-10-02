@@ -1,6 +1,6 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">日志管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
@@ -26,7 +26,7 @@
               <el-button size="small" type="primary">搜索</el-button>
               <el-button size="small" type="primary" @click="onDelClick()">一键清除</el-button>
         </el-form>
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>
             <el-table-column prop="operationDate" label="操作时间" align="center"></el-table-column>
             <el-table-column prop="operationMemo" label="操作信息" align="center"></el-table-column>
@@ -56,7 +56,7 @@
                 <el-button type="primary" @click="onDel">确 定</el-button>
             </span>
         </el-dialog>
-    </div>
+    </section>
 </template>
 <script>
 import { logsDelete,logsList } from '@/api/url.js'

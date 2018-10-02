@@ -1,9 +1,10 @@
 <template>
-    <section class="advert-container personnel" style="overflow:hidden;">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+      <el-row :gutter="24">
+        <el-col :span='24' class='chart-title'>
             <p class="personnel-title">数据看板</p>
         </el-col>
-        <el-col :span='18' class="chart-shu">
+        <el-col :span='24' class="chart-shu">
             <p class="personnel-title">用户数据</p>
             <el-row :gutter="20" style="margin-top: 20px;text-align: center;">
                 <el-col :span="4"><div class="red-title">{{userdata.newlyAddedYesterday}}</div><div>昨日新增</div></el-col>
@@ -14,7 +15,7 @@
                 <el-col :span="4"><div class="red-title">{{userdata.accumulativeRegisteredRsers}}</div><div>累计注册用户</div></el-col>
             </el-row>
         </el-col>
-        <el-col :span='18' class="chart-shu">
+        <el-col :span='24' class="chart-shu">
             <p class="personnel-title">业务数据</p>
             <el-row :gutter="20" style="margin-top: 20px;text-align: center;">
                 <el-col :span="4"><div class="red-title">{{businessdata.AccumulatedOfferARewardAmountRMB}}</div><div>本月会员收入</div></el-col>
@@ -25,7 +26,7 @@
                 <el-col :span="4"><div class="red-title">{{businessdata.AccumulatedOfferARewardAmountRMB}}</div><div>累计悬赏金额</div></el-col>
             </el-row>
         </el-col>
-        <el-col :span='25' class='chart'>
+        <el-col :span='24' class='chart'>
             <p class="hui-title">新增用户趋势</p>
             <el-row class="chart-r" style="width: 200px;float: left;margin-top: 20px;">
                     <el-col ><div>本月新增用户</div></el-col>
@@ -45,10 +46,12 @@
                         <div style="float: right;margin-left: 10px;cursor: pointer;">本周</div>
                         <div style="float: right;color: green;margin-left: 10px;cursor: pointer;">今日</div>
                 </div>
-                <div id='userChart' style='height: 400px;width: 800px;' >图表加载失败</div>
+                <el-container style="float: left;">
+                    <div id='userChart' style='height: 400px;width: 800px;' >图表加载失败</div>
+                </el-container>
             </el-row>
         </el-col>
-        <el-col :span='25' class='chart'>
+        <el-col :span='24' class='chart'>
             <p class="hui-title">活动用户趋势</p>
             <el-row class="chart-r" style="width: 200px;float: left;margin-top: 20px;">
                     <el-col ><div>本月活跃用户</div></el-col>
@@ -68,9 +71,12 @@
                         <div style="float: right;margin-left: 10px;cursor: pointer;">本周</div>
                         <div style="float: right;color: green;margin-left: 10px;cursor: pointer;">今日</div>
                 </div>
-                <div id='userChart1' style='height: 400px;width: 800px;' >图表加载失败</div>
+                <el-container style="float: left;">
+                    <div id='userChart1' style='height: 400px;width: 800px;' >图表加载失败</div>
+                </el-container>
             </el-row>
         </el-col>
+      </el-row>
     </section>
 </template>
 <script>
@@ -307,10 +313,6 @@ export default {
     margin-left: 100px;
     line-height: 70px;
     font-weight: 800;
-}
-.chart-container{
-  margin-top:10px;
-  margin-left: 10px;
 }
 .chart{
   margin-left: 10px;

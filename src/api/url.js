@@ -184,6 +184,10 @@ export const pagesDelete = (parms) => {
 export const pagesFrozen = (parms) => {
   return http.fetchPost(url + 'system/pages/frozen.json', parms)
 }
+// 追加SEO
+export const seosCreate = (parms) => {
+  return http.fetchPost(url + 'system/seos/create.json', parms)
+}
 // 查询SEO管理列表
 export const seosList = (parms) => {
   return http.fetchPost(url + 'system/seos/list.json', parms)
@@ -330,11 +334,11 @@ export const labelRecommendationOrCancellation = (parms) => {
 }
 // 查询选择标签关系列表
 export const labelLevelOneList = (parms) => {
-  return http.fetchPost(url + 'label/levelOneList.json', parms)
+  return http.fetchPost(url + 'label/variable/select/list.json', parms)
 }
-// 查询下级标签列表
+// 查询级别标签列表
 export const labelLevelOneToThirdList = (parms) => {
-  return http.fetchPost(url + 'label/levelOneToThirdList.json', parms)
+  return http.fetchPost(url + 'label/variable/list.json', parms)
 }
 // 标签关系编辑
 export const labelRelationship = (parms) => {

@@ -83,4 +83,8 @@ html, body {
   align-items: center;
   height: 50px
 }
+.chart-container{
+  margin-left: 260px;
+  overflow: hidden;
+}
 </style>

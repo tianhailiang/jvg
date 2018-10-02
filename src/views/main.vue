@@ -1,10 +1,11 @@
 <template>
-    <div class='chart-container'>
-        <el-col :span='18' class='chart-title'>
+    <section class='chart-container'>
+      <el-row :gutter="24">
+        <el-col :span='24' class='chart-title'>
             <P>总控制台</P>
             <p>用于展示当前系统中的统计数据，统计报表及重要实时数据</p>
         </el-col>
-        <el-col :span='18' class="chart-shu">
+        <el-col :span='24' class="chart-shu">
             <el-row :gutter="20">
                 <el-col :span="6"><i class="el-icon-picture"></i><div>{{mainData.allUser}}</div><div>用户总数</div></el-col>
                 <el-col :span="6"><i class="el-icon-picture"></i><div>{{mainData.totalNumberOfVisits}}</div><div>访问总数</div></el-col>
@@ -12,7 +13,7 @@
                 <el-col :span="6"><i class="el-icon-picture"></i><div>{{mainData.allMoney}}</div><div>总金额</div></el-col>
             </el-row>
         </el-col>
-        <el-col :span='18' class='chart'>
+        <el-col :span='24' class='chart'>
             <el-container style="float: left;">
             <div id='userChart' style='height: 400px;width: 750px;' >图表加载失败</div>
             </el-container>
@@ -29,7 +30,7 @@
                     <el-col :span="3"><i class="el-icon-picture"></i><div>{{mainData.sevenSignIn}}</div><div>七日活跃</div></el-col>
                 </el-row>
         </el-col>
-        <el-col :span='18' class="chart-k">
+        <el-col :span='24' class="chart-k">
             <div>快捷入口</div>
             <el-row :gutter="20" class="chart-r" style="margin-top: 30px;margin-left: 0px;cursor: pointer;">
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(1)">用户</div></el-col>
@@ -42,7 +43,8 @@
                 <el-col :span="6" class="chart-b"><i class="el-icon-picture"></i><div @click="onSkip(6)">系统</div></el-col>
             </el-row>
         </el-col>
-    </div>
+      </el-row>
+    </section>
 </template>
 <script>
 import echarts from 'echarts'
@@ -195,10 +197,6 @@ export default {
     margin-left: 100px;
     line-height: 70px;
     font-weight: 800;
-}
-.chart-container{
-  margin-top:10px;
-  margin-left: 10px;
 }
 .chart{
   margin-left: 10px;

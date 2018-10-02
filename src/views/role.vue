@@ -1,6 +1,6 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">角色管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
@@ -8,7 +8,7 @@
               <el-button size="small" type="primary" @click="onshowadd">新建角色</el-button>
             </el-col>
         </el-form>
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column prop="id" label="角色ID" align="center"></el-table-column>
@@ -121,7 +121,7 @@
           </div>
             <div slot="footer" class="dialog-footer"></div>
         </el-dialog>
-    </div>
+    </section>
 </template>
 <script>
 import { roleList,roleDelete,roleCreate,roleUpdate,codeChannel,codeRole,resourceList } from '../api/url.js'

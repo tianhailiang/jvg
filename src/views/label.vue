@@ -1,6 +1,6 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">标签列表</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
@@ -46,7 +46,7 @@
               <el-button size="small" type="primary" @click="onEditClick('1')">新建</el-button>
               <el-button size="small" type="primary" @click="onDisableClik">排序</el-button>
         </el-form>
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
@@ -82,7 +82,7 @@
             <!-- </div> -->
         </el-col>
         <!-- 分页 -->
-        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-col :span='24' style="float: right;">
         <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
@@ -257,7 +257,7 @@
                 <el-button v-if="addid != null" type="primary" @click="onedit">确 定</el-button>
             </span>
         </el-dialog>
-    </div>
+    </section>
 </template>
 <script>
 import { labelList,labelDelete,labelSort,labelSortQuery,labelCrate,labelDetail,labelUpdate,codeChannel,codeAffairs } from '@/api/url.js'

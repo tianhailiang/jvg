@@ -1,9 +1,9 @@
 <template>
-    <section class="advert-container personnel" style="overflow:hidden;">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">用户分析</p>
         </el-col>
-        <el-col :span='25' class='chart'>
+        <el-col :span='24' class='chart'>
             <p class="hui-title">新增用户趋势</p>
             <el-row class="chart-r" style="font-size: 25px;width: 150px;float: left;text-align: center;color: green;">
                     <el-col class="active"><div>总览新增</div></el-col>
@@ -19,7 +19,7 @@
                 <div id='userChart' style='height: 400px;width: 800px;margin-left: 10px;' >图表加载失败</div>
             </el-row>
         </el-col>
-        <el-col :span='25' class='chart'>
+        <el-col :span='24' class='chart'>
             <p class="hui-title">渠道用户</p>
             <el-row class="chart-r" style="font-size: 25px;width: 150px;float: left;text-align: center;color: green;">
                     <el-col class="active"><div>版本分布</div></el-col>
@@ -409,10 +409,6 @@ export default {
     margin-left: 100px;
     line-height: 70px;
     font-weight: 800;
-}
-.chart-container{
-  margin-top:10px;
-  margin-left: 10px;
 }
 .chart{
   margin-left: 10px;

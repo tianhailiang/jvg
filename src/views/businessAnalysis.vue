@@ -1,9 +1,9 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">业务分析</p>
         </el-col>
-        <el-col :span='18' class='chart'>
+        <el-col :span='24' class='chart'>
             <p class="hui-title">订单数据分析</p>
             <el-row style="float: left;width: 90%;">
                 <div style="width: 90%;height: 50px;margin-top: 20px;line-height: 40px;">
@@ -26,7 +26,7 @@
                 </el-table>
             </el-row>
         </el-col>
-        <el-col :span='18' class='chart'>
+        <el-col :span='24' class='chart'>
             <div class="hui-title">
               <el-form :inline="true" class="demo-form-inline personnel" label-width="150px" size="mini">
                 <el-form-item label="页面：" label-width="55px" style="margin-bottom: 0px;">
@@ -45,7 +45,7 @@
                 <el-table-column prop="reward" label="跳出率" width="" align="center"></el-table-column>
             </el-table>
         </el-col>
-    </div>
+    </section>
 </template>
 <script>
 import { businessQuery } from '@/api/url.js'
@@ -273,10 +273,6 @@ export default {
     margin-left: 100px;
     line-height: 70px;
     font-weight: 800;
-}
-.chart-container{
-  margin-top:10px;
-  margin-left: 10px;
 }
 .chart{
   margin-left: 10px;

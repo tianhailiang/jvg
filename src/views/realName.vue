@@ -1,6 +1,6 @@
 <template>
-    <section class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">实名认证管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
@@ -38,7 +38,7 @@
               </el-form-item>
               <el-button size="small" type="primary">搜索</el-button>
         </el-form>
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;text-align: center;">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
         <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="selection" label="全部" width="55" align="center"></el-table-column>
@@ -49,7 +49,7 @@
                 <el-table-column prop="sexType" label="性别" align="center"></el-table-column>
                 <el-table-column prop="idCode" label="证件号" align="center"></el-table-column>
                 <el-table-column prop="approveStatusName" label="状态" align="center"></el-table-column>
-                <el-table-column label="操作" align="center">
+                <el-table-column width="250" label="操作" align="center" show-overflow-tooltip fixed="right">
                     <template slot-scope="scope">
                         <el-button v-if="scope.row.approveStatus == 1" @click="onExamineClick(scope.row.id)" type="danger" size="small">审核</el-button>
                         <el-button v-if="scope.row.approveStatus == 2" @click="onRevokeClick(scope.row.id)" type="danger" size="small">撤销</el-button>
@@ -59,7 +59,7 @@
         <!-- </div> -->
         </el-col>
         <!-- 分页 -->
-        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-col :span='24' style="float: right;">
         <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 

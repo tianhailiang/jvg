@@ -1,6 +1,6 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">人员管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline personnel" label-width="150px" size="mini">
@@ -56,7 +56,7 @@
               <el-button @click="onshowuser" size="small" type="primary">新增用户</el-button>
         </el-form>
 
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column type="selection" label="全部" width="55" align="center"></el-table-column>
@@ -82,7 +82,7 @@
             <!-- </div> -->
         </el-col>
         <!-- 分页 -->
-        <el-col :span='18' style="float: right;margin-right: 100px;">
+        <el-col :span='24' style="float: right;">
         <el-row :gutter="20" v-if="tableData.length" class="pagina-tion">
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
@@ -263,7 +263,7 @@
                 <el-button type="primary" @click="isDialogShow2 = false">取 消</el-button>
             </span>
         </el-dialog>
-    </div>
+    </section>
 </template>
 <script>
 import { userList,userUpdate,userDelete,userFrozen,userFrozenQuery,userDetail,codeCountry,codeSource,codeChannel } from '@/api/url.js'

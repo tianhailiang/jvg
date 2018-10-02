@@ -1,6 +1,6 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">白名单管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
@@ -40,7 +40,7 @@
               <el-button size="small" type="primary">搜索</el-button>
               <el-button size="small" type="primary" @click="onDelClick">一键清除</el-button>
         </el-form>
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
                 <el-table-column prop="id" label="白名单ID" align="center"></el-table-column>
@@ -193,7 +193,7 @@
                 <el-button type="primary" @click="onTong1(2)">不 通 过</el-button>
             </span>
         </el-dialog>
-    </div>
+    </section>
 </template>
 <script>
 import { whiteDelete,whiteList,whiteCreate,whiteVerify,whiteUpdate,whiteFrozen,whiteUnfrozen } from '@/api/url.js'

@@ -1,22 +1,18 @@
 <template>
-    <div class="personnel">
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+    <section class='chart-container'>
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <p class="personnel-title">敏感词管理</p>
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
-            <el-col :span="4">
               <el-form-item label="业务类型：" label-width="100px">
                   <el-select v-model="region" @change="choose(region)" placeholder="全部" style="width: 80px;">
                       <el-option v-for="(item) in option_category" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <!-- <el-button size="small" type="primary" @click="onDisableClik(1)">追加业务类型</el-button> -->
               <el-button size="small" type="primary" @click="onEditClick(1)">追加敏感词</el-button>
-            </el-col>
         </el-form>
-        <el-col :span='18' style="margin-left: 10px;margin-bottom: 20px;">
+        <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
         <el-table :data="tableData" stripe width="100%" border>
             <el-table-column prop="businessName" label="业务类型" align="center"></el-table-column>
             <el-table-column prop="keywordsList" label="敏感词" align="center"></el-table-column>
@@ -106,7 +102,7 @@
                 <el-button type="primary" @click="onTijiao">提 交</el-button>
             </span>
         </el-dialog>
-    </div>
+    </section>
 </template>
 <script>
 import { codeAffairs,sensitiveList,sensitiveCreate,sensitiveCreateSensitive,sensitiveUpdate,sensitiveDelete } from '@/api/url.js'
