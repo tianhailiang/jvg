@@ -57,10 +57,14 @@ export default {
     // },
     onSubmit () {
       // 登录
-      var data ={'username': this.name, 'password': this.pass, 'code': this.code, 'codeKey': this.codeKey, 'lastLoginIp': this.ip}
+      var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey, lastLoginIp: this.ip}
+      // data = JSON.stringify(data)
+      console.log('传参', data)
       memberLogin(data).then(res => {
         console.log('data', res)
         if (res.success) {
+          this.$store.state.login.commit('set_token', res.result)
+          console.log('token', this.$store.state.login.token)
           this.$router.push({ path: '/main' })
         } else {
           if (res.code === 'E10010') {
@@ -78,7 +82,8 @@ export default {
           }
         }
       }).catch(error => {
-        console.log(`请求错误`)
+        // this.$message(error.data.message)
+        console.log(`请求错误`, error)
       })
     },
     refreshCode () {
@@ -104,13 +109,34 @@ export default {
       }).catch(error => {
         console.log(`请求错误`)
       })
+      // axios.post('https://tdxzback.jjldxz.com/api/c/member/login/code.json').then(function (res) {
+      //   console.log('res', res)
+      // }, function (error) {
+
+      // })
     },
     getip () {
       var _this = this
-      axios.get(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8')
-      .then(function (res) {
-        console.log(res)
-        _this.ip = res.data
+      // axios.get(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8')
+      // .then(function (res) {
+      //   console.log(res)
+      //   _this.ip = res.data
+      //   console.log('ip', _this.ip)
+      //   _this.ip = _this.ip.split(':')
+      //   console.log('sss', _this.ip)
+      //   _this.ip = _this.ip[1].split('"')
+      //   console.log('aaaa', _this.ip)
+      //   _this.ip = _this.ip[1]
+      //   console.log('qqqq', _this.ip)
+      // }, function (error) {
+      //   console.log(error)
+      // })
+      ipdizhi().then(res => {
+        console.log('data', res)
+        // console.log(res)
+      }).catch(error => {
+        console.log(error)
+        _this.ip = error.data
         console.log('ip', _this.ip)
         _this.ip = _this.ip.split(':')
         console.log('sss', _this.ip)
@@ -118,8 +144,6 @@ export default {
         console.log('aaaa', _this.ip)
         _this.ip = _this.ip[1]
         console.log('qqqq', _this.ip)
-      }, function (error) {
-        console.log(error)
       })
     }
   },

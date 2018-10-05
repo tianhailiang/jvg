@@ -1,5 +1,7 @@
 import http from './http'
-var url = 'https://tdxzback.jjldxz.com/api/c/'
+var url = 'https://bird.ioliu.cn/v1/?url=' + 'https://tdxzback.jjldxz.com/api/c/'
+// var url = 'https://tdxzback.jjldxz.com/api/c/'
+const API_PROXY = 'https://bird.ioliu.cn/v1/?url='
 // 查询业务类型列表
 export const codeAffairs = (params) => {
   return http.fetchPost(url + 'common/code/affairs/list.json', params)
@@ -30,7 +32,7 @@ export const memberLogin = (params) => {
 }
 // 搜狐获取ip地址
 export const ipdizhi = (params) => {
-  return http.fetchGet('http://pv.sohu.com/cityjson?ie=utf-8', params)
+  return http.fetchGet(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8', params)
 }
 // 获取验证码
 export const loginCode = (params) => {
