@@ -4,13 +4,15 @@ import axios from 'axios'
 import qs from 'querystring'
 // axios.defaults.timeout = 10000
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www=form-urlencoded'
-axios.defaults.headers.common['X-Api-Ver'] = '1.0'
+// axios.defaults.headers.common['X-Api-Ver'] = '1.0'
 
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use(config => {
   //在发送请求之前做某件事
   config.headers = {
-    'Content-Type': 'application/json;charset=UTF-8'
+    'Content-Type': 'application/json;charset=UTF-8',
+    'X-Access-Token': 'c7fc46205ac22d79c9353a5c1bfa0d22',
+    'X-Api-Ver': '1.0'
   }
   if (config.method  === 'post') {
     if (JSON.stringify(config.data) !== '{}') {

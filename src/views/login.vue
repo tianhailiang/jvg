@@ -117,7 +117,7 @@ export default {
     },
     getip () {
       var _this = this
-      // axios.get(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8')
+      // $axios.get(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8')
       // .then(function (res) {
       //   console.log(res)
       //   _this.ip = res.data
@@ -131,20 +131,20 @@ export default {
       // }, function (error) {
       //   console.log(error)
       // })
-      ipdizhi().then(res => {
-        console.log('data', res)
-        // console.log(res)
-      }).catch(error => {
-        console.log(error)
-        _this.ip = error.data
-        console.log('ip', _this.ip)
-        _this.ip = _this.ip.split(':')
-        console.log('sss', _this.ip)
-        _this.ip = _this.ip[1].split('"')
-        console.log('aaaa', _this.ip)
-        _this.ip = _this.ip[1]
-        console.log('qqqq', _this.ip)
-      })
+      // ipdizhi().then(res => {
+      //   console.log('data', res)
+      //   // console.log(res)
+      // }).catch(error => {
+      //   console.log(error)
+      //   _this.ip = error.data
+      //   console.log('ip', _this.ip)
+      //   _this.ip = _this.ip.split(':')
+      //   console.log('sss', _this.ip)
+      //   _this.ip = _this.ip[1].split('"')
+      //   console.log('aaaa', _this.ip)
+      //   _this.ip = _this.ip[1]
+      //   console.log('qqqq', _this.ip)
+      // })
     }
   },
   mounted () {
