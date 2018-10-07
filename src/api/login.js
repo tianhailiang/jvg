@@ -1,5 +1,8 @@
 
-export default ({
+const modulea = {
+  token: ''
+}
+export default {
   state: { 
     token: ''
   },
@@ -12,5 +15,10 @@ export default ({
       state.token = ''
       sessionStorage.removeItem('token')
     }
+  },
+  action: {
+    settoken ({ commit }, token) {
+      commit(type.set_token, token)
+    }
   }
-})
+}

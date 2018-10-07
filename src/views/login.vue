@@ -32,6 +32,7 @@ import TopNav from '@/components/NavLogin.vue'
 import SIdentify from '@/components/identify.vue'
 import { memberLogin,loginCode,ipdizhi } from '@/api/url.js'
 import axios from 'axios'
+import { mapMutations } from 'vuex';
 const API_PROXY = 'https://bird.ioliu.cn/v1/?url='
 
 export default {
@@ -48,7 +49,8 @@ export default {
       pass: '',
       code: '',
       codeKey: '',
-      ip: ''
+      ip: '',
+      url: ''
     }
   },
   methods: {
@@ -57,33 +59,61 @@ export default {
     // },
     onSubmit () {
       // 登录
+      var _this = this
       var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey, lastLoginIp: this.ip}
       // data = JSON.stringify(data)
       console.log('传参', data)
       memberLogin(data).then(res => {
         console.log('data', res)
         if (res.success) {
-          this.$store.state.login.commit('set_token', res.result)
-          console.log('token', this.$store.state.login.token)
-          this.$router.push({ path: '/main' })
-        } else {
-          if (res.code === 'E10010') {
-            this.$message('验证码错误')  
-          } else if (res.code === 'E10003') {
-            this.$message('用户未找到')
-          } else if (res.code === 'E10002') {
-            this.$message('用户登录失败')
-          } else if (res.code === 'E10001') {
-            this.$message('用户无权限') 
-          } else if (res.code === 'E10000') {
-            this.$message('用户未登录')
+          // console.log('login', _this.$store.state.login.token)
+          // _this.$store.dispatch('set_token', res.result)
+          // console.log('token', this.$store.state.login.token)
+          sessionStorage.setItem('token', res.result)
+          console.log('token', sessionStorage.getItem('token'))
+          console.log('rou', _this.url)
+          if (_this.url !== undefined && _this.url !== '') {
+            console.log('1111')
+            _this.$router.push({ path: _this.url })
+            this.postData()
+            // _this.$router.back(-1)
           } else {
-            this.$message(res.message)
+            console.log('2222')
+            _this.$router.push({ path: '/main' })
+          }
+        } else {
+          this.postData()
+          if (res.code === 'E10010') {
+            _this.$message('验证码错误')  
+          } else if (res.code === 'E10003') {
+            _this.$message('用户未找到')
+          } else if (res.code === 'E10002') {
+            _this.$message('用户登录失败')
+          } else if (res.code === 'E10001') {
+            _this.$message('用户无权限') 
+          } else if (res.code === 'E10000') {
+            _this.$message('用户未登录')
+          } else {
+            _this.$message(res.message)
           }
         }
       }).catch(error => {
         // this.$message(error.data.message)
+        this.postData()
         console.log(`请求错误`, error)
+        if (error.data.code === 'E10010') {
+          _this.$message('验证码错误')  
+        } else if (error.data.code === 'E10003') {
+          _this.$message('用户未找到')
+        } else if (error.data.code === 'E10002') {
+          _this.$message('用户登录失败')
+        } else if (error.data.code === 'E10001') {
+          _this.$message('用户无权限') 
+        } else if (error.data.code === 'E10000') {
+          _this.$message('用户未登录')
+        } else {
+          _this.$message(error.data.message)
+        }
       })
     },
     refreshCode () {
@@ -98,6 +128,8 @@ export default {
     //   console.log(this.identifyCode)
     // },
     postData () {
+      console.log('rou', this.$router.history.current.query.redirect)
+      this.url = this.$router.history.current.query.redirect
       loginCode().then(res => {
         console.log('data', res)
         if (res.success) {
@@ -116,8 +148,8 @@ export default {
       // })
     },
     getip () {
-      var _this = this
-      // $axios.get(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8')
+      // var _this = this
+      // axios.get(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8')
       // .then(function (res) {
       //   console.log(res)
       //   _this.ip = res.data
