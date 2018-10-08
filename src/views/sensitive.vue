@@ -132,7 +132,7 @@ export default {
       console.log('choose', this.choosenItem)
     },
     onTijiao () {
-        //追加敏感词
+      // 追加敏感词
       var data = {'business': this.affairsid, 'keywordsList': this.affairscon}
       console.log('aaaaa', data)
       sensitiveCreateSensitive(data).then(res => {
@@ -144,12 +144,11 @@ export default {
           this.$message(res.message)
         }
       }).catch(error => {
-        this.$message(error.data.message)
         console.log(`请求错误`)
       })
     },
     onTijiao1 () {
-        //编辑敏感词
+      // 编辑敏感词
       var data = {'id': this.bianid, 'keywordsList': this.bianmin}
       sensitiveUpdate(data).then(res => {
         console.log('data', res)
@@ -164,7 +163,7 @@ export default {
       })
     },
     onTijiao2 () {
-        //删除敏感词
+      // 删除敏感词
       var data = {'id': this.bianid}
       sensitiveDelete(data).then(res => {
         console.log('data', res)

@@ -5,60 +5,46 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline personnel" label-width="150px" size="mini">
               <el-form-item label="用户/联系人名称：">
-                  <el-input placeholder="请输入用户/联系人名称"></el-input>
+                  <el-input placeholder="请输入用户/联系人名称" v-model="qu_name"></el-input>
               </el-form-item>
               <el-form-item label="用户/联系人手机：">
-                  <el-input placeholder="请输入用户/联系人手机"></el-input>
+                  <el-input placeholder="请输入用户/联系人手机" v-model="qu_iphone"></el-input>
               </el-form-item>
               <el-form-item label="用户昵称：">
-                  <el-input placeholder="请输入用户昵称"></el-input>
+                  <el-input placeholder="请输入用户昵称" v-model="qu_nick"></el-input>
               </el-form-item>
               <el-form-item label="频道：" label-width="55px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="留学" :value="1" :key="1"></el-option>
-                      <el-option label="语培" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_pin_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_pin" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="性别：" label-width="55px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="男" :value="0" :key="0"></el-option>
-                      <el-option label="女" :value="1" :key="1"></el-option>
-                      <el-option label="空" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_xing_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_xing_qu" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="认证：" label-width="55px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="未认证" :value="1" :key="1"></el-option>
-                      <el-option label="已认证" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_ren_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_ren_qu" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="用户角色：" label-width="95px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="普通个人" :value="1" :key="1"></el-option>
-                      <el-option label="个人讲师" :value="2" :key="2"></el-option>
-                      <el-option label="机构讲师" :value="3" :key="3"></el-option>
-                      <el-option label="院校讲师" :value="4" :key="4"></el-option>
-                      <el-option label="顾问" :value="5" :key="5"></el-option>
-                      <el-option label="大咖" :value="6" :key="6"></el-option>
-                      <el-option label="经纪人" :value="7" :key="7"></el-option>
+                  <el-select v-model="region_role_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_role" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="状态：" label-width="55px">
-                  <el-select v-model="region" placeholder="正常" style="width: 80px;">
-                      <el-option label="正常" :value="0" :key="0"></el-option>
-                      <el-option label="禁用" :value="1" :key="1"></el-option>
+                  <el-select v-model="region_tai_qu" placeholder="正常" style="width: 80px;">
+                      <el-option v-for="(item) in option_tai" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
               <el-button @click="onshowuser" size="small" type="primary">新增用户</el-button>
         </el-form>
 
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData" stripe width="100%" border>
+            <el-table :data="tableData" stripe width="100%" border @selection-change="handleSelectionChange">
                 <el-table-column type="selection" label="全部" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="用户ID" width="80" align="center"></el-table-column>
                 <el-table-column prop="realName" label="用户/联系人姓名" width="90" align="center"></el-table-column>
@@ -87,13 +73,14 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <el-button size="small" type="primary" @click="onDelClick1">批量删除</el-button>
             <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
         </el-col>
         </el-row>
@@ -105,6 +92,14 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
                 <el-button type="primary" @click="onDel">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 批量删除窗口 -->
+        <el-dialog v-model="isDialogShow4" size="small" :visible.sync="isDialogShow4">
+            <p style="font-size: 30px;">请确认批量删除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow4 = false">取 消</el-button>
+                <el-button type="primary" @click="onDel1">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 解禁窗口 -->
@@ -266,7 +261,7 @@
     </section>
 </template>
 <script>
-import { userList,userUpdate,userDelete,userFrozen,userFrozenQuery,userDetail,codeCountry,codeSource,codeChannel } from '@/api/url.js'
+import { userList,userUpdate,userDelete,userFrozen,userFrozenQuery,userDetail,codeCountry,codeSource,codeChannel,codeRole } from '@/api/url.js'
 export default {
   name: 'personnel',
   data () {
@@ -322,12 +317,38 @@ export default {
         value: '2',
         label: '护照'
       }],
+      region_pin_qu: '',
       region_pin: '',
       option_pin: [],
       region_qu: '',
       option_qu: [],
-      region_pin: '',
-      option_pin: [],
+      region_role_qu: '',
+      option_role: [],
+      region_xing_qu: '',
+      option_xing_qu: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '男'
+      }, {
+        value: '2',
+        label: '女'
+      }, {
+        value: '3',
+        label: '空'
+      }],
+      region_ren_qu: '',
+      option_ren_qu: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '未认证'
+      }, {
+        value: '2',
+        label: '已认证'
+      }],
       region_jigou: '',
       option_jigou: [{
         value: '1',
@@ -339,6 +360,7 @@ export default {
         value: '3',
         label: '新加坡国立大学'
       }],
+      region_tai_qu: '',
       region_tai: '',
       option_tai: [{
         value: '1',
@@ -352,6 +374,7 @@ export default {
       isDialogShow1: false,
       isDialogShow2: false,
       isDialogShow3: false,
+      isDialogShow4: false,
       tableData: [],
       total: null,
       id: '',
@@ -369,7 +392,13 @@ export default {
       appzheng: '',
       appmi: '',
       appren: '未认证',
-      appxin: 1
+      appxin: 1,
+      pageNo: '',
+      qu_name: '',
+      qu_iphone: '',
+      qu_nick: '',
+      multipleSelection: '',
+      allpi: []
     }
   },
   methods: {
@@ -377,8 +406,75 @@ export default {
       this.choosenItem = this.option_country.filter(item => item.id === value)[0];
       console.log('choose', this.choosenItem)
     },
+    handleSelectionChange (val) {
+      // 表格监听
+      this.multipleSelection = val
+      console.log('val',val)
+    },
+    handleCurrentChange(val) {
+      // 分页监听
+      this.pageNo = val
+      this.onfen()
+    },
+    onfen () {
+      // 分页按钮
+      var data = {'realName': this.qu_name, 'mobile': this.qu_iphone, 'nikeName': this.qu_nick, 'registeredChannel': this.region_pin_qu, 'sex': this.region_xing_qu, 'approveStatus': this.region_ren_qu, 'type': this.region_role_qu, 'status': this.region_tai_qu, 'pageNo': this.pageNo, 'pageSize':20}
+      userList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 查询按钮
+      var data = {'realName': this.qu_name, 'mobile': this.qu_iphone, 'nikeName': this.qu_nick, 'registeredChannel': this.region_pin_qu, 'sex': this.region_xing_qu, 'approveStatus': this.region_ren_qu, 'type': this.region_role_qu, 'status': this.region_tai_qu}
+      userList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     onEditClick (index) {
       this.$router.replace({ path: '/userEditors' })
+    },
+    onDelClick1 () {
+      // 批量删除弹框
+      if (this.multipleSelection.length === 0) {
+        this.$message('请在列表勾选')  
+        return false
+      }
+      this.allpi = []
+      for (var i = 0;i < this.multipleSelection.length;i++) {
+        this.allpi.push(this.multipleSelection[i].id)
+      }
+      this.isDialogShow4 = true
+    },
+    onDel1 () {
+      // 批量删除人员
+      var data = {'ids': this.allpi}
+      userDelete(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onDelClick (index) {
       // 删除弹框
@@ -530,8 +626,19 @@ export default {
       }).catch(error => {
         console.log(`请求错误`)
       })
-      // 频道
+      // 渠道
       codeSource().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.option_qu = res.result
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+      // 频道
+      codeChannel().then(res => {
         console.log('data', res)
         if (res.success) {
           this.option_pin = res.result
@@ -541,11 +648,11 @@ export default {
       }).catch(error => {
         console.log(`请求错误`)
       })
-      // 渠道
-      codeChannel().then(res => {
+      // 角色
+      codeRole().then(res => {
         console.log('data', res)
         if (res.success) {
-          this.option_qu = res.result
+          this.option_role = res.result
         } else {
           this.$message(res.message)
         }
