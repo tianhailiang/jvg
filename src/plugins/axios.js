@@ -8,9 +8,9 @@ import axios from "axios"
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-
 let config = {
-  baseURL: 'https://tdxzback.jjldxz.com/api/c/',
+  // baseURL: 'https://tdxzback.jjldxz.com/api/c/',
+  baseURL: '/',
   changeOrigin: true
   // headers: {'contentType': 'application/json;charset=UTF-8'}
   // timeout: 60 * 1000, // Timeout
