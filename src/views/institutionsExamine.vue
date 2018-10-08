@@ -62,7 +62,8 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
             <el-button size="small" type="primary" @click="onfen">确定</el-button>
