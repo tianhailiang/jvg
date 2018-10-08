@@ -72,6 +72,7 @@
   </section>
 </template>
 <script>
+  import {searchPrestige, searchdetail} from '@/api/url.js'
 export default {
   name: 'lecturerStatistics',
   data () {
@@ -101,7 +102,7 @@ export default {
   },
   methods: {
     searchPrestige() {
-      axios.post(this.$store.state.api.searchPrestige, {
+      searchPrestige({
         // userName: this.userName,
         // userType: this.userType,
         userName: '李四',
@@ -110,7 +111,7 @@ export default {
         pageSize: 20
       }).then(res => {
         console.log(res)
-        // this.Prestigedata = res.data.result
+        this.Prestigedata = res.result.modelData
       })
     },
     editDetail(index, row) {
@@ -119,12 +120,12 @@ export default {
       // this.userName = row.userName
       this.userTypeName = row.userTypeName
       this.value = row.value
-      axios.post(this.$store.state.api.searchdetail, {
+      searchdetail({
         userId: this.userId,
         pageNo: 1,
         pageSize: 20
       }).then(res => {
-        this.detailData = res.data.result.modelData
+        this.detailData = res.result.modelData
         console.log(res)
       })
     }

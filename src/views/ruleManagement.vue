@@ -9,7 +9,7 @@
             :value="item.value"
             v-for="(item, index) in teacher"></el-option>
         </el-select>
-        <el-button size="small" type="primary" @click="searchviplist" style="margin-left:10px;">搜索</el-button>
+        <el-button size="small" type="primary" @click="searchVipList()" style="margin-left:10px;">搜索</el-button>
       </el-form-item>
     </el-form>
     <div class="create-gz"><el-button size="small" type="primary" @click="addToviprule()">新建规则</el-button></div>
@@ -57,6 +57,7 @@
   </section>
 </template>
 <script>
+  import {searchviplist, removeviprule,clearAllviprule,addToviprule} from '@/api/url.js'
 export default {
   name: 'ruleManagement',
   data () {
@@ -72,46 +73,41 @@ export default {
     }
   },
   created() {
-    // this.searchviplist()
+    // this.searchVipList()
   },
   methods: {
     rowClass ({row, rowIndex}) {
       return 'background:#f5f7fa'
     },
-    searchviplist() {
-      axios.post(this.$store.state.api.searchviplist, {
-        type: this.type
-      }).then(res => {
-        console.log(res)
-        this.$message({
-          type: 'success',
-          message: res.data.message
-        })
-        this.vipdata = res.data.result
+    searchVipList() {
+      searchviplist().then(res => {
+        this.vipdata = res.result
+      }).catch(error => {
+        console.log('返回错误信息')
       })
     },
     removeviprule(index, row) {
-      axios.post(this.$store.state.api.removeviprule, {
+      removeviprule({
         id: row.id
       }).then(res => {
         console.log(res)
         this.$message({
           type: 'success',
-          message: res.data.message
+          message: res.message
         })
       })
     },
     clearAllviprule() {
-      axios.post(this.$store.state.api.clearAllviprule).then(res => {
+      clearAllviprule().then(res => {
         console.log(res)
         this.$message({
           type: 'success',
-          message: res.data.message
+          message: res.message
         })
       })
     },
     addToviprule() {
-      axios.post(this.$store.state.api.addToviprule, {
+      addToviprule({
         name: "语培会员3个月",
         price: 100,
         dollarsPrice: 600,
@@ -121,7 +117,7 @@ export default {
         console.log(res)
         this.$message({
           type: 'success',
-          message: res.data.message
+          message: res.message
         })
       })
     }

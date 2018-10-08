@@ -104,6 +104,7 @@
   </section>
 </template>
 <script>
+import {searchUser, replyUser,removeUser} from '@/api/url.js'
 export default {
   name: 'userAppointmentList',
   data () {
@@ -145,7 +146,7 @@ export default {
     },
     searchUser() {
       this.loading = true
-      axios.post(this.$store.state.api.searchUser, {
+      searchUser({
         // title: this.Userform.title,
         name: this.Userform.name,
         // endTime: this.Userform.endTime,
@@ -155,8 +156,8 @@ export default {
 
       }).then(res => {
         // console.log(res)
-        this.tabeldata = res.data.result.modelData
-        this.total = res.data.result.total
+        this.tabeldata = res.result.modelData
+        this.total = res.result.total
         this.loading = false
       }).catch(error => {
 
@@ -168,7 +169,7 @@ export default {
       this.title = row.title
     },
     submitreplyUser() {
-      axios.post(this.$store.state.api.replyUser, {
+      replyUser({
         id:this.id,
         replyMemo: this.replyMemo
       }).then(res => {
@@ -183,7 +184,7 @@ export default {
       })
     },
     removeUser(index, row) {
-      axios.post(this.$store.state.api.removeUser, {
+      removeUser({
         ids: [row.id]
       }).then(res => {
         this.$message({

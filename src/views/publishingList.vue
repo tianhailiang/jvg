@@ -130,6 +130,7 @@
     </section>
   </template>
 <script>
+import {searchPublishList,freezePublish,removePublish} from '@/api/url.js'
 export default {
   name: 'publishingList',
   data () {
@@ -184,7 +185,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post(this.$store.state.api.removePublish, {
+        removePublish({
             ids:[row.id]
         }).then(res => {
             // console.log(res)
@@ -204,7 +205,7 @@ export default {
     },
     handelfreezePublish (index, row) {
         this.dialogVisible = false
-        axios.post(this.$store.state.api.freezePublish, {
+        freezePublish({
             ids: [this.id],
             upDown: "3",
 	          downMemo: this.downMemo
@@ -224,7 +225,7 @@ export default {
     },
     getOrderdata() {
         this.loading = true
-        axios.post(this.$store.state.api.searchPublishList,{
+        searchPublishList({
             id: this.id,
             // "title": "this.title",
             // "categorySigns": "tuofu",
@@ -234,8 +235,8 @@ export default {
             pageNo: this.pageNo,
             pageSize: this.pageSize
         }).then((res) => {
-            this.tableData = res.data.result.modelData
-            this.total = res.data.result.total
+            this.tableData = res.result.modelData
+            this.total = res.result.total
             this.loading = false
         }).catch((error) => {
             console.log(`请求出错啦`)

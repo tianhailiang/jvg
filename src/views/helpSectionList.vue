@@ -63,7 +63,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <el-row :gutter="20"  class="page-content" v-if="tableData3.length">
+    <el-row :gutter="20" class="page-content" v-if="tableData3.length">
         <el-col :span="11">
             <el-pagination 
             background 
@@ -165,6 +165,7 @@
    </section>
 </template>
 <script>
+  import { searchHelp, addHelpCenter, removeHelpCenter, removeMore, edithelp, sorthelp } from '@/api/url.js'
   export default {
     name: 'helpSectionList',
     data () {
@@ -224,7 +225,7 @@
         this.searchHelp()
       },
       searchHelp() {
-        axios.post(this.$store.state.api.searchHelp, {
+        let objectData = {
           // id:this.helpData.id,
           name:this.helpData.name,
           source:this.helpData.source,
@@ -235,10 +236,10 @@
           adminName: this.helpData.adminName,
           pageNo: this.pageNo,
           pageSize: this.pageSize
-        }).then(res => {
-          console.log(res.data)
-          this.tableData3 = res.data.result.modelData
-          this.total = res.data.result.total
+        }
+        searchHelp(objectData).then(res => {
+          this.tableData3 = res.result.modelData
+          this.total = res.result.total
           this.$message({
             type: 'success',
             message: '查询成功!'
@@ -248,14 +249,14 @@
         })
       },
       addHelpCenter() {
-        axios.post(this.$store.state.api.addHelpCenter, {
+        let objectData = {
           source:2,
           channel:2,
           type:1,
           name: 'demo',
           languages:"zh"
-        }).then(res => {
-          // console.log(res)
+        }
+        addHelpCenter(objectData).then(res => {
           this.$message({
             type: 'success',
             message: '创建成功!'
@@ -266,35 +267,33 @@
         })
       },
       removeHelpCenter() {
-        axios.post(this.$store.state.api.removeHelpCenter, {
-          idList: [2]
-        }).then(res => {
+        removeHelpCenter({idList: [2]}).then(res => {
           console.log(res)
           this.$message({
             type: 'success',
             message: '删除成功!'
           })
         }).catch(error => {
-
+          console.log(error)
         })
       },
       removeMore() {
-        axios.post(this.$store.state.api.removeMore).then(res => {
+        removeMore().then(res => {
           console.log(res)
           this.$message({
             type: 'success',
             message: '删除成功!'
           })
-        }).catch(error => {
-
-        })
+        }).catch(error => {})
       },
       sorthelp() { //排序
-        axios.post(this.$store.state.api.sorthelp, {
+        sorthelp({
           thisId: 3,
           aimId: 4
         }).then(res => {
           console.log(res)
+        }).catch(error => {
+          console.log(error)
         })
       },
       openedithelp(index, row) { //编辑
@@ -302,21 +301,21 @@
         this.name = row.name
       },
       edithelp() { //编辑
-        axios.post(this.$store.state.api.edithelp, {
+        let objectData = {
           id:3,
           source: 1,
           channel: 1,
           type: 1,
           name: this.name,
           languages: 'zh'
-        }).then(res => {
+        }
+        edithelp(objectData).then(res => {
           this.dialogFormVisible = false
           this.name = ''
           this.channel = 1,
           this.source = 1
-          console.log(res)
         }).catch(error => {
-          
+
         })
       }
     }
@@ -328,7 +327,7 @@
   margin-left: 260px;
 }
 .page-content{
-  margin-top:30px;
+  margin:30px 0;
 }
 .help-content > h3{
   height: 30px;

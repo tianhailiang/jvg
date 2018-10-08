@@ -168,6 +168,7 @@
     </section>
   </template>
 <script>
+import {searchCommentList,removePublishing,reviewDetail,} from '@/api/url.js'
 export default {
   name: 'publishingCommentList',
   data () {
@@ -207,7 +208,7 @@ export default {
     },
     searchCommentList() {
       this.loading = true
-      axios.post(this.$store.state.api.searchCommentList, {
+      searchCommentList({
           id:this.id,
           // "title": "测试",
           // "raveFrom": 50,
@@ -216,23 +217,23 @@ export default {
           pageNo: this.pageNo,
           pageSize: this.pageSize
       }).then(res => {
-          this.total = res.data.result.total
-          this.tableData3 = res.data.result.modelData
+          this.total = res.result.total
+          this.tableData3 = res.result.modelData
           this.loading = false
       }).catch(error => {
           console.log(`请求出错啦`)
       })
   },
   getreviewDetail() {
-      axios.post(this.$store.state.api.reviewDetail, {goodsId: this.id}).then(res => {
+      reviewDetail({goodsId: this.id}).then(res => {
           // console.log(res.data.result)
-          this.tableData4 = res.data.result.commentList
+          this.tableData4 = res.result.commentList
       }).catch(error => {
           console.log(`请求出错啦`)
       })
   },
   removePublishing() { //待定
-      axios.post(this.$store.state.api.removePublishing, {
+      removePublishing({
           ids: [101]
       }).then(res => {
           console.log(res)

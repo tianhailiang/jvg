@@ -130,6 +130,7 @@
   </section>
 </template>
 <script>
+  import {removeCourseList,courseList,jdCourse,} from '@/api/url.js'
 export default {
   name: 'courseList',
   data () {
@@ -189,8 +190,8 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(res => {
-            axios.post(this.$store.state.api.removeCourseList, {
-                "ids": [36]
+            removeCourseList({
+                ids: [36]
             }).then( res => {
                 this.$message({
                     type: 'success',
@@ -211,7 +212,7 @@ export default {
     },
     searchData() {
         this.loading = true
-        axios.post(this.$store.state.api.courseList, {
+        courseList({
         id: this.id,
         title: "",
         // // "categorySigns": "",
@@ -224,18 +225,18 @@ export default {
         pageSize: this.pageSize
       })
       .then(res => {
-        this.courseTableData = res.data.result.modelData
-        this.total = res.data.result.total
+        this.courseTableData = res.result.modelData
+        this.total = res.result.total
         this.loading = false
       }).catch(error => {
         console.log(error)
       })
     },
     jiedCourse() { // 冻结课程
-      axios.post(this.$store.state.api.jdCourse, {
-        "ids":[22],
-        "upDown": 3,
-        "downMemo": "不合理不合理"
+      jdCourse({
+        ids:[22],
+        upDown: 3,
+        downMemo: "不合理不合理"
       }).then(res => {
         this.dialogVisible = false
       }).catch(error => {

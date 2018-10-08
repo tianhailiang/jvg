@@ -193,7 +193,8 @@
           </el-dialog>
     </section>
   </template>
-  <script>
+<script>
+import { searchquestion, addquestion, removequestion, editquestion, sortquestion} from '@/api/url.js'
 export default {
   name: 'helpProblemList',
     data () {
@@ -264,8 +265,8 @@ export default {
       console.log(`每页 ${this.pageSize} 条`)
     },
     searchquestion() {
-      axios.post(this.$store.state.api.searchquestion, {
-        // id:1001,
+      let objectdata = {
+                // id:1001,
         // helpCategoryId:1,
         title:this.questData.title,
         source:this.questData.source,
@@ -275,20 +276,21 @@ export default {
         adminName:this.questData.adminName,
         pageNo: this.pageNo,
         pageSize: this.pageSize
-      }).then(res => {
+      }
+      searchquestion(objectdata).then(res => {
         // console.log(res)
         this.$message({
             type: 'success',
             message: '查询成功!'
         })
-        this.tableData3 = res.data.result.modelData
-        this.total = res.data.result.total
+        this.tableData3 = res.result.modelData
+        this.total = res.result.total
       }).catch(error => {
 
       })
     },
     addquestion() { //创建问题
-      axios.post(this.$store.state.api.addquestion, {
+      addquestion({
         source: 0,
         channel: 0,
         helpCategoryId: 22,
@@ -301,10 +303,12 @@ export default {
           message: '创建成功!'
         })
         this.dialogFormVisible = false
+      }).catch(error => {
+
       })
     },
     removequestion() { //批量删除
-      axios.post(this.$store.state.api.removequestion, {
+      removequestion({
         idList: [33]
       }).then(res => {
         console.log(res)
@@ -317,15 +321,17 @@ export default {
       })
     },
     sortquestion() { //排序
-      axios.post(this.$store.state.api.sortquestion, {
+      sortquestion({
         thisId: 4,
         aimId: 5
-      }).then(res => {
+      }).then( res => {
         console.log(res)
         this.$message({
           type: 'success',
           message: '排序成功!'
         })
+      }).catch(error => {
+
       })
     },
     openeditquestion(index, row) {
@@ -334,7 +340,7 @@ export default {
       this.dialogFormVisible = true
     },
     editquestion() { // 编辑问题
-      axios.post(this.$store.state.api.editquestion, {
+      editquestion({
         id: 1,
         source: 1,
         channel: 1,

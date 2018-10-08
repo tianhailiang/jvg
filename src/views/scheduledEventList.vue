@@ -72,7 +72,7 @@
     <el-table :data="tabeldata" style="width: 100%" border size="medium" v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="60" label="" align="center"></el-table-column>
         <el-table-column prop="title" width="160" label="活动名称" align="center"></el-table-column>
-        <el-table-column prop="startTime" label="活动开始时间" width="165" align="center"></el-table-column>
+        <el-table-column prop="startTime" label="活动开始时间" width="170" align="center"></el-table-column>
         <el-table-column prop="statusName" label="状态" width="140" align="center"></el-table-column>
         <el-table-column prop="source" label="渠道" width="140" align="center"></el-table-column>
         <el-table-column prop="channel" label="频道" width="140" align="center"></el-table-column>
@@ -101,6 +101,7 @@
   </section>
 </template>
 <script>
+import {removereservation,searchreservation} from '@/api/url.js'
 export default {
   name: '',
   data () {
@@ -150,7 +151,7 @@ export default {
     },
     searchreservation() {
       this.loading = true
-      axios.post(this.$store.state.api.searchreservation, {
+      searchreservation({
         title: this.reserform.title,
         pageNo: this.pageNo,
         pageSize: this.pageSize
@@ -161,18 +162,17 @@ export default {
         // channel: this.reserform.channel
       }).then(res => {
         console.log(res)
-        this.tabeldata = res.data.result.modelData
-        this.total = res.data.result.total
+        this.tabeldata = res.result.modelData
+        this.total = res.result.total
         this.loading = false
       }).catch(error => {
 
       })
     },
     removereservation(index, row) {
-      axios.post(this.$store.state.api.removereservation, {
+      removereservation({
         ids: [row.id]
       }).then(res => {
-        
         this.$message({
           type: 'success',
           message: '删除成功!'

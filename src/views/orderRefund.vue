@@ -119,6 +119,7 @@
   </section>
 </template>
 <script>
+import { searchOrder1 } from '@/api/url.js' 
 export default {
   name: '',
   data () {
@@ -176,34 +177,24 @@ export default {
   methods: {
     searchOrder() {
       this.loading = true
-      axios.post(this.$store.state.api.searchOrder, {
-        // snId: '1100315361307879485',
-        // shopUserName: '卖家名称',
-        // userName: '买家名称',
-        // status:4,
-        // createdAtFrom:"2018-01-11 11:11:11",    
-        // createdAtTo:'2018-11-12 11:11:11',
-        // source:1,
-        // orderType:1,
-        // payType:1,
-        // channel: 1,
-        pageNo:this.pageNo,
-        pageSize:this.pageSize,
-        orderCreatedAtTo: this.orderData.orderCreatedAtTo,
-        orderCreatedAtFrom: this.orderData.orderCreatedAtFrom,
-        shopUserNm: this.orderData.shopUserNm,
-        userNm: this.orderData.userNm,
-        payType: this.orderData.payType,
-        snId: this.orderData.snId,
-        status: this.orderData.status,
-        orderType: this.orderData.orderType
-      }).then(res => {
-        console.log(res)
-        this.tableData = res.data.result.modelData
-        this.total = res.data.result.total
+      var dataObject = {
+          pageNo:this.pageNo,
+          pageSize:this.pageSize,
+          orderCreatedAtTo: this.orderData.orderCreatedAtTo,
+          orderCreatedAtFrom: this.orderData.orderCreatedAtFrom,
+          shopUserNm: this.orderData.shopUserNm,
+          userNm: this.orderData.userNm,
+          payType: this.orderData.payType,
+          snId: this.orderData.snId,
+          status: this.orderData.status,
+          orderType: this.orderData.orderType
+      }
+      searchOrder1(dataObject).then(res => {
+        this.tableData = res.result.modelData
+        this.total = res.result.total
         this.loading = false
       }).catch(error => {
-
+    
       })
     },
     handleSizeChange(val) {

@@ -399,3 +399,306 @@ export const businessQuery = (parms) => {
   return http.fetchPost('/api/c/data/analysis/business/order/query.json', parms)
 }
 // 查询页面明细数据
+
+// -------------------------2018.10.8 rongfa-----------------------------//
+// 订单退款列表
+export const searchOrder1 = (parms) => {
+  return http.fetchPost('/api/c/order/refund/list.json', parms)
+}
+//订单列表
+export const searchorderlist = (parms) => {
+  return http.fetchPost('/api/c/order/list.json', parms)
+}
+//查询帮助中心栏目列表
+export const searchHelp = (parms) => {
+  return http.fetchPost('/api/c/help/category/list.json', parms)
+}
+//创建帮助中心栏目
+export const addHelpCenter = (parms) => {
+  return http.fetchPost('/api/c/help/category/create.json', parms)
+}
+//批量删除帮助中心栏目
+export const removeHelpCenter = (parms) => {
+  return http.fetchPost('/api/c/help/category/delete.json', parms)
+}
+//(删除)查询帮助中心栏目
+export const removeMore = (parms) => {
+  return http.fetchPost('/api/c/help/category/category-all.json', parms)
+}
+//帮助中心栏目排序
+export const sorthelp = (parms) => {
+  return http.fetchPost('/api/c/help/category/sort.json', parms)
+}
+// 编辑帮助中心栏目
+export const edithelp = (parms) => {
+  return http.fetchPost('/api/c/help/category/update.json', parms)
+}
+//查询帮助中心问题列表
+export const searchquestion = (parms) => {
+  return http.fetchPost('/api/c/help/answer/list.json', parms)
+}
+//创建帮助中心问题
+export const addquestion = (parms) => {
+  return http.fetchPost('/api/c/help/answer/create.json', parms)
+}
+//编辑帮助中心问题
+export const editquestion = (parms) => {
+  return http.fetchPost('/api/c/help/answer/update.json', parms)
+}
+//帮助中心问题排序
+export const sortquestion = (parms) => {
+  return http.fetchPost('/api/c/help/answer/sort.json', parms)
+}
+//批量删除帮助中心问题
+export const removequestion = (parms) => {
+  return http.fetchPost('/api/c/help/answer/delete.json', parms)
+}
+//删除出版物
+export const removePublish = (parms) => {
+  return http.fetchPost('/api/c/publication/delete.json', parms)
+}
+//查询出版物
+export const searchPublishList = (parms) => {
+  return http.fetchPost('/api/c/publication/list.json', parms)
+}
+//冻结出版物
+export const freezePublish = (parms) => {
+  return http.fetchPost('/api/c/publication/frozen.json', parms)
+}
+//出版物评论列表
+export const searchCommentList = (parms) => {
+  return http.fetchPost('/api/c/publication/comment/list.json', parms)
+}
+//出版物审核列表
+export const publishReviewList = (parms) => {
+  return http.fetchPost('/api/c/publication/verify/list.json', parms)
+}
+//审核出版物信息
+export const reviewListInfo = (parms) => {
+  return http.fetchPost('/api/c/publication/verify.json', parms)
+}
+//出版物评论详情
+export const reviewDetail = (parms) => {
+  return http.fetchPost('/api/c/publication/comment/detail.json', parms)
+}
+//删除出版物评论
+export const removePublishing = (parms) => {
+  return http.fetchPost('/api/c/publication/comment/delete.json', parms)
+}
+//查询出版物详情
+export const searchPublishdetail = (parms) => {
+  return http.fetchPost('/api/c/publication/detail.json', parms)
+}
+//新建出版物
+export const addPublishing = (parms) => {
+  return http.fetchPost('/api/c/publication/create.json', parms)
+}
+//编辑出版物(youwenti)
+export const editPublishing = (parms) => {
+  return http.fetchPost('/api/c/publication/update.json', parms)
+}
+//查询优惠券列表
+export const couponList = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/list/list.json', parms)
+}
+// 删除优惠券列表
+export const removecouponList = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/list/delete.json', parms)
+}
+//禁用解禁优惠券(youwenti)
+export const disableCoupon = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/list/change-updown.json', parms)
+}
+// 查询优惠券审核列表
+export const couponReviewlist = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/verify/list.json', parms)
+}
+//通过不通过优惠券审核列表
+export const isOkCoupon = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/verify/verify.json', parms)
+}
+//查询优惠券详情
+export const searchgoodDetail = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/detail/detail.json', parms)
+}
+//发布优惠券(youwenti)
+export const releaseCoupon = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/list/release.json', parms)
+}
+//添加优惠券
+export const addCoupon = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/detail/create.json', parms)
+}
+//查询商品选择
+export const searchGoods = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/product/list.json', parms)
+}
+//修改优惠券
+export const modifyCoupon = (parms) => {
+  return http.fetchPost('/api/c/release-coupon/detail/update.json', parms)
+}
+//查询预约活动列表
+export const searchreservation = (parms) => {
+  return http.fetchPost('/api/c/reservation/activity/list.json', parms)
+}
+//删除(批量)预约活动
+export const removereservation = (parms) => {
+  return http.fetchPost('/api/c/reservation/activity/delete.json', parms)
+}
+// 查询用户预约列表
+export const searchUser = (parms) => {
+  return http.fetchPost('/api/c/reservation/person/list.json', parms)
+}
+// 删除用户预约列表
+export const removeUser = (parms) => {
+  return http.fetchPost('/api/c/reservation/person/delete.json', parms)
+}
+//查询预约活动详情
+export const searchActivityDetail = (parms) => {
+  return http.fetchPost('/api/c/reservation/activity/detail.json', parms)
+}
+//追加/修改预约活动详情
+export const addactivitydetail = (parms) => {
+  return http.fetchPost('/api/c/reservation/activity/update.json', parms)
+}
+//回复用户预约
+export const replyUser = (parms) => {
+  return http.fetchPost('/api/c/reservation/person/response.json', parms)
+}
+// / 查询会员积分规则列表
+export const viprulelist = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-integral/list.json', parms)
+}
+// // 删除会员积分规则信息
+export const removerule = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-integral/delete.json', parms)
+}
+
+// // 追加会员积分规则信息
+export const addrule = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-integral/create.json', parms)
+}
+//  //清除会员积分规则信息
+export const clearAllvip = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-integral/clear.json', parms)
+}
+
+ // 查询会员积分详情
+export const searchIntegral = (parms) => {
+  return http.fetchPost('/api/c/user/vip/vip-details.json', parms)
+}
+
+// / 查询VIP会员规则列表
+export const searchviplist = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-regulation/list.json', parms)
+}
+
+// / 删除VIP会员规则信息
+export const removeviprule = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-regulation/delete.json', parms)
+}
+
+// //清除VIP会员规则信息
+export const clearAllviprule = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-regulation/clear.json', parms)
+}
+// / 追加VIP会员规则信息
+export const addToviprule = (parms) => {
+  return http.fetchPost('/api/c/operations/vip-regulation/create.json', parms)
+}
+//查询会员列表
+export const memberlist = (parms) => {
+  return http.fetchPost('/api/c/user/vip/list.json', parms)
+}
+// // 删除会员等级信息
+export const removeVip = (parms) => {
+  return http.fetchPost('/api/c/user/rank/delete.json', parms)
+}
+// 清除除会员等级
+export const clearvipAll = (parms) => {
+  return http.fetchPost('/api/c/user/rank/clear.json', parms)
+}
+// 添加会员等级信息
+export const addVip = (parms) => {
+  return http.fetchPost('/api/c/user/rank/create.json', parms)
+}
+// 查询讲师声望值规则列表
+export const searchTeacher = (parms) => {
+  return http.fetchPost('/api/c/operations/prestige-rule/list.json', parms)
+}
+ // 删除讲师声望值规则信息
+export const removeTeacher = (parms) => {
+  return http.fetchPost('/api/c/operations/prestige-rule/delete.json', parms)
+}
+ // 清除讲师声望值规则信息
+export const clearAll = (parms) => {
+  return http.fetchPost('/api/c/operations/prestige-rule/clear.json', parms)
+}
+ // 追加讲师声望值规则信息
+export const addTeacher = (parms) => {
+  return http.fetchPost('/api/c/operations/prestige-rule/create.json', parms)
+}
+ //查询讲师声望值统计列表
+export const searchPrestige = (parms) => {
+  return http.fetchPost('/api/c/operations/prestige-statistics/list.json', parms)
+}
+// 查询讲师声望值详细信息
+export const searchdetail = (parms) => {
+  return http.fetchPost('/api/c/operations/prestige-statistics/list-details.json', parms)
+}
+// 更新讲师声望值初始值
+export const update = (parms) => {
+  return http.fetchPost('/api/c/user/prestige-statistics/update.json', parms)
+}
+// 更新会员积分信息
+export const updateIntegral = (parms) => {
+  return http.fetchPost('/api/c/user/vip/update-integral.json', parms)
+}
+ // 查询会员等级列表
+export const searchmemberList = (parms) => {
+  return http.fetchPost('/api/c/user/rank/list.json', parms)
+}
+// 课程列表
+export const courseList = (parms) => {
+  return http.fetchPost('/api/c/course/list.json', parms)
+}
+// 删除课程
+    export const removeCourseList = (parms) => {
+  return http.fetchPost('/api/c/course/delete.json', parms)
+}
+// 冻结、解冻课程
+    export const jdCourse = (parms) => {
+  return http.fetchPost('/api/c/course/frozen.json', parms)
+}
+ // 查询课程评论列表
+    export const courseComent = (parms) => {
+  return http.fetchPost('/api/c/course/comment/list.json', parms)
+}
+ // 查询课程评论详情
+  export const courseComentDetail = (parms) => {
+  return http.fetchPost('/api/c/course/comment/detail.json', parms)
+}
+// 删除课程评论
+  export const removeCourseComent = (parms) => {
+  return http.fetchPost('/api/c/course/comment/delete.json', parms)
+}
+ // 课程审核列表
+    export const courseReview = (parms) => {
+  return http.fetchPost('/api/c/course/verify/list.json', parms)
+}
+// 审核课程信息
+    export const courseReviewInfo = (parms) => {
+  return http.fetchPost('/api/c/course/verify.json', parms)
+}
+ // 创建课程
+    export const addCourse = (parms) => {
+  return http.fetchPost('/api/c/course/create.json', parms)
+}
+ // 编辑课程
+    export const editCourse = (parms) => {
+  return http.fetchPost('/api/c/course/update.json', parms)
+}
+ // 查询课程详情
+    export const searchCourseDetail = (parms) => {
+  return http.fetchPost('/api/c/course/detail.json', parms)
+}

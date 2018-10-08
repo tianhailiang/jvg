@@ -34,6 +34,7 @@
   </section>
 </template>
 <script>
+import {clearAllvip, viprulelist, addrule, removerule} from '@/api/url.js'
 export default {
     name: 'integralRule',
     data () {
@@ -52,18 +53,18 @@ export default {
         return 'background:#f5f7fa'
       },
       viprulelist() {
-        axios.post(this.$store.state.api.viprulelist, {
+        viprulelist({
           pageNo:1,
           pageSize:20
         }).then(res => {
           // console.log(res)
-          this.vipData = res.data.result.modelData
+          this.vipData = res.result.modelData
         }).catch(error => {
 
         })
       },
       removerule(index, row) {
-        axios.post(this.$store.state.api.removerule, {
+        removerule({
           id: row.id
         }).then(res => {
           this.viprulelist()
@@ -76,7 +77,7 @@ export default {
         })
       },
       addrule() {
-        axios.post(this.$store.state.api.addrule, {
+        addrule({
           name: "签到积分2222",
           integral: 1,
           number:1,
@@ -92,7 +93,7 @@ export default {
         })
       },
       clearAllvip() {
-        axios.post(this.$store.state.api.clearAllvip).then(res => {
+        clearAllvip().then(res => {
           this.$message({
             type: 'success',
             message: res.data.message

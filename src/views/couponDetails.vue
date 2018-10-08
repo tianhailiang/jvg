@@ -233,6 +233,7 @@
   </section>
 </template>
 <script>
+  import {addCoupon,modifyCoupon,searchgoodDetail, searchGoods} from '@/api/url.js'
   export default {
     name: 'couponDetails',
     data () {
@@ -292,14 +293,14 @@
     },
     created() {
       // this.addCoupon()
-      // this.searchgoodDetail()
+      this.searchgoodDetail()
     },
     methods: {
       onSubmit() {
         console.log('submit!')
       },
       modifyCoupon() {
-        axios.post(this.$store.state.api.modifyCoupon, {
+        modifyCoupon({
           id: 1,
           title:'2018活动demo',
           source:1,
@@ -331,7 +332,7 @@
         })
       },
       addCoupon() {
-        axios.post(this.$store.state.api.addCoupon, {
+        addCoupon({
             title:this.coupon.title,
             source:1,
             channel:1,
@@ -360,36 +361,36 @@
         })
       },
       searchGoods() {
-        axios.post(this.$store.state.api.searchGoods, {
+        searchGoods({
           productType: 1,
           name: this.name,
           pageNo:1,
           pageSize:20
         }).then(res => {
-          this.dataGood = res.data.result.modelData
-          this.total = res.data.result.total
+          this.dataGood = res.result.modelData
+          this.total = res.result.total
           console.log(res)
         }).catch(error => {
 
         })
       },
       searchgoodDetail() {
-        axios.post(this.$store.state.api.searchgoodDetail, {
+        searchgoodDetail({
           id:3
         }).then(res => {
-          this.coupon.title = res.data.result.title,
-          this.coupon.id = res.data.result.id,
-          this.number = res.data.result.number,
-          this.coupon.sourceVal = res.data.result.sourceVal,
-          this.coupon.channelName = res.data.result.channelName,
-          this.coupon.couponTypeVal = res.data.result.couponTypeVal,
-          this.coupon.issuerVal = res.data.result.issuerVal,
-          this.coupon.userName = res.data.result.userName,
-          this.coupon.useNumber = res.data.result.useNumber,
-          this.coupon.price = res.data.result.price,
-          this.coupon.dollarsPrice = res.data.result.dollarsPrice,
-          this.dataCounpon = res.data.result.productData
           console.log(res)
+          this.coupon.title = res.result.title,
+          this.coupon.id = res.result.id,
+          this.number = res.result.number,
+          this.coupon.sourceVal = res.result.sourceVal,
+          this.coupon.channelName = res.result.channelName,
+          this.coupon.couponTypeVal = res.result.couponTypeVal,
+          this.coupon.issuerVal = res.result.issuerVal,
+          this.coupon.userName = res.result.userName,
+          this.coupon.useNumber = res.result.useNumber,
+          this.coupon.price = res.result.price,
+          this.coupon.dollarsPrice = res.result.dollarsPrice,
+          this.dataCounpon = res.result.productData
         }).catch(error => {
 
         })

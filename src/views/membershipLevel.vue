@@ -23,6 +23,7 @@
   </section>
 </template>
 <script>
+  import {removeVip, addVip, clearvipAll,searchmemberList} from '@/api/url.js'
 export default {
   name: 'membershipLevel',
   data () {
@@ -42,7 +43,7 @@ export default {
       return 'background:#f5f7fa'
     },
     handleDelete(index, row) {
-      axios.post(this.$store.state.api.removeVip, {
+      removeVip({
         "id": row.id
       }).then(res => {
         console.log(res)
@@ -53,7 +54,7 @@ export default {
     },
     addmemberData() {
       let curentindex = this.index ++
-      axios.post(this.$store.state.api.addVip, {
+      addVip({
         name: this.name,
         minIntegral: 4000,
         maxIntegral: 8000
@@ -67,7 +68,7 @@ export default {
       })
     },
     clearAll() {
-      axios.post(this.$store.state.api.clearvipAll).then(res => {
+      clearvipAll().then(res => {
         this.vipdata = []
       }).catch(error => {
         console.log(`请求出错啦`)
@@ -75,9 +76,10 @@ export default {
     },
     getsearchmemberList() {
       this.loading = true
-      axios.post(this.$store.state.api.searchmemberList).then(res => {
-        this.newVal = res.data.result[0].name
-        this.vipdata = res.data.result
+      searchmemberList().then(res => {
+        console.log(res)
+        this.newVal = res.result[0].name
+        this.vipdata = res.result
         this.loading = false
       }).catch(error => {
         console.log(`请求出错啦`)

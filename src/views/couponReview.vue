@@ -139,6 +139,7 @@
   </section>
 </template>
 <script>
+  import {isOkCoupon,couponReviewlist} from '@/api/url.js'
 export default {
   name: 'couponReview',
   data () {
@@ -180,9 +181,9 @@ export default {
       total: null,
       dataReview: {
         title: '',
-        source: 1,
-        channel:1,
-        productType: 1,
+        source: this.source,
+        channel:this.channel,
+        productType: this.productType,
         issuer:1,
         userName: '',
         type:1,
@@ -206,7 +207,7 @@ export default {
       console.log(`每页 ${this.pageSize} 条`)
     },
     couponReviewlist() {
-      axios.post(this.$store.state.api.couponReviewlist, {
+      couponReviewlist({
         title: this.dataReview.title,
         source: 1,
         channel:1,
@@ -220,8 +221,8 @@ export default {
         pageNo: this.pageNo
       }).then(res => {
         console.log(res)
-        this.total = res.data.result.total
-        this.tabeldata = res.data.result.modelData
+        this.total = res.result.total
+        this.tabeldata = res.result.modelData
       }).catch(error => {
 
       })
@@ -230,7 +231,7 @@ export default {
       this.dialogVisible = true
     },
     isOkCoupon() {
-      axios.post(this.$store.state.api.Reviewlist, {
+      isOkCoupon({
         id: 2,
         status: 2,
         statusMemo : this.statusMemo

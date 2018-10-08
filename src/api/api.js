@@ -15,6 +15,7 @@ export default {
     'addCourse':  URL + 'course/create.json', // 创建课程
     'editCourse':  URL + 'course/update.json', // 编辑课程
     'searchCourseDetail': URL +'course/detail.json', // 查询课程详情
+
     'searchmemberList': URL + 'user/rank/list.json', // 查询会员等级列表
     'memberList':URL + 'user/vip/list.json', //查询会员列表
     'removeVip': URL + 'user/rank/delete.json', // 删除会员等级信息
@@ -33,11 +34,11 @@ export default {
     'addrule': URL + 'operations/vip-integral/create.json', // 追加会员积分规则信息
     'clearAllvip': URL + 'operations/vip-integral/clear.json', //清除会员积分规则信息
     'searchIntegral': URL + 'user/vip/vip-details.json', // 查询会员积分详情
-
     'searchviplist':URL + 'operations/vip-regulation/list.json', // 查询VIP会员规则列表
     'removeviprule':URL + 'operations/vip-regulation/delete.json', // 删除VIP会员规则信息
     'clearAllviprule':URL + 'operations/vip-regulation/clear.json', //清除VIP会员规则信息
     'addToviprule':URL+ 'operations/vip-regulation/create.json', // 追加VIP会员规则信息
+
 
     'removePublish': URL + 'publication/delete.json', //删除出版物
     'searchPublishList': URL + 'publication/list.json', // 查询出版物
@@ -52,7 +53,6 @@ export default {
     'editPublishing': URL + 'publication/update.json', //编辑出版物(youwenti)
 
 
-
     'searchadvertising':URL + 'advert/advertising-management/select-list.json', // 查询选择广告位列表
     'searchAdvert': URL + 'advert/advertising-management/list.json', //查询广告位列表
     'searchAdvertList': URL + 'advert/advertisement/list.json', // 查询广告列表
@@ -61,6 +61,7 @@ export default {
     'advertFreeze': URL + 'advert/advertising-management/frozen.json', //广告位冻结
     'advertFreezeCopy': URL + 'advert/advertisement/frozen.json', //广告冻结(批量冻结)
     'replaceAdvert':URL + 'advert/advertising-management/replace.json', //一键替换广告位
+    
     'addAdvertlist':URL + 'advert/advertisement/create.json', // 添加广告
     'addvertlistcopy': URL + 'advert/advertising-management/create.json', //添加广告位
     'searchadvertDetail': URL + 'advert/advertising-management/detail.json', //查询广告位详情
@@ -70,6 +71,7 @@ export default {
     'advertThaw': URL + 'advert/advertisement/thaw.json', //广告解冻/批量解冻
     'updateAdvert': URL + 'advert/advertising-management/update.json', // 更新广告位
     'advertisingfreeze':URL + 'advert/advertising-management/thaw.json', // 广告位解冻/批量解冻
+
 
     
     'couponList': URL + 'release-coupon/list/list.json', //查询优惠券列表

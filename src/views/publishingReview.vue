@@ -105,6 +105,7 @@
   </section>
 </template>
 <script>
+  import {publishReviewList} from '@/api/url.js'
 export default {
   name: 'publishingReview',
   data () {
@@ -155,7 +156,7 @@ export default {
     },
     publishingReview() {
       this.loading = true
-      axios.post(this.$store.state.api.publishReviewList, {
+      publishReviewList({
         "id": this.id,
         // "title": "出版物名称",
         // "categorySigns": "tuofu",
@@ -164,8 +165,8 @@ export default {
           pageNo: this.pageNo,
           pageSize: this.pageSize
       }).then(res => {
-        this.total = res.data.result.total
-        this.tableData3 = res.data.result.modelData
+        this.total = res.result.total
+        this.tableData3 = res.result.modelData
         this.loading = false
         console.log(res)
       }).catch(error => {
@@ -174,10 +175,10 @@ export default {
     },
     reviewListInfo() {
       this.dialogVisible = true
-      axios.post(this.$store.state.api.reviewListInfo, {
-        "ids":[21],
-        "status": 3,
-        "statusMemo": this.statusMemo
+      reviewListInfo({
+        ids:[21],
+        status: 3,
+        statusMemo: this.statusMemo
       }).then(res => {
         this.dialogVisible = false
         console.log(res)

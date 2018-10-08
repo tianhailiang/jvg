@@ -1,5 +1,5 @@
 <template>
-  <section class="order-details" style="overflow:hidden;">
+  <section class="order-details" style="overflow:hidden;margin-left:260px;">
     <div class="order-details-item">
       <h3 class="order-title">订单基本信息</h3>
       <el-row :gutter="20">

@@ -160,6 +160,7 @@
   </section>
 </template>
 <script>
+  import {couponList,removecouponList,disableCoupon,releaseCoupon} from '@/api/url.js'
   export default {
     name: 'couponList',
     data () {
@@ -230,7 +231,7 @@
         this.searchcouponList()
       },
       searchcouponList() {
-        axios.post(this.$store.state.api.couponList, {
+        couponList({
           title: this.formgroup.title,
           // productType:'',
           // source: '',
@@ -243,8 +244,8 @@
           pageNo:this.pageNo,
           pageSize:this.pageSize
         }).then(res => {
-          this.dataCoupon = res.data.result.modelData
-          this.total = res.data.result.total
+          this.dataCoupon = res.result.modelData
+          this.total = res.result.total
           this.$message({
             type: 'success',
             message: '查询成功!'
@@ -254,7 +255,7 @@
         })
       },
       removecouponList(index, row) {
-        axios.post(this.$store.state.api.removecouponList, {
+        removecouponList({
           id: [row.id]
         }).then(res => {
           console.log(res)
@@ -273,7 +274,7 @@
         this.dialogVisible = true
       },
       opendisableCoupon() {
-        axios.post(this.$store.state.api.disableCoupon, {
+        disableCoupon({
           id: this.id,
           upDown: 1,
           downMemo: this.downMemo
@@ -284,7 +285,7 @@
         })
       },
       releaseCoupon() {
-        axios.post(this.$store.state.api.releaseCoupon, {
+        releaseCoupon({
           id:1,
         }).then(res => {
           console.log(res)

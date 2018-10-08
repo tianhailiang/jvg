@@ -96,7 +96,7 @@
         <el-table-column prop="addordown" label="积分增减" width="150" align="center"></el-table-column>
       </el-table>
       <!--  -->
-      <div class="row-container" v-if="dataGood.length" style="margin:20px 0;">
+      <div class="row-container" v-if="dataGood.length" style="margin:30px 0;">
         <el-pagination 
         layout="prev, pager, next, jumper" 
         background 
@@ -124,6 +124,7 @@
   </section>
 </template>
 <script>
+  import { updateIntegral, searchIntegral,memberlist} from '@/api/url.js'
 export default {
   name: 'memberList',
   data () {
@@ -162,7 +163,7 @@ export default {
 
     },
     getMenberData() {
-      axios.post(this.$store.state.api.memberList, {
+      memberlist({
         userName: this.userName,
         minLevel:	this.minLevel,
         maxLevel:	this.maxLevel,
@@ -171,8 +172,8 @@ export default {
         pageSize:20
       }).then((res) => {
         console.log(res)
-        this.memberListdata = res.data.result.modelData
-        this.total2 = res.data.result.total
+        this.memberListdata = res.result.modelData
+        this.total2 = res.result.total
       }).catch((err) => {
         console.log(`请求出现错误`)
       })
@@ -184,17 +185,17 @@ export default {
       this.userName = row.userName
       this.typeName = row.typeName
       this.userId = row.userId
-      axios.post(this.$store.state.api.searchIntegral, {
+      searchIntegral({
         id:row.id
       }).then(res => {
         console.log(res)
-        this.dataGood = res.data.result.modelData
-        this.total = res.data.result.total
+        this.dataGood = res.result.modelData
+        this.total = res.result.total
       })
     },
     updateIntegral() {
       this.dialogFormVisible = false
-      axios.post(this.$store.state.api.updateIntegral, {
+      updateIntegral({
         userId :this.userId,
         initializeIntegral: this.initializeIntegral,
         manualIntegral: this.manualIntegral

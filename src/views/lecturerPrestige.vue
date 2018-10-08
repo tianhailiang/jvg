@@ -25,7 +25,7 @@
   </section>
 </template>
 <script>
-
+import {addTeacher, clearAll, removeTeacher,searchTeacher} from '@/api/url.js'
 export default {
   name: 'lecturerPrestige',
   data () {
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     add() {
-      axios.post(this.$store.state.api.addTeacher, {
+      addTeacher({
         name: "四大维度解锁Webpack前端工程化",
         behaviorNumber: 100,
         ratio: 0.98,
@@ -61,7 +61,7 @@ export default {
     },
     clearAll() {
       this.teacherData = []
-      axios.post(this.$store.state.api.clearAll,).then(res => {
+      clearAll().then(res => {
         this.$message({
           type: 'success',
           message: res.data.message
@@ -72,7 +72,7 @@ export default {
     },
     handleDelete(index, row) {
       this.teacherData.splice(index, 1)
-      axios.post(this.$store.state.api.removeTeacher, {
+      removeTeacher({
         id: row.id
       }).then(res => {
         console.log(res)
@@ -85,12 +85,12 @@ export default {
       })
     },
     searchTeacher() {
-      axios.post(this.$store.state.api.searchTeacher, {
+      searchTeacher({
         pageNo: 1,
         pageSize: 20
       }).then(res => {
         console.log(res)
-        this.teacherData = res.data.result.modelData
+        this.teacherData = res.result.modelData
         this.loading = false
       }).catch(error => {
 

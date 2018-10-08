@@ -1,6 +1,9 @@
 <template>
   <el-menu class="nav_left" router 
-  :default-active="activeIndex" background-color="rgb(48, 65, 86)">
+  :default-active="activeIndex" 
+  background-color="rgb(48, 65, 86)"
+  text-color="rgb(191, 203, 217)"
+  active-text-color="rgb(64, 158, 255)">
     <el-menu-item index="/main"><i class="el-icon-menu"></i>首页</el-menu-item>
     <el-submenu index="1">
       <template slot="title"><i class="el-icon-menu"></i>权限角色管理</template>
@@ -204,10 +207,7 @@ export default {
 <style >
 .nav_left{width: 240px;float: left;}
 .nav_left.el-menu{border-right:transparent; position:fixed; top:0;bottom:0;overflow: auto;}
-.nav_left.el-menu .el-menu-item{ color: rgb(191, 203, 217)!important;}
 .nav_left.el-menu .el-menu-item:hover{ background-color: #1f2d3d!important; }
-.el-menu-item.el-aside{color: rgb(191, 203, 217)!important;}
-.nav_left.el-menu .el-submenu .el-submenu__title{color: rgb(191, 203, 217)!important;}
 .nav_left.el-menu .el-submenu .el-submenu__title:hover{background-color: #1f2d3d!important;}
 .nav_left.el-menu .el-menu-item.is-active {background-color: #1f2d3d!important; color: rgb(64, 158, 255)!important;}
 .nav_left.el-menu::-webkit-scrollbar{width: 10px;}

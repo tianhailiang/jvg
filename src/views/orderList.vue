@@ -158,6 +158,7 @@
     </section>
   </template>
 <script>
+import { searchorderlist } from '@/api/url.js'
 export default {
     name: 'orderList',
     data () {
@@ -228,19 +229,7 @@ export default {
     },
     methods: {
         getOrderdata() {
-        axios.post(this.$store.state.api.searchorderlist, {
-          // snId: '1100315361307879485',
-          // userId: 100021,
-          // shopUserId: 100022,
-          // userName: '买家名称',
-          // shopUserName: '卖家名称',
-          // status:1,
-          // createdAtFrom:'2018-11-11 11:11:11',
-          // createdAtTo:'2018-11-12 11:11:11',
-          // payType:1,
-          // source:1,
-          // type:1,
-          // channel:1,
+          let Objectdata = {
           // userId: this.orderListData.userId,
           // shopUserId: this.orderListData.shopUserId,
           // userName: this.orderListData.userName,
@@ -253,20 +242,18 @@ export default {
           // channel:this.orderListData.channel, orderInfoList
           pageNo:1,
           pageSize:20
-        }).then((res) => {
-          this.total = res.data.result.total
-          this.goodInfo = res.data.result.modelData
-          this.goodInfo.forEach((element, index) => {
-            console.log(element.orderInfoList)
-            this.priceData.push(element.orderInfoList[0])
+          }
+          searchorderlist(Objectdata).then(res => {
+            console.log(res)
+            this.total = res.result.total
+            this.goodInfo = res.result.modelData
+            this.goodInfo.forEach((element, index) => {
+              console.log(element.orderInfoList)
+              this.priceData.push(element.orderInfoList[0])
+            })
+          }).catch(error => {
+            console.log(`请求出错啦`)
           })
-          // this.priceData.forEach(el => {
-
-          // })
-          console.log(this.goodInfo)
-        }).catch((error) => {
-          console.log(`请求出错啦`)
-      })
     },
     openorderDetail(index, row) {
       this.$router.push({name: 'orderDetail', params: {id: row.snid}})

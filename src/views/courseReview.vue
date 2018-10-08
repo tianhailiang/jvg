@@ -113,6 +113,7 @@
   </section>
 </template>
 <script>
+  import {courseReview, courseReviewInfo} from '@/api/url.js'
 export default {
   name: 'courseList',
   data () {
@@ -174,7 +175,7 @@ export default {
       this.pageSize = val
     },
     getCourseReviewData() {
-      axios.post(this.$store.state.api.courseReview, {
+      courseReview({
             id:this.id,
             // "title": "",
             // "categorySigns": "tuofu",
@@ -184,17 +185,17 @@ export default {
             pageNo: this.pageNo,
             pageSize: this.pageSize
         }).then(res => {
-            this.courseReviewData = res.data.result.modelData
-            this.total = res.data.result.total
+            this.courseReviewData = res.result.modelData
+            this.total = res.result.total
       }).catch(error => {
             console.log(`返回错误消息`)
       })
     },
     handelnoCourse() {
-        axios.post(this.$store.state.api.courseReviewInfo, {
+        courseReviewInfo({
             ids: [32],
-            "status": 4,
-            "statusMemo": "审核不通过原因审核不通过原因"
+            status: 4,
+            statusMemo: "审核不通过原因审核不通过原因"
         }).then(res => {
             this.$message({
                 type: 'success',

@@ -183,6 +183,7 @@
   </section>
 </template>
 <script>
+   import {courseComent, courseComentDetail, removeCourseComent} from '@/api/url.js'
 export default {
   name: 'courseComment',
     data () {
@@ -237,15 +238,15 @@ export default {
     },
     getCourseComent () {
       this.loading = true
-      axios.post(this.$store.state.api.courseComent, {
+      courseComent({
         id:this.id,
         pageSize: this.pageSize,
         pageNo: this.pageNo
       }).then(res => {
-        if (res.data.success) {
-            let dataComment = res.data.result.modelData
+        if (res.success) {
+            let dataComment = res.result.modelData
             this.courseComentTabel = dataComment
-            this.total = res.data.result.total
+            this.total = res.result.total
             this.loading = false
         }
       }).catch(error => {
@@ -253,8 +254,8 @@ export default {
       })
     },
     getCourseComentDetail() {
-        axios.post(this.$store.state.api.courseComentDetail, {
-            "courseId": 1,
+        courseComentDetail({
+            courseId: 1,
             // "details": "评论内容评论内容评论内容",
             // "userName": "张三",
             // "createdAt": "2018-08-12 12:00:00",
@@ -265,8 +266,8 @@ export default {
             // "pageSize": 20
         }).then(res => {
             console.log(res)
-            this.CourseDetailData = res.data.result.modelData
-            this.total = res.data.result.total
+            this.CourseDetailData = res.result.modelData
+            this.total = res.result.total
             // console.log(res.data.result.modelData)
         }).catch(erroe => {
             console.log(`返回错误消息`)
@@ -274,7 +275,7 @@ export default {
     },
     removeCourse() {
         if (this.ids) {
-            axios.post(this.$store.state.api.removeCourseComent, {
+            removeCourseComent({
                 ids:[2]
             }).then(res => {
                 console.log(res)
