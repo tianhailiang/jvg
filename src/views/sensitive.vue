@@ -144,6 +144,7 @@ export default {
           this.$message(res.message)
         }
       }).catch(error => {
+        this.$message(error.data.message)
         console.log(`请求错误`)
       })
     },

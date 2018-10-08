@@ -69,8 +69,8 @@ export default {
           // console.log('login', _this.$store.state.login.token)
           // _this.$store.dispatch('set_token', res.result)
           // console.log('token', this.$store.state.login.token)
-          sessionStorage.setItem('token', res.result)
-          console.log('token', sessionStorage.getItem('token'))
+          sessionStorage.setItem('dxzjjltoken', res.result)
+          console.log('token', sessionStorage.getItem('dxzjjltoken'))
           console.log('rou', _this.url)
           if (_this.url !== undefined && _this.url !== '') {
             console.log('1111')
@@ -128,8 +128,10 @@ export default {
     //   console.log(this.identifyCode)
     // },
     postData () {
+      console.log('rou1', this.$router)
       console.log('rou', this.$router.history.current.query.redirect)
       this.url = this.$router.history.current.query.redirect
+      this.url = this.url.replace('?redirect=', '')
       loginCode().then(res => {
         console.log('data', res)
         if (res.success) {
