@@ -5,46 +5,35 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="机构/院校名称：">
-                  <el-input placeholder="请输入机构/院校名称"></el-input>
+                  <el-input placeholder="请输入机构/院校名称" v-model="qu_jigou"></el-input>
               </el-form-item>
               <el-form-item label="联系人手机号：">
-                  <el-input placeholder="请输入联系人手机号"></el-input>
+                  <el-input placeholder="请输入联系人手机号" v-model="qu_iphone"></el-input>
               </el-form-item>
               <el-form-item label="联系人姓名：">
-                  <el-input placeholder="请输入联系人姓名"></el-input>
+                  <el-input placeholder="请输入联系人姓名" v-model="qu_name"></el-input>
               </el-form-item>
               <el-form-item label="状态：" label-width="80px">
-                  <el-select v-model="region" placeholder="正常" style="width: 80px;">
-                      <el-option label="正常" :value="0" :key="0"></el-option>
-                      <el-option label="禁用" :value="1" :key="1"></el-option>
+                  <el-select v-model="region_zhuang_qu" placeholder="正常" style="width: 80px;">
+                      <el-option v-for="(item) in option_zhuang" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="所属国家：" label-width="100px">
-                  <el-select v-model="region" placeholder="中国" style="width: 100px;">
-                      <el-option label="中国" :value="0" :key="0"></el-option>
-                      <el-option label="澳大利亚" :value="1" :key="1"></el-option>
-                      <el-option label="美国" :value="2" :key="2"></el-option>
-                      <el-option label="英国" :value="3" :key="3"></el-option>
-                      <el-option label="马拉西亚" :value="4" :key="4"></el-option>
-                      <el-option label="新加坡" :value="5" :key="5"></el-option>
-                      <el-option label="俄罗斯" :value="6" :key="6"></el-option>
+                  <el-select v-model="region_guo_qu" placeholder="中国" style="width: 100px;">
+                      <el-option v-for="(item) in option_guo" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
-                <el-form-item label="类型：" label-width="80px">
-                <el-select v-model="region" placeholder="机构" style="width: 100px;">
-                    <el-option label="机构" :value="0" :key="0"></el-option>
-                    <el-option label="院校" :value="1" :key="1"></el-option>
+                <el-form-item label="类别：" label-width="80px">
+                <el-select v-model="region_lei_qu" placeholder="机构" style="width: 100px;">
+                    <el-option v-for="(item) in option_lei" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
                 </el-form-item>
               <el-form-item label="审核状态：" label-width="100px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="未通过" :value="1" :key="1"></el-option>
-                      <el-option label="已审核" :value="2" :key="2"></el-option>
-                      <el-option label="待审核" :value="3" :key="3"></el-option>
+                  <el-select v-model="region_shen_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_shen" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
@@ -76,7 +65,7 @@
             :page-size="20"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
             <!-- <el-button size="small" type="primary" @click="">批量删除</el-button> -->
@@ -210,7 +199,7 @@
     </section>
 </template>
 <script>
-import { institudeVerifyList,institudeVerifyDetail,institudeVerifyVerify } from '@/api/url.js'
+import { institudeVerifyList,institudeVerifyDetail,institudeVerifyVerify,codeCountry } from '@/api/url.js'
 export default {
   data () {
     return {
@@ -237,10 +226,87 @@ export default {
       faren: '',
       shenhezhuangtai: '',
       chuangjianrenyuan: '',
-      yuanyin: ''
+      yuanyin: '',
+      region_zhuang_qu: '',
+      option_zhuang: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '正常'
+      }, {
+        value: '2',
+        label: '禁用'
+      }],
+      region_guo_qu: '',
+      option_guo: [],
+      region_lei_qu: '',
+      option_lei: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '机构'
+      }, {
+        value: '2',
+        label: '院校'
+      }],
+      region_shen_qu: '',
+      option_shen: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '已审核'
+      }, {
+        value: '2',
+        label: '待审核'
+      }, {
+        value: '3',
+        label: '未通过'
+      }],
+      qu_jigou: '',
+      qu_iphone: '',
+      qu_name: '',
+      pageNo: ''
     }
   },
   methods: {
+    handleCurrentChange(val) {
+      // 分页监听
+      this.pageNo = val
+      this.onfen()
+    },
+    onfen () {
+      // 分页按钮
+      var data = {'title': this.qu_jigou, 'mobile': this.qu_iphone, 'linkName': this.qu_name, 'status': this.region_zhuang_qu, 'countryId': this.region_guo_qu, 'type': this.region_lei_qu, 'verifyStatus': this.region_shen_qu, 'pageNo': this.pageNo, 'pageSize': 20}
+      institudeVerifyList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 查询按钮
+      var data = {'title': this.qu_jigou, 'mobile': this.qu_iphone, 'linkName': this.qu_name, 'status': this.region_zhuang_qu, 'countryId': this.region_guo_qu, 'type': this.region_lei_qu, 'verifyStatus': this.region_shen_qu}
+      institudeVerifyList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     onExamineClick (id) {
       // 审核弹窗
       var data = {'id': id}
@@ -307,17 +373,17 @@ export default {
       }).catch(error => {
         console.log(`请求错误`)
       })
-    //   // 国家列表
-    //   codeCountry().then(res => {
-    //     console.log('data', res)
-    //     if (res.success) {
-    //       this.option_guo = res.result
-    //     } else {
-    //       this.$message(res.message)
-    //     }
-    //   }).catch(error => {
-    //     console.log(`请求错误`)
-    //   })
+      // 国家列表
+      codeCountry().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.option_guo = res.result
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     //   // 频道
     //   codeChannel().then(res => {
     //     console.log('data', res)

@@ -131,8 +131,8 @@ export default {
       console.log('rou1', this.$router)
       console.log('rou', this.$router.history.current.query.redirect)
       this.url = this.$router.history.current.query.redirect
-      if (/\?redirect=/.test(this.url)) {
-        this.url = this.url.replace('?redirect=', '')
+      if (/redirect=/.test(this.url)) {
+        this.url = this.url.replace('?redirect=%2F', '')
       }
       loginCode().then(res => {
         console.log('data', res)
