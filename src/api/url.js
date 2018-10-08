@@ -32,7 +32,8 @@ export const memberLogin = (params) => {
 }
 // 搜狐获取ip地址
 export const ipdizhi = (params) => {
-  return http.fetchGet(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8', params)
+  // return http.fetchGet(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8', params)
+    return http.fetchGet('http://pv.sohu.com/cityjson?ie=utf-8', params)
 }
 // 获取验证码
 export const loginCode = (params) => {

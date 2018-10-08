@@ -10,17 +10,26 @@ import router from '../router'
 // POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use(config => {
   // 在发送请求之前做某件事
-  const loginT = true
+  // const loginT = true
+    var loginT = true
   setTimeout(() => {
     loginT = false
   }, 1000 * 60 * 50)
+  var dxzjjltoken = sessionStorage.getItem('dxzjjltoken')
+  console.log('dxzjjltoken', dxzjjltoken)
   if (loginT) {
-    var token = sessionStorage.getItem('token')
-    console.log('token', token)
-    config.headers = {
-      'Content-Type': 'application/json;charset=UTF-8',
-      'X-Access-Token': token,
-      'X-Api-Ver': '1.0'
+    // 首次登陆系统
+    if (dxzjjltoken !== null) {
+      config.headers = {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-Access-Token': dxzjjltoken,
+        'X-Api-Ver': '1.0'
+      }
+    } else {
+      config.headers = {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-Api-Ver': '1.0'
+      }
     }
   } else {
     config.headers = {
@@ -56,19 +65,19 @@ axios.interceptors.response.use((res) => {
   if (!res.data.success) {
     // _.toast(res.data.msg);
     console.log('res1', res)
-    sessionStorage.setItem('token', '')
     if (res.data.code === 'E10000') {
       // 用户未登录
       console.log('ssss')
+      sessionStorage.setItem('dxzjjltoken', '')
       router.replace({
         path: '/',
         query: {redirect: router.currentRoute.fullPath} // 登录成功后跳入浏览的当前页面
       })
       return false
     }
-    return Promise.reject(res)
+    return Promise.resolve(res)
   }
-  // sessionStorage.setItem('token', '')
+  // sessionStorage.setItem('dxzjjltoken', '')
   console.log('res2', res)
   return res
 }, (error) => {
