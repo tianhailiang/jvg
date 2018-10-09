@@ -20,15 +20,17 @@
       <el-form-item label="留言内容：" :label-width="formLabelWidth">
         {{dialogForm.details}}
       </el-form-item>
-      <el-form-item label="举报人ID：" :label-width="formLabelWidth" style="display: inline-block"> 
-        {{dialogForm.userId}}
-      </el-form-item>
-      <el-form-item label="举报人：" :label-width="formLabelWidth" style="display: inline-block"> 
-        {{dialogForm.userName}}
-      </el-form-item>
-      <el-form-item label="举报时间：" :label-width="formLabelWidth" style="display: inline-block">
-        {{dialogForm.createdAt}}
-      </el-form-item>
+      <div class="report-box" >
+        <el-form-item label="举报人ID：" :label-width="formLabelWidth"> 
+          {{dialogForm.userId}}
+        </el-form-item>
+        <el-form-item label="举报人：" :label-width="formLabelWidth"> 
+          {{dialogForm.userName}}
+        </el-form-item>
+        <el-form-item label="举报时间：" :label-width="formLabelWidth">
+          {{dialogForm.createdAt}}
+        </el-form-item>
+      </div>
       <el-form-item label="回复内容：" :label-width="formLabelWidth">
         <el-input type="textarea" v-model="replyContent" maxlength="50"></el-input>
       </el-form-item>
@@ -67,7 +69,7 @@ export default {
         })
         return false
       }
-      axios.post('operation-management/message-report/update.json', {
+      axios.post('/api/c/operation-management/message-report/update.json', {
         id: this.dialogForm.id,
         replyMemo: this.replyContent
       })
@@ -95,6 +97,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .report-box {
+    display: flex
+  }
 </style>

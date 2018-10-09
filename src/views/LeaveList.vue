@@ -209,7 +209,13 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('operation-management/message-feedback/list.json', {
+      if (!this.leaveTime) {
+        this.leaveTime = []
+      }
+      if (!this.replyTime) {
+        this.replyTime = []
+      }
+      axios.post('/api/c/operation-management/message-feedback/list.json', {
         id: this.id,
         contents: this.contents,
         userName: this.userName,
@@ -241,7 +247,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('operation-management/message-feedback/delete.json', {
+        axios.post('/api/c/operation-management/message-feedback/delete.json', {
           idList: arrId
         })
         .then( response => {

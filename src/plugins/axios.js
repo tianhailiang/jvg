@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import axios from "axios"
 import qs from 'querystring'
+import router from '../router'
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;

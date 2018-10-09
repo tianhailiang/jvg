@@ -60,7 +60,7 @@ export default {
         })
         return false
       }
-      axios.post('operation-management/message-feedback/update.json', {
+      axios.post('/api/c/operation-management/message-feedback/update.json', {
         id: this.dialogForm.id,
         replyMemo: this.replyContent
       })

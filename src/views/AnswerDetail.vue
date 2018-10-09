@@ -243,8 +243,11 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
+      if (!this.replayTime) {
+        this.replayTime = []
+      } 
       /* 搜索回复列表 */
-      axios.post('topic/qadetail/list.json', {
+      axios.post('/api/c/topic/qadetail/list.json', {
         id: this.$route.params.id,
         pageNo: this.currentPage,
         pageSize: this.pageSize,
@@ -282,7 +285,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('topic/qadetail/delete.json', {
+        axios.post('/api/c/topic/qadetail/delete.json', {
           id: arrId
         })
         .then( response => {
@@ -332,7 +335,7 @@ export default {
   },
   mounted () {
     /* 问题详情 */
-    axios.post('topic/qadetail/list.json', {
+    axios.post('/api/c/topic/qadetail/list.json', {
       id: this.$route.params.id,
       pageNo: this.currentPage,
       pageSize: this.pageSize

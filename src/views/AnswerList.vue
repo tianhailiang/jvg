@@ -165,6 +165,22 @@ export default {
       infoTotal: 1
     }
   },
+  created () {
+    /* 问答标签 */
+    axios.post('/api/c/common/code/label/list.json', {
+      profession: 1,
+      type: 6,
+      languages: "zh",
+      classes: 2,
+      level: 3
+    })
+    .then(response => {
+      this.lableIdsList = response.data.result
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  },
   methods: {
     onSubmit (origin) {
       if (origin == 1) {
@@ -179,7 +195,7 @@ export default {
           lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
         } 
       })
-      axios.post('topic/qalist/list.json', {
+      axios.post('/api/c/topic/qalist/list.json', {
         id: this.id,
         title: this.title,
         details: this.details,
@@ -206,7 +222,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('topic/qalist/delete.json', {
+        axios.post('/api/c/topic/qalist/delete.json', {
           id: arrId
         })
         .then( response => {
@@ -266,7 +282,7 @@ export default {
       if (query !== '') {
         this.loading = true
         /* 查询用户信息列表 */
-        axios.post('common/code/user-info/list.json', {
+        axios.post('/api/c/common/code/user-info/list.json', {
           realName: query
         })
         .then(response => {
@@ -284,20 +300,6 @@ export default {
     }
   },
   mounted () {
-    /* 问答标签 */
-    axios.post('common/code/label/list.json', {
-      profession: 1,
-      type: 6,
-      languages: "zh",
-      classes: 2,
-      level: 3
-    })
-    .then(response => {
-      this.lableIdsList = response.data.result
-    })
-    .catch(error => {
-      console.log(error)
-    })
   }
 }
 </script>

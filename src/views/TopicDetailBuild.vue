@@ -161,10 +161,20 @@ export default {
   components: {
     InterlocutionListSee, InterlocutionDetailSee
   },
+  created () {
+    /* 话题频道 */
+    axios.post('/api/c/common/code/channel/list.json')
+      .then(res => {
+        this.channelList = res.data.result
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  },
   methods: {
     channelChange () {
       /* 话题分类 */
-      axios.post('common/code/label/list.json', {
+      axios.post('/api/c/common/code/label/list.json', {
         profession: this.channelVal,
         type: 0,
         languages: "zh",
@@ -189,7 +199,7 @@ export default {
         }
       })
       /* 话题标签 */
-      axios.post('common/code/label/list.json', {
+      axios.post('/api/c/common/code/label/list.json', {
         profession: this.channelVal,
         type: 0,
         languages: "zh",
@@ -273,7 +283,7 @@ export default {
         return item.questionId
       })
       /* 添加话题 */
-      axios.post('topic/detail/create.json', {
+      axios.post('/api/c/topic/detail/create.json', {
         name: this.title,
         content: this.content,
         business: this.channelVal,
@@ -306,14 +316,7 @@ export default {
     }
   },
   mounted () {
-    /* 话题频道 */
-    axios.post('common/code/channel/list.json')
-      .then(res => {
-        this.channelList = res.data.result
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    
   }
 }
 </script>

@@ -143,7 +143,7 @@ export default {
     replyId: function(newVal, oldVal) {
       this.id = newVal
       /* 查询问答回复列表 */
-      axios.post('topic/qa/list.json', {
+      axios.post('/api/c/topic/qa/list.json', {
         id: this.$route.params.id,
         answerId: this.replyId,
         pageNo: this.currentPage,
@@ -191,7 +191,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('topic/qadetail/delete.json', {
+        axios.post('/api/c/topic/qadetail/delete.json', {
           id: arrId
         })
         .then( response => {

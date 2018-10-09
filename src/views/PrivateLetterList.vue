@@ -143,7 +143,10 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('private-letter/list.json', {
+      if (!this.timeVal) {
+        this.timeVal = []
+      }
+      axios.post('/api/c/private-letter/list.json', {
         senderName: this.senderName,
         recipientName: this.recipientName,
         createFrom: this.timeVal[0],
