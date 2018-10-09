@@ -99,7 +99,6 @@ export default {
   name: 'articleRewardDetail',
    data () {
     return {
-      id: null,
       title: '',
       userTypeVal: '',
       userId: null,
@@ -117,12 +116,11 @@ export default {
     this.fetchData()
   },
   watch: {
-    /* 如果路由有变化，会再次执行该方法 */
     '$route': 'fetchData'
   },
   methods: {
     fetchData () {
-      axios.post('article/reward/detail.json', {
+      axios.post('/api/c/article/reward/detail.json', {
         id: this.$route.params.id,
         pageNo: this.currentPage,
         pageSize: this.pageSize
@@ -133,8 +131,8 @@ export default {
           this.userTypeVal = res.data.result.userTypeVal
           this.userId = res.data.result.userId
           this.realName = res.data.result.realName
-          this.rewardCount = res.data.result.rewardCount
-          this.rewardPrice = res.data.result.rewardPrice
+          [this.rewardCount = 0] = [res.data.result.rewardCount]
+          [this.rewardPrice =0] = [res.data.result.rewardPrice]
           this.tableData = res.data.result.rewardData
           this.total = res.data.result.total
         }
@@ -148,19 +146,7 @@ export default {
     },
     handleCurrentChange (val) {
       this.currentPage = val
-      axios.post('article/reward/detail.json', {
-        id: this.id,
-        pageNo: this.currentPage,
-        pageSize: this.pageSize
-      })
-      .then(res => {
-        if (res.data.code == 'OK') {
-          this.tableData = res.data.result.rewardData
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      this.fetchData()
     }
   }
 }

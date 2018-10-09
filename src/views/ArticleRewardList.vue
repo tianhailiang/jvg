@@ -49,7 +49,7 @@
       <el-table-column
         type="index"
         label="NO"
-        width="55" >
+        width="55" align="center">
       </el-table-column>
       <el-table-column
         label="文章ID"
@@ -173,12 +173,21 @@ export default {
   components: {
     // ArticleRewardDetail
   },
+  created () {
+    axios.post('/api/c/common/code/role/list.json')
+    .then(res => {
+      this.userTypeList = res.data.result
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  },
   methods: {
     onSubmit (origin) {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('article/reward/list.json', {
+      axios.post('/api/c/article/reward/list.json', {
         id: this.articleId,
         title: this.title,
         userType: this.userType,
@@ -213,13 +222,7 @@ export default {
     }
   },
   mounted () {
-    axios.post('common/code/role/list.json')
-    .then(res => {
-      this.userTypeList = res.data.result
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    
   }
 }
 </script>

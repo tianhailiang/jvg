@@ -146,7 +146,7 @@ export default {
       channelList: [],
       classificationVal: null,
       classificationList: [],
-      timeVal: '',
+      timeVal: [],
       pickerOptions2: {
         shortcuts: [{
           text: '最近一周',
@@ -182,12 +182,25 @@ export default {
       infoTotal: 1
     }
   },
+  created () {
+    axios.post('/api/c/common/code/channel/list.json', {
+    })
+    .then(res => {
+      this.channelList = res.data.result
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  },
   methods: {
     onSubmit (origin) {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('topic/list/list.json', {
+      if(!this.timeVal) {
+        this.timeVal = []
+      }
+      axios.post('/api/c/topic/list/list.json', {
         languages: "zh",
         id: this.id,
         name: this.title,
@@ -208,7 +221,7 @@ export default {
       })
     },
     channelChange () {
-      axios.post('common/code/label/list.json', {
+      axios.post('/api/c/common/code/label/list.json', {
         profession: this.channelVal,
         type: 0,
         languages: "zh",
@@ -231,11 +244,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('topic/list/delete.json', {
+        axios.post('/api/c/topic/list/delete.json', {
           id: arrId
         })
         .then(function (response) {
-          console.log(response)
           if (response.data.code == 'OK') {
             this.$message({
               type: 'success',
@@ -287,14 +299,7 @@ export default {
     }
   },
   mounted () {
-    axios.post('common/code/channel/list.json', {
-    })
-    .then(function (response) {
-      this.channelList = response.data.result
-    }.bind(this))
-    .catch(function (error) {
-      console.log(error)
-    })
+    
   }
 }
 </script>

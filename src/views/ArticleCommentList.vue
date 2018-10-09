@@ -151,12 +151,21 @@ export default {
       infoTotal: 1
     }
   },
+  created () {
+    axios.post('/api/c/common/code/role/list.json')
+    .then(res => {
+      this.userTypeList = res.data.result
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  },
   methods: {
     onSubmit (origin) {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('article/comment/list.json', {
+      axios.post('/api/c/article/comment/list.json', {
         id: this.articleId,
         title: this.title,
         userType: this.userType,

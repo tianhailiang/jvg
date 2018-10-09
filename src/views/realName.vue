@@ -5,42 +5,32 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="用户名称：">
-                  <el-input placeholder="请输入用户名称"></el-input>
+                  <el-input placeholder="请输入用户名称" v-model="qu_name"></el-input>
               </el-form-item>
               <el-form-item label="用户手机号：">
-                  <el-input placeholder="请输入用户手机号"></el-input>
+                  <el-input placeholder="请输入用户手机号" v-model="qu_iphone"></el-input>
               </el-form-item>
               <el-form-item label="用户角色：">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  :value="0" :key="0"></el-option>
-                      <el-option label="普通个人" :value="1" :key="1"></el-option>
-                      <el-option label="个人讲师" :value="2" :key="2"></el-option>
-                      <el-option label="机构讲师" :value="3" :key="3"></el-option>
-                      <el-option label="院校讲师" :value="4" :key="4"></el-option>
-                      <el-option label="顾问" :value="5" :key="5"></el-option>
-                      <el-option label="大咖" :value="6" :key="6"></el-option>
-                      <el-option label="经纪人" :value="7" :key="7"></el-option>
+                  <el-select v-model="region_role_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_role" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="用户id：">
-                  <el-input placeholder="请输入用户id"></el-input>
+                  <el-input placeholder="请输入用户id" v-model="qu_id"></el-input>
               </el-form-item>
               <el-form-item label="用户昵称：">
-                  <el-input placeholder="请输入用户昵称"></el-input>
+                  <el-input placeholder="请输入用户昵称" v-model="qu_nick"></el-input>
               </el-form-item>
               <el-form-item label="审核状态：" >
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部"  :value="0" :key="0"></el-option>
-                      <el-option label="未审核" :value="1" :key="1"></el-option>
-                      <el-option label="已审核" :value="2" :key="2"></el-option>
-                      <el-option label="撤销" :value="3" :key="3"></el-option>
+                  <el-select v-model="region_shen_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_shen_qu" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
         <!-- <div style="float: right;"> -->
-            <el-table :data="tableData" stripe width="100%" border>
+            <el-table :data="tableData" stripe width="100%" border @selection-change="handleSelectionChange">
                 <el-table-column type="selection" label="全部" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="用户id" align="center"></el-table-column>
                 <el-table-column prop="realName" label="用户姓名" align="center"></el-table-column>
@@ -64,13 +54,14 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <el-button size="small" type="primary" @click="onRevokeClick1">批量删除</el-button>
             <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
         </el-col>
         </el-row>
@@ -88,6 +79,20 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
                 <el-button type="primary" @click="onche">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 批量撤销窗口 -->
+        <el-dialog v-model="isDialogShow2" size="small" :visible.sync="isDialogShow2">
+            <p style="font-size: 20px;">请确认是否进行批量撤销处理</p>
+            <el-form >
+                <el-form-item label="禁用原因：">
+                    <el-input type="textarea" v-model="cheyuan_pi" placeholder="请录入禁用原因" :rows="5"></el-input>
+                </el-form-item>
+            </el-form>
+            <p style="font-size: 20px;">提示：撤销后该用户状态为未认证</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow2 = false">取 消</el-button>
+                <el-button type="primary" @click="onche1">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 实名认证信息详情页 -->
@@ -198,13 +203,14 @@
     </section>
 </template>
 <script>
-import { certificationList,certificationDetail,certificationVerify,certificationRevoke } from '@/api/url.js'
+import { certificationList,certificationDetail,certificationVerify,certificationRevoke,codeRole } from '@/api/url.js'
 export default {
   data () {
     return {
       region: '',
       isDialogShow: false,
       isDialogShow1: false,
+      isDialogShow2: false,
       tableData: [],
       detlei: '',
       detid: '',
@@ -227,10 +233,101 @@ export default {
       detimgf: '',
       detyuan: '',
       cheyuan: '',
-      cheid: ''
+      cheid: '',
+      region_role_qu: '',
+      option_role: [],
+      region_shen_qu: '',
+      option_shen_qu: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '申请中'
+      }, {
+        value: '2',
+        label: '成功'
+      }, {
+        value: '3',
+        label: '失败'
+      }],
+      qu_name: '',
+      qu_iphone: '',
+      qu_id: '',
+      qu_nick: '',
+      pageNo: '',
+      multipleSelection: '',
+      allpi: [],
+      cheyuan_pi: ''
     }
   },
   methods: {
+    handleSelectionChange (val) {
+      // 表格监听
+      this.multipleSelection = val
+      console.log('val',val)
+    },
+    handleCurrentChange(val) {
+      // 分页监听
+      this.pageNo = val
+      this.onfen()
+    },
+    onRevokeClick1 () {
+      // 批量撤销
+      if (this.multipleSelection.length === 0) {
+        this.$message('请在列表勾选')  
+        return false
+      }
+      this.allpi = []
+      for (var i = 0;i < this.multipleSelection.length;i++) {
+        this.allpi.push(this.multipleSelection[i].id)
+      }
+      this.isDialogShow2 = true
+    },
+    onche1 () {
+      // 批量撤销认证通过
+      var data = {'ids': this.allpi, 'approverMemo': this.cheyuan_pi}
+      certificationRevoke(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow2 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onfen () {
+      // 分页按钮
+      var data = {'id': this.qu_id, 'realName': this.qu_name, 'mobile': this.qu_iphone, 'nikeName': this.qu_nick, 'approveStatus': this.region_shen_qu, 'type': this.region_role_qu, 'pageNo': this.pageNo, 'pageSize': 20}
+      certificationList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 查询按钮
+      var data = {'id': this.qu_id, 'realName': this.qu_name, 'mobile': this.qu_iphone, 'nikeName': this.qu_nick, 'approveStatus': this.region_shen_qu, 'type': this.region_role_qu}
+      certificationList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     onExamineClick (id) {
       // 实名审核弹窗
       var data = {'id': id}
@@ -323,6 +420,17 @@ export default {
         if (res.success) {
           this.tableData = res.result.modelData
           this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+      // 角色
+      codeRole().then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.option_role = res.result
         } else {
           this.$message(res.message)
         }

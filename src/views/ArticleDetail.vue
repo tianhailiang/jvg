@@ -157,7 +157,46 @@ export default {
   components: {
     ForbiddenDialog
   },
+  created () {
+    this.fetchData()
+  },
+  watch: {
+    '$route': 'fetchData'
+  },
   methods: {
+    fetchData () {
+      axios.post('/api/c/article/detail/detail.json', {
+        id: this.$route.params.id
+      })
+      .then( response => {
+        this.title = response.data.result.title
+        this.userType = response.data.result.userType
+        this.userTypeVal = response.data.result.userTypeVal
+        this.memo = response.data.result.memo
+        this.labelIdsVal = response.data.result.labelIdsVal
+        this.labelUserName = response.data.result.labelUserName
+        this.userId = response.data.result.userId
+        this.realName = response.data.result.realName
+        this.nikeName = response.data.result.nikeName
+        this.upDown = response.data.result.upDown
+        this.upDownVal = response.data.result.upDownVal
+        this.details = response.data.result.details
+        if (response.data.result.images) {
+          this.imageList = response.data.result.images.split(',')
+        }
+        [this.tableData[0].browseNum = 0] = [response.data.result.browseNum]
+        [this.tableData[0].transpondNum = 0] = [response.data.result.transpondNum]
+        [this.tableData[0].shareNum = 0 ] = [response.data.result.shareNum]
+        [this.tableData[0].collectNum = 0]= [response.data.result.collectNum]
+        [this.tableData[0].commentNum = 0] = [response.data.result.commentNum]
+        [this.tableData[0].thumpNum = 0] = [response.data.result.thumpNum]
+        [this.tableData[0].rewardCount = 0] = [response.data.result.rewardCount]
+        [this.tableData[0].rewardPrice = 0] = [response.data.result.rewardPrice]
+      })
+      .catch( error => {
+        console.log(error);
+      })
+    },
     goComment (index, row) {
 
     },
@@ -172,7 +211,7 @@ export default {
     },
     relieve () {
       /* 解禁 */
-      axios.post('article/list/change-updown.json', {
+      axios.post('/api/c/article/list/change-updown.json', {
         id: Number(this.$route.params.id),
         upDown: 1
       })
@@ -202,7 +241,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('article/list/delete.json', {
+        axios.post('/api/c/article/list/delete.json', {
           id: [this.$route.params.id]
         })
         .then( response => {
@@ -236,37 +275,6 @@ export default {
     }
   },
   mounted () {
-    axios.post('article/detail/detail.json', {
-      id: this.$route.params.id
-    })
-    .then( response => {
-      this.title = response.data.result.title
-      this.userType = response.data.result.userType
-      this.userTypeVal = response.data.result.userTypeVal
-      this.memo = response.data.result.memo
-      this.labelIdsVal = response.data.result.labelIdsVal
-      this.labelUserName = response.data.result.labelUserName
-      this.userId = response.data.result.userId
-      this.realName = response.data.result.realName
-      this.nikeName = response.data.result.nikeName
-      this.upDown = response.data.result.upDown
-      this.upDownVal = response.data.result.upDownVal
-      this.details = response.data.result.details
-      if (response.data.result.images) {
-        this.imageList = response.data.result.images.split(',')
-      }
-      [this.tableData[0].browseNum = 0] = [response.data.result.browseNum]
-      [this.tableData[0].transpondNum = 0] = [response.data.result.transpondNum]
-      [this.tableData[0].shareNum = 0 ] = [response.data.result.shareNum]
-      [this.tableData[0].collectNum = 0]= [response.data.result.collectNum]
-      [this.tableData[0].commentNum = 0] = [response.data.result.commentNum]
-      [this.tableData[0].thumpNum = 0] = [response.data.result.thumpNum]
-      [this.tableData[0].rewardCount = 0] = [response.data.result.rewardCount]
-      [this.tableData[0].rewardPrice = 0] = [response.data.result.rewardPrice]
-    })
-    .catch( error => {
-      console.log(error);
-    })
   }
 }
 </script>

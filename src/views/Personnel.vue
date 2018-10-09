@@ -344,10 +344,13 @@ export default {
         label: '全部'
       }, {
         value: '1',
-        label: '未认证'
+        label: '申请中'
       }, {
         value: '2',
-        label: '已认证'
+        label: '成功'
+      }, {
+        value: '3',
+        label: '失败'
       }],
       region_jigou: '',
       option_jigou: [{

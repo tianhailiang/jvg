@@ -5,42 +5,31 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="标签ID：" label-width="80px">
-                  <el-input placeholder="请输入标签ID"></el-input>
+                  <el-input placeholder="请输入标签ID" v-model="qu_id"></el-input>
               </el-form-item>
               <el-form-item label="语种：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="中文" :value="1" :key="1"></el-option>
-                      <el-option label="英语" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_yu_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_yu" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="频道：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="留学" :value="1" :key="1"></el-option>
-                      <el-option label="语培" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_pin_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_pin" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="类别：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="课程" :value="1" :key="1"></el-option>
-                      <el-option label="照片" :value="2" :key="2"></el-option>
-                      <el-option label="文章" :value="3" :key="3"></el-option>
-                      <el-option label="出版物" :value="4" :key="4"></el-option>
+                  <el-select v-model="region_bie_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_bie" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="类型：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="热搜" :value="1" :key="1"></el-option>
-                      <el-option label="分类" :value="2" :key="2"></el-option>
-                      <el-option label="特征" :value="3" :key="3"></el-option>
+                  <el-select v-model="region_xing_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_xing" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">创建时间：</span>
-                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
+                    <el-date-picker  v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
               <el-button size="small" type="primary">搜索</el-button>
               <el-button size="small" type="primary" @click="onEditClick('1')">新建</el-button>
@@ -271,6 +260,7 @@ export default {
       tableData: [],
       tableData1: [],
       laid: '',
+      region_yu_qu: '',
       region_yu: '',
       option_yu: [{
         value: '1',
@@ -281,6 +271,61 @@ export default {
       }, {
         value: '3',
         label: '英语'
+      }],
+      region_xing_qu: '',
+      option_xing: [{
+        value: '0',
+        label: '一级标签'
+      }, {
+        value: '1',
+        label: '课程'
+      }, {
+        value: '2',
+        label: '照片'
+      }, {
+        value: '3',
+        label: '文章'
+      }, {
+        value: '4',
+        label: '出版物'
+      }, {
+        value: '5',
+        label: '圈子'
+      }, {
+        value: '6',
+        label: '问答'
+      }, {
+        value: '7',
+        label: '讲师标签'
+      }, {
+        value: '8',
+        label: '院校'
+      }, {
+        value: '9',
+        label: '话题'
+      }],
+      region_bie_qu: '',
+      option_bie: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '分类'
+      }, {
+        value: '2',
+        label: '热搜'
+      }, {
+        value: '3',
+        label: '能力标签'
+      }, {
+        value: '4',
+        label: '授课语言-地方语言'
+      }, {
+        value: '5',
+        label: '授课语言-民族语言'
+      }, {
+        value: '6',
+        label: '授课语言-国家语言'
       }],
       region_ye: '',
       option_ye: [],
@@ -300,7 +345,9 @@ export default {
       addchuang: '',
       addchuangid: '',
       region_jibie: '',
-      region_ping: ''
+      region_ping: '',
+      qu_id: '',
+      dataTime: ''
     }
   },
   methods: {

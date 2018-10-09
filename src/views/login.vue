@@ -60,7 +60,7 @@ export default {
     onSubmit () {
       // 登录
       var _this = this
-      var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey, lastLoginIp: this.ip}
+      var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey}
       // data = JSON.stringify(data)
       console.log('传参', data)
       memberLogin(data).then(res => {
@@ -93,7 +93,9 @@ export default {
             _this.$message('用户无权限') 
           } else if (res.code === 'E10000') {
             _this.$message('用户未登录')
-          } else {
+          } else if (/system.member.login.fail/.test(res.message)) {
+            _this.$message('用户登录密码错误')
+          }else {
             _this.$message(res.message)
           }
         }
@@ -111,6 +113,8 @@ export default {
           _this.$message('用户无权限') 
         } else if (error.data.code === 'E10000') {
           _this.$message('用户未登录')
+        } else if (/system.member.login.fail/.test(error.data.message)) {
+          _this.$message('用户登录密码错误')
         } else {
           _this.$message(error.data.message)
         }
@@ -131,8 +135,8 @@ export default {
       console.log('rou1', this.$router)
       console.log('rou', this.$router.history.current.query.redirect)
       this.url = this.$router.history.current.query.redirect
-      if (/\?redirect=/.test(this.url)) {
-        this.url = this.url.replace('?redirect=', '')
+      if (/redirect=/.test(this.url)) {
+        this.url = this.url.replace('?redirect=%2F', '')
       }
       loginCode().then(res => {
         console.log('data', res)

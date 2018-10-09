@@ -2,7 +2,7 @@
   <el-dialog title="商品选择画面"
     :visible.sync="dialogFormVisible"
     :before-close="handleClose" 
-    width="80%" custom-class="goods-dialog">
+    width="80%" custom-class="vue-goods-dialog">
     <el-form :inline="true">
       <el-form-item>
         <el-input v-model="name" size="small"
@@ -144,11 +144,5 @@ export default {
   .dialog-footer {
     display: flex;
     justify-content: center
-  }
-</style>
-<style>
-  .goods-dialog .el-dialog__body {
-    padding-top:0;
-    padding-bottom:0
   }
 </style>

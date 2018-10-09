@@ -46,7 +46,7 @@ export default {
         })
         return false
       }
-      axios.post('article/list/change-updown.json', {
+      axios.post('/api/c/article/list/change-updown.json', {
         id: this.dialogForm.id,
         upDown: 2,
         downMemo: this.reason

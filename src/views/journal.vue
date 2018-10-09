@@ -111,7 +111,11 @@ export default {
     queryClik () {
       // 搜索按钮
       console.log('data', this.dataTime)
-      var data = {'userId': this.qu_id, 'userName': this.qu_name, 'operation': this.region, 'regFrom': this.dataTime[0], 'regTo': this.dataTime[1]}
+      if (this.dataTime !== '') {
+        var data = {'userId': this.qu_id, 'userName': this.qu_name, 'operation': this.region, 'regFrom': this.dataTime[0], 'regTo': this.dataTime[1]}
+      } else {
+        var data = {'userId': this.qu_id, 'userName': this.qu_name, 'operation': this.region}
+      }
       if (this.qu_id === '') {
         this.$message('请输入操作者ID')
         return false

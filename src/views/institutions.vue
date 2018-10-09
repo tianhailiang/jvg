@@ -5,57 +5,44 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="机构/院校名称：">
-                  <el-input placeholder="请输入机构/院校名称"></el-input>
+                  <el-input placeholder="请输入机构/院校名称" v-model="qu_jigou"></el-input>
               </el-form-item>
               <el-form-item label="联系人手机号：">
-                  <el-input placeholder="请输入联系人手机号"></el-input>
+                  <el-input placeholder="请输入联系人手机号" v-model="qu_iphone"></el-input>
               </el-form-item>
               <el-form-item label="联系人姓名：">
-                  <el-input placeholder="请输入联系人姓名"></el-input>
+                  <el-input placeholder="请输入联系人姓名" v-model="qu_name"></el-input>
               </el-form-item>
               <el-form-item label="状态：" label-width="80px">
-                  <el-select v-model="region" placeholder="正常" style="width: 80px;">
-                      <el-option label="正常" :value="0" :key="0"></el-option>
-                      <el-option label="禁用" :value="1" :key="1"></el-option>
+                  <el-select v-model="region_zhuang_qu" placeholder="正常" style="width: 80px;">
+                      <el-option v-for="(item) in option_zhuang" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="所属国家：" label-width="100px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="中国" :value="1" :key="1"></el-option>
-                      <el-option label="澳大利亚" :value="2" :key="2"></el-option>
-                      <el-option label="美国" :value="3" :key="3"></el-option>
-                      <el-option label="英国" :value="4" :key="4"></el-option>
-                      <el-option label="马拉西亚" :value="5" :key="5"></el-option>
-                      <el-option label="新加坡" :value="6" :key="6"></el-option>
-                      <el-option label="俄罗斯" :value="7" :key="7"></el-option>
+                  <el-select v-model="region_guo_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_guo" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="类别：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 100px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="机构" :value="1" :key="1"></el-option>
-                      <el-option label="院校" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_lei_qu" placeholder="全部" style="width: 100px;">
+                      <el-option v-for="(item) in option_lei" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="机构院校性质：" label-width="120px">
-                  <el-select v-model="region" placeholder="全部" style="width: 120px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="语培" :value="1" :key="1"></el-option>
-                      <el-option label="K12" :value="2" :key="2"></el-option>
-                      <el-option label="独立研究型大学" :value="3" :key="3"></el-option>
+                  <el-select v-model="region_jigouxing_qu" placeholder="全部" style="width: 120px;">
+                      <el-option v-for="(item) in option_yuanxiao" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">注册年份：</span>
-                    <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
+                    <el-date-picker v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
               <el-button @click="onEditClick" size="small" type="primary">新增</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData" stripe width="100%" border>
+            <el-table :data="tableData" stripe width="100%" border @selection-change="handleSelectionChange">
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
                 <el-table-column prop="id" label="机构院校id" width="90" align="center"></el-table-column>
                 <el-table-column prop="title" label="机构院校名称" width="90" align="center"></el-table-column>
@@ -83,13 +70,14 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <el-button size="small" type="primary" @click="onDelClick1">批量删除</el-button>
             <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
         </el-col>
         </el-row>
@@ -101,6 +89,14 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
                 <el-button type="primary" @click="onDel">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 批量删除窗口 -->
+        <el-dialog v-model="isDialogShow3" size="small" :visible.sync="isDialogShow3">
+            <p style="font-size: 30px;">请确认是否继续批量删除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow3 = false">取 消</el-button>
+                <el-button type="primary" @click="onDel1">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 禁用编辑窗口 -->
@@ -266,6 +262,7 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
+      isDialogShow3: false,
       tableData: [],
       total: '',
       region_jigou: '',
@@ -277,8 +274,10 @@ export default {
       addtel: '',
       addemail: '',
       addpai: '',
+      region_guo_qu: '',
       region_guo: '',
       option_guo: [],
+      region_jigouxing_qu: '',
       region_yuanxiao: '',
       option_yuanxiao: [{
         value: '0',
@@ -293,6 +292,28 @@ export default {
         value: '3',
         label: '私立研究型大学'
       }],
+      region_zhuang_qu: '',
+      option_zhuang: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '正常'
+      }, {
+        value: '2',
+        label: '禁用'
+      }],
+      region_lei_qu: '',
+      option_lei: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '机构'
+      }, {
+        value: '2',
+        label: '院校'
+      }],
       adddi: '',
       addleixing: '',
       addnetwork: '',
@@ -304,13 +325,96 @@ export default {
       addchuangjian: '',
       choosenItem: [],
       type: '',
-      jinyong: ''
+      jinyong: '',
+      qu_jigou: '',
+      qu_iphone: '',
+      qu_name: '',
+      dataTime: '',
+      pageNo: '',
+      multipleSelection: '',
+      allpi: []
     }
   },
   methods: {
     choose (value) {
       this.choosenItem = this.option_yuanxiao.filter(item => item.value === value)[0];
       console.log('choose', this.choosenItem)
+    },
+    handleSelectionChange (val) {
+      // 表格监听
+      this.multipleSelection = val
+      console.log('val',val)
+    },
+    handleCurrentChange(val) {
+      // 分页监听
+      this.pageNo = val
+      this.onfen()
+    },
+    onfen () {
+      // 分页按钮
+      if (this.dataTime !== '') {
+        var data = {'title': this.qu_jigou, 'mobile': this.qu_iphone, 'linkName': this.qu_name, 'status': this.region_zhuang_qu, 'countryId': this.region_guo_qu, 'type': this.region_lei_qu, 'academyNature': this.region_jigouxing_qu, 'regFrom': this.dataTime[0] + ' 00:00:00', 'regTo': this.dataTime[1] + ' 00:00:00', 'pageNo': this.pageNo, 'pageSize': 20}
+      } else {
+        var data = {'title': this.qu_jigou, 'mobile': this.qu_iphone, 'linkName': this.qu_name, 'status': this.region_zhuang_qu, 'countryId': this.region_guo_qu, 'type': this.region_lei_qu, 'academyNature': this.region_jigouxing_qu, 'pageNo': this.pageNo, 'pageSize': 20}
+      }
+      institudeList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onDelClick1 () {
+      // 批量删除弹窗
+      if (this.multipleSelection.length === 0) {
+        this.$message('请在列表勾选')  
+        return false
+      }
+      this.allpi = []
+      for (var i = 0;i < this.multipleSelection.length;i++) {
+        this.allpi.push(this.multipleSelection[i].id)
+      }
+      this.isDialogShow3 = true
+    },
+    onDel1 () {
+      // 批量删除接口
+      var data = {'ids': this.allpi}
+      institudeDelete(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow3 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 查询按钮
+      console.log('datatime', this.dataTime)
+      if (this.dataTime !== '') {
+        var data = {'title': this.qu_jigou, 'mobile': this.qu_iphone, 'linkName': this.qu_name, 'status': this.region_zhuang_qu, 'countryId': this.region_guo_qu, 'type': this.region_lei_qu, 'academyNature': this.region_jigouxing_qu, 'regFrom': this.dataTime[0] + ' 00:00:00', 'regTo': this.dataTime[1] + ' 00:00:00'}
+      } else {
+        var data = {'title': this.qu_jigou, 'mobile': this.qu_iphone, 'linkName': this.qu_name, 'status': this.region_zhuang_qu, 'countryId': this.region_guo_qu, 'type': this.region_lei_qu, 'academyNature': this.region_jigouxing_qu}
+      }
+      institudeList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onEditClick1 (id) {
       // 编辑机构院校
@@ -442,7 +546,7 @@ export default {
     },
     onDel () {
       // 删除接口
-      var data = {'id': this.addid}
+      var data = {'ids': this.addid}
       institudeDelete(data).then(res => {
         console.log('data', res)
         if (res.success) {
