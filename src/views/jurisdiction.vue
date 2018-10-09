@@ -35,8 +35,8 @@
                 <span>{{item.name}}</span>
             </div>
             <div style="float: right;margin-bottom: 20px;text-align: left;">
-                <el-button @click="onDisableClik1(item.id,item.channel,item.category)" type="danger" size="small">追加子节点</el-button>
-                <el-button @click="onEditClick(item.id,item.name,item.description)" type="danger" size="small">编辑</el-button>
+                <el-button @click="onDisableClik1(item.parentId,item.channel,item.category)" type="danger" size="small">追加子节点</el-button>
+                <el-button @click="onEditClick(item.parentId,item.name,item.description)" type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick(item.id)" type="danger" size="small">删除</el-button>
             </div>
             <el-table v-if="index == showIndex" :data="item.children" stripe width="100%" border style="margin-left: 10px;text-align: left;">
@@ -293,6 +293,10 @@ export default {
     ondisable () {
       if (this.type === 1) {
         // 追加父节点
+        if (this.fuName.length > 8) {
+          this.$message('父节点的名称长度不能超过8个字符')
+          return false
+        }
         resourceCreate({'name': this.fuName,'description': this.fuExplain,'category': parseInt(this.region_category),'channel': parseInt(this.region_channel),'page': parseInt(this.region_page)}).then(res => {
           console.log('data', res)
           if (res.success) {
@@ -309,12 +313,16 @@ export default {
     },
     onSub_fu () { 
       // 更新父节点
+      if (this.fuName.length > 8) {
+        this.$message('父节点的名称长度不能超过8个字符')
+        return false
+      }
       var data = {'id': this.fuzhu,'description': this.fuExplain,'name': this.fuName}
       resourceUpdate(data).then(res => {
         console.log('data', res)
         if (res.success) {
           this.isDialogShow1 = false
-          window.location.reload()
+          // window.location.reload()
         } else {
           this.$message(res.message)          
         }
@@ -335,6 +343,10 @@ export default {
     },
     onDisable1 () {
       // 追加子节点
+      if (this.ziname.length > 8) {
+        this.$message('子节点的名称长度不能超过8个字符')
+        return false
+      }
       var apiid = []
       for (var i = 0;i < this.tableDatakzi.length;i++) {
         apiid.push({"'apiId'": this.tableDatakzi[i].id})
@@ -367,6 +379,10 @@ export default {
     },
     onDisable11 () {
       // 更新子节点
+      if (this.ziname.length > 8) {
+        this.$message('子节点的名称长度不能超过8个字符')
+        return false
+      }
       var apiid = []
       for (var i = 0;i < this.tableDatakzi.length;i++) {
         apiid.push({"'apiId'": this.tableDatakzi[i].id})

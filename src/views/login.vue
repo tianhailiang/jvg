@@ -70,6 +70,7 @@ export default {
           // _this.$store.dispatch('set_token', res.result)
           // console.log('token', this.$store.state.login.token)
           sessionStorage.setItem('dxzjjltoken', res.result)
+          // sessionStorage.setItem('dxzjjltoken', 'ee90b3e3874dda89ad643498112cc7ec')
           console.log('token', sessionStorage.getItem('dxzjjltoken'))
           console.log('rou', _this.url)
           if (_this.url !== undefined && _this.url !== '') {

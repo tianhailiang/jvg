@@ -11,7 +11,7 @@ import router from '../router'
 axios.interceptors.request.use(config => {
   // 在发送请求之前做某件事
   // const loginT = true
-    var loginT = true
+  var loginT = true
   setTimeout(() => {
     loginT = false
   }, 1000 * 60 * 50)

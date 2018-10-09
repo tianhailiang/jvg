@@ -8,7 +8,7 @@
                   <el-input placeholder="请输入标签ID" v-model="qu_id"></el-input>
               </el-form-item>
               <el-form-item label="语种：" label-width="80px">
-                  <el-select v-model="region_yu_qu" placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region_yu_qu" @change="choose(region_yu_qu)" placeholder="全部" style="width: 80px;">
                       <el-option v-for="(item) in option_yu" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
@@ -18,7 +18,7 @@
                     </el-select>
               </el-form-item>
               <el-form-item label="类别：" label-width="80px">
-                  <el-select v-model="region_bie_qu" placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region_bie_qu" @change="choose1(region_bie_qu)" placeholder="全部" style="width: 80px;">
                       <el-option v-for="(item) in option_bie" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
@@ -29,9 +29,9 @@
               </el-form-item>
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">创建时间：</span>
-                    <el-date-picker  v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
+                    <el-date-picker v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
               <el-button size="small" type="primary" @click="onEditClick('1')">新建</el-button>
               <el-button size="small" type="primary" @click="onDisableClik">排序</el-button>
         </el-form>
@@ -331,12 +331,14 @@ export default {
       option_ye: [],
       region_addpin: '',
       option_addpin: [],
+      region_pin_qu: '',
       region_pin: '',
       option_pin: [],
       region_lei: '',
       option_lei: [],
       region_xing: '',
       choosenItem: [],
+      choosenItem1: [],
       region_addxing: '',
       data: {},
       addname: '',
@@ -354,6 +356,25 @@ export default {
     choose (value) {
       this.choosenItem = this.option_yu.filter(item => item.value === value)[0];
       console.log('choose', this.choosenItem)
+    },
+    choose1 (value) {
+      this.choosenItem1 = this.option_bie.filter(item => item.value === value)[0];
+      console.log('choose', this.choosenItem1)
+    },
+    queryClik () {
+      // 查询按钮
+      var data = {'id': this.qu_id, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'classes': this.choosenItem1.label, 'type': this.region_xing_qu, 'regFrom': this.dataTime[0], 'regTo': this.dataTime[1]}
+      labelList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onEditClick () {
       // 新建标签
