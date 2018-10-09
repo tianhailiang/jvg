@@ -221,7 +221,7 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('article/comment/detail.json', {
+      axios.post('/api/c/article/comment/detail.json', {
         id: this.$route.params.id,
         commentDetails: this.commentDetails,
         commentUser: this.commentUser,
@@ -260,7 +260,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('article/comment/delete.json', {
+        axios.post('/api/c/article/comment/delete.json', {
           id: arrId
         })
         .then( response => {

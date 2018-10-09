@@ -1,5 +1,7 @@
 <template>
-  <el-dialog title="问答列表查看" :visible.sync="dialogFormVisible" width="80%" :before-close="handleClose">
+  <el-dialog title="问答列表查看" :visible.sync="dialogFormVisible"
+  width="80%" :before-close="handleClose"
+  custom-class="vue-goods-dialog">
     <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="问答ID：" :label-width="formLabelWidth">
         <el-input v-model="id" size="small" type="number"></el-input>
@@ -65,11 +67,11 @@
       :data="tableData"
       tooltip-effect="dark"
       @selection-change="handleSelectionChange" border 
-      v-if="total > 0">
+      v-if="total > 0" max-height="300">
       <el-table-column
         type="selection"
         label="全部"
-        width="55" >
+        width="55" align="center">
       </el-table-column>
       <el-table-column
         label="问答id"
@@ -181,7 +183,7 @@ export default {
           lableIdsStr = lableIdsStr.substring(0, lableIdsStr.length -1)
         } 
       })
-      axios.post('topic/qalist/list.json', {
+      axios.post('/api/c/topic/qalist/list.json', {
         id: this.id,
         title: this.title,
         details: this.details,
@@ -232,7 +234,7 @@ export default {
       if (query !== '') {
         this.loading = true
         /* 查询用户信息列表 */
-        axios.post('common/code/user-info/list.json', {
+        axios.post('/api/c/common/code/user-info/list.json', {
           realName: query
         })
         .then(response => {
@@ -252,7 +254,7 @@ export default {
   mounted () {
     this.onSubmit()
     /* 问答标签 */
-    axios.post('common/code/label/list.json', {
+    axios.post('/api/c/common/code/label/list.json', {
       profession: 1,
       type: 6,
       languages: "zh",

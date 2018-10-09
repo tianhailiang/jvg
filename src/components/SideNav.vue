@@ -173,7 +173,7 @@ export default {
     }
   },
   mounted () {
-    this.activeIndex = window.location.href.split(window.location.host)[1]
+    this.activeIndex = window.location.href.split(window.location.host+'/#')[1]
     if(this.activeIndex.includes('article')){
       this.activeIndex = '/article' /* 文章列表和文章详情匹配一个路由 */
     }

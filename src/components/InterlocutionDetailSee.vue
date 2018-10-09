@@ -1,5 +1,7 @@
 <template>
-  <el-dialog title="问答详情查看" :visible.sync="dialogFormVisible1" width="80%" :before-close="handleClose">
+  <el-dialog title="问答详情查看" :visible.sync="dialogFormVisible1"
+  width="80%" :before-close="handleClose"
+  custom-class="vue-goods-dialog">
     <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="问答ID：" :label-width="formLabelWidth">
         {{id}}
@@ -27,11 +29,11 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      border>
+      border max-height="300">
       <el-table-column
         type="index"
         label="NO"
-        width="55" >
+        width="55" align="center">
       </el-table-column>
       <el-table-column
         prop="id"
@@ -100,7 +102,7 @@ export default {
   watch: {
     id: function(newVal, oldVal) {
       this.id = newVal
-      axios.post('topic/qalist/detail.json', {
+      axios.post('/api/c/topic/qalist/detail.json', {
         id: this.id
       })
       .then( response => {

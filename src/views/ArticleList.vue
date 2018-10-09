@@ -190,7 +190,7 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('article/list/list.json', {
+      axios.post('/api/c/article/list/list.json', {
         id: this.articleId,
         title: this.title,
         userType: this.userClassify,
@@ -218,7 +218,7 @@ export default {
     },
     handleRelieve (index, row) {
       /* 解禁 */
-      axios.post('article/list/change-updown.json', {
+      axios.post('/api/c/article/list/change-updown.json', {
         id: row.id,
         upDown: 1
       })
@@ -248,7 +248,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('article/list/delete.json', {
+        axios.post('/api/c/article/list/delete.json', {
           id: arrId
         })
         .then( response => {

@@ -65,7 +65,8 @@ html, body {
 }
 .vue-right-box {
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  margin-left:240px
 }
 .vue-nav {
   height:40px;
@@ -86,5 +87,9 @@ html, body {
 .chart-container{
   margin-left: 260px;
   overflow: hidden;
+}
+.vue-goods-dialog .el-dialog__body {
+  padding-top:0;
+  padding-bottom:0
 }
 </style>

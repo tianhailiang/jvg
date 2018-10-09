@@ -206,12 +206,21 @@ export default {
       infoTotal: 1
     }
   },
+  created () {
+    axios.post('/api/c/common/code/role/list.json')
+    .then(res => {
+      this.userTypeList = res.data.result
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  },
   methods: {
     onSubmit (origin) {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('article/verify/list.json', {
+      axios.post('/api/c/article/verify/list.json', {
         id: this.articleId,
         title: this.title,
         userType: this.userType,
@@ -236,7 +245,7 @@ export default {
       this.multipleSelection = val
     },
     adopt (arrId) {
-      axios.post('article/verify/verify.json', {
+      axios.post('/api/c/article/verify/verify.json', {
         id: arrId,
         status: 3
       })
@@ -277,7 +286,7 @@ export default {
         })
         return false
       }
-      axios.post('article/verify/verify.json', {
+      axios.post('/api/c/article/verify/verify.json', {
         id: [this.dialogForm.id],
         status: 4,
         statusMemo: this.reason
@@ -315,13 +324,7 @@ export default {
     }
   },
   mounted () {
-    axios.post('common/code/role/list.json')
-    .then(res => {
-      this.userTypeList = res.data.result
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    
   }
 }
 </script>

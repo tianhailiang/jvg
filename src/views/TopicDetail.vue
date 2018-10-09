@@ -5,7 +5,7 @@
     </div>
     <el-form :inline="true" style="border:1px solid #dcdcdc">
       <el-form-item label="话题ID：" class="topic-id" :label-width="formLabelWidth">
-        {{id}}
+        {{$route.params.id}}
       </el-form-item>
       <el-form-item label="话题标题">
         <el-input v-model="title" size="small"></el-input>
@@ -170,10 +170,29 @@ export default {
   components: {
     InterlocutionListSee, InterlocutionDetailSee
   },
+  created () {
+    /* 并发请求 */
+    allAxios.all([this.postChannelList(), this.postDetail()])
+      .then(allAxios.spread((res1, res2) => {
+        this.channelList = res1.data.result
+        this.title = res2.data.result.name
+        this.channelVal = res2.data.result.business
+        this.classificationVal = res2.data.result.categorySigns
+        this.lableIds = res2.data.result.lableIds.split(',').map(item => {
+          return Number(item)
+        })
+        this.createdAt = res2.data.result.createdAt
+        this.content = res2.data.result.content
+        this.adminName = res2.data.result.adminName
+        this.adminId = res2.data.result.adminId
+        this.tableData = res2.data.result.qaData || []
+        this.getChannelChange()
+      }))
+  },
   methods: {
     channelChange () {
       /* 话题分类 */
-      axios.post('common/code/label/list.json', {
+      axios.post('/api/c/common/code/label/list.json', {
         profession: this.channelVal,
         type: 0,
         languages: "zh",
@@ -192,7 +211,7 @@ export default {
     },
     getChannelChange () {
       /* 话题分类 */
-      axios.post('common/code/label/list.json', {
+      axios.post('/api/c/common/code/label/list.json', {
         profession: this.channelVal,
         type: 0,
         languages: "zh",
@@ -221,7 +240,7 @@ export default {
         }
       })
       /* 话题标签 */
-      axios.post('common/code/label/list.json', {
+      axios.post('/api/c/common/code/label/list.json', {
         profession: this.channelVal,
         type: 0,
         languages: "zh",
@@ -239,7 +258,7 @@ export default {
     },
     getClassificationChange (parentId) {
       /* 话题标签 */
-      axios.post('common/code/label/list.json', {
+      axios.post('/api/c/common/code/label/list.json', {
         profession: this.channelVal,
         type: 0,
         languages: "zh",
@@ -322,8 +341,8 @@ export default {
         return item.questionId
       })
       /* 修改话题 */
-      axios.post('topic/detail/update.json', {
-        id: this.id,
+      axios.post('/api/c/topic/detail/update.json', {
+        id: this.$route.params.id,
         name: this.title,
         content: this.content,
         business: this.channelVal,
@@ -352,11 +371,11 @@ export default {
     },
     postChannelList () {
       /* 话题频道 */
-      return axios.post('common/code/channel/list.json')
+      return axios.post('/api/c/common/code/channel/list.json')
     },
     postDetail () {
       /* 话题详情 */
-      return axios.post('topic/detail/detail.json',{
+      return axios.post('/api/c/topic/detail/detail.json',{
         id: this.$route.params.id,
         languages: 'zh'
       })
@@ -374,24 +393,7 @@ export default {
     }
   },
   mounted () {
-    this.id = Number(this.$route.params.id)
-    /* 并发请求 */
-    allAxios.all([this.postChannelList(), this.postDetail()])
-      .then(allAxios.spread((res1, res2) => {
-        this.channelList = res1.data.result
-        this.title = res2.data.result.name
-        this.channelVal = res2.data.result.business
-        this.classificationVal = res2.data.result.categorySigns
-        this.lableIds = res2.data.result.lableIds.split(',').map(item => {
-          return Number(item)
-        })
-        this.createdAt = res2.data.result.createdAt
-        this.content = res2.data.result.content
-        this.adminName = res2.data.result.adminName
-        this.adminId = res2.data.result.adminId
-        this.tableData = res2.data.result.qaData || []
-        this.getChannelChange()
-      }))
+    
   }
 }
 </script>
