@@ -158,6 +158,7 @@
   </section>
 </template>
 <script>
+  import {advertreviewList, passadvert} from '@/api/url.js'
 export default {
   name: 'advertReview',
   data () {
@@ -225,8 +226,8 @@ export default {
   // },
   methods: {
     advertreviewList() {
-      axios.post(this.$store.state.api.advertreviewList, {
-        // id: this.dataGroup.id,
+      advertreviewList({
+        id: this.dataGroup.id,
         // name: this.dataGroup.name,
         // source: this.dataGroup.source,
         // channel: this.dataGroup.channel,
@@ -239,12 +240,11 @@ export default {
         pageSize:this.pageSize,
         pageNo: this.pageNo
       }).then(res => {
-        console.log(res.data)
-        this.tabeladvert = res.data.result.modelData
-        this.total = res.data.result.total
+        this.tabeladvert = res.result.modelData
+        this.total = res.result.total
         this.$message({
           type: 'success',
-          message: res.data.message
+          message: res.message
         })
       }).catch(error => {
         this.$message({
@@ -254,7 +254,7 @@ export default {
       })
     },
     openPassadvert() {
-      axios.post(this.$store.state.api.passadvert, {
+      passadvert({
         id: this.dataGroup.id,
         statusMemo: this.dataGroup.statusMemo
       }).then(res => {

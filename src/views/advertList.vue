@@ -259,6 +259,7 @@
   </section>
 </template>
 <script>
+  import {searchAdvert, advertisingfreeze,removeAdvert,advertFreeze,replaceAdvert} from '@/api/url.js'
 export default {
   name: 'advertList',
   data () {
@@ -359,19 +360,19 @@ export default {
   methods: {
     searchAdvert() {
       this.loading = true
-      axios.post(this.$store.state.api.searchAdvert,{
+      searchAdvert({
         pageNo: this.pageNo,
         pageSize: this.pageSize,
       }).then(res => {
-        this.total = res.data.result.total
-        this.advertTableData = res.data.result.modelData
+        this.total = res.result.total
+        this.advertTableData = res.result.modelData
         this.loading = false
       }).catch(error => {
 
       })
     },
     batchAdvertfreeze(index, row) {
-      axios.post(this.$store.state.api.advertisingfreeze, {
+      advertisingfreeze({
         id: row.id
       }).then(res => {
         console.log(res)
@@ -380,7 +381,7 @@ export default {
       })
     },
     removeAdvert(index, rows) {
-      axios.post(this.$store.state.api.removeAdvert, {id: [rows.id]}).then(res => {
+      removeAdvert({id: [rows.id]}).then(res => {
         this.$message({
           type: 'success',
           message: '删除成功!'
@@ -390,7 +391,7 @@ export default {
       })
     },
     advertFreeze(index, rows) {
-      axios.post(this.$store.state.api.advertFreeze,{id: [rows.id]}).then(res => {
+      advertFreeze({id: [rows.id]}).then(res => {
         console.log(res)
       }).catch(error => {
         this.$message({
@@ -401,7 +402,7 @@ export default {
     },
     replaceAdvert() {
       this.isShow = true
-      axios.post(this.$store.state.api.replaceAdvert, {
+      replaceAdvert({
         forceStartTime: this.forceStartTime,
         forceEndTime: this.forceEndTime,
         forceUrl: this.forceUrl,
@@ -424,7 +425,7 @@ export default {
       })
     },
     openaddAdvert() { //添加广告位
-      // this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})
+      this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})
     },
     openaddAdvertdetail(index, rows) {
       this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})

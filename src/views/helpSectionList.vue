@@ -34,11 +34,11 @@
           <el-col :span="20">
               <el-form-item label="创建时间">
                   <el-col :span="5">
-                    <el-date-picker type="date" v-model="helpData.createdFrom" placeholder="选择日期" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="datetime" v-model="helpData.createdFrom" placeholder="开始时间" style="width: 100%;"></el-date-picker>
                   </el-col>
                   <el-col class="line" :span="2">-</el-col>
                   <el-col :span="5">
-                    <el-time-picker type="fixed-time" v-model="helpData.createdTo" placeholder="选择时间" style="width: 100%;"></el-time-picker>
+                    <el-date-picker type="datetime" v-model="helpData.createdTo" placeholder="结束时间" style="width: 100%;"></el-date-picker>
                   </el-col>
                   <div class="btn-group">
                     <el-button size="small" type="primary" @click="searchHelp()">搜索</el-button>

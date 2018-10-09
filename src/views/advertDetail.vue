@@ -145,11 +145,11 @@
                 </el-form-item>
                   <el-form-item>
                       <el-col :span="11">
-                        <el-date-picker type="date" placeholder="开始时间" v-model="FormData.startTime"></el-date-picker>
+                        <el-date-picker type="datetime" placeholder="开始时间" v-model="FormData.startTime"></el-date-picker>
                       </el-col>
                       <el-col class="line" :span="2">-</el-col>
                       <el-col :span="11">
-                        <el-time-picker type="fixed-time" placeholder="结束时间" v-model="FormData.endTime"></el-time-picker>
+                          <el-date-picker type="datetime" placeholder="结束时间" v-model="FormData.endTime"></el-date-picker>
                       </el-col>
                   </el-form-item>
                   <el-form-item label="购买人名称">
@@ -265,7 +265,7 @@
   </el-row>
       <div class="btn-group">
           <el-row>
-              <el-button size="medium" type="primary" @click="addAdvert()">提交</el-button>
+              <el-button size="medium" type="primary" @click="addAdvertsubmit()">提交</el-button>
               <el-button size="medium" type="primary">删除</el-button>
               <el-button size="medium" type="primary">取消</el-button>
             </el-row>
@@ -373,6 +373,7 @@
   </section>
 </template>
 <script>
+import { searchCommerDetail, searchadvertising, addAdvertlist} from '@/api/url.js'
 export default {
   name: 'advertDetail',
   data () {
@@ -394,6 +395,7 @@ export default {
         sort: '',
         image: ''
       },
+      phone: '',
       advertData: {
         id: '',
         name: '',
@@ -411,42 +413,43 @@ export default {
     this.searchCommerDetail()
   },
   methods: {
-    openaddvert() { // 添加广告
-      axios.post(this.$store.state.api.addAdvertlist, {
+    addAdvertsubmit() { // 添加广告 
+      addAdvertlist({
         adsTempId: this.adsTempId,
         sort:	this.sort,
         categorId: this.categorId,
         url: this.url,
         price:this.price,
-        priceType: this.priceType,	
-        startTime: this.startTime,	
+        priceType: this.priceType,
+        startTime: this.startTime,
         endTime: this.endTime,
         linkName: this.linkName,
-        phone: this.phone
+        phone: this.phone,
       }).then(res => {
+        console.log(res)
+      }).catch(error => {
 
       })
     },
     searchCommerDetail() { // 查询广告详情
       const DEFAULT = this.$route.params.id
-      // console.log(DEFAULT)
-      axios.post(this.$store.state.api.searchCommerDetail, {
+      searchCommerDetail({
         id: DEFAULT
       }).then(res => {
         this.FormData.id = DEFAULT
-        this.FormData.startTime = res.data.result.startTime
-        this.FormData.endTime = res.data.result.endTime
-        this.FormData.linkName = res.data.result.linkName
-        this.FormData.phone = res.data.result.phone
-        this.FormData.startTime = res.data.result.startTime
-        this.FormData.image = res.data.result.image
+        this.FormData.startTime = res.result.startTime
+        this.FormData.endTime = res.result.endTime
+        this.FormData.linkName = res.result.linkName
+        this.FormData.phone = res.result.phone
+        this.FormData.startTime = res.result.startTime
+        this.FormData.image = res.result.image
         // console.log(res)
       }).catch(error => {
 
       })
     },
     serachhandelClick() { // 查询选择广告位列表
-      axios.post(this.$store.state.api.searchadvertising,{
+      searchadvertising({
         // id:	this.advertData.id,
         // name: this.advertData.name,
         // tempFlag: this.advertData.tempFlag,
@@ -459,7 +462,7 @@ export default {
         pageSize: 20
       }).then(res => {
           console.log(res)
-          this.advertsdata = res.data.result.modelData
+          this.advertsdata = res.result.modelData
       }).catch(error =>{
 
       })

@@ -80,7 +80,9 @@ export default {
       return 'background:#f5f7fa'
     },
     searchVipList() {
-      searchviplist().then(res => {
+      searchviplist({
+        type:this.type
+      }).then(res => {
         this.vipdata = res.result
       }).catch(error => {
         console.log('返回错误信息')

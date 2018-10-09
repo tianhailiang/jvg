@@ -6,18 +6,18 @@
             <el-col :span="6">
             <div class="grid-content bg-purple">
                 <el-form-item label="ID">
-                    <el-input placeholder=""></el-input>
+                    <el-input placeholder="" v-model="id"></el-input>
                 </el-form-item>
             </div>
             </el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="名称">
-                    <el-input placeholder=""></el-input>
+                    <el-input v-model="name"></el-input>
                 </el-form-item>
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="广告类型">
-                    <el-select v-model="advertvalue">
+                    <el-select v-model="type">
                         <el-option 
                         :label="item.label"
                         :value="item.value"
@@ -27,7 +27,7 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="状态">
-                    <el-select v-model="advertactive">
+                    <el-select v-model="upDown">
                         <el-option 
                         :label="item.label"
                         :value="item.value"
@@ -37,7 +37,7 @@
             </div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="所有权">
-                    <el-select v-model="suoyou">
+                    <el-select v-model="ownership">
                         <el-option 
                         :label="item.label"  
                         :value="item.value"
@@ -48,13 +48,13 @@
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="联系方式">
-                        <el-input placeholder=""></el-input>
+                        <el-input v-model="phone" placeholder=""></el-input>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
                 <el-form-item label="渠道">
-                        <el-select v-model="qudaoval">
+                        <el-select v-model="source">
                             <el-option 
                             :label="items.label"
                             :value="items.value" v-for="(items, index) in qudaovalData"></el-option>
@@ -63,7 +63,7 @@
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple-light">
                         <el-form-item label="业务频道">
-                            <el-select placeholder="全部" v-model="values">
+                            <el-select placeholder="全部" v-model="channel">
                                 <el-option
                                 v-for="items in options2"
                                 :key="items.values"
@@ -73,23 +73,10 @@
                             </el-select>
                         </el-form-item>
                     </div></el-col>
-                    <el-col :span="7"><div class="grid-content bg-purple advert_purple">
-                            <el-form-item label="广告位模板">
-                                <el-select placeholder="全部" v-model="value">
-                                    <el-option
-                                    v-for="item in advertsData"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                  </el-option>
-                                </el-select>
-                            </el-form-item>
-                      </div>
-                    </el-col>
                     <el-col :span="6">
                       <div class="grid-content bg_purple">
                           <el-form-item label="购买人名称">
-                              <el-input placeholder=""></el-input>
+                              <el-input placeholder="" v-model="linkName"></el-input>
                           </el-form-item>
                       </div>
                   </el-col>
@@ -154,6 +141,7 @@
     </section>
   </template>
 <script>
+import {removeAdvertlist, searchAdvertList, advertFreezeCopy,addAdvertlist} from '@/api/url.js'
 export default {
   name: 'advertListCopy',
   data () {
@@ -184,11 +172,17 @@ export default {
       advertData: [],
       value: '',
       values: '',
-      advertactive: '',
-      suoyou: '',
-      qudaoval: '',
+      linkName: '',
+      channel: '',
+      source: '',
+      phone: '',
       loading: false,
       total: null,
+      ownership: '',
+      upDown: this.upDown,
+      name: '',
+      type: this.type,
+      id: '',
       pageNo: 0,
       pageSize: 20,
       advertsData: [
@@ -215,18 +209,19 @@ export default {
     },
     searchAdvertList() {
       this.loading = true
-      axios.post(this.$store.state.api.searchAdvertList, {
+      searchAdvertList({
+        id:this.id,
         pageNo: this.pageNo,
         pageSize: this.pageSize
       }).then(res => {
         console.log(res)
-        this.advertData = res.data.result.modelData
-        this.total = res.data.result.total
+        this.advertData = res.result.modelData
+        this.total = res.result.total
         this.loading = false
       })
     },
     removeAdvertlist(index, rows) {
-      axios.post(this.$store.state.api.removeAdvertlist, {id: [rows.id]}).then(res => {
+      removeAdvertlist({id: [rows.id]}).then(res => {
         this.$message({
           type: 'success',
           message: '删除成功!'
@@ -239,7 +234,7 @@ export default {
       })
     },
     advertFreezeCopy(index, rows) {
-      axios.post(this.$store.state.api.advertFreezeCopy,{id: [rows.id]}).then(res => {
+      advertFreezeCopy({id: [rows.id]}).then(res => {
         console.log(res)
         this.$message({
           type: 'success',
@@ -253,7 +248,11 @@ export default {
       })
     },
     openhandelClick(index, row) {
+      // DEFAULT = 
       this.$router.push({name: 'advertDetail', params: {id: row.id}})
+    },
+    addAdvert() {
+      this.$router.push({name: 'advertDetail'})
     }
   }
 }

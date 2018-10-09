@@ -53,11 +53,11 @@
               <div class="grid-content bg-purple">
                 <el-form-item label="活动时间">
                   <el-col :span="11">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="reserform.activityStartTime" size="small"></el-date-picker>
+                    <el-date-picker  type="datetime" placeholder="开始时间" v-model="reserform.activityStartTime" size="small"></el-date-picker>
                   </el-col>
                   <el-col class="line" :span="2">-</el-col>
                   <el-col :span="11">
-                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="reserform.activityEntTime" style="width: 100%;" size="small"></el-time-picker>
+                    <el-date-picker  type="datetime"  placeholder="结束时间" v-model="reserform.activityEntTime" style="width: 100%;" size="small"></el-date-picker>
                   </el-col>
                 </el-form-item>
               </div>

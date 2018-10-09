@@ -664,42 +664,111 @@ export const courseList = (parms) => {
   return http.fetchPost('/api/c/course/list.json', parms)
 }
 // 删除课程
-    export const removeCourseList = (parms) => {
+export const removeCourseList = (parms) => {
   return http.fetchPost('/api/c/course/delete.json', parms)
 }
 // 冻结、解冻课程
-    export const jdCourse = (parms) => {
+export const jdCourse = (parms) => {
   return http.fetchPost('/api/c/course/frozen.json', parms)
 }
  // 查询课程评论列表
-    export const courseComent = (parms) => {
+export const courseComent = (parms) => {
   return http.fetchPost('/api/c/course/comment/list.json', parms)
 }
  // 查询课程评论详情
-  export const courseComentDetail = (parms) => {
+export const courseComentDetail = (parms) => {
   return http.fetchPost('/api/c/course/comment/detail.json', parms)
 }
 // 删除课程评论
-  export const removeCourseComent = (parms) => {
+export const removeCourseComent = (parms) => {
   return http.fetchPost('/api/c/course/comment/delete.json', parms)
 }
  // 课程审核列表
-    export const courseReview = (parms) => {
+export const courseReview = (parms) => {
   return http.fetchPost('/api/c/course/verify/list.json', parms)
 }
 // 审核课程信息
-    export const courseReviewInfo = (parms) => {
+export const courseReviewInfo = (parms) => {
   return http.fetchPost('/api/c/course/verify.json', parms)
 }
  // 创建课程
-    export const addCourse = (parms) => {
+export const addCourse = (parms) => {
   return http.fetchPost('/api/c/course/create.json', parms)
 }
  // 编辑课程
-    export const editCourse = (parms) => {
+export const editCourse = (parms) => {
   return http.fetchPost('/api/c/course/update.json', parms)
 }
  // 查询课程详情
-    export const searchCourseDetail = (parms) => {
+export const searchCourseDetail = (parms) => {
   return http.fetchPost('/api/c/course/detail.json', parms)
+}
+ // 查询选择广告位列表
+export const searchadvertising = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/select-list.json' ,parms)
+}
+ //查询广告位列表
+export const searchAdvert = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/list.json' ,parms)
+}
+ // 查询广告列表
+export const searchAdvertList = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/list.json' ,parms)
+}
+//查询广告详情
+export const searchCommerDetail = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/detail.json' ,parms)
+}
+
+//删除广告位列表
+export const removeAdvert = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/delete.json' ,parms)
+}
+ //删除广告列表
+export const removeAdvertlist = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/delete.json' ,parms)
+}
+ //广告位冻结
+export const advertFreeze = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/frozen.json' ,parms)
+}
+ //广告冻结(批量冻结)
+export const advertFreezeCopy = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/frozen.json' ,parms)
+}
+//一键替换广告位
+export const replaceAdvert = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/replace.json' ,parms)
+}
+// 添加广告
+export const addAdvertlist = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/create.json' ,parms)
+}
+//添加广告位
+export const addvertlistcopy = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/create.json' ,parms)
+}
+ //查询广告位详情
+export const searchadvertDetail = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/detail.json' ,parms)
+}
+//广告审核管理
+export const advertreviewList = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/auditing/list.json' ,parms)
+}
+ //广告审核通过(不通过)
+export const passadvert = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/auditing/notThrough.json' ,parms)
+}
+//广告解冻/批量解冻
+export const advertThaw = (parms) => {
+  return http.fetchPost('/api/c/advert/advertisement/thaw.json' ,parms)
+}
+// 更新广告位
+export const updateAdvert = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/update.json' ,parms)
+}
+ // 广告位解冻/批量解冻
+export const advertisingfreeze = (parms) => {
+  return http.fetchPost('/api/c/advert/advertising-management/thaw.json' ,parms)
 }

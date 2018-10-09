@@ -180,41 +180,11 @@
                         </el-row>
                     </div>
                 </div>
-                <div class="commpont-group">
-                    <div class="add-commpontent">
-                        <el-row>
-                        <el-col :span="13" style="padding-right:10px;">
-                            <el-form-item label="第二条">
-                                <el-input type="text" placeholder="URL"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="4">
-                            <el-input type="text" placeholder="人民币" size="small"></el-input>
-                        </el-col>
-                        </el-row>
-                    </div>
-                    <div class="add-commpontent">
-                        <el-row>
-                            <el-col :span="13" style="padding-right:10px;">
-                                <el-form-item label="">
-                                    <el-button type="primary" icon="el-icon-plus" style="position:absolute;left:-76px;">添加</el-button>
-                                    <el-input type="text" placeholder="URL"></el-input>
-                                    <el-upload class="upload-demo upload-btn" action="https://jsonplaceholder.typicode.com/posts/">
-                                        <el-button size="small" type="primary">上传</el-button>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="4">
-                                <el-input type="text" placeholder="美金" size="small"></el-input>
-                            </el-col>
-                        </el-row>
-                    </div>
-                </div>
               </el-form>
             </section>
           <section class="advert-detail_left" style="display:none;">
               <h3 style="margin-bottom:20px;">默认广告设置</h3>
-              <el-form :model="form" label-width="80px" size="small">
+              <el-form label-width="80px" size="small">
                   <el-form-item label="创建时间">
                     <el-input type="text" :disabled="true"></el-input>
                   </el-form-item>
@@ -315,6 +285,7 @@
   </section>
 </template>
 <script>
+import { addvertlistcopy,searchadvertDetail } from '@/api/url.js'
 export default {
   name: 'advertSpaceDetail',
   data () {
@@ -325,6 +296,13 @@ export default {
         {label: '全部', value: '3'}
       ],
       tempFlag: '',
+      adressval: '',
+      advertTypes: [
+        {label: '轮播', value: '1'},
+        {label: '单页', value: '2'},
+        {label: '全部', value: '3'}
+      ],
+      advertypeval: '',
       dataForm: {
         id: '',
         addressTypeName: '',
@@ -363,6 +341,12 @@ export default {
         {value: '1', label: '全部'},
         {value: '2', label: '平台'},
         {value: '3', label: '用户'}
+      ],
+      adressData: [
+        {value: '1', label: '全部'},
+        {value: '2', label: '固定'},
+        {value: '3', label: '列表'},
+        {value: '4', label: '类目'}
       ]
     }
   },
@@ -376,30 +360,30 @@ export default {
   },
   methods: {
     addAdvert() {
-      axios.post(this.$store.state.api.addvertlistcopy, {
+      addvertlistcopy({
         name :'123',
         type :1,
-        upDown :1,
-        ownership :1,
-        addressType :1,
-        addressTypeName :'固定',
-        createdAt :'wenti',
-        channel :1,
-        channelName:'yupei',
-        source:1,
-        sourceName:'quanzhan',
-        width: 12,
-        height :1332,
-        framesNumber:1,
-        forceType:1,
-        autoReplace:1,
-        adminId:1,
-        adminName:'wxd',
-        adsPrice :23,
+        upDown :this.upDown,
+        ownership :this.ownership,
+        addressType :this.addressType,
+        addressTypeName :this.addressTypeName,
+        createdAt :this.createdAt,
+        channel :this.channel,
+        channelName:this.channelName,
+        source:this.source,
+        sourceName:this.sourceName,
+        width: this.width,
+        height :this.height,
+        framesNumber:this.framesNumber,
+        forceType:this.forceType,
+        autoReplace:this.autoReplace,
+        adminId:this.adminId,
+        adminName:this.adminName,
+        adsPrice :this.adsPrice,
       }).then(res => {
         this.$message({
           type: 'success',
-          message: res.data.message
+          message: res.message
         })
       }).catch(error => {
         this.$message({
@@ -411,23 +395,23 @@ export default {
     searchadvertDetail() {
       const _DEFAULT = this.$route.params.id
       this.dataForm.id = _DEFAULT
-      axios.post(this.$store.state.api.searchadvertDetail,{
+      searchadvertDetail({
         id: this.dataForm.id
       }).then(res => {
-        this.dataForm.addressTypeName = res.data.result.addressTypeName
-        this.dataForm.ownership = res.data.result.ownership
-        // this.dataForm.createByName = res.data.result.createByName
-        this.dataForm.adminId = res.data.result.adminId
-        this.dataForm.adminName = res.data.result.adminName
-        this.dataForm.adsImg = res.data.result.adsImg
-        this.dataForm.NumberOfFrameFrames = res.data.result.NumberOfFrameFrames
-        this.dataForm.upDown = res.data.result.upDown
-        this.dataForm.createAt = res.data.result.createAt
-        this.dataForm.width = res.data.result.width
-        this.dataForm.height = res.data.result.height
-        this.type = res.data.result.type
-        this.channel = res.data.result.channel
-        this.tempFlag = res.data.result.tempFlag
+        this.dataForm.addressTypeName = res.result.addressTypeName
+        this.dataForm.ownership = res.result.ownership
+        // this.dataForm.createByName = res.result.createByName
+        this.dataForm.adminId = res.result.adminId
+        this.dataForm.adminName = res.result.adminName
+        this.dataForm.adsImg = res.result.adsImg
+        this.dataForm.NumberOfFrameFrames = res.result.NumberOfFrameFrames
+        this.dataForm.upDown = res.result.upDown
+        this.dataForm.createAt = res.result.createAt
+        this.dataForm.width = res.result.width
+        this.dataForm.height = res.result.height
+        this.type = res.result.type
+        this.channel = res.result.channel
+        this.tempFlag = res.result.tempFlag
         // console.log(this.tempFlag)
       }).catch(error => {
 
