@@ -60,7 +60,7 @@ export default {
     onSubmit () {
       // 登录
       var _this = this
-      var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey}
+      var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey, lastLoginIp: this.ip}
       // data = JSON.stringify(data)
       console.log('传参', data)
       memberLogin(data).then(res => {
@@ -96,7 +96,7 @@ export default {
             _this.$message('用户未登录')
           } else if (/system.member.login.fail/.test(res.message)) {
             _this.$message('用户登录密码错误')
-          }else {
+          } else {
             _this.$message(res.message)
           }
         }

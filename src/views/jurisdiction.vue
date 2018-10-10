@@ -35,8 +35,8 @@
                 <span>{{item.name}}</span>
             </div>
             <div style="float: right;margin-bottom: 20px;text-align: left;">
-                <el-button @click="onDisableClik1(item.parentId,item.channel,item.category)" type="danger" size="small">追加子节点</el-button>
-                <el-button @click="onEditClick(item.parentId,item.name,item.description)" type="danger" size="small">编辑</el-button>
+                <el-button @click="onDisableClik1(item.id,item.channel,item.category)" type="danger" size="small">追加子节点</el-button>
+                <el-button @click="onEditClick(item.id,item.name,item.description)" type="danger" size="small">编辑</el-button>
                 <el-button @click="onDelClick(item.id)" type="danger" size="small">删除</el-button>
             </div>
             <el-table v-if="index == showIndex" :data="item.children" stripe width="100%" border style="margin-left: 10px;text-align: left;">
@@ -157,7 +157,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
-                    <el-button type="primary" @click="onAPI">搜 索</el-button>
+                    <el-button size="small" type="primary" @click="onAPI">搜 索</el-button>
                 </el-col>
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
@@ -407,7 +407,7 @@ export default {
     },
     onAPI () {
       // 查询API列表
-      var data = {'name': this.namezi, 'source': 2, 'channel': 1}
+      var data = {'name': this.namezi, 'source': this.categoryzi, 'channel': this.channelzi}
       apiList(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -429,6 +429,7 @@ export default {
     },
     onAPIDel (id, index) {
       // 删除API
+      console.log('apiid', id)
       var data = {'allApi': [id]}
       apiDelete(data).then(res => {
         console.log('data', res)
