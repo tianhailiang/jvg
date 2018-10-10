@@ -24,7 +24,7 @@ _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
     var loginT = true
-    setTimeout(() => {
+    setInterval(() => {
       loginT = false
     }, 1000 * 60 * 50)
     var dxzjjltoken = sessionStorage.getItem('dxzjjltoken')
