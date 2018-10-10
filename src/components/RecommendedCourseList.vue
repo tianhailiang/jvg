@@ -20,9 +20,9 @@
         <el-select v-model="courseClassify" size="small" style="width:160px">
           <el-option
           v-for="item in courseClassifyList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          :key="item.id"
+          :label="item.name"
+          :value="item.signs">
           </el-option>
         </el-select>
       </el-form-item>
@@ -37,22 +37,15 @@
         </el-select>
       </el-form-item>
       <el-form-item label="讲师名称："> 
-        <el-input v-model="lecturerName" size="small" style="width:160px"></el-input>
+        <el-input v-model="realName" size="small" style="width:160px"></el-input>
       </el-form-item>
       <el-form-item label="销售状态：">
-        <el-select v-model="saleState" size="small" style="width:160px">
-          <el-option
-          v-for="item in saleStateList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-          </el-option>
-        </el-select>
+        已上架
       </el-form-item>
       <el-form-item label="直播状态：">
-        <el-select v-model="liveState" size="small" style="width:160px">
+        <el-select v-model="liveStatus" size="small" style="width:160px">
           <el-option
-          v-for="item in liveStateList"
+          v-for="item in liveStatusList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -67,7 +60,6 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
       @selection-change="handleSelectionChange" border
       v-if="total > 0">
       <el-table-column
@@ -82,68 +74,59 @@
           <el-button
           size="mini"
           @click="goDetail(scope.$index, scope.row)">
-            {{scope.row.courseId}}
+            {{scope.row.id}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column
         prop="title"
         label="课程标题"
-        width="120" align="center" show-overflow-tooltip>
+        width="150" align="center" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
-        prop="lecturerName"
+        prop="realName"
         label="讲师名称"
-        width="60" align="center">
+        width="90" align="center">
       </el-table-column>
       <el-table-column
-        prop="channel"
+        prop="professionValue"
         label="频道"
         width="60" align="center" >
       </el-table-column>
       <el-table-column
-        prop="courseClassify"
+        prop="categorySignsValue"
         label="课程分类"
         width="80" align="center" >
       </el-table-column>
       <el-table-column
-        prop="classMode"
+        prop="couresModelValue"
         label="上课模式"
         width="80" align="center" >
       </el-table-column>
       <el-table-column
-        prop="teachingModel"
+        prop="teachModelValue"
         label="教学模式"
+        width="100" align="center" >
+      </el-table-column>
+      <el-table-column
+        prop="price"
+        label="课程价格"
         width="80" align="center" >
       </el-table-column>
       <el-table-column
-        prop="coursePrice"
-        label="课程价格"
-        width="60" align="center" >
-      </el-table-column>
-      <el-table-column
-        prop="liveTime"
+        prop="beginTime"
         label="直播时间"
-        width="120" align="center" >
+        width="110" align="center" >
       </el-table-column>
       <el-table-column
-        prop="saleState"
+        prop="upDownValue"
         label="销售状态"
         width="80" align="center" >
       </el-table-column>
       <el-table-column
-        prop="liveState"
+        prop="liveStatusValue"
         label="直播状态"
         width="80" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="80">
-        <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="recommend(scope.$index, scope.row)">推荐</el-button>
-       </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -168,58 +151,38 @@
 <script>
 export default {
   name: 'recommendedCourseList',
-  props: ['dialogFormVisible','dialogForm'],
+  props: ['dialogFormVisible','dialogForm', 'dialogChannel'],
   data () {
     return {
       courseId: null,
       title: '',
-      courseClassify: '0',
-      courseClassifyList: [{
-        value: '0',
-        label: '全部'
-      }, {
-        value: '1',
-        label: '托福'
-      }, {
-        value: '2',
-        label: 'GRE'
-      }],
-      classMode: '0',
+      courseClassify: null,
+      courseClassifyList: [],
+      classMode: null,
       classModeList: [{
-        value: '0',
+        value: null,
         label: '全部'
       },
       {
-        value: '1',
+        value: 1,
         label: '视频直播'
       }, {
-        value: '2',
+        value: 2,
         label: '视频点播'
       }],
-      lecturerName: '',
-      saleState: '0',
-      saleStateList: [{
-        value: '0',
+      realName: '',
+      liveStatus: null,
+      liveStatusList: [{
+        value: null,
         label: '全部'
       }, {
-        value: '1',
-        label: '已上架'
-      }, {
-        value: '2',
-        label: '未上架'
-      }],
-      liveState: '0',
-      liveStateList: [{
-        value: '0',
-        label: '全部'
-      }, {
-        value: '1',
+        value: 1,
         label: '进行中'
       }, {
-        value: '2',
+        value: 2,
         label: '已结束'
       }, {
-        value: '3',
+        value: 3,
         label: '未开始'
       }],
       tableData: [],
@@ -231,50 +194,90 @@ export default {
     }
   },
   watch: {
-    dialogForm (newValue, oldValue) {
-      this.platform = newValue.platform
-      this.channel = newValue.channel
+    dialogChannel (newValue, oldValue) {
+      this.courseClassify = null
+      axios.post('/api/c/common/code/label/list.json', {
+        profession: this.dialogChannel,
+        type: 0,
+        languages: "zh",
+        classes: 1,
+        level: 1
+      })
+      .then(res => {
+        this.courseClassifyList = res.data.result
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    dialogFormVisible (newValue, oldValue) {
+      if (this.dialogFormVisible) {
+        this.onSubmit()
+      }
     }
   },
   created () {
-    axios.post('common/code/label/list.json', {
-      profession: this.channelVal,
-      type: 0,
-      languages: "zh",
-      classes: 1,
-      level: 1
-    })
-    .then(response => {
-      this.classificationList = response.data.result
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    
   },
   methods: {
     handleClose (done) {
       this.$emit('update:dialogFormVisible',false)
     },
-    onSubmit (e) {
-      console.log('submit!')
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
+      axios.post('/api/c/operation-management/arrposid/course/list.json', {
+        id: this.courseId,
+        title: this.title,
+        categorySigns: this.courseClassify,
+        couresModel: this.classMode,
+        realName: this.realName,
+        liveStatus: this.liveStatus,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(res => {
+        if (res.data.code == 'OK') {
+          this.tableData = res.data.result.modelData
+          this.total = res.data.result.total
+          this.infoTotal = this.total
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
-    },
-    recommend () {
-
-    },
-    batchRecommend () {
-
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.onSubmit()
     },
     goDetail (index,row) {
       this.$router.push({name: 'articleDetail', params: {id: row.courseId}})
+    },
+    sure () {
+      let productList = []
+      this.multipleSelection.forEach((item, index) => {
+        let productObj = {}
+        productObj.productId = item.id
+        productObj.productName = item.title
+        productList.push(productObj)
+      })
+      if (productList.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请至少选中一个'
+        })
+        return false
+      }
+      this.$emit('update:dialogFormVisible', false)
+      this.$emit('select-list', productList)
     }
   },
   mounted () {
@@ -284,10 +287,6 @@ export default {
 </script>
 
 <style scoped>
-  .btn-box {
-    display: flex;
-    justify-content: flex-end
-  }
   .dialog-footer {
     display: flex;
     justify-content: center

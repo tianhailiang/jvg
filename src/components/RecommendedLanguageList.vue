@@ -1,25 +1,22 @@
 <template>
   <el-dialog title="语培达人推荐列表" :visible.sync="dialogFormVisible" :before-close="handleClose"
   width="80%">
-    <el-form :inline="true" :model="formInline">
+    <el-form :inline="true">
       <div >
         <el-form-item label="渠道：" >
-          {{formInline.platform}}
+          {{dialogForm.platformName}}
         </el-form-item>
         <el-form-item label="频道：" >
-          {{formInline.channel}}
+          {{dialogForm.channelName}}
         </el-form-item>
       </div>
       <el-form-item label="达人名称：" >
-        <el-input v-model="formInline.darenName" size="small" ></el-input>
-      </el-form-item>
-      <el-form-item label="用户昵称：">
-        <el-input v-model="formInline.userNickname" size="small" ></el-input>
+        <el-input v-model="realName" size="small" ></el-input>
       </el-form-item>
       <el-form-item label="性别：">
-        <el-select v-model="formInline.sex" size="small" >
+        <el-select v-model="sex" size="small" >
           <el-option
-          v-for="item in formInline.sexList"
+          v-for="item in sexList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -27,9 +24,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="认证：">
-        <el-select v-model="formInline.authentication" size="small" >
+        <el-select v-model="approveStatus" size="small" >
           <el-option
-          v-for="item in formInline.authenticationList"
+          v-for="item in approveStatusList"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -37,101 +34,89 @@
         </el-select>
       </el-form-item>
       <el-form-item label="用户角色：">
-        <el-select v-model="formInline.userRole" size="small" >
+        <el-select v-model="type" size="small" >
           <el-option
-          v-for="item in formInline.userRoleList"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          v-for="item in typeList"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="状态：">
-        <el-input v-model="formInline.state" size="small" ></el-input>
-      </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit(1)" size="small" >搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
       @selection-change="handleSelectionChange" border>
       <el-table-column
         type="selection"
         label="全部"
-        width="55" >
+        width="55" align="center">
       </el-table-column>
       <el-table-column
-        prop="userId"
+        prop="id"
         label="用户ID"
         align="center" width="80">
       </el-table-column>
       <el-table-column
-        prop="userName"
+        prop="realName"
         label="用户/联系人姓名"
-        width="80" align="center" show-overflow-tooltip>
+        width="130" align="center">
       </el-table-column>
       <el-table-column
-        prop="userRole"
+        prop="typeValue"
         label="用户角色"
         width="80" align="center">
       </el-table-column>
       <el-table-column
-        prop="sex"
+        prop="sexValue"
         label="性别"
         width="60" align="center" >
       </el-table-column>
       <el-table-column
-        prop="registrationTime"
+        prop="createdAtStr"
         label="用户注册时间"
-        width="160" align="center" >
+        width="175" align="center" >
       </el-table-column>
       <el-table-column
-        prop="loginTime"
+        prop="lastTimeStr"
         label="最近登录时间"
-        width="160" align="center" >
+        width="175" align="center" >
       </el-table-column>
       <el-table-column
-        prop="state"
+        prop="statusValue"
         label="状态"
         width="80" align="center" >
       </el-table-column>
       <el-table-column
-        prop="authentication"
+        prop="approveStatusValue"
         label="认证"
         width="80" align="center" >
       </el-table-column>
       <el-table-column
-        prop="registrationChannel"
+        prop="registeredChannelValue"
         label="注册频道"
         width="120" align="center" >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center" width="80">
-        <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="recommend(scope.$index, scope.row)">推荐</el-button>
-       </template>
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
-      :page-size="100"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000" style="text-align:center;margin-top:20px">
+      :total="total" style="text-align:center;margin-top:20px"
+      v-if="total > 0">
     </el-pagination>
-    <div class="btn-box" >
-      <el-button type="primary" @click="batchRecommend()" >批量推荐</el-button>
+    <div class="vue-info" v-if="infoTotal == 0">
+      没有搜索到相关内容
     </div>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="$emit('update:dialogFormVisible',false)">确定</el-button>
+      <el-button type="primary" @click="sure">确定</el-button>
       <el-button @click="$emit('update:dialogFormVisible',false)">取 消</el-button>
     </div>
   </el-dialog>
@@ -143,108 +128,111 @@ export default {
   props: ['dialogFormVisible', 'dialogForm'],
   data () {
     return {
-      formInline: {
-        platform: this.dialogForm.platform,
-        channel: this.dialogForm.channel,
-        darenName: '',
-        userNickname: '',
-        sex: '0',
-        sexList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '男'
-        }, {
-          value: '2',
-          label: '女'
-        }],
-        authentication: '0',
-        authenticationList: [{
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '已认证'
-        }, {
-          value: '2',
-          label: '未认证'
-        }],
-        userRole: '0',
-        userRoleList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '个人讲师'
-        }, {
-          value: '2',
-          label: '机构讲师'
-        }]
-      },
-      tableData: [{
-        userId: '100001',
-        userName: 'thl',
-        userRole: '机构讲师',
-        sex: '男',
-        registrationTime: '2018-8-31 00:12:12',
-        loginTime: '2018-8-31 00:12:12',
-        state: '正常',
-        authentication: '已认证',
-        registrationChannel: '留学'
+      realName: '',
+      sex: null,
+      sexList: [{
+        value: null,
+        label: '全部'
       }, {
-        userId: '100001',
-        userName: 'thl',
-        userRole: '机构讲师',
-        sex: '男',
-        registrationTime: '2018-8-31 00:12:12',
-        loginTime: '2018-8-31 00:12:12',
-        state: '正常',
-        authentication: '已认证',
-        registrationChannel: '留学'
+        value: 1,
+        label: '男'
       }, {
-        userId: '100001',
-        userName: 'thl',
-        userRole: '机构讲师',
-        sex: '男',
-        registrationTime: '2018-8-31 00:12:12',
-        loginTime: '2018-8-31 00:12:12',
-        state: '正常',
-        authentication: '已认证',
-        registrationChannel: '留学'
+        value: 2,
+        label: '女'
       }],
+      approveStatus: 0,
+      approveStatusList: [{
+        value: 0,
+        label: '全部'
+      },
+      {
+        value: 1,
+        label: '未认证'
+      }, {
+        value: 2,
+        label: '已认证'
+      }, {
+        value: 3,
+        label: '认证失败'
+      }],
+      type: null,
+      typeList: [],
+      tableData: [],
       multipleSelection: [],
-      currentPage: 1
+      currentPage: 1,
+      pageSize: 20,
+      total: 0,
+      infoTotal: 1
     }
   },
   watch: {
-    dialogForm (newValue, oldValue) {
-      this.formInline.platform = newValue.platform
-      this.formInline.channel = newValue.channel
+    dialogFormVisible (newVal, oldVal) {
+      if (this.dialogFormVisible) {
+        axios.post('/api/c/common/code/role/list.json')
+          .then(res => {
+            this.typeList = res.data.result
+          })
+          .catch(error => {
+            console.log(error);
+          })
+        this.onSubmit()
+      }
     }
   },
   methods: {
     handleClose (done) {
       this.$emit('update:dialogFormVisible', false)
     },
-    onSubmit (e) {
-      console.log('submit!')
+    onSubmit (origin) {
+      if (origin == 1) {
+        this.currentPage = 1
+      }
+      axios.post('/api/c/operation-management/arrposid/language/list.json', {
+        realName: this.realName,
+        sex: this.sex,
+        approveStatus: this.approveStatus,
+        type: this.type,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize
+      })
+      .then(res => {
+        if (res.data.code == 'OK') {
+          this.tableData = res.data.result.modelData
+          this.total = res.data.result.total
+          this.infoTotal = this.total
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
-    },
-    recommend () {
-
-    },
-    batchRecommend () {
-
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      this.onSubmit()
+    },
+    sure () {
+      let productList = []
+      this.multipleSelection.forEach((item, index) => {
+        let productObj = {}
+        productObj.productId = item.id
+        productObj.productName = item.realName
+        productList.push(productObj)
+      })
+      if (productList.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请至少选中一个'
+        })
+        return false
+      }
+      this.$emit('update:dialogFormVisible', false)
+      this.$emit('select-list', productList)
     }
   },
   mounted () {
@@ -254,10 +242,6 @@ export default {
 </script>
 
 <style scoped>
-  .btn-box {
-    display: flex;
-    justify-content: flex-end
-  }
   .dialog-footer {
     display: flex;
     justify-content: center

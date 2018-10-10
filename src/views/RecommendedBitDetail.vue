@@ -138,6 +138,7 @@ export default {
         platformName: '',
         channelName : ''
       },
+      dialogChannel: null,
       dialogFormVisible2: false,
       dialogForm2: {
         platformName: '',
@@ -158,7 +159,7 @@ export default {
     RecommendedLanguageList
   },
   created () {
-    axios.post('common/code/channel/list.json', {
+    axios.post('/api/c/common/code/channel/list.json', {
     })
     .then(res => {
       this.channelList = res.data.result
@@ -173,7 +174,7 @@ export default {
   },
   methods: {
     fetchData () {
-      axios.post('operation-management/arrposid/detail.json', {
+      axios.post('/api/c/operation-management/arrposid/detail.json', {
         id: this.$route.params.id
       })
       .then(res => {
@@ -195,6 +196,7 @@ export default {
         this.dialogFormVisible1 = true
         this.dialogForm1.platformName = this.platformList[this.platform-1].label
         this.dialogForm1.channelName = this.channelList[this.channel-1].name
+        this.dialogChannel = this.channel
       } else if (this.type == 2) {
         this.dialogFormVisible2 = true
         this.dialogForm2.platformName = this.platformList[this.platform-1].label
@@ -239,7 +241,7 @@ export default {
         })
         return false
       }
-      axios.post('operation-management/arrposid/update.json', {
+      axios.post('/api/c/operation-management/arrposid/update.json', {
         id: this.$route.params.id,
         name: this.name,
         source: this.platform,

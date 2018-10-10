@@ -15,7 +15,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="通知范围：" :label-width="formLabelWidth">
-        <el-select v-model="rolesId" size="small">
+        <el-select v-model="rolesId" size="small"
+          @change="onRolesChange">
           <el-option
             v-for="item in rolesIdList"
             :key="item.value"
@@ -44,7 +45,7 @@
       </el-form-item>
       <el-form-item style="margin-left:44px">
         <el-radio-group v-model="isAuto" size="small"
-        @change="onChange">
+          @change="onChange">
           <el-radio label="1">不自动</el-radio>
           <el-radio label="2">自动</el-radio>
         </el-radio-group>
@@ -291,6 +292,11 @@ export default {
         this.sendTime = ''
       }
     },
+    onRolesChange () {
+      if (this.rolesId !==2) {
+        this.userList = []
+      }
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val
       this.userList = this.multipleSelection.map((item, index) => {
@@ -353,6 +359,15 @@ export default {
         })
         return false
       }
+      if (this.isAuto == 2) {
+        if (!this.sendTime) {
+          this.$message({
+            type: 'warning',
+            message: '请填写发送时间'
+          })
+          return false
+        }
+      }
       axios.post('/api/c/operation-management/notice/update.json', {
         id: '',
         channel: this.channel,
@@ -381,7 +396,7 @@ export default {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log(error)
       })
     },
     cancel () {
