@@ -71,7 +71,7 @@ axios.interceptors.response.use((res) => {
       sessionStorage.setItem('dxzjjltoken', '')
       router.replace({
         path: '/',
-        query: {redirect: router.currentRoute.fullPath} // 登录成功后跳入浏览的当前页面
+        query: {redirect: router.currentRoute.path} // 登录成功后跳入浏览的当前页面
       })
       return false
     }

@@ -76,7 +76,7 @@ export default {
           if (_this.url !== undefined && _this.url !== '') {
             console.log('1111')
             _this.$router.push({ path: _this.url })
-            this.postData()
+            // this.postData()
             // _this.$router.back(-1)
           } else {
             console.log('2222')
@@ -132,13 +132,15 @@ export default {
     //   }
     //   console.log(this.identifyCode)
     // },
-    postData () {
+    geturl () {
       console.log('rou1', this.$router)
       console.log('rou', this.$router.history.current.query.redirect)
       this.url = this.$router.history.current.query.redirect
       if (/redirect=/.test(this.url)) {
         this.url = this.url.replace('?redirect=%2F', '')
       }
+    },
+    postData () {
       loginCode().then(res => {
         console.log('data', res)
         if (res.success) {
@@ -189,6 +191,7 @@ export default {
     }
   },
   mounted () {
+    this.geturl ()
     this.getip ()
     this.postData ()
     // this.identifyCode = ''
