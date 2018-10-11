@@ -7,7 +7,7 @@
             <p class="hui-title">订单数据分析</p>
             <el-row style="float: left;width: 90%;">
                 <div style="width: 90%;height: 50px;margin-top: 20px;line-height: 40px;">
-                  <el-date-picker style="height: 40px;line-height: 40px;float: left;margin-left: 10px;" v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" size="small"></el-date-picker>
+                  <el-date-picker style="height: 40px;line-height: 40px;float: left;margin-left: 10px;" v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" align="center" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                   <el-input style="float: left;width: 100px;margin-left: 10px;line-height: 33px;height: 33px;" placeholder="对比时段" disabled></el-input>
                   <el-button style="margin-left: 10px" size="small" type="primary" @click="queryClik">查询</el-button>
                 </div>
@@ -81,6 +81,10 @@ export default {
   methods: {
     queryClik () {
       // 查询渠道
+      if (this.dataTime === '' || this.dataTime === null) {
+        this.$message('请选择筛选日期')
+        return false
+      }
       var data = {"startTime": this.dataTime[0] + ' 00:00:00', "endTime": this.dataTime[1] + ' 00:00:00'}
       businessQuery(data).then(res => {
         console.log('data', res)
@@ -119,6 +123,9 @@ export default {
               this.tableData[0].liuxue = data[i].count
               this.tableData[1].liuxue = data[i].price
             }
+          }
+          if (data.length === 0) {
+            this.tableData = []
           }
           console.log('tab',this.tableData)
           this.$nextTick(function () {
@@ -171,6 +178,9 @@ export default {
               this.tableData[0].liuxue = data[i].count
               this.tableData[1].liuxue = data[i].price
             }
+          }
+          if (data.length === 0) {
+            this.tableData = []
           }
           console.log('tab',this.tableData)
           this.$nextTick(function () {

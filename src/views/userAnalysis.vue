@@ -13,7 +13,7 @@
             <el-row style="float: left;width: 800px;">
                 <div style="width: 800px;height: 50px;margin-top: 20px;line-height: 40px;">
                         <span >统计时间范围：</span>
-                        <el-date-picker style="margin-left: 10px;" v-model="dataTime" value-format="yyyy-MM" type="daterange" align="right" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                        <el-date-picker style="margin-left: 10px;" v-model="dataTime" value-format="yyyy-MM" type="daterange" align="center" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                         <el-button style="margin-left: 10px" size="small" type="primary" @click="queryClikUser">查询</el-button>
                         <el-button style="margin-left: 10px" size="small" type="primary" @click="cleanClikUser">清除</el-button>
                 </div>
@@ -27,7 +27,7 @@
             </el-row>
             <el-row style="float: left;width: 800px;">
                 <div style="width: 800px;height: 50px;margin-top: 20px;line-height: 40px;">
-                        <el-date-picker style="float: left;margin-left: 10px;" v-model="dataTime1" value-format="yyyy-MM-dd" type="daterange" align="right" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                        <el-date-picker style="float: left;margin-left: 10px;" v-model="dataTime1" value-format="yyyy-MM-dd" type="daterange" align="center" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                         <el-button style="margin-left: 10px" size="small" type="primary" @click="queryClikQudao">查询</el-button>
                 </div>
                 <div id='userChart1' style='height: 400px;width: 800px;margin-left: 10px;' >图表加载失败</div>
@@ -74,6 +74,10 @@ export default {
     },
     queryClikUser () {
       // 查询用户新增趋势
+      if (this.dataTime === '' || this.dataTime === null) {
+        this.$message('请选择筛选日期')
+        return false
+      }
       var data = {'startTime': this.dataTime[0], 'endTime': this.dataTime[1]}
       dataBusiness(data).then(res => {
         console.log('data', res)
@@ -194,6 +198,10 @@ export default {
     },
     queryClikQudao () {
       // 查询渠道
+      if (this.dataTime1 === '' || this.dataTime1 === null) {
+        this.$message('请选择筛选日期')
+        return false
+      }
       var data = {"startTime": this.dataTime1[0] + ' 00:00:00', "endTime": this.dataTime1[1] + ' 00:00:00'}
       dataUserLogin(data).then(res => {
         console.log('data', res)
