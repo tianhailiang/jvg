@@ -78,7 +78,7 @@
             <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <el-button size="small" type="primary" @click="onDelClick1">批量删除</el-button>
             <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
         </el-col>
         </el-row>
@@ -97,7 +97,7 @@
             <p style="font-size: 30px;">请确认是否继续批量删除</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow3 = false">取 消</el-button>
-                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+                <el-button type="primary" @click="onDel1">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 标签关系编辑 -->
@@ -315,33 +315,33 @@ export default {
       this.multipleSelection = val
       console.log('val',val)
     },
-    // onDelClick1 () {
-    //   // 批量删除弹窗
-    //   if (this.multipleSelection.length === 0) {
-    //     this.$message('请在列表勾选')  
-    //     return false
-    //   }
-    //   this.allpi = []
-    //   for (var i = 0;i < this.multipleSelection.length;i++) {
-    //     this.allpi.push(this.multipleSelection[i].id)
-    //   }
-    //   this.isDialogShow3 = true
-    // },
-    // onDel1 () {
-    //   // 批量删除接口
-    //   var data = {'id': this.allpi}
-    //   labelDelete(data).then(res => {
-    //     console.log('data', res)
-    //     if (res.success) {
-    //       this.isDialogShow3 = false
-    //       window.location.reload()
-    //     } else {
-    //       this.$message(res.message)
-    //     }
-    //   }).catch(error => {
-    //     console.log(`请求错误`)
-    //   })
-    // },
+    onDelClick1 () {
+      // 批量删除弹窗
+      if (this.multipleSelection.length === 0) {
+        this.$message('请在列表勾选')  
+        return false
+      }
+      this.allpi = []
+      for (var i = 0;i < this.multipleSelection.length;i++) {
+        this.allpi.push(this.multipleSelection[i].id)
+      }
+      this.isDialogShow3 = true
+    },
+    onDel1 () {
+      // 批量删除接口
+      var data = {'id': this.allpi}
+      labelShipDelete(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow3 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     onfen () {
       // 分页按钮
       if (this.dataTime !== '') {

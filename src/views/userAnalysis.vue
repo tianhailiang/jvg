@@ -5,16 +5,17 @@
         </el-col>
         <el-col :span='24' class='chart'>
             <p class="hui-title">新增用户趋势</p>
-            <el-row class="chart-r" style="font-size: 25px;width: 150px;float: left;text-align: center;color: green;">
+            <!-- <el-row class="chart-r" style="font-size: 25px;width: 150px;float: left;text-align: center;color: green;">
                     <el-col class="active"><div>总览新增</div></el-col>
                     <el-col ><div>地市新增</div></el-col>
                     <el-col ><div>活动新增</div></el-col>
-            </el-row>
+            </el-row> -->
             <el-row style="float: left;width: 800px;">
                 <div style="width: 800px;height: 50px;margin-top: 20px;line-height: 40px;">
-                        <el-date-picker style="float: left;margin-left: 10px;" type="daterange" align="right" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
-                        <el-input style="float: left;width: 100px;margin-left: 10px;" placeholder="对比时段" disabled></el-input>
-                        <el-button style="margin-left: 10px" size="small" type="primary">查询</el-button>
+                        <span >统计时间范围：</span>
+                        <el-date-picker style="margin-left: 10px;" v-model="dataTime" value-format="yyyy-MM" type="daterange" align="right" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                        <el-button style="margin-left: 10px" size="small" type="primary" @click="queryClikUser">查询</el-button>
+                        <el-button style="margin-left: 10px" size="small" type="primary" @click="cleanClikUser">清除</el-button>
                 </div>
                 <div id='userChart' style='height: 400px;width: 800px;margin-left: 10px;' >图表加载失败</div>
             </el-row>
@@ -26,8 +27,8 @@
             </el-row>
             <el-row style="float: left;width: 800px;">
                 <div style="width: 800px;height: 50px;margin-top: 20px;line-height: 40px;">
-                        <el-date-picker style="float: left;margin-left: 10px;" type="daterange" align="right" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
-                        <el-button style="margin-left: 10px" size="small" type="primary">查询</el-button>
+                        <el-date-picker style="float: left;margin-left: 10px;" v-model="dataTime1" value-format="yyyy-MM-dd" type="daterange" align="right" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                        <el-button style="margin-left: 10px" size="small" type="primary" @click="queryClikQudao">查询</el-button>
                 </div>
                 <div id='userChart1' style='height: 400px;width: 800px;margin-left: 10px;' >图表加载失败</div>
             </el-row>
@@ -54,14 +55,27 @@ export default {
   data () {
     return {
       nan: '',
-      nv: ''
+      nv: '',
+      dataTime: '',
+      dataTime1: '',
+      onequery: true
     }
   },
   methods: {
-    getUserChartInit () {
-      // 用户新增趋势
-      var data = {'startTime': '2018-03-01 00:00:00', 'endTime': '2018-09-01 00:00:00'}
-      dataCreated(data).then(res => {
+    cleanClikUser () {
+      // 清除用户新增趋势数据
+      this.dataTime = ''
+      var created = []
+      var count = []
+      this.$nextTick(function () {
+        this.onequery = true
+        this.userChartInit (created, count)
+      })
+    },
+    queryClikUser () {
+      // 查询用户新增趋势
+      var data = {'startTime': this.dataTime[0], 'endTime': this.dataTime[1]}
+      dataBusiness(data).then(res => {
         console.log('data', res)
         if (res.success) {
           var userdata = res.result
@@ -71,7 +85,43 @@ export default {
             created.push(userdata[i].createdAt)
             count.push(userdata[i].count)
           }
-          // 加载新增趋势图表
+          this.$nextTick(function () {
+            this.onequery = true
+            this.userChartInit (created, count)
+          })
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    getUserChartInit () {
+      // 用户新增趋势
+      var data = {'startTime': '2018-03-01 00:00:00', 'endTime': '2018-09-01 00:00:00'}
+      dataBusiness(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          var userdata = res.result
+          var created = []
+          var count = []
+          for (var i = 0;i < userdata.length;i++) {
+            created.push(userdata[i].createdAt)
+            count.push(userdata[i].count)
+          }
+          this.$nextTick(function () {
+            this.onequery = true
+            this.userChartInit (created, count)
+          })
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    userChartInit (created, count) {
+      // 加载新增趋势图表
       const myChart = echarts.init(document.getElementById('userChart'))
       myChart.showLoading()
       var option = {
@@ -108,6 +158,62 @@ export default {
       }
       myChart.setOption(option)
       myChart.hideLoading()
+      var _this = this
+      myChart.on('click', function (params) {
+        // 点击呈现每日数据
+        if (_this.onequery) {
+          _this.onequery = false
+          _this.queryClikUserInfo (params.name)
+        } else {
+          _this.$message('已经呈现每日数据，请筛选其他时间段呈现数据')
+        }
+      })
+    },
+    queryClikUserInfo (startTime) {
+      // 点击图形筛选单月每日数据
+      var data = {'startTime': startTime}
+      dataCreated(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          var userdata = res.result
+          var created = []
+          var count = []
+          for (var i = 0;i < userdata.length;i++) {
+            created.push(userdata[i].createdAt)
+            count.push(userdata[i].count)
+          }
+          this.$nextTick(function () {
+            this.userChartInit (created, count)
+          })
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClikQudao () {
+      // 查询渠道
+      var data = {"startTime": this.dataTime1[0] + ' 00:00:00', "endTime": this.dataTime1[1] + ' 00:00:00'}
+      dataUserLogin(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          var data1 = res.result
+          var days = []
+          var yupei = []
+          var liuxue = []
+          var yuanxiao = []
+          var yimin = []
+          for (var i = 0; i < data1.length; i++) {
+            days.push(data1[i].days)
+            yupei.push(data1[i].value1)
+            liuxue.push(data1[i].value2)
+            yuanxiao.push(data1[i].value3)
+            yimin.push(data1[i].value4)
+          }
+          this.$nextTick(function () {
+            this.qudaoChartInit (days, yupei, liuxue, yuanxiao, yimin)
+          })
         } else {
           this.$message(res.message)
         }
@@ -122,21 +228,32 @@ export default {
         console.log('data', res)
         if (res.success) {
           var data1 = res.result
-          // 加载用户渠道图表
+          var days = []
+          var yupei = []
+          var liuxue = []
+          var yuanxiao = []
+          var yimin = []
+          for (var i = 0; i < data1.length; i++) {
+            days.push(data1[i].days)
+            yupei.push(data1[i].value1)
+            liuxue.push(data1[i].value2)
+            yuanxiao.push(data1[i].value3)
+            yimin.push(data1[i].value4)
+          }
+          this.$nextTick(function () {
+            this.qudaoChartInit (days, yupei, liuxue, yuanxiao, yimin)
+          })
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    qudaoChartInit (days, yupei, liuxue, yuanxiao, yimin) {
+      // 加载用户渠道图表
       const myChart1 = echarts.init(document.getElementById('userChart1'))
       myChart1.showLoading()
-      var days = []
-      var yupei = []
-      var liuxue = []
-      var yuanxiao = []
-      var yimin = []
-      for (var i = 0; i < data1.length; i++) {
-        days.push(data1[i].days)
-        yupei.push(data1[i].value1)
-        liuxue.push(data1[i].value2)
-        yuanxiao.push(data1[i].value3)
-        yimin.push(data1[i].value4)
-      }
       var option1 = {
         title: {
           y: '15'
@@ -196,12 +313,6 @@ export default {
       }
       myChart1.setOption(option1)
       myChart1.hideLoading()
-        } else {
-          this.$message(res.message)
-        }
-      }).catch(error => {
-        console.log(`请求错误`)
-      })
     },
     getSexChartInit () {
       // 性别
@@ -275,12 +386,10 @@ export default {
         if (res.success) {
           // 加载用户年龄分布图表
           var data1 = res.result
-          var years = '['
+          var years = []
           for (var i = 0 ; i < data1.length ; i++) {
-            years +='{value: '+data1[i].count+',name: '+data1[i].years+'},'
+            years.push({"value": data1[i].count, "name": data1[i].years})
           }
-          years += ']'
-          years += ''
           console.log('y', years)
       const myChart3 = echarts.init(document.getElementById('userChart3'))
       myChart3.showLoading()
@@ -305,7 +414,7 @@ export default {
             type: 'pie',
             radius: '85%',
             center: ['45%', '50%'],
-            data: [{value: 1,name: 70},{value: 1,name: 80},{value: 35,name: 90},{value: 1,name: 10},],
+            data: [{value: 1,name: 88},{value: 1,name: 70},{value: 1,name: 80},{value: 2,name: 84},{value: 34,name: 90},{value: 1,name: 10},{value: 1,name: 18},],
             itemStyle: {
               emphasis: {
                 shadowBlur: 50,

@@ -94,7 +94,7 @@ export default {
   methods: {
     getUserChartInit () {
       // 用户新增数据
-      var data1 = {'addUserFrom': '2018-03', 'addUserTo': '2018-09'}
+      var data1 = {'addUserFrom': '2018-03', 'addUserTo': '2018-03'}
       dataUser(data1).then(res => {
         console.log('data', res)
         if (res.success) {
