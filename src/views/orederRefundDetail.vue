@@ -63,7 +63,7 @@
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                     <el-form-item label="支付方式">
-                        <el-input type="text" :disabled="true" v-model="payName"></el-input>
+                        <el-input type="text" :disabled="true" v-model="payType"></el-input>
                     </el-form-item>
                   </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple">
@@ -173,6 +173,7 @@
     </section>
   </template>
 <script>
+import {searchorderdetails} from '@/api/url.js'
 export default {
   name: 'orederRefundDetail',
   data () {
@@ -181,7 +182,7 @@ export default {
       status: '',
       priceData: [],
       // createdAt: '',
-      payName: '',
+      payType: '',
       userId:'',
       shopUserName: '',
       shopUserId: '',
@@ -204,23 +205,23 @@ export default {
       const _PARMES = this.$route.params.id
       // this.refundSnid = _PARMES
       console.log(_PARMES)
-      axios.post(this.$store.state.api.searchorderdetails, {
+      searchorderdetails({
         id: 2
       }).then(res => {
         console.log(res)
-        this.createdAt = res.data.result.createdAt,
-        this.payName = res.data.result.payName,
-        this.userName = res.data.result.userName,
-        this.userId = res.data.result.userId,
-        this.shopUserName = res.data.result.shopUserName,
-        this.shopUserId = res.data.result.shopUserId
-        this.payTime = res.data.result.payTime,
-        this.tradeNo = res.data.result.tradeNo,
-        this.source = res.data.result.source,
-        this.totalPrice = res.data.result.totalPrice,
-        this.type = res.data.result.type
-        this.shopUserNm = res.data.result.shopUserNm
-        this.snId = res.data.result.snId
+        this.createdAt = res.result.createdAt,
+        this.payType = res.result.payType,
+        this.userName = res.result.userName,
+        this.userId = res.result.userId,
+        this.shopUserName = res.result.shopUserName,
+        this.shopUserId = res.result.shopUserId
+        this.payTime = res.result.payTime,
+        this.tradeNo = res.result.tradeNo,
+        this.source = res.result.source,
+        this.totalPrice = res.result.totalPrice,
+        this.type = res.result.type
+        this.shopUserNm = res.result.shopUserNm
+        this.snId = res.result.snId
       })
     }
   }

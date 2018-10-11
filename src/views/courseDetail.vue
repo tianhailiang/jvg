@@ -33,11 +33,11 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="课程标签">
-                <el-select v-model="courseBiao">
+                <el-select v-model="label">
                   <el-option
                   v-for="(item, index) in labelValue"
-                  :label="item[0]"  
-                  :value="item[1]">
+                  :label="item.label"  
+                  :value="item.value">
                   </el-option>
                   <!-- <ul>
                     <li v-for="(item, index) in labelValue">
@@ -75,7 +75,7 @@
                         <el-select v-model="teachModel">
                             <el-option 
                                 :label="item.label"  
-                                :value="item.value" v-for="(item, index) in course"></el-option>
+                                :value="item.value" v-for="(item, index) in courseend"></el-option>
                         </el-select>
                     </el-col>
                 </el-form-item>
@@ -83,10 +83,10 @@
             <el-col :span="8">
               <el-form-item label="课程价格">
                   <el-col :span="12">
-                      <el-input v-model="price" :disabled=true placeholder="人民币"></el-input>
+                      <el-input v-model="price" placeholder="人民币"></el-input>
                   </el-col>
                   <el-col :span="12">
-                      <el-input v-model="dollarsPrice" :disabled=true placeholder="美元"></el-input>
+                      <el-input v-model="dollarsPrice" placeholder="美元"></el-input>
                   </el-col>
               </el-form-item>
             </el-col>
@@ -106,22 +106,27 @@
         <el-form-item label="上传课件">
             <div class="upload-course">
                 <el-input type="text" width="300" ></el-input>
-                <el-upload action="">
-                    <el-button size="small" type="primary" class="handle-load">点击上传</el-button>
-                </el-upload>
+                <el-upload class="upload-demo" 
+                action="https://jsonplaceholder.typicode.com/posts/">
+                <el-button 
+                size="small" 
+                type="primary"
+                :on-change="handleChange"
+                :file-list="fileList3" 
+                style="position:absolute;right:0;top:0;" class="handle-load">点击上传</el-button>
+              </el-upload>
             </div>
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="7">
               <el-form-item label="上课时间">
-                  <el-input type="text" v-model="beginTime"></el-input>
+                  <el-date-picker
+                  v-model="beginTime"
+                  type="datetime"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  size="small">
+                </el-date-picker>
               </el-form-item>
-          </el-col> 
-          <el-col :span="5">
-              <el-input type="text" size="small"></el-input>
-          </el-col>
-          <el-col :span="5">
-              <el-input type="text" size="small"></el-input>
           </el-col>
         </el-row>
         <el-form-item label="课节">
@@ -146,12 +151,18 @@
               <div class="grid-content bg-purple course-plane" style="position:relative;">
                 <span class="course-time">下次课程更新时间</span>
                 <el-form-item>
-                    <el-input type="text" v-model="nextCouresTime"></el-input>
+                  <el-date-picker 
+                    value-format="yyyy-MM-dd HH:mm:ss" 
+                    type="datetime"
+                    size="small"
+                    v-model="nextCouresTime"
+                    width="100%">
+                  </el-date-picker>
                 </el-form-item>
             </div></el-col>
             <el-col :span="8"><div class="grid-content bg-purple">
               <el-form-item label="课程状态">
-                <el-select v-model="isSerialValue">
+                <el-select v-model="isSerial">
                     <el-option 
                     :label="item.label"  
                     :value="item.value" v-for="(item, index) in courseDate"></el-option>
@@ -170,10 +181,10 @@
         <!-- 按钮集合 -->
         <div class="center-box">
             <el-row>
-                <el-button type="primary" size="medium" @click="hanldeladdCourse">创建</el-button>
-                <el-button type="primary" size="medium">冻结</el-button>
+                <el-button type="primary" size="medium" @click="hanldeladdCourse()">创建</el-button>
+                <el-button type="primary" size="medium" @click="dialogVisible = true">冻结</el-button>
                 <el-button type="primary" size="medium">删除</el-button>
-                <el-button type="primary" size="medium">取消</el-button>
+                <el-button type="primary" size="medium" @click="returnBlack()">取消</el-button>
             </el-row>
         </div>
         <!-- 编辑状态属性 -->
@@ -216,9 +227,31 @@
             </el-table>
         </el-form-item>
       </el-form>
+      <el-dialog title="冻结编辑提示窗口" :visible.sync="dialogVisible" width="30%">
+        <el-form label-width="100px" class="demo-ruleForm">
+            <el-form-item label="课程ID">
+              <el-input type="text" size="small" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="课程标题">
+                <el-input type="text" size="small" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="发布用户名">
+                <el-input type="text" size="small" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="冻结原因">
+              <el-input type="textarea" size="small" v-model="downMemo"></el-input>
+            </el-form-item>
+        </el-form>
+        <span>提示：冻结后该课程在前端无法显示</span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="openFreeze()">确 定</el-button>
+        </span>
+    </el-dialog>
     </section>
 </template>
 <script>
+import {addCourse,searchCourseDetail,jdCourse} from '@/api/url.js'
 export default {
   name: 'courseDetail',
   data () {
@@ -229,17 +262,23 @@ export default {
         video: ''
       },
       featuresArr: [],
+      fileList3:[],
       dollarsPrice: '',
       price: '',
       id: '',
       realName: '',
+      downMemo: '',
+      dialogVisible: false,
       options: [
         {value: 1, label: '托福'},
         {value: 2, label: 'GRE'}
       ],
       label: '',
       courseBiao: '',
-      labelValue: [],
+      labelValue: [
+        {value: 1, label: '语法'},
+        {value: 2, label: '词汇'}
+      ],
       tabledata3: [],
       courseval: '',
       coursetagval: '',
@@ -254,7 +293,7 @@ export default {
       memo: '',
       title: '',
       teachModel: '',
-      isSerial: 1,
+      isSerial: '',
       editStatusAttr: [],
       upDownValue: '',
       liveStatusValue: '',
@@ -282,6 +321,13 @@ export default {
         {value: 2, label: '录播'},
         {value: 3, label: '全部'}
       ],
+      courseend: [
+        {value: 1, label: '全部'},
+        {value: 2, label: '1V1'},
+        {value: 3, label: '公开课'},
+        {value: 4, label: 'VIP课'},
+        {value: 5, label: '精品课'}
+      ],
       sshuData: [
         {value: 1, label: '留学'},
         {value: 2, label: '语培'},
@@ -292,42 +338,61 @@ export default {
         {value: 1, label: '已完结'},
         {value: 2, label: '未完结'},
       ],
-
     }
   },
   created() {
       this.searchCourseDetail()
   },
   methods: {
+    handleChange(file, fileList) {
+      this.fileList3 = fileList.slice(-3)
+    },
     onSubmit () {
       console.log('submit!')
     },
+    returnBlack() {
+      this.$router.push('courseList')
+    },
+    openFreeze() {
+      jdCourse({
+        ids: [6],
+        upDown: 3,
+        downMemo: this.downMemo
+      }).then(res => {
+          setTimeout(() => {
+            this.dialogVisible = false
+          },200)
+      }).catch(error => {
+
+      })
+    },
     hanldeladdCourse() {
-        axios.post(this.$store.state.api.addCourse, {
-            "title": this.title,
-            "userId": this.id,
-            "categorySigns": this.categorySigns,
-            "label": [2],
-            "featuresArr": ["特色1","特色2","特色3"],
-            "couresModel": this.couresModel,
-            "teachModel": this.teachModel,
-            "price": this.price,
-            "dollarsPrice": this.dollarsPrice,
-            "number": this.number,
-            "memo": this.memo,
-            "coverImage": this.coverImage,
-            "videoName": this.directory.videoName,
-            "video": this.video,
-            "beginTime": this.beginTime,
-            "directory": [
+        addCourse({
+            title: this.title,
+            userId: this.id,
+            categorySigns: this.categorySigns,
+            label: [2],
+            featuresArr: this.featuresArr,
+            couresModel: this.couresModel,
+            teachModel: this.teachModel,
+            price: this.price,
+            dollarsPrice: this.dollarsPrice,
+            number: this.number,
+            memo: this.memo,
+            coverImage: this.coverImage,
+            videoName: this.directory.videoName,
+            video: this.video,
+            beginTime: this.beginTime,
+            directory: [
               {
-                "name": this.directory.name,
-                "videoName": this.videoName,
-                "video": this.video
+                name: this.directory.name,
+                videoName: this.videoName,
+                video: this.video
               }
             ],
-            "nextCouresTime": this.nextCouresTime,
-            "profession": 1
+            nextCouresTime: this.nextCouresTime,
+            profession: 1,
+            isSerial: this.isSerial
         }).then(res => {
             this.$message({
                 type: 'success',
@@ -340,7 +405,7 @@ export default {
     searchCourseDetail() {
         let routerParams = this.$route.params.id
         this.id = routerParams
-        axios.post(this.$store.state.api.searchCourseDetail, {id:this.id}).then(res => {
+        searchCourseDetail({id:this.id}).then(res => {
             console.log(res.data)
             // this.r = res.data.result
             const r = res.data.result
@@ -358,9 +423,7 @@ export default {
             this.labelValue = res.data.result.labelValue
             this.categorySignsValue = res.data.result.categorySignsValue
             this.isSerialValue = res.data.result.isSerialValue
-            
             this.tabledata3.push(res.data.result.editStatusAttr)
-
             let { liveStatusValue, statusValue, classHour, upDownValue } = r.editStatusAttr
                 r.liveStatusValue = liveStatusValue
                 r.statusValue = statusValue

@@ -57,7 +57,7 @@
           </el-col>
           <el-col :span="6" style="margin-top:30px;">
               <el-button size="small" type="primary" @click="searchData()">搜索</el-button>
-              <el-button size="small" type="primary">创建课程</el-button>
+              <el-button size="small" type="primary" @click="createCourse()">创建课程</el-button>
           </el-col>
       </el-form>
     </el-row>
@@ -66,7 +66,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="课程ID" width="65" align="center">
             <template slot-scope="scope">
-                <el-button type="text" size="small" @click="handleCard()">{{scope.row.id}}</el-button>
+                <el-button type="text" size="small" @click="handleCard(scope.$index, scope.row)">{{scope.row.id}}</el-button>
             </template>
         </el-table-column>
         <el-table-column prop="title" label="课程标题" width="120" align="center"></el-table-column>
@@ -130,7 +130,7 @@
   </section>
 </template>
 <script>
-  import {removeCourseList,courseList,jdCourse,} from '@/api/url.js'
+import {removeCourseList,courseList,jdCourse,} from '@/api/url.js'
 export default {
   name: 'courseList',
   data () {
@@ -180,7 +180,6 @@ export default {
       this.pageSize = val
     },
     handleCurrentChange(val) {
-      
       this.pageNo = val
       this.searchData()
     },
@@ -232,6 +231,9 @@ export default {
         console.log(error)
       })
     },
+    createCourse() {
+      this.$router.push('courseDetail')
+    },
     jiedCourse() { // 冻结课程
       jdCourse({
         ids:[22],
@@ -243,8 +245,8 @@ export default {
         console.log(error)
       })
     },
-    handleCard(){
-      this.$router.push({ name: 'courseDetail', params: { id: this.id }})
+    handleCard(index, row){
+      this.$router.push({ name: 'courseDetail', params: { id: row.id }})
     }
   },
     created() {

@@ -130,6 +130,7 @@
     </section>
 </template>
 <script>
+  import {addPublishing, searchPublishdetail} from '@/api/url.js'
 export default {
   data () {
     return {
@@ -145,7 +146,7 @@ export default {
         id: '',
         realName: '',
         typeValue: '',
-        isSample: 1,
+        isSample: '',
         samplePdf: '',
         categorySignsValue: '',
         price: '',
@@ -167,7 +168,7 @@ export default {
     }
   },
   created() {
-    // this.publishingDetail()
+    this.publishingDetail()
   },
   methods: {
     onSubmit () {
@@ -175,26 +176,26 @@ export default {
     },
     publishingDetail() {
       let routerParams = this.$route.params.id
+      // console.log(routerParams)
       this.form.id = routerParams
-      axios.post(this.$store.state.api.searchPublishdetail, {
+      searchPublishdetail({
         id: this.form.id
       }).then((res) => {
-
-        this.form.realName = res.data.result.realName
-        this.form.title = res.data.result.title
-        this.form.memo = res.data.result.memo
-        this.form.price = res.data.result.price
-        this.form.dollarsPrice = res.data.result.dollarsPrice
-        this.form.typeValue = res.data.result.typeValue
-        this.form.isSample = res.data.result.isSample
-        this.form.upDownValue = res.data.result.editStatusAttr.upDownValue
-        this.form.statusValue = res.data.result.editStatusAttr.statusValue
-        this.form.samplePdf = res.data.result.samplePdf
+        console.log(res)
+        this.form.realName = res.result.realName
+        this.form.title = res.result.title
+        this.form.memo = res.result.memo
+        this.form.price = res.result.price
+        this.form.dollarsPrice = res.result.dollarsPrice
+        this.form.typeValue = res.result.typeValue
+        this.form.isSample = res.result.isSample
+        this.form.upDownValue = res.result.editStatusAttr.upDownValue
+        this.form.statusValue = res.result.editStatusAttr.statusValue
+        this.form.samplePdf = res.result.samplePdf
         //
-        this.categorySignsValue =  res.data.result.categorySignsValue
-        this.coverImage = res.data.result.coverImage
-        
-        this.dataGroup.push(res.data.result.editStatusAttr)
+        this.categorySignsValue =  res.result.categorySignsValue
+        this.coverImage = res.result.coverImage
+        this.dataGroup.push(res.result.editStatusAttr)
          
         this.$message({
           type: 'success',
@@ -208,7 +209,7 @@ export default {
       })
     },
     addPublishing() {
-      axios.post(this.$store.state.api.addPublishing, {
+      addPublishing({
         type: 1,
         isSample: this.form.isSample,
         title: this.form.title,

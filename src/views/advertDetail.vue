@@ -138,18 +138,34 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item>
-                      <el-input placeholder="图片"></el-input>
-                      <el-upload class="upload-demo" action="">
-                        <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
-                      </el-upload>
+                    <el-input placeholder="图片"></el-input>
+                    <el-upload class="upload-demo" 
+                      action="https://jsonplaceholder.typicode.com/posts/">
+                      <el-button 
+                      size="small" 
+                      type="primary"
+                      :on-change="handleChange"
+                      :file-list="fileList3" 
+                      style="position:absolute;right:0;top:0;">点击上传</el-button>
+                    </el-upload>
                 </el-form-item>
                   <el-form-item>
                       <el-col :span="11">
-                        <el-date-picker type="datetime" placeholder="开始时间" v-model="FormData.startTime"></el-date-picker>
+                        <el-date-picker 
+                        type="datetime" 
+                        placeholder="开始时间" 
+                        v-model="FormData.startTime"
+                        value-format="yyyy-MM-dd HH:mm:ss">
+                      </el-date-picker>
                       </el-col>
                       <el-col class="line" :span="2">-</el-col>
                       <el-col :span="11">
-                          <el-date-picker type="datetime" placeholder="结束时间" v-model="FormData.endTime"></el-date-picker>
+                          <el-date-picker 
+                          type="datetime" 
+                          placeholder="结束时间" 
+                          v-model="FormData.endTime"
+                          value-format="yyyy-MM-dd HH:mm:ss"
+                        ></el-date-picker>
                       </el-col>
                   </el-form-item>
                   <el-form-item label="购买人名称">
@@ -161,7 +177,7 @@
               </el-form>
               <p style="text-align:center;">PS：每个广告购买一次生产一条订单记录</p>
           </section>
-          <section class="advert-detail_left" v-else style="_display:none;">
+          <section class="advert-detail_left" style="display:none;">
               <h3 style="margin-bottom:20px;">广告设置</h3>
               <el-form label-width="80px" size="small">
                   <el-form-item label="类目名称">
@@ -170,12 +186,12 @@
                               <el-option 
                               :label="item.label"  
                               :value="item.value"
-                              v-for="(item, index) in typeName"></el-option>
+                              v-for="(item, index) in categoryName"></el-option>
                           </el-select>
                       </el-col>
                       <el-col :span="12">
                           <el-form-item label="类目顺序">
-                              <el-input type="text" style="width: 100%;" placeholder="1"></el-input>
+                              <el-input type="text" style="width: 100%;" v-model="FormData.sort"></el-input>
                           </el-form-item>
                       </el-col>
                   </el-form-item>
@@ -184,32 +200,36 @@
                   </el-form-item>
                   <el-form-item label="">
                       <el-col :span="12" style="padding-left:0;">
-                          <el-input type="text" placeholder="人民币" style="width: 100%;"></el-input>
+                          <el-input placeholder="人民币" style="width: 100%;" v-model="FormData.priceType"></el-input>
                       </el-col>
                       <el-col :span="12">
-                          <el-input type="text" placeholder="美金" style="width: 100%;"></el-input>
+                          <el-input placeholder="美金" style="width: 100%;" v-model="FormData.priceType"></el-input>
                       </el-col>
-                  </el-form-item>
-                  <el-form-item label="">
-                        <el-input placeholder="图片"></el-input>
-                        <el-upload class="upload-demo" action="">
-                          <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
-                        </el-upload>
                   </el-form-item>
                   <el-form-item>
                     <el-col :span="11">
-                      <el-date-picker type="date" placeholder="开始时间" style="width: 100%;"></el-date-picker>
+                      <el-date-picker 
+                        type="datetime" 
+                        placeholder="开始时间" 
+                        v-model="FormData.startTime"
+                        value-format="yyyy-MM-dd HH:mm:ss">
+                      </el-date-picker>
                     </el-col>
                     <el-col class="line" :span="2">-</el-col>
                     <el-col :span="11">
-                      <el-time-picker type="fixed-time" placeholder="结束时间" style="width: 100%;"></el-time-picker>
+                      <el-date-picker 
+                      type="datetime" 
+                      placeholder="结束时间" 
+                      v-model="FormData.endTime"
+                      value-format="yyyy-MM-dd HH:mm:ss">
+                    </el-date-picker>
                     </el-col>
                   </el-form-item>
                   <el-form-item label="购买人名称">
-                      <el-input placeholder=""></el-input>
+                      <el-input v-model="FormData.linkName"></el-input>
                   </el-form-item>
                   <el-form-item label="联系方式">
-                      <el-input placeholder=""></el-input>
+                     <el-input v-model="FormData.phone"></el-input>
                   </el-form-item>
                 </el-form>
                 <p style="text-align:center;">PS：每个广告购买一次生产一条订单记录</p>
@@ -218,39 +238,49 @@
               <h3 style="margin-bottom:20px;">广告设置</h3>
               <el-form label-width="80px" size="small">
                   <el-form-item label="列表顺序">
-                    <el-input placeholder="1"></el-input>
+                    <el-input v-model="FormData.sort"></el-input>
                   </el-form-item>
                   <el-form-item label="">
                       <el-input placeholder="URL"></el-input>
                   </el-form-item>
                   <el-form-item label="">
                       <el-col :span="12" style="padding-left:0;">
-                          <el-input type="text" placeholder="人民币" style="width: 100%;"></el-input>
+                          <el-input type="text" v-model="FormData.priceType" placeholder="人民币" style="width: 100%;"></el-input>
                       </el-col>
                       <el-col :span="12">
-                          <el-input type="text" placeholder="美金" style="width: 100%;"></el-input>
+                          <el-input type="text" v-model="FormData.priceType" placeholder="美金" style="width: 100%;"></el-input>
                       </el-col>
                   </el-form-item>
-                  <el-form-item label="">
-                        <el-input placeholder="图片"></el-input>
-                        <el-upload class="upload-demo" action="">
-                          <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
-                        </el-upload>
+                  <el-form-item>
+                      <el-input placeholder="图片"></el-input>
+                      <el-upload class="upload-demo" 
+                        action="https://jsonplaceholder.typicode.com/posts/">
+                        <el-button 
+                        size="small" 
+                        type="primary"
+                        :on-change="handleChange"
+                        :file-list="fileList3" 
+                        style="position:absolute;right:0;top:0;">点击上传</el-button>
+                      </el-upload>
                   </el-form-item>
                   <el-form-item>
                     <el-col :span="11">
-                      <el-date-picker type="date" placeholder="开始时间" style="width: 100%;"></el-date-picker>
+                      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" 
+                      type="datetime"
+                      placeholder="开始时间" style="width: 100%;" v-model="FormData.startTime"></el-date-picker>
                     </el-col>
                     <el-col class="line" :span="2">-</el-col>
                     <el-col :span="11">
-                      <el-time-picker type="fixed-time" placeholder="结束时间" style="width: 100%;"></el-time-picker>
+                      <el-date-picker value-format="yyyy-MM-dd HH:mm:ss"
+                      type="datetime"
+                      placeholder="结束时间" style="width: 100%;" v-model="FormData.endTime"></el-date-picker>
                     </el-col>
                   </el-form-item>
                   <el-form-item label="购买人名称">
-                      <el-input placeholder=""></el-input>
+                      <el-input placeholder="" v-model="FormData.linkName"></el-input>
                   </el-form-item>
                   <el-form-item label="联系方式">
-                      <el-input placeholder=""></el-input>
+                      <el-input placeholder="" v-model="FormData.phone"></el-input>
                   </el-form-item>
                 </el-form>
                 <p style="text-align:center;">PS：每个广告购买一次生产一条订单记录</p>
@@ -259,7 +289,8 @@
       <el-col :span="6">
         <section class="advert-detail_right">
           <h3 style="margin-bottom:20px;">广告位模板</h3>
-          <img :src="FormData.image" alt="" height="350" width="400">
+          <!-- <img :src="FormData.image" alt="" height="350" width="400"> -->
+          <img src="https://temp.im/450x300/0ff/d00" alt="广告图片占位符">
         </section>
       </el-col>
   </el-row>
@@ -393,8 +424,11 @@ export default {
         price:'',
         priceType: '',
         sort: '',
-        image: ''
+        image: '',
+        source: '',
+        name: ''
       },
+      fileList3:[],
       phone: '',
       advertData: {
         id: '',
@@ -406,27 +440,44 @@ export default {
         type: '',
         advertisingTemplate: ''
       },
-      total: null
+      categoryName: [
+        {label: '托福', value: '1'},
+        {label: 'GRE', value: '2'},
+      ],
+      total: null,
+      typeval: ''
     }
   },
   created() {
     this.searchCommerDetail()
   },
   methods: {
+    handleChange(file, fileList) {
+      this.fileList3 = fileList.slice(-3)
+    },
     addAdvertsubmit() { // 添加广告 
       addAdvertlist({
-        adsTempId: this.adsTempId,
-        sort:	this.sort,
-        categorId: this.categorId,
-        url: this.url,
-        price:this.price,
-        priceType: this.priceType,
-        startTime: this.startTime,
-        endTime: this.endTime,
-        linkName: this.linkName,
-        phone: this.phone,
+        // adsTempId: this.FormData.adsTempId,
+        sort:	this.FormData.sort,
+        categorId: this.FormData.categorId,
+        url: this.FormData.url,
+        // price:this.FormData.price,
+        priceType: this.FormData.priceType,
+        startTime: this.FormData.startTime,
+        endTime: this.FormData.endTime,
+        linkName: this.FormData.linkName,
+        source: this.FormData.source,
+        phone: this.FormData.phone,
+        name:this.FormData.name,
+        adsTempId:1,
+        price: 19.00,
+        source: 1
+        // source: this.FormData.source
       }).then(res => {
         console.log(res)
+        // setTimeout(function() {
+        //   // window.location.reload()
+        // }, 500)
       }).catch(error => {
 
       })

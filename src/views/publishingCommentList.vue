@@ -153,7 +153,7 @@
                         </el-table-column>
                     </el-table>
                     <!--  -->
-            <el-row :gutter="20" style="margin-top:20px;">
+            <el-row :gutter="20" style="margin-top:20px;" v-if="tableData4.length">
                 <el-col :span="11">
                   <el-pagination
                   background 

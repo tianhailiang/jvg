@@ -56,7 +56,7 @@
           <el-table-column type="selection" width="45"></el-table-column>
           <el-table-column prop="id" label="出版物ID" width="60" align="center">
             <template slot-scope="scope">
-              <el-button size="mini" @click="handelClicktetail()">{{scope.row.id}}</el-button>
+              <el-button size="mini" @click="handelClicktetail(scope.$index, scope.row)">{{scope.row.id}}</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="title" label="出版物名称" width="100" align="center"></el-table-column>
@@ -76,7 +76,9 @@
           </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-row :gutter="20" style="margin:30px 0; display:flex; justify-content:space-between;" v-show="tableData.length" >
+      <el-row :gutter="20" 
+      style="margin:30px 0; display:flex; justify-content:space-between;" 
+      v-if="tableData.length > 0">
           <el-col :span="11">
               <el-pagination 
               background
@@ -89,9 +91,6 @@
               @current-change="handleCurrentChange">
               ></el-pagination>
           </el-col>
-          <!-- <el-col :span="7">
-              <el-button size="small" type="primary">确定</el-button>
-          </el-col> -->
           <el-col :span="5">
               <el-button size="small" type="primary" @click="clearAll">批量删除</el-button>
               <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
@@ -140,10 +139,10 @@ export default {
       total: null,
       loading: false,
       title: '',
-      type: 1,
+      type: this.type,
       id: '',
       userId: '',
-      upDown: 1,
+      upDown: this.upDown,
       categorySigns: '',
       pageNo: 1,
       pageSize: 20,
@@ -207,7 +206,7 @@ export default {
         this.dialogVisible = false
         freezePublish({
             ids: [this.id],
-            upDown: "3",
+            upDown: 3,
 	          downMemo: this.downMemo
         }).then(res => {
             console.log(res)
@@ -242,8 +241,8 @@ export default {
             console.log(`请求出错啦`)
         })
     },
-    handelClicktetail() {
-      this.$router.push({ name: 'publishingDetail', params: {id: this.id} })
+    handelClicktetail(index, row) {
+      this.$router.push({ name: 'publishingDetail', params: {id: row.id} })
     }
   }
 }

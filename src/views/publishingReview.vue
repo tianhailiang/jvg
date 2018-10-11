@@ -56,7 +56,8 @@
             <el-table-column prop="statusValue" label="审核状态" width="100" align="center"></el-table-column>
             <el-table-column label="操作" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-button size="small" type="danger" @click="dialogVisible = true">通过</el-button>
+                <el-button size="small" type="danger" style="display:block;">通过</el-button>
+                <el-button size="small" type="danger" @click="reviewListInfo(scope.index, scope.row)">不通过</el-button>
               </template>
             </el-table-column>
         </el-table>
@@ -84,10 +85,10 @@
         <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
             <el-form label-width="100px" class="demo-ruleForm">
                 <el-form-item label="出版物ID">
-                <el-input type="text" size="small" :disabled="true"></el-input>
+                <el-input type="text" size="small" :disabled="true" v-model="id"></el-input>
                 </el-form-item>
                 <el-form-item label="出版物名称">
-                    <el-input type="text" size="small" :disabled="true"></el-input>
+                    <el-input type="text" size="small" :disabled="true" v-model="title"></el-input>
                 </el-form-item>
                 <el-form-item label="发布用户名">
                     <el-input type="text" size="small" :disabled="true"></el-input>
@@ -99,13 +100,13 @@
             <span>提示：用户重新申请审核</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="reviewListInfo()">确 定</el-button>
+                <el-button type="primary" @click="reviewInfo()">确 定</el-button>
             </span>
         </el-dialog>
   </section>
 </template>
 <script>
-  import {publishReviewList} from '@/api/url.js'
+  import {publishReviewList,reviewListInfo} from '@/api/url.js'
 export default {
   name: 'publishingReview',
   data () {
@@ -130,6 +131,7 @@ export default {
       sels: '', //存储选中的值
       onOff: false,
       id:'',
+      title:'',
       loading: false,
       dialogVisible: false,
       pageNo: 0,
@@ -157,7 +159,7 @@ export default {
     publishingReview() {
       this.loading = true
       publishReviewList({
-        "id": this.id,
+        id: this.id,
         // "title": "出版物名称",
         // "categorySigns": "tuofu",
         // "status": 2,
@@ -173,10 +175,14 @@ export default {
         console.log(`请求出错啦`)
       })
     },
-    reviewListInfo() {
+    reviewListInfo(index, row) {
       this.dialogVisible = true
+      this.id = row.id
+      this.title = row.title
+    },
+    reviewInfo() {
       reviewListInfo({
-        ids:[21],
+        ids:[this.id],
         status: 3,
         statusMemo: this.statusMemo
       }).then(res => {

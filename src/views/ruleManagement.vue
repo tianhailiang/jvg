@@ -116,6 +116,13 @@ export default {
         timeLength:90,
         type:1
       }).then(res => {
+        this.vipdata.push({
+          name: "语培会员3个月",
+        price: 100,
+        dollarsPrice: 600,
+        timeLength:90,
+        type:1
+        })
         console.log(res)
         this.$message({
           type: 'success',

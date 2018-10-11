@@ -55,12 +55,12 @@ export default {
     addmemberData() {
       let curentindex = this.index ++
       addVip({
-        name: this.name,
+        name: 'LV'+ curentindex,
         minIntegral: 4000,
         maxIntegral: 8000
       }).then(res => {
         this.vipdata.push({
-          name: this.name,
+          name: 'LV'+ curentindex,
           minIntegral: 4000,
           maxIntegral: 8000})
       }).catch(error => {
