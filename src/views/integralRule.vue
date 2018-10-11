@@ -78,15 +78,21 @@ export default {
       },
       addrule() {
         addrule({
-          name: "签到积分2222",
+          name: "测试demo",
           integral: 1,
-          number:1,
-          memo: "每天最多1次"
+          number: 3,
+          memo: "测试demo"
         }).then(res => {
           console.log(res)
+          this.vipData.push({
+            name: "测试demo",
+            integral: 1,
+            number: 3,
+            memo: "测试demo"
+        })
           this.$message({
             type: 'success',
-            message: res.data.message
+            message: res.message
           })
         }).catch(error => {
 

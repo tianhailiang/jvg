@@ -95,6 +95,7 @@
   </section>
 </template>
 <script>
+  import { addactivitydetail,searchActivityDetail } from '@/api/url.js'
 export default {
   name: '',
   data () {
@@ -163,30 +164,30 @@ export default {
     },
     scheduledEventDetail() {
       let paramsId = this.$route.params.id
-      axios.post(this.$store.state.api.searchActivityDetail, {
+      searchActivityDetail({
         id:paramsId
       }).then(res => {
-        this.activityData.id = res.data.result.id
-        this.activityData.channelName = res.data.result.channelName
-        this.activityData.title = res.data.result.title
-        this.activityData.cityName = res.data.result.cityName
-        this.activityData.content = res.data.result.content
-        this.activityData.startTime = res.data.result.startTime
-        this.activityData.endTime = res.data.result.endTime
-        this.activityData.aaddress = res.data.result.aaddress
-        this.activityData.crowd = res.data.result.crowd
-        this.activityData.lightspot = res.data.result.lightspot
-        this.activityData.tel = res.data.result.tel
-        this.activityData.cityName = res.data.result.cityName
-        this.activityData.content = res.data.result.content
-        this.activityData.sourceName = res.data.result.sourceName
-        this.activityData.address = res.data.result.address
+        this.activityData.id = res.result.id
+        this.activityData.channelName = res.result.channelName
+        this.activityData.title = res.result.title
+        this.activityData.cityName = res.result.cityName
+        this.activityData.content = res.result.content
+        this.activityData.startTime = res.result.startTime
+        this.activityData.endTime = res.result.endTime
+        this.activityData.aaddress = res.result.aaddress
+        this.activityData.crowd = res.result.crowd
+        this.activityData.lightspot = res.result.lightspot
+        this.activityData.tel = res.result.tel
+        this.activityData.cityName = res.result.cityName
+        this.activityData.content = res.result.content
+        this.activityData.sourceName = res.result.sourceName
+        this.activityData.address = res.result.address
       }).catch(error => {
 
       })
     },
     submitreplyUser() {
-      axios.post(this.$store.state.api.addactivitydetail, {
+      addactivitydetail({
         // id: 20,
         title: this.activityData.title,
         startTime: this.activityData.startTime,
@@ -217,6 +218,10 @@ export default {
 </script>
 <style scoped>
 @import '../assets/style/common_reserva.css';
+.reservation-content{
+  overflow: hidden;
+  margin-left:260px;
+}
 .submit-group{
   display: flex;
   justify-content: center;

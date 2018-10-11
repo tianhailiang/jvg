@@ -376,7 +376,7 @@
       },
       searchgoodDetail() {
         searchgoodDetail({
-          id:3
+          id:8
         }).then(res => {
           console.log(res)
           this.coupon.title = res.result.title,
@@ -392,7 +392,7 @@
           this.coupon.dollarsPrice = res.result.dollarsPrice,
           this.dataCounpon = res.result.productData
         }).catch(error => {
-
+          console.log(`请求出现错误`)
         })
       }
     }

@@ -186,7 +186,7 @@ export default {
         productType: this.productType,
         issuer:1,
         userName: '',
-        type:1,
+        type:'',
         status:1,	
         couponType:''
       },

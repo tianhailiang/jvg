@@ -252,7 +252,7 @@ export default {
       this.$router.push({name: 'advertDetail', params: {id: row.id}})
     },
     addAdvert() {
-      this.$router.push({name: 'advertDetail'})
+      this.$router.push('advertDetail')
     }
   }
 }

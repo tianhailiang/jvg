@@ -39,10 +39,21 @@
             <el-col :span="6">
                 <div class="grid-content bg-purple">
                     <el-form-item label="业务频道">
-                      <el-select v-model="channel ">
+                      <el-select v-model="dataForm.channel">
                         <el-option 
                         :label="item.label"  
                         :value="item.value" v-for="(item, index) in yewuData"></el-option>
+                      </el-select>
+                    </el-form-item>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="grid-content bg-purple">
+                    <el-form-item label="渠道">
+                      <el-select v-model="dataForm.source">
+                        <el-option 
+                        :label="item.label"  
+                        :value="item.value" v-for="(item, index) in channelData"></el-option>
                       </el-select>
                     </el-form-item>
                 </div>
@@ -123,7 +134,7 @@
               </div>
             </el-form>
           </section>
-          <section class="advert-detail_left">
+          <section class="advert-detail_left" >
               <h3 style="margin-bottom:20px;">默认广告设置</h3>
               <el-form label-width="80px" size="small">
                   <el-form-item label="创建时间">
@@ -189,7 +200,8 @@
                     <el-input type="text" :disabled="true"></el-input>
                   </el-form-item>
                   <el-form-item label="图片尺寸">
-                      <el-input type="text"></el-input>
+                      <el-input type="text" placeholder="宽" v-model="dataForm.width" style="width:45%"></el-input>
+                      <el-input type="text" placeholder="高" v-model="dataForm.height" style="width:45%"></el-input>
                     </el-form-item>
                   <el-form-item label="广告位类型">
                       <el-select v-model="advertypeval">
@@ -270,15 +282,25 @@
             </section>
         </el-col>
         <el-col :span="6">
-          <section class="advert-detail_right">
+          <section class="advert-detail_right" style="position:relative;">
             <h3 style="margin-bottom:20px;">广告位模板</h3>
-            <el-button size="medium" type="primary" class="add-upload">上传广告位模板</el-button>
+            <!-- <el-button size="medium" type="primary" class="add-upload">上传广告位模板</el-button> -->
+            <el-upload _style="position:absolute;top:46px;right:52px;"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
             <img :src="dataForm.adsImg" alt="" height="350" width="400">
           </section>
         </el-col>
       </el-row>
       <div class="btn-group">
-        <el-button size="medium" type="primary" @click="addAdvert()">确认</el-button>
+        <el-button size="medium" type="primary" @click="confirmAdvert()">确认</el-button>
         <el-button size="medium" type="primary">删除</el-button>
         <el-button size="medium" type="primary">取消</el-button>
       </div>
@@ -303,6 +325,8 @@ export default {
         {label: '全部', value: '3'}
       ],
       advertypeval: '',
+      dialogImageUrl: '',
+      dialogVisible: false,
       dataForm: {
         id: '',
         addressTypeName: '',
@@ -313,7 +337,9 @@ export default {
         adminName: '',
         createAt: '',
         width: '',
-        height: ''
+        height: '',
+        channel:'',
+        source:''
       },
       type: '',
       adressdata:[
@@ -342,6 +368,12 @@ export default {
         {value: '2', label: '平台'},
         {value: '3', label: '用户'}
       ],
+      channelData: [
+        {value: '1', label: '全部'},
+        {value: '2', label: 'APP'},
+        {value: '3', label: 'PC'},
+        {value: '4', label: 'WAP'}
+      ],
       adressData: [
         {value: '1', label: '全部'},
         {value: '2', label: '固定'},
@@ -359,27 +391,29 @@ export default {
     }
   },
   methods: {
-    addAdvert() {
+    confirmAdvert() {
       addvertlistcopy({
-        name :'123',
+        name :'测试demo',
         type :1,
-        upDown :this.upDown,
-        ownership :this.ownership,
-        addressType :this.addressType,
-        addressTypeName :this.addressTypeName,
-        createdAt :this.createdAt,
-        channel :this.channel,
-        channelName:this.channelName,
-        source:this.source,
-        sourceName:this.sourceName,
-        width: this.width,
-        height :this.height,
-        framesNumber:this.framesNumber,
-        forceType:this.forceType,
-        autoReplace:this.autoReplace,
-        adminId:this.adminId,
-        adminName:this.adminName,
-        adsPrice :this.adsPrice,
+        upDown :this.dataForm.upDown,
+        ownership :this.dataForm.ownership,
+        addressType :this.dataForm.addressType,
+        addressTypeName :this.dataForm.addressTypeName,
+        createdAt :this.dataForm.createdAt,
+        channel :this.dataForm.channel,
+        // channelName:this.dataForm.channelName,
+        channelName:'渠道名称',
+        source:this.dataForm.source,
+        sourceName:this.dataForm.sourceName,
+        width: this.dataForm.width,
+        height :this.dataForm.height,
+        // framesNumber:this.dataForm.framesNumber,
+        framesNumber:2,
+        forceType:this.dataForm.forceType,
+        autoReplace:this.dataForm.autoReplace,
+        adminId:this.dataForm.adminId,
+        adminName:this.dataForm.adminName,
+        adsPrice :this.dataForm.adsPrice,
       }).then(res => {
         this.$message({
           type: 'success',
@@ -416,6 +450,14 @@ export default {
       }).catch(error => {
 
       })
+    },
+    handleRemove(file, fileList) {
+        console.log(file, fileList)
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url
+      
+      this.dialogVisible = true
     }
   }
 }
@@ -451,5 +493,9 @@ export default {
 .el-group{
   width:120px;
   margin-right:15px;
+}
+.advert-detail_right .el-upload--picture-card{
+  background-color:transparent !important;
+  border:none !important;
 }
 </style>

@@ -209,6 +209,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/courseComment.vue')
         },
         {
+          path: '/courseDetail', /* 课程详情 */
+          name: 'courseDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
+        },
+        {
           path: '/courseDetail/:id', /* 课程详情 */
           name: 'courseDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
@@ -349,6 +354,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/advertReview.vue')
         },
         {
+          path: '/advertDetail', /* 广告详情 */
+          name: 'advertDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertDetail.vue')
+        },
+        {
           path: '/advertDetail/:id', /* 广告详情 */
           name: 'advertDetail',
           component: () => import(/* webpackChunkName: "about" */ './views/advertDetail.vue')
@@ -372,6 +382,11 @@ export default new Router({
           path: '/advertSelect', /* 广告详情平台类目 */
           name: 'advertSelect',
           component: () => import(/* webpackChunkName: "about" */ './views/advertSelect.vue')
+        },
+        {
+          path: '/advertSpaceDetail/', /* 广告位详情（平台+固定+单页轮播）*/
+          name: 'advertSpaceDetail',
+          component: () => import(/* webpackChunkName: "about" */ './views/advertSpaceDetail.vue')
         },
         {
           path: '/advertSpaceDetail/:id', /* 广告位详情（平台+固定+单页轮播）*/

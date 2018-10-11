@@ -43,8 +43,16 @@ export default {
         name: "四大维度解锁Webpack前端工程化",
         behaviorNumber: 100,
         ratio: 0.98,
-        type:1
+        type:1,
+        typeName: '减少'
       }).then(res => {
+        this.teacherData.push({
+          name: "四大维度解锁Webpack前端工程化",
+          behaviorNumber: 100,
+          ratio: 0.98,
+          type:1,
+          typeName: '减少'
+        })
         this.$message({
           type: 'success',
           message: res.data.message

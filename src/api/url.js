@@ -410,6 +410,18 @@ export const searchOrder1 = (parms) => {
 export const searchorderlist = (parms) => {
   return http.fetchPost('/api/c/order/list.json', parms)
 }
+// 查询退款详情
+export const searchorderdetails = (parms) => {
+  return http.fetchPost('/api/c/order/refund/detail.json', parms)
+}
+// 【删除】查询退款单状态列表
+export const removeactive = (parms) => {
+  return http.fetchPost('/api/c/order/refund/status/list.json', parms)
+}
+// 查询订单详情
+export const searchorderdetail = (parms) => {
+  return http.fetchPost('/api/c/order/detail.json', parms)
+}
 //查询帮助中心栏目列表
 export const searchHelp = (parms) => {
   return http.fetchPost('/api/c/help/category/list.json', parms)

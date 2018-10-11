@@ -162,14 +162,26 @@
     <el-dialog title="一键替换" :visible.sync="isShow">
             <el-row :gutter="20">
                 <el-form label-width="80px">
-                <el-col :span="8"><div class="grid-content bg-purple">
+                <el-col :span="7"><div class="grid-content bg-purple">
                     <el-form-item label="开始时间">
-                        <el-input type="text" size="small" v-model="forceStartTime"></el-input>
+                      <el-date-picker 
+                        value-format="yyyy-MM-dd HH:mm:ss" 
+                        type="datetime"
+                        size="small"
+                        v-model="forceStartTime"
+                        width="100%">
+                      </el-date-picker>
                     </el-form-item>
                 </div></el-col>
-                <el-col :span="8"><div class="grid-content bg-purple">
+                <el-col :span="7"><div class="grid-content bg-purple">
                     <el-form-item label="结束时间">
-                        <el-input type="text" size="small" v-model="forceEndTime"></el-input>
+                        <el-date-picker 
+                        value-format="yyyy-MM-dd HH:mm:ss" 
+                        type="datetime"
+                        size="small"
+                        v-model="forceEndTime"
+                        width="100%">
+                      </el-date-picker>
                     </el-form-item>
                 </div></el-col>
                 <el-col :span="8"><div class="grid-content bg-purple">
@@ -241,10 +253,10 @@
                         </el-col>
                         <el-col :span="15">
                             <el-form-item label="">
-                                    <el-input type="text" size="small" v-model="forceUrl"></el-input>
-                                    <el-upload class="upload-demo upload-btn uploade-cust" action="">
-                                        <el-button size="small" type="primary">上传</el-button>
-                                    </el-upload>
+                                <el-input type="text" size="small" v-model="forceUrl"></el-input>
+                                <el-upload class="upload-demo upload-btn uploade-cust" action="">
+                                    <el-button size="small" type="primary">上传</el-button>
+                                </el-upload>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -425,7 +437,7 @@ export default {
       })
     },
     openaddAdvert() { //添加广告位
-      this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})
+      this.$router.push('advertSpaceDetail')
     },
     openaddAdvertdetail(index, rows) {
       this.$router.push({name: 'advertSpaceDetail', params:{id: rows.id}})

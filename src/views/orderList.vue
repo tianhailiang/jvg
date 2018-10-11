@@ -90,70 +90,75 @@
             </el-form>
           </el-row>
       </div>
+      <!-- 表格集合 -->
     <div class="order-details-item" style="margin-bottom:30px;">
-      <el-table :data="priceData" border align="center" :header-cell-style="{background:'#f0f9eb'}">
-        <el-table-column prop="productName" label="商品信息" width="200" align="center"></el-table-column>
-        <el-table-column prop="price" label="单价" width="200" align="center"></el-table-column>
-        <el-table-column prop="number" label="数量" width="200" align="center"></el-table-column>
-        <el-table-column prop="totalPrice" label="订单金额" width="195" align="center"></el-table-column>
-        <el-table-column prop="typeVal" label="订单状态" width="190" align="center"></el-table-column>
-        <el-table-column label="操作" width="98" align="center">
-            <template slot-scope="scope">
-                <el-button size="mini" type="danger" @click="openorderDetail(scope.$index, scope.row)">订单详情</el-button>
+        <el-table border align="center" :header-cell-style="{background:'#f0f9eb'}">
+            <el-table-column label="商品信息" width="200" align="center"></el-table-column>
+            <el-table-column label="单价" width="200" align="center"></el-table-column>
+            <el-table-column label="数量" width="200" align="center"></el-table-column>
+            <el-table-column label="订单金额" width="195" align="center"></el-table-column>
+            <el-table-column label="订单状态" width="190" align="center"></el-table-column>
+            <el-table-column label="操作" width="98" align="center">
+                <template slot-scope="scope">
+                    <el-button size="mini" type="danger" @click="openorderDetail(scope.$index, scope.row)">订单详情</el-button>
+                </template>
+            </el-table-column>
+          </el-table>        
+        <el-table :data="goodInfo" border  class="myel-tabel">
+            <el-table-column width="170">
+              <template slot-scope="scope">
+                <span>订单编号：{{scope.row.snid}}</span>
               </template>
-        </el-table-column>
-      </el-table>
-      <el-table :data="goodInfo" border  class="myel-tabel">
-          <el-table-column width="170">
-            <template slot-scope="scope">
-              <span>订单编号：{{scope.row.snid}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="mj" label="" width="100">
-              <template slot-scope="scope">
-                  <span>买家：{{scope.row.userName}}</span>
+            </el-table-column>
+            <el-table-column prop="mj" label="" width="100">
+                <template slot-scope="scope">
+                    <span>买家：{{scope.row.userName}}</span>
                 </template>
-          </el-table-column>
-          <el-table-column prop="mj2" label="" width="100">
-            <template slot-scope="scope">
-              <span>卖家：{{scope.row.shopUserName}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="time" label="" width="150">
-            <template slot-scope="scope">
-              <span>下单时间：{{scope.row.createdAt}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="" width="150">
-            <template slot-scope="scope">
-              <span>订单类型：{{scope.row.typeVal}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="" width="150">
-            <template slot-scope="scope">
-              <span>支付方式：{{scope.row.payTypeVal}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="" width="150">
+            </el-table-column>
+            <el-table-column prop="mj2" label="" width="100">
               <template slot-scope="scope">
-                  <span>订单频道：{{scope.row.academyNature}}</span>
-                </template>
-          </el-table-column>
-          <el-table-column abel="" width="115">
+                <span>卖家：{{scope.row.shopUserName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="time" label="" width="150">
               <template slot-scope="scope">
-                  <span>购买渠道：{{scope.row.sourceVal}}</span>
-                </template>
-          </el-table-column>
-      </el-table>
+                <span>下单时间：{{scope.row.createdAt}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="" width="150">
+              <template slot-scope="scope">
+                <span>订单类型：{{scope.row.typeVal}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="" width="150">
+              <template slot-scope="scope">
+                <span>支付方式：{{scope.row.payTypeVal}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="" width="150">
+                <template slot-scope="scope">
+                    <span>订单频道：{{scope.row.academyNature}}</span>
+                  </template>
+            </el-table-column>
+            <el-table-column abel="" width="115">
+                <template slot-scope="scope">
+                    <span>购买渠道：{{scope.row.sourceVal}}</span>
+                  </template>
+            </el-table-column>
+        </el-table>
     </div>
       <!--  -->
       <div class="row-container" style="margin:30px 0;">
-          <el-pagination 
-          background 
-          layout="prev, pager, next, jumper" 
-          :total="total"
-          :page-size="20"></el-pagination>
-          <el-button size="small" type="primary">确定</el-button>
+        <el-pagination 
+        background 
+        layout="total, sizes, prev, pager, next, jumper"
+        :page-size="20"
+        :total="total"
+        :current-page="pageNo"
+        :page-sizes="[20, 30, 40, 50]"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"></el-pagination>
+        <el-button size="small" type="primary">确定</el-button>
       </div>
     </section>
   </template>
@@ -206,6 +211,8 @@ export default {
             {label: '移民', value: '4'}
         ],
         total: null,
+        pageNo: 1,
+        pageSize: 20,
         orderListData: {
           snId: '',
           userId: '',
@@ -228,6 +235,22 @@ export default {
       this.getOrderdata()
     },
     methods: {
+      //   arraySpanMethod({ row, rowIndex }) {
+      //   if (rowIndex % 2 === 0) {
+      //     if (columnIndex === 0) {
+      //       return [1, 8];
+      //     } else if (columnIndex === 1) {
+      //       return [0, 0];
+      //     }
+      //   }
+      // },
+        handleSizeChange(val) {
+          this.pageSize = val
+        },
+        handleCurrentChange(val) {
+          this.pageNo = val
+          this.getOrderdata()
+        },
         getOrderdata() {
           let Objectdata = {
           // userId: this.orderListData.userId,
@@ -240,16 +263,15 @@ export default {
           // source:this.orderListData.source,
           // type:this.orderListData.type,
           // channel:this.orderListData.channel, orderInfoList
-          pageNo:1,
-          pageSize:20
+          pageNo:this.pageNo,
+          pageSize:this.pageSize
           }
           searchorderlist(Objectdata).then(res => {
             console.log(res)
             this.total = res.result.total
             this.goodInfo = res.result.modelData
-            this.goodInfo.forEach((element, index) => {
-              console.log(element.orderInfoList)
-              this.priceData.push(element.orderInfoList[0])
+            this.goodInfo.forEach((el, index) => {
+              this.priceData.push(this.goodInfo[index].orderInfoList[0])
             })
           }).catch(error => {
             console.log(`请求出错啦`)
