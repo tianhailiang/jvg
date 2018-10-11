@@ -131,9 +131,6 @@ export default {
       title: '',
       platform: null,
       platformList: [{
-        value: 0,
-        label: '全部'
-      }, {
         value: 1,
         label: 'APP'
       }, {
@@ -207,7 +204,7 @@ export default {
     GoodsSelectDialog
   },
   created () {
-    axios.post('common/code/channel/list.json', {
+    axios.post('/api/c/common/code/channel/list.json', {
     })
     .then(res => {
       this.channelList = res.data.result
@@ -222,10 +219,7 @@ export default {
       this.dialogForm = this.goods
     },
     handleDelete (index, row) {
-
-    },
-    batchDelete () {
-
+      this.tableData.splice(index, 1)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -287,7 +281,7 @@ export default {
         })
         return false
       }
-      axios.post('operation-activity/detail/create.json', {
+      axios.post('/api/c/operation-activity/detail/create.json', {
         title: this.title,
         source: this.platform,
         channel: this.channel,

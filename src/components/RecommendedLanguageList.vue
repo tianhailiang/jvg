@@ -140,9 +140,9 @@ export default {
         value: 2,
         label: '女'
       }],
-      approveStatus: 0,
+      approveStatus: null,
       approveStatusList: [{
-        value: 0,
+        value: null,
         label: '全部'
       },
       {

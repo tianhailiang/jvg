@@ -19,14 +19,13 @@ let config = {
 }
 
 const _axios = axios.create(config)
-
+var loginT = true
+setInterval(() => {
+  loginT = false
+}, 1000 * 60 * 50)
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
-    var loginT = true
-    setInterval(() => {
-      loginT = false
-    }, 1000 * 60 * 50)
     var dxzjjltoken = sessionStorage.getItem('dxzjjltoken')
     if (loginT) {
       // 首次登陆系统

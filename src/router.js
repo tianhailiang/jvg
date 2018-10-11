@@ -469,6 +469,11 @@ export default new Router({
           component: () => import('./views/DivideIntoRulesList.vue')
         },
         {
+          path: '/divideIntoRulesDetail', /* 运营管理模块 分成规则详情新建 */
+          name: 'divideIntoRulesDetailBuild',
+          component: () => import('./views/DivideIntoRulesDetailBuild.vue')
+        },
+        {
           path: '/rebateRule', /* 运营管理模块 返利规则列表 */
           name: 'rebateRule',
           component: () => import('./views/RebateRuleList.vue')

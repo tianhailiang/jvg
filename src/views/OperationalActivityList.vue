@@ -156,7 +156,7 @@ export default {
       }],
       channel: null,
       channelList: [],
-      activityTime: '',
+      activityTime: [],
       tableData: [],
       multipleSelection: [],
       currentPage: 1,
@@ -193,7 +193,7 @@ export default {
     }
   },
   created () {
-    axios.post('common/code/channel/list.json', {
+    axios.post('/api/c/common/code/channel/list.json', {
     })
     .then(res => {
       this.channelList = res.data.result
@@ -207,7 +207,10 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('operation-activity/list/list.json', {
+      if (!this.activityTime) {
+        this.activityTime = []
+      }
+      axios.post('/api/c/operation-activity/list/list.json', {
         title: this.activityName,
         activityStatus: this.state,
         source: this.platform,
@@ -229,7 +232,7 @@ export default {
     createActivity () {
       this.$router.push({name: 'operationalActivityDetailBuild'})
     },
-    editor (index, row) {
+    handleEditor (index, row) {
       this.$router.push({name: 'operationalActivityDetail', params: {id: row.id}})
     },
     handleDelete (arrId) {
@@ -238,7 +241,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('operation-activity/list/delete.json', {
+        axios.post('/api/c/operation-activity/list/delete.json', {
           id: arrId
         })
         .then(res => {

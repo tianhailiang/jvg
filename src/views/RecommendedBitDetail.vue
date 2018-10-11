@@ -79,13 +79,19 @@
       <el-button type="primary" @click="btnSure" >确定</el-button>
     </div>
     <!-- 课程推荐列表 -->
-    <RecommendedCourseList :dialogFormVisible.sync="dialogFormVisible1" :dialogForm="dialogForm1" />
+    <RecommendedCourseList :dialogFormVisible.sync="dialogFormVisible1"
+      :dialogForm="dialogForm"
+      :dialogChannel="dialogChannel"
+      v-on:select-list="onSelectList"/>
     <!-- 文章推荐列表窗口 -->
-    <RecommendedArticleList :dialogFormVisible.sync="dialogFormVisible2" :dialogForm="dialogForm2" v-on:select-list="onSelectList"/>
-    <!-- 留学达人推荐列表窗口 -->
-    <RecommendedDarenList :dialogFormVisible.sync="dialogFormVisible3" :dialogForm="dialogForm3" />
+    <RecommendedArticleList :dialogFormVisible.sync="dialogFormVisible2"
+      :dialogForm="dialogForm" v-on:select-list="onSelectList"/>
     <!-- 语培达人推荐列表窗口 -->
-    <RecommendedLanguageList :dialogFormVisible.sync="dialogFormVisible4" :dialogForm="dialogForm4" />
+    <RecommendedLanguageList :dialogFormVisible.sync="dialogFormVisible3"
+      :dialogForm="dialogForm" v-on:select-list="onSelectList"/>
+    <!-- 留学达人推荐列表窗口 -->
+    <RecommendedDarenList :dialogFormVisible.sync="dialogFormVisible4"
+      :dialogForm="dialogForm" v-on:select-list="onSelectList"/>
   </div>
 </template>
 
@@ -133,23 +139,16 @@ export default {
       }],
       tableData: [],
       multipleSelection: [],
-      dialogFormVisible1: false,
-      dialogForm1: {
+      dialogForm: {
         platformName: '',
         channelName : ''
       },
       dialogChannel: null,
+      dialogFormVisible1: false,
       dialogFormVisible2: false,
-      dialogForm2: {
-        platformName: '',
-        channelName : ''
-      },
       dialogFormVisible3: false,
-      dialogForm3: '',
       dialogFormVisible4: false,
-      dialogForm4: '',
-      dialogFormVisible5: false,
-      dialogForm5: ''
+      dialogFormVisible5: false
     }
   },
   components: {
@@ -192,29 +191,18 @@ export default {
       this.multipleSelection = val
     },
     add () {
+      this.dialogForm.platformName = this.platformList[this.platform-1].label
+      this.dialogForm.channelName = this.channelList[this.channel-1].name
       if (this.type == 1) {
         this.dialogFormVisible1 = true
-        this.dialogForm1.platformName = this.platformList[this.platform-1].label
-        this.dialogForm1.channelName = this.channelList[this.channel-1].name
         this.dialogChannel = this.channel
       } else if (this.type == 2) {
         this.dialogFormVisible2 = true
-        this.dialogForm2.platformName = this.platformList[this.platform-1].label
-        this.dialogForm2.channelName = this.channelList[this.channel-1].name
+      } else if (this.type == 3) {
+        this.dialogFormVisible3 = true
+      } else if (this.type == 4) {
+        this.dialogFormVisible4 = true
       }
-      // } else if (row.type == 1) {
-      //   this.dialogFormVisible1 = true
-      //   this.dialogForm1 = row
-      // } else if (row.type == 3) {
-      //   this.dialogFormVisible3 = true
-      //   this.dialogForm3 = row
-      // } else if (row.type == 4) {
-      //   this.dialogFormVisible4 = true
-      //   this.dialogForm4 = row
-      // } else if (row.type == 5) {
-      //   this.dialogFormVisible5 = true
-      //   this.dialogForm5 = row
-      // }
     },
     remove (index, row) {
       this.tableData.splice(index, 1)
