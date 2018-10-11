@@ -244,7 +244,7 @@ export default {
     }
   },
   created () {
-    axios.post('common/code/channel/list.json', {
+    axios.post('/api/c/common/code/channel/list.json', {
     })
     .then(res => {
       this.channelList = res.data.result
@@ -258,7 +258,13 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('operation-management/notice/list.json', {
+      if (!this.createTime) {
+        this.this.createTime = []
+      }
+      if (!this.sendTime) {
+        this.sendTime = []
+      }
+      axios.post('/api/c/operation-management/notice/list.json', {
         id: this.id,
         contents: this.contents,
         adminName: this.adminName,
@@ -290,7 +296,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('operation-management/notice/delete.json', {
+        axios.post('/api/c/operation-management/notice/delete.json', {
           ids: arrId
         })
         .then( response => {

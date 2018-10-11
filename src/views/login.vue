@@ -60,7 +60,7 @@ export default {
     onSubmit () {
       // 登录
       var _this = this
-      var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey}
+      var data = {username: this.name, password: this.pass, code: this.code, codeKey: this.codeKey, lastLoginIp: this.ip}
       // data = JSON.stringify(data)
       console.log('传参', data)
       memberLogin(data).then(res => {
@@ -70,12 +70,13 @@ export default {
           // _this.$store.dispatch('set_token', res.result)
           // console.log('token', this.$store.state.login.token)
           sessionStorage.setItem('dxzjjltoken', res.result)
+          // sessionStorage.setItem('dxzjjltoken', 'ee90b3e3874dda89ad643498112cc7ec')
           console.log('token', sessionStorage.getItem('dxzjjltoken'))
           console.log('rou', _this.url)
           if (_this.url !== undefined && _this.url !== '') {
             console.log('1111')
             _this.$router.push({ path: _this.url })
-            this.postData()
+            // this.postData()
             // _this.$router.back(-1)
           } else {
             console.log('2222')
@@ -95,7 +96,7 @@ export default {
             _this.$message('用户未登录')
           } else if (/system.member.login.fail/.test(res.message)) {
             _this.$message('用户登录密码错误')
-          }else {
+          } else {
             _this.$message(res.message)
           }
         }
@@ -131,13 +132,15 @@ export default {
     //   }
     //   console.log(this.identifyCode)
     // },
-    postData () {
+    geturl () {
       console.log('rou1', this.$router)
       console.log('rou', this.$router.history.current.query.redirect)
       this.url = this.$router.history.current.query.redirect
       if (/redirect=/.test(this.url)) {
         this.url = this.url.replace('?redirect=%2F', '')
       }
+    },
+    postData () {
       loginCode().then(res => {
         console.log('data', res)
         if (res.success) {
@@ -188,6 +191,7 @@ export default {
     }
   },
   mounted () {
+    this.geturl ()
     this.getip ()
     this.postData ()
     // this.identifyCode = ''

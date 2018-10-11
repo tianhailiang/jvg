@@ -148,7 +148,6 @@ export default {
   data () {
     return {
       formLabelWidth: '80px',
-      id: null,
       title: '',
       channelVal: null,
       channelList: [],

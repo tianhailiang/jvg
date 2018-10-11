@@ -157,7 +157,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
-                    <el-button type="primary" @click="onAPI">搜 索</el-button>
+                    <el-button size="small" type="primary" @click="onAPI">搜 索</el-button>
                 </el-col>
             </el-form>
             <p style="color: #fff;">———————————————————————————————</p>
@@ -293,6 +293,10 @@ export default {
     ondisable () {
       if (this.type === 1) {
         // 追加父节点
+        if (this.fuName.length > 8) {
+          this.$message('父节点的名称长度不能超过8个字符')
+          return false
+        }
         resourceCreate({'name': this.fuName,'description': this.fuExplain,'category': parseInt(this.region_category),'channel': parseInt(this.region_channel),'page': parseInt(this.region_page)}).then(res => {
           console.log('data', res)
           if (res.success) {
@@ -309,12 +313,16 @@ export default {
     },
     onSub_fu () { 
       // 更新父节点
+      if (this.fuName.length > 8) {
+        this.$message('父节点的名称长度不能超过8个字符')
+        return false
+      }
       var data = {'id': this.fuzhu,'description': this.fuExplain,'name': this.fuName}
       resourceUpdate(data).then(res => {
         console.log('data', res)
         if (res.success) {
           this.isDialogShow1 = false
-          window.location.reload()
+          // window.location.reload()
         } else {
           this.$message(res.message)          
         }
@@ -335,6 +343,10 @@ export default {
     },
     onDisable1 () {
       // 追加子节点
+      if (this.ziname.length > 8) {
+        this.$message('子节点的名称长度不能超过8个字符')
+        return false
+      }
       var apiid = []
       for (var i = 0;i < this.tableDatakzi.length;i++) {
         apiid.push({"'apiId'": this.tableDatakzi[i].id})
@@ -367,6 +379,10 @@ export default {
     },
     onDisable11 () {
       // 更新子节点
+      if (this.ziname.length > 8) {
+        this.$message('子节点的名称长度不能超过8个字符')
+        return false
+      }
       var apiid = []
       for (var i = 0;i < this.tableDatakzi.length;i++) {
         apiid.push({"'apiId'": this.tableDatakzi[i].id})
@@ -391,7 +407,7 @@ export default {
     },
     onAPI () {
       // 查询API列表
-      var data = {'name': this.namezi, 'source': 2, 'channel': 1}
+      var data = {'name': this.namezi, 'source': this.categoryzi, 'channel': this.channelzi}
       apiList(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -413,6 +429,7 @@ export default {
     },
     onAPIDel (id, index) {
       // 删除API
+      console.log('apiid', id)
       var data = {'allApi': [id]}
       apiDelete(data).then(res => {
         console.log('data', res)

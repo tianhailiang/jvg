@@ -40,7 +40,6 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="max-width:100%;width: 1035px"
       @selection-change="handleSelectionChange" border
       v-if="total > 0">
       <el-table-column
@@ -150,8 +149,14 @@ export default {
       infoTotal: 1
     }
   },
+  watch: {
+    dialogFormVisible (newVal, oldVal) {
+      if (this.dialogFormVisible) {
+        this.onSubmit()
+      }
+    }
+  },
   created () {
-    this.onSubmit()
   },
   methods: {
     handleClose (done) {
@@ -161,7 +166,7 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('operation-management/arrposid/article/list.json', {
+      axios.post('/api/c/operation-management/arrposid/article/list.json', {
         id: this.articleId,
         title: this.title,
         userType: this.userType,
@@ -183,12 +188,6 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
-    },
-    recommend (index, row) {
-      
-    },
-    batchRecommend () {
-
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)

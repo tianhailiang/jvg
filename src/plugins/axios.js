@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import axios from "axios"
 import qs from 'querystring'
+import router from '../router'
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
@@ -23,7 +24,7 @@ _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
     var loginT = true
-    setTimeout(() => {
+    setInterval(() => {
       loginT = false
     }, 1000 * 60 * 50)
     var dxzjjltoken = sessionStorage.getItem('dxzjjltoken')
@@ -72,7 +73,7 @@ _axios.interceptors.response.use(
         sessionStorage.setItem('dxzjjltoken', '')
         router.replace({
           path: '/',
-          query: {redirect: router.currentRoute.fullPath} // 登录成功后跳入浏览的当前页面
+          query: {redirect: router.currentRoute.path} // 登录成功后跳入浏览的当前页面
         })
         return false
       }

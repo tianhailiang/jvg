@@ -268,7 +268,7 @@ export default {
     ReportDetailDialog
   },
   created () {
-    axios.post('common/code/channel/list.json', {
+    axios.post('/api/c/common/code/channel/list.json', {
     })
     .then(res => {
       this.channelList = res.data.result
@@ -282,7 +282,13 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('operation-management/message-report/list.json', {
+      if (!this.reportTime) {
+        this.reportTime = []
+      }
+      if (!this.replyTime) {
+        this.replyTime = []
+      }
+      axios.post('/api/c/operation-management/message-report/list.json', {
         id: this.id,
         details: this.details,
         userName: this.userName,
@@ -317,7 +323,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('operation-management/message-report/delete.json', {
+        axios.post('/api/c/operation-management/message-report/delete.json', {
           idList: arrId
         })
         .then( response => {

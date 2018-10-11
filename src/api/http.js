@@ -11,8 +11,8 @@ import router from '../router'
 axios.interceptors.request.use(config => {
   // 在发送请求之前做某件事
   // const loginT = true
-    var loginT = true
-  setTimeout(() => {
+  var loginT = true
+  setInterval(() => {
     loginT = false
   }, 1000 * 60 * 50)
   var dxzjjltoken = sessionStorage.getItem('dxzjjltoken')
@@ -71,7 +71,7 @@ axios.interceptors.response.use((res) => {
       sessionStorage.setItem('dxzjjltoken', '')
       router.replace({
         path: '/',
-        query: {redirect: router.currentRoute.fullPath} // 登录成功后跳入浏览的当前页面
+        query: {redirect: router.currentRoute.path} // 登录成功后跳入浏览的当前页面
       })
       return false
     }

@@ -5,41 +5,33 @@
         </el-col>
         <el-form :inline="true" class="demo-form-inline" label-width="150px" size="mini">
               <el-form-item label="标签名称：" label-width="100px">
-                  <el-input placeholder="请输入标签ID"></el-input>
+                  <el-input placeholder="请输入标签名称" v-model="qu_name"></el-input>
               </el-form-item>
               <el-form-item label="语种：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="中文" :value="1" :key="1"></el-option>
-                      <el-option label="英语" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_yu_qu" @change="choose(region_yu_qu)" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_yu" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="频道：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="留学" :value="1" :key="1"></el-option>
-                      <el-option label="语培" :value="2" :key="2"></el-option>
+                  <el-select v-model="region_pin_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_pin" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="类别：" label-width="80px">
-                  <el-select v-model="region" placeholder="全部" style="width: 80px;">
-                      <el-option label="全部" :value="0" :key="0"></el-option>
-                      <el-option label="课程" :value="1" :key="1"></el-option>
-                      <el-option label="照片" :value="2" :key="2"></el-option>
-                      <el-option label="文章" :value="3" :key="3"></el-option>
-                      <el-option label="出版物" :value="4" :key="4"></el-option>
+                  <el-select v-model="region_bie_qu" placeholder="全部" style="width: 80px;">
+                      <el-option v-for="(item) in option_bie" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item>
                   <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">创建时间：</span>
-                  <el-date-picker type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
+                  <el-date-picker v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
               </el-form-item>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
               <el-button size="small" type="primary" @click="onDisableClik">新建关系</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData" stripe width="100%" border>
+            <el-table :data="tableData" stripe width="100%" border @selection-change="handleSelectionChange">
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
                 <el-table-column label="一级类目" align="center">
                     <template slot-scope="scope">
@@ -79,10 +71,11 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
             <el-button size="small" type="primary" @click="">批量删除</el-button>
@@ -99,7 +92,14 @@
                 <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
             </span>
         </el-dialog>
-
+        <!-- 批量删除窗口 -->
+        <el-dialog v-model="isDialogShow3" size="small" :visible.sync="isDialogShow3">
+            <p style="font-size: 30px;">请确认是否继续批量删除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow3 = false">取 消</el-button>
+                <el-button type="primary" @click="isDialogShow = false">确 定</el-button>
+            </span>
+        </el-dialog>
         <!-- 标签关系编辑 -->
         <el-dialog v-model="isDialogShow1" size="small" :visible.sync="isDialogShow1">
             <p class="personnel-title">标签关系编辑</p>
@@ -235,6 +235,7 @@ export default {
   data () {
     return {
       region: '',
+      region_yu_qu: '',
       region_yu: '',
       option_yu: [{
         value: '0',
@@ -246,6 +247,7 @@ export default {
         value: '2',
         label: '英文'
       }],
+      region_pin_qu: '',
       region_pin: '',
       option_pin: [],
       region_ye: '',
@@ -253,6 +255,7 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
+      isDialogShow3: false,
       isTabShow: false,
       isTabShow1: false,
       tableData: [],
@@ -265,10 +268,118 @@ export default {
       yeyu: '',
       yepin: '',
       yebiao: '',
-      yelei: ''
+      yelei: '',
+      qu_name: '',
+      region_bie_qu: '',
+      option_bie: [{
+        value: '0',
+        label: '全部'
+      }, {
+        value: '1',
+        label: '分类'
+      }, {
+        value: '2',
+        label: '热搜'
+      }, {
+        value: '3',
+        label: '能力标签'
+      }, {
+        value: '4',
+        label: '授课语言-地方语言'
+      }, {
+        value: '5',
+        label: '授课语言-民族语言'
+      }, {
+        value: '6',
+        label: '授课语言-国家语言'
+      }],
+      dataTime: '',
+      choosenItem: '',
+      pageNo: '',
+      multipleSelection: '',
+      allpi: []
     }
   },
   methods: {
+    choose (value) {
+      this.choosenItem = this.option_yu.filter(item => item.value === value)[0];
+      console.log('choose', this.choosenItem)
+    },
+    handleCurrentChange(val) {
+      // 分页监听
+      this.pageNo = val
+      this.onfen()
+    },
+    handleSelectionChange (val) {
+      // 表格监听
+      this.multipleSelection = val
+      console.log('val',val)
+    },
+    // onDelClick1 () {
+    //   // 批量删除弹窗
+    //   if (this.multipleSelection.length === 0) {
+    //     this.$message('请在列表勾选')  
+    //     return false
+    //   }
+    //   this.allpi = []
+    //   for (var i = 0;i < this.multipleSelection.length;i++) {
+    //     this.allpi.push(this.multipleSelection[i].id)
+    //   }
+    //   this.isDialogShow3 = true
+    // },
+    // onDel1 () {
+    //   // 批量删除接口
+    //   var data = {'id': this.allpi}
+    //   labelDelete(data).then(res => {
+    //     console.log('data', res)
+    //     if (res.success) {
+    //       this.isDialogShow3 = false
+    //       window.location.reload()
+    //     } else {
+    //       this.$message(res.message)
+    //     }
+    //   }).catch(error => {
+    //     console.log(`请求错误`)
+    //   })
+    // },
+    onfen () {
+      // 分页按钮
+      if (this.dataTime !== '') {
+        var data = {'name': this.qu_name, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'type': this.region_xing_qu, 'regFrom': this.dataTime[0] + ' 00:00:00', 'regTo': this.dataTime[1] + ' 00:00:00', 'pageNo': this.pageNo, 'pageSize': 20}
+      } else {
+        var data = {'name': this.qu_name, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'type': this.region_xing_qu, 'pageNo': this.pageNo, 'pageSize': 20}
+      }
+      labelRelationshipList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 查询按钮
+      if (this.dataTime !== '') {
+        var data = {'name': this.qu_name, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'type': this.region_xing_qu, 'regFrom': this.dataTime[0] + ' 00:00:00', 'regTo': this.dataTime[1] + ' 00:00:00'}
+      } else {
+        var data = {'name': this.qu_name, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'type': this.region_xing_qu}
+      }
+      labelRelationshipList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     onshowaddtow () {
       // 显示标签列表选择页
       this.isDialogShow2 = true

@@ -8,7 +8,7 @@
                   <el-input placeholder="请输入标签ID" v-model="qu_id"></el-input>
               </el-form-item>
               <el-form-item label="语种：" label-width="80px">
-                  <el-select v-model="region_yu_qu" placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region_yu_qu" @change="choose(region_yu_qu)" placeholder="全部" style="width: 80px;">
                       <el-option v-for="(item) in option_yu" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
@@ -18,7 +18,7 @@
                     </el-select>
               </el-form-item>
               <el-form-item label="类别：" label-width="80px">
-                  <el-select v-model="region_bie_qu" placeholder="全部" style="width: 80px;">
+                  <el-select v-model="region_bie_qu" @change="choose1(region_bie_qu)" placeholder="全部" style="width: 80px;">
                       <el-option v-for="(item) in option_bie" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
@@ -29,15 +29,15 @@
               </el-form-item>
                 <el-form-item>
                     <span style="width: 83px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">创建时间：</span>
-                    <el-date-picker  v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
+                    <el-date-picker v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
-              <el-button size="small" type="primary">搜索</el-button>
+              <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
               <el-button size="small" type="primary" @click="onEditClick('1')">新建</el-button>
               <el-button size="small" type="primary" @click="onDisableClik">排序</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
-            <el-table :data="tableData" stripe width="100%" border>
+            <el-table :data="tableData" stripe width="100%" border @selection-change="handleSelectionChange">
                 <el-table-column type="selection" label="全部" width="55"></el-table-column>
                 <el-table-column prop="id" label="标签ID" align="center"></el-table-column>
                 <el-table-column prop="signs" label="标签语种" align="center"></el-table-column>
@@ -76,13 +76,14 @@
         <el-col :span="11">
             <el-pagination background layout="prev, pager, next, jumper" 
             :total="total"
-            :page-size="20"></el-pagination>
+            :page-size="20"
+            @current-change="handleCurrentChange"></el-pagination>
         </el-col>
         <el-col :span="8">
-            <el-button size="small" type="primary">确定</el-button>
+            <el-button size="small" type="primary" @click="onfen">确定</el-button>
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <el-button size="small" type="primary" @click="onDelClick1">批量删除</el-button>
             <!-- <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button> -->
         </el-col>
         </el-row>
@@ -94,6 +95,14 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow = false">取 消</el-button>
                 <el-button type="primary" @click="onDel">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 批量删除窗口 -->
+        <el-dialog v-model="isDialogShow3" size="small" :visible.sync="isDialogShow3">
+            <p style="font-size: 30px;">请确认是否继续批量删除</p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="isDialogShow3 = false">取 消</el-button>
+                <el-button type="primary" @click="onDel1">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 标签排序 -->
@@ -257,6 +266,7 @@ export default {
       isDialogShow: false,
       isDialogShow1: false,
       isDialogShow2: false,
+      isDialogShow3: false,
       tableData: [],
       tableData1: [],
       laid: '',
@@ -331,12 +341,14 @@ export default {
       option_ye: [],
       region_addpin: '',
       option_addpin: [],
+      region_pin_qu: '',
       region_pin: '',
       option_pin: [],
       region_lei: '',
       option_lei: [],
       region_xing: '',
       choosenItem: [],
+      choosenItem1: [],
       region_addxing: '',
       data: {},
       addname: '',
@@ -347,13 +359,95 @@ export default {
       region_jibie: '',
       region_ping: '',
       qu_id: '',
-      dataTime: ''
+      dataTime: '',
+      pageNo: '',
+      multipleSelection: '',
+      allpi: []
     }
   },
   methods: {
     choose (value) {
       this.choosenItem = this.option_yu.filter(item => item.value === value)[0];
       console.log('choose', this.choosenItem)
+    },
+    choose1 (value) {
+      this.choosenItem1 = this.option_bie.filter(item => item.value === value)[0];
+      console.log('choose', this.choosenItem1)
+    },
+    handleCurrentChange(val) {
+      // 分页监听
+      this.pageNo = val
+      this.onfen()
+    },
+    handleSelectionChange (val) {
+      // 表格监听
+      this.multipleSelection = val
+      console.log('val',val)
+    },
+    onDelClick1 () {
+      // 批量删除弹窗
+      if (this.multipleSelection.length === 0) {
+        this.$message('请在列表勾选')  
+        return false
+      }
+      this.allpi = []
+      for (var i = 0;i < this.multipleSelection.length;i++) {
+        this.allpi.push(this.multipleSelection[i].id)
+      }
+      this.isDialogShow3 = true
+    },
+    onDel1 () {
+      // 批量删除接口
+      var data = {'id': this.allpi}
+      labelDelete(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.isDialogShow3 = false
+          window.location.reload()
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    onfen () {
+      // 分页按钮
+      if (this.dataTime !== '') {
+        var data = {'id': this.qu_id, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'classes': this.choosenItem1.label, 'type': this.region_xing_qu, 'regFrom': this.dataTime[0] + ' 00:00:00', 'regTo': this.dataTime[1] + ' 00:00:00', 'pageNo': this.pageNo, 'pageSize': 20}
+      } else {
+        var data = {'id': this.qu_id, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'classes': this.choosenItem1.label, 'type': this.region_xing_qu, 'pageNo': this.pageNo, 'pageSize': 20}
+      }
+      labelList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    queryClik () {
+      // 查询按钮
+      if (this.dataTime !== '') {
+        var data = {'id': this.qu_id, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'classes': this.choosenItem1.label, 'type': this.region_xing_qu, 'regFrom': this.dataTime[0] + ' 00:00:00', 'regTo': this.dataTime[1] + ' 00:00:00'}
+      } else {
+        var data = {'id': this.qu_id, 'signs': this.choosenItem.label, 'profession': this.region_pin_qu, 'classes': this.choosenItem1.label, 'type': this.region_xing_qu}
+      }
+      labelList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          this.tableData = res.result.modelData
+          this.total = res.result.total
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
     },
     onEditClick () {
       // 新建标签
@@ -470,6 +564,7 @@ export default {
       this.laid = id
     },
     onDel () {
+      // 删除接口
       var data = {'id': [this.laid]}
       labelDelete(data).then(res => {
         console.log('data', res)
