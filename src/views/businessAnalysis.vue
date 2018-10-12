@@ -94,38 +94,53 @@ export default {
           var type = []
           var count = []
           var totalPrice = []
-          for (var i = 0;i < data.length;i++) {
-            type.push(data[i].typeName)
-            count.push(data[i].count)
-            totalPrice.push(data[i].price)
-            if (data[i].type === 1002) {
-              this.chubanwu = data[i].type
-              this.tableData[0].chubanwu = data[i].count
-              this.tableData[1].chubanwu = data[i].price
-            } else if (data[i].type === 1003) {
-              this.dashang = data[i].type
-              this.tableData[0].dashang = data[i].count
-              this.tableData[1].dashang = data[i].price
-            } else if (data[i].type === 1001) {
-              this.kecheng = data[i].type
-              this.tableData[0].kecheng = data[i].count
-              this.tableData[1].kecheng = data[i].price
-            } else if (data[i].type === 1004) {
-              this.xuanshang = data[i].type
-              this.tableData[0].xuanshang = data[i].count
-              this.tableData[1].xuanshang = data[i].price
-            } else if (data[i].type === 1005) {
-              this.vip = data[i].type
-              this.tableData[0].vip = data[i].count
-              this.tableData[1].vip = data[i].price
-            } else if (data[i].type === 1006) {
-              this.liuxue = data[i].type
-              this.tableData[0].liuxue = data[i].count
-              this.tableData[1].liuxue = data[i].price
+          if (data.length > 0) {
+            for (var i = 0;i < data.length;i++) {
+              type.push(data[i].typeName)
+              count.push(data[i].count)
+              totalPrice.push(data[i].price)
+              if (data[i].type === 1002) {
+                this.chubanwu = data[i].type
+                this.tableData[0].chubanwu = data[i].count
+                this.tableData[1].chubanwu = data[i].price
+              } else if (data[i].type === 1003) {
+                this.dashang = data[i].type
+                this.tableData[0].dashang = data[i].count
+                this.tableData[1].dashang = data[i].price
+              } else if (data[i].type === 1001) {
+                this.kecheng = data[i].type
+                this.tableData[0].kecheng = data[i].count
+                this.tableData[1].kecheng = data[i].price
+              } else if (data[i].type === 1004) {
+                this.xuanshang = data[i].type
+                this.tableData[0].xuanshang = data[i].count
+                this.tableData[1].xuanshang = data[i].price
+              } else if (data[i].type === 1005) {
+                this.vip = data[i].type
+                this.tableData[0].vip = data[i].count
+                this.tableData[1].vip = data[i].price
+              } else if (data[i].type === 1006) {
+                this.liuxue = data[i].type
+                this.tableData[0].liuxue = data[i].count
+                this.tableData[1].liuxue = data[i].price
+              }
             }
-          }
-          if (data.length === 0) {
-            this.tableData = []
+          } else {
+            this.tableData = [{
+              kecheng: '',
+              chubanwu: '',
+              vip: '',
+              liuxue: '',
+              dashang: '',
+              xuanshang: ''
+            }, {
+              kecheng: '',
+              chubanwu: '',
+              vip: '',
+              liuxue: '',
+              dashang: '',
+              xuanshang: ''
+            }]
           }
           console.log('tab',this.tableData)
           this.$nextTick(function () {
