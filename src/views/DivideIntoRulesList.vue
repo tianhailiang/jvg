@@ -89,9 +89,15 @@
           width="55" align="center" fixed>
         </el-table-column>
         <el-table-column
-          prop="id"
           label="ID"
           width="120" align="center">
+          <template slot-scope="scope">
+            <el-button
+            size="mini"
+            @click="goDetail(scope.$index, scope.row)">
+              {{scope.row.id}}
+            </el-button>
+          </template>
         </el-table-column>
         <el-table-column
           prop="name"
@@ -153,16 +159,16 @@
           align="center" width="160"
           fixed="right">
           <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleEditor(scope.$index, scope.row)">
-                <template v-if="scope.row.status == 1">停用</template>
-                <template v-if="scope.row.status == 2">启用</template>
-              </el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete([scope.row.id])">删除</el-button>
+            <el-button
+              size="mini"
+              @click="handleEditor(scope.$index, scope.row)">
+              <template v-if="scope.row.status == 1">停用</template>
+              <template v-if="scope.row.status == 2">启用</template>
+            </el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete([scope.row.id])">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -323,9 +329,15 @@ export default {
       this.$router.push({name: 'divideIntoRulesDetailBuild'})
     },
     handleEditor (index, row) {
+      let status = null
+      if (row.status == 1) {
+        status = 2
+      } else if (row.status == 2) {
+        status = 1
+      }
       axios.post('/api/c/operation-management/extract-rule/set-status.json', {
         id: row.id,
-        status: row.status
+        status: status
       })
       .then( response => {
         if (response.data.code == 'OK') {
@@ -354,7 +366,7 @@ export default {
         type: 'warning'
       }).then(() => {
         axios.post('/api/c/operation-management/extract-rule/delete.json', {
-          id: arrId
+          ids: arrId
         })
         .then( response => {
           if (response.data.code == 'OK') {
@@ -405,6 +417,9 @@ export default {
     handleCurrentChange (val) {
       this.currentPage = val
       this.onSubmit()
+    },
+    goDetail (index, row) {
+      this.$router.push({name: 'divideIntoRulesDetail', params: {id: row.id}})
     }
   }
 }
