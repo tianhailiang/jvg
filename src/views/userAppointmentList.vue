@@ -54,7 +54,7 @@
         </el-form>
       </el-row>
       <!--  -->
-      <el-table :data="tabeldata" style="width: 100%" border size="medium"  v-loading="loading">
+      <el-table @selection-change="handleSelectionChange" :data="tabeldata" style="width: 100%" border size="medium"  v-loading="loading">
           <el-table-column type="selection" width="60" label="" align="center"></el-table-column>
           <el-table-column prop="title" width="160" label="活动名称" align="center"></el-table-column>
           <el-table-column prop="name" label="预约人" width="165" align="center"></el-table-column>
@@ -80,7 +80,7 @@
           @current-change="handleCurrentChange">
         </el-pagination>
         <el-button size="small" type="primary">确定</el-button>
-        <el-button size="small" type="primary" class="remove">批量删除</el-button>
+        <el-button size="small" type="primary" class="remove" @click="userBatchDeletion()">批量删除</el-button>
     </div>
     <!-- 回复用户预约弹窗 -->
     <el-dialog title="回复提示窗口" :visible.sync="dialogShow" width="30%">
@@ -129,7 +129,8 @@ export default {
       tabeldata: [],
       loading: false,
       pageNo: 1,
-      pageSize: 20
+      pageSize: 20,
+      multipleSelection: []
     }
   },
   created() {
@@ -143,6 +144,10 @@ export default {
     handleSizeChange(val) {
       this.pageSize = val
       console.log(`每页 ${this.pageSize} 条`)
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+      console.log(val)
     },
     searchUser() {
       this.loading = true
@@ -183,7 +188,21 @@ export default {
 
       })
     },
-    removeUser(index, row) {
+    userBatchDeletion() { //批量删除
+      let defaultObj = []
+      this.multipleSelection.forEach((item, index, array) => {
+        defaultObj.push(item.id)
+      })
+      removeUser({ids:defaultObj}).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.message
+        })
+      }).catch(error => {
+
+      })
+    },
+    removeUser(index, row) { //删除
       removeUser({
         ids: [row.id]
       }).then(res => {

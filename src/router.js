@@ -209,9 +209,9 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/courseComment.vue')
         },
         {
-          path: '/courseDetail', /* 课程详情 */
-          name: 'courseDetail',
-          component: () => import(/* webpackChunkName: "about" */ './views/courseDetail.vue')
+          path: '/courseDetailCopy', /* 课程详情（新建） */
+          name: 'courseDetailCopy',
+          component: () => import(/* webpackChunkName: "about" */ './views/courseDetailCopy.vue')
         },
         {
           path: '/courseDetail/:id', /* 课程详情 */
@@ -269,7 +269,12 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/couponList.vue')
         },
         {
-          path: '/couponDetails', /* 优惠券详情 */
+          path: '/couponDetailsCopy', /* 优惠券详情 */
+          name: 'couponDetailsCopy',
+          component: () => import(/* webpackChunkName: "about" */ './views/couponDetailsCopy.vue')
+        },
+        {
+          path: '/couponDetails/:id', /* 优惠券详情 */
           name: 'couponDetails',
           component: () => import(/* webpackChunkName: "about" */ './views/couponDetails.vue')
         },

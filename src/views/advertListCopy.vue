@@ -93,7 +93,7 @@
             </div>
         </el-form>
         </el-row>
-        <el-table :data="advertData" border v-loading="loading" element-loading-text="努力奔跑中...">
+        <el-table @selection-change="handleSelectionChange" :data="advertData" border v-loading="loading" element-loading-text="努力奔跑中...">
             <el-table-column type="selection" width="45"></el-table-column>
             <el-table-column prop="id" label="广告位ID" width="90" align="center">
               <template slot-scope="scope">
@@ -112,7 +112,7 @@
             <el-table-column prop="phone" label="购买人联系方式" width="80" align="center"></el-table-column>
             <el-table-column label="操作" show-overflow-tooltip align="center">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="danger" @click="advertFreezeCopy(scope.$index, scope.row)">冻结</el-button>
+                    <el-button size="mini" type="danger" @click="advertFreezeCopy(scope.$index, scope.row)" >冻结</el-button>
                     <el-button size="mini" type="danger" class="btn-default" @click="removeAdvertlist(scope.$index, scope.row)">删除</el-button>
                   </template>
                 </el-table-column>
@@ -120,7 +120,7 @@
         <!-- 分页 -->
         <el-row :gutter="20" v-if="advertData.length" style="margin:30px 0;">
             <el-col :span="11">
-              <el-pagination 
+              <el-pagination
               background 
               layout="total, sizes, prev, pager, next, jumper"
               :page-size="20"
@@ -134,8 +134,8 @@
                 <el-button size="small" type="primary">确定</el-button>
             </el-col>
             <el-col :span="5">
-                <el-button size="small" type="primary">批量删除</el-button>
-                <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
+                <el-button size="small" type="primary" @click="batchDeletAdvert()">批量删除</el-button>
+                <el-button size="small" type="primary" @click="batchfreezeAdvert()">批量冻结</el-button>
             </el-col>
         </el-row>
     </section>
@@ -190,6 +190,7 @@ export default {
         {value: '2', label: '留学首页'},
         {value: '3', label: '问答详情'}
       ],
+      multipleSelection: [],
       qudaovalData: [
         {value: '1', label: '全部'},
         {value: '2', label: 'APP'},
@@ -231,6 +232,39 @@ export default {
           type: 'info',
           message: '删除失败'
         });
+      })
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+      console.log(val)
+    },
+    batchDeletAdvert() { // 批量删除
+      let advertgroup = []
+      this.multipleSelection.forEach((items, index, array) => {
+        advertgroup.push(items.id)
+      })
+      removeAdvertlist({id:advertgroup}).then(res=>{
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        this.searchAdvertList()
+      }).catch(error => {
+
+      })
+    },
+    batchfreezeAdvert() { // 批量冻结
+      let freezegroup = []
+      this.multipleSelection.forEach((items, index, array) => {
+        freezegroup.push(items.id)
+      })
+      advertFreezeCopy({id:freezegroup}).then(res => {
+        this.$message({
+          type: 'success',
+          message: '冻结成功!'
+        })
+      }).catch(error => {
+
       })
     },
     advertFreezeCopy(index, rows) {

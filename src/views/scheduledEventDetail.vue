@@ -206,9 +206,11 @@ export default {
         // console.log(res)
         this.$message({
           type: 'success',
-          message: res.data.message
+          message: res.message
         })
-        // window.location.reload()
+        setTimeout(() => {
+          window.location.reload()
+        },200)
       }).catch(error => {
 
       })

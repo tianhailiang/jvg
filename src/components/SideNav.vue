@@ -94,7 +94,7 @@
       <el-submenu index="10-8">
         <template slot="title"><i class="el-icon-menu"></i>优惠券管理</template>
         <el-menu-item index="/couponList">优惠券列表</el-menu-item>
-        <el-menu-item index="/couponDetails">优惠券详情</el-menu-item>
+        <!-- <el-menu-item index="/couponDetails">优惠券详情</el-menu-item> -->
         <el-menu-item index="/couponReview">优惠券审核管理</el-menu-item>
       </el-submenu> 
       <el-submenu index="10-9">

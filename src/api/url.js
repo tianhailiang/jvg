@@ -770,7 +770,7 @@ export const advertreviewList = (parms) => {
 }
  //广告审核通过(不通过)
 export const passadvert = (parms) => {
-  return http.fetchPost('/api/c/advert/advertisement/auditing/notThrough.json' ,parms)
+  return http.fetchPost('/api/c/advert/advert/advertisement/auditing/through.json' ,parms)
 }
 //广告解冻/批量解冻
 export const advertThaw = (parms) => {

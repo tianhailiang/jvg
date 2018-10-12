@@ -55,7 +55,9 @@
             </el-col>
         </el-form>
       </el-row>
-      <el-table :data="tableData3" border v-loading="loading">
+      <el-table 
+      @selection-change="handleSelectionChange"
+      :data="tableData3" border v-loading="loading">
         <el-table-column type="selection" width="50" align="center"></el-table-column>
         <el-table-column width="135" label="栏目名称"  prop="helpCategoryName" align="center"></el-table-column>
         <el-table-column prop="title" label="问题内容" width="130" align="center"></el-table-column>
@@ -66,7 +68,7 @@
         <el-table-column prop="adminName" label="创建人" width="120" align="center"></el-table-column>
         <el-table-column label="操作" width="170" align="center">
           <template slot-scope="scope">
-              <el-button size="small" type="danger">删除</el-button>
+              <el-button size="small" type="danger" @click="removeOneAnswer(scope.$index, scope.row)">删除</el-button>
               <el-button size="small" type="danger" @click="openeditquestion(scope.$index, scope.row)">编辑</el-button>
           </template>
         </el-table-column>
@@ -96,17 +98,23 @@
       <el-dialog title="创建问题" :visible.sync="dialogFormVisible">
           <el-form size="small">
             <el-form-item label="栏目ID" :label-width="formLabelWidth">
-              <el-input :disabled="true"></el-input>
+              <el-input v-model="id" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="创建人" :label-width="formLabelWidth">
-                <el-input :disabled="true"></el-input>
+                <el-input v-model="adminName" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="创建时间" :label-width="formLabelWidth">
-                  <el-input :disabled="true"></el-input>
+                  <el-input v-model="createdFrom" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="栏目名称" :label-width="formLabelWidth">
-                  <el-select v-model="helpCategoryId">
+                  <!-- <el-select>
                       <el-option label="全部" :value="value"></el-option>
+                  </el-select> -->
+                  <el-select v-model="helpCategoryId">
+                      <el-option 
+                      :label="items.label"
+                      :value="items.value"
+                      v-for="(items, index) in helpCategory"></el-option>
                   </el-select>
               </el-form-item>
               <el-row :gutter="22">
@@ -209,6 +217,9 @@ export default {
         },
         loading: false,
         total: null,
+        createdFrom: '',
+        adminName:'',
+        id:'',
         tableData3: [],
         isShow: false,
         qudaodate: [
@@ -220,7 +231,12 @@ export default {
         details: '',
         channel:1,
         source:1,
-        helpCategoryId: 1,
+        helpCategoryId: '',
+        helpCategory: [
+          {value: '1',label: '全部'},
+          {value: '2',label: '栏目一'},
+          {value: '3',label: '栏目二'},
+        ],
         qudaoTwo: '',
         dialogFormVisible: false,
         formLabelWidth: '120px',
@@ -235,6 +251,7 @@ export default {
           {value: '5',label: '全部'}
         ],
         datahelp:[],
+        multipleSelection: [],
         qdData: [
           {value: '1',label: 'APP'},
           {value: '2',label: 'PC'},
@@ -291,9 +308,10 @@ export default {
     },
     addquestion() { //创建问题
       addquestion({
-        source: 0,
-        channel: 0,
-        helpCategoryId: 22,
+        id: 20,
+        source: this.source,
+        channel: this.channel,
+        helpCategoryId: this.helpCategoryId,
         title: this.title,
         details: this.details
       }).then(res => {
@@ -307,17 +325,39 @@ export default {
 
       })
     },
-    removequestion() { //批量删除
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    removeOneAnswer(index, row) { //单个删除
       removequestion({
-        idList: [33]
+        idList: [row.id]
       }).then(res => {
-        console.log(res)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        this.searchquestion()
+      }).catch(error => {
+        
+      })
+    },
+    removequestion() { //批量删除
+      let ids = []
+      this.multipleSelection.forEach((items, index, arrry) => {
+        ids.push(items.id)
+      })
+      removequestion({
+        idList: ids
+      }).then(res => {
         this.$message({
           type: 'success',
           message: '删除成功!'
         })
       }).catch(error => {
-
+        this.$message({
+          type: 'info',
+          message: '删除失败'
+        })
       })
     },
     sortquestion() { //排序
@@ -338,17 +378,20 @@ export default {
       this.title = row.title,
       this.details = row.details
       this.dialogFormVisible = true
+      this.id = row.id
     },
     editquestion() { // 编辑问题
       editquestion({
-        id: 1,
-        source: 1,
-        channel: 1,
+        id: this.id,
+        source: this.source,
+        channel: this.channel,
         helpCategoryId: 10,
         title: this.title,
         details: this.details
       }).then(res => {
-        console.log(res)
+        setTimeout(() => {
+          this.dialogFormVisible = false
+        },200)
       }).catch(error => {
 
       })

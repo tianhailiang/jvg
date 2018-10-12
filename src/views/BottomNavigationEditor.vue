@@ -3,7 +3,7 @@
     <div class="nav">
       底部导航编辑
     </div>
-    <el-form :model="formInline" style="border: 1px solid #dcdcdc">
+    <el-form :model="formInline" style="border: 1px solid #dcdcdc; margin-left:260px;">
       <h3 >固定位置设定</h3>
       <el-form-item label="底部logo设定：" class="logo" >
         <div class="upload-box" >

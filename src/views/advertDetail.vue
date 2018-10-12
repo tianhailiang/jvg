@@ -138,16 +138,14 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item>
-                    <el-input placeholder="图片"></el-input>
-                    <el-upload class="upload-demo" 
-                      action="https://jsonplaceholder.typicode.com/posts/">
-                      <el-button 
-                      size="small" 
-                      type="primary"
-                      :on-change="handleChange"
-                      :file-list="fileList3" 
-                      style="position:absolute;right:0;top:0;">点击上传</el-button>
-                    </el-upload>
+                    <img :src="FormData.url" />
+                    <el-upload class="upload-demo"
+                    :show-file-list="false"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :before-upload="beforeAvatarUpload"
+                    :on-success="handleAvatarSuccess">
+                    <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
+                  </el-upload>
                 </el-form-item>
                   <el-form-item>
                       <el-col :span="11">
@@ -252,14 +250,13 @@
                       </el-col>
                   </el-form-item>
                   <el-form-item>
-                      <el-input placeholder="图片"></el-input>
+                      <img :src="FormData.url" />
                       <el-upload class="upload-demo" 
-                        action="https://jsonplaceholder.typicode.com/posts/">
-                        <el-button 
-                        size="small" 
-                        type="primary"
-                        :on-change="handleChange"
-                        :file-list="fileList3" 
+                        :show-file-list="false"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :before-upload="beforeAvatarUpload"
+                        :on-success="handleAvatarSuccess">
+                        <el-button size="small" type="primary"
                         style="position:absolute;right:0;top:0;">点击上传</el-button>
                       </el-upload>
                   </el-form-item>
@@ -420,7 +417,7 @@ export default {
         phone: '',
         id: '',
         categorId: '',
-        url: '',
+        url: 'http://cdn6.jjl.cn/assets/img/logo_red-326a8e4bf5.png',
         price:'',
         priceType: '',
         sort: '',
@@ -452,8 +449,21 @@ export default {
     this.searchCommerDetail()
   },
   methods: {
-    handleChange(file, fileList) {
-      this.fileList3 = fileList.slice(-3)
+    handleAvatarSuccess(res, file) {
+      console.log(URL.createObjectURL(file.raw))
+      this.FormData.url = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     },
     addAdvertsubmit() { // 添加广告 
       addAdvertlist({

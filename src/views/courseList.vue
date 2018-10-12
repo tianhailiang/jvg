@@ -62,7 +62,7 @@
       </el-form>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="courseTableData" border v-loading="loading" element-loading-text="努力奔跑中...">
+    <el-table @selection-change="handleSelectionChange" :data="courseTableData" border v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="课程ID" width="65" align="center">
             <template slot-scope="scope">
@@ -82,7 +82,7 @@
         <el-table-column label="操作" show-overflow-tooltip align="center">
             <template slot-scope="scope">
                 <el-button size="mini" type="danger" @click="dialogVisible = true" class="btn-edit">冻结</el-button>
-                <el-button size="mini" type="danger" @click="removeCourse" class="btn-edit">删除</el-button>
+                <el-button size="mini" type="danger" @click="removeCourse(scope.$index, scope.row)" class="btn-edit">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -101,7 +101,7 @@
             <!-- <el-button size="small" type="primary">确定</el-button> -->
         </el-col>
         <el-col :span="5">
-            <el-button size="small" type="primary" @click="">批量删除</el-button>
+            <el-button size="small" type="primary" @click="batchDeletion()">批量删除</el-button>
             <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
         </el-col>
     </el-row>
@@ -171,6 +171,7 @@ export default {
         {label: '未开始' , value: '3'},
         {label: '已结束' , value: '4'}
       ],
+      multipleSelection: [],
       pageNo:0,
       pageSize: 20
     }
@@ -183,31 +184,49 @@ export default {
       this.pageNo = val
       this.searchData()
     },
-    removeCourse() {    //删除课程
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    removeCourse(index, row) {    //删除课程
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(res => {
-            removeCourseList({
-                ids: [36]
-            }).then( res => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                })
-                setTimeout(() => {
-                    window.location.reload()
-                },500)
-            }).catch(error => {
-                console.log(error)
-            })
+          removeCourseList({
+              ids: [row.id]
+          }).then( res => {
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              })
+              this.searchData()
+          }).catch(error => {
+              console.log(error)
+          })
         }).catch(erroe => {
             this.$message({
                 type: 'info',
                 message: '已取消删除'
             })
         })
+    },
+    batchDeletion(){
+      let defaularray = []
+      this.multipleSelection.forEach((item, index, arry) => {
+        defaularray.push(item.id)
+      })
+      removeCourseList({ids:defaularray}).then(res => {
+        this.$message({
+            type: 'success',
+            message: '删除成功!'
+        })
+      }).catch(error => {
+        this.$message({
+            type: 'info',
+            message: '已取消删除'
+        })
+      })
     },
     searchData() {
         this.loading = true
@@ -232,7 +251,7 @@ export default {
       })
     },
     createCourse() {
-      this.$router.push('courseDetail')
+      this.$router.push('courseDetailCopy')
     },
     jiedCourse() { // 冻结课程
       jdCourse({

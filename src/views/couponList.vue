@@ -94,11 +94,16 @@
     </el-row>
     <div class="search-plane">
         <el-button size="small" type="primary">搜索</el-button>
-        <el-button size="small" type="primary">创建优惠券</el-button>
+        <el-button size="small" type="primary" @click="createCoupon()">创建优惠券</el-button>
     </div>
     <!--  -->
-    <el-table :data="dataCoupon" style="width: 100%" border size="medium">
+    <el-table :data="dataCoupon" @selection-change="handleSelectionChange" style="width: 100%" border size="medium">
         <el-table-column prop="id" type="selection" width="50" label="" align="center"></el-table-column>
+        <el-table-column prop="id" width="90" label="优惠券Id" align="center">
+            <template slot-scope="scope">
+                <el-button size="small" @click="opencoupon(scope.$index, scope.row)">{{scope.row.id}}</el-button>
+            </template>
+        </el-table-column>
         <el-table-column prop="title" width="90" label="优惠券名称" align="center"></el-table-column>
         <el-table-column prop="priceRatio" width="90" label="优惠金额/比例" align="center"></el-table-column>
         <el-table-column prop="couponTime" label="有效期" width="140" align="center"></el-table-column>
@@ -118,11 +123,6 @@
     </el-table>
     <!-- 分页组件 -->
     <div class="row-container" style="margin:30px 0;">
-        <!-- <el-pagination 
-        background 
-        layout="prev, pager, next, jumper" 
-        :total="total"
-        :page-size="15"></el-pagination> -->
         <el-pagination background
         layout="total, sizes, prev, pager, next, jumper"
         :page-size="15"
@@ -133,7 +133,7 @@
         @current-change="handleCurrentChange">
       </el-pagination>
         <el-button size="small" type="primary">确定</el-button>
-        <el-button size="small" type="primary" class="remove">批量删除</el-button>
+        <el-button size="small" type="primary" class="remove" @click="batchDeletCoupon()">批量删除</el-button>
     </div>
     <!--  -->
     <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
@@ -212,6 +212,7 @@
           {value: '4', label: '全部'}
         ],
         dataCoupon:[],
+        multipleSelection: [],
         downMemo: '',
         id: '' ,
         dialogVisible: false,
@@ -233,14 +234,14 @@
       searchcouponList() {
         couponList({
           title: this.formgroup.title,
-          // productType:'',
-          // source: '',
-          // channel: '',
-          // issuer: '',
-          // userName:'',
-          // type:'',
-          // status:'',
-          // couponType: ,
+          productType: this.productType,
+          source: this.source,
+          channel: this.channel,
+          issuer: this.issuer,
+          userName: this.userName,
+          type:this.type,
+          status:this.status,
+          couponType: this.couponType,
           pageNo:this.pageNo,
           pageSize:this.pageSize
         }).then(res => {
@@ -253,6 +254,12 @@
         }).catch(error => {
 
         })
+      },
+      opencoupon(index, row) {
+        this.$router.push({ name: 'couponDetails', params: {id: row.id}})
+      },
+      createCoupon() {
+        this.$router.push({ path: 'couponDetailsCopy' })
       },
       removecouponList(index, row) {
         removecouponList({
@@ -268,6 +275,24 @@
             type: 'info',
             message: '删除失败'
           })
+        })
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+        console.log(val)
+      },
+      batchDeletCoupon() {
+        let defaultObj = []
+        this.multipleSelection.forEach((item, index, array) => {
+          defaultObj.push(item.id)
+        })
+        removecouponList({id:defaultObj}).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }).catch(error => {
+
         })
       },
       disableCoupon() {

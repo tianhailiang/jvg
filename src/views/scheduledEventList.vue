@@ -69,7 +69,7 @@
       </el-form>
     </el-row>
     <!--  -->
-    <el-table :data="tabeldata" style="width: 100%" border size="medium" v-loading="loading" element-loading-text="努力奔跑中...">
+    <el-table @selection-change="handleSelectionChange" :data="tabeldata" style="width: 100%" border size="medium" v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="60" label="" align="center"></el-table-column>
         <el-table-column prop="title" width="160" label="活动名称" align="center"></el-table-column>
         <el-table-column prop="startTime" label="活动开始时间" width="170" align="center"></el-table-column>
@@ -96,7 +96,7 @@
         @current-change="handleCurrentChange">
       </el-pagination>
         <el-button size="small" type="primary">确定</el-button>
-        <el-button size="small" type="primary" class="remove">批量删除</el-button>
+        <el-button size="small" type="primary" class="remove" @click="batchDeletionScheduled()">批量删除</el-button>
     </div>
   </section>
 </template>
@@ -132,6 +132,7 @@ export default {
         {value: '3',label: '已结束'}
       ],
       tabeldata: [],
+      multipleSelection: [],
       pageNo: 1,
       pageSize: 20
     }
@@ -142,10 +143,8 @@ export default {
   methods: {
     handleSizeChange(val) {
       this.pageSize = val
-
     },
     handleCurrentChange(val) {
-     
       this.pageNo = val
       this.searchreservation()
     },
@@ -167,6 +166,26 @@ export default {
         this.loading = false
       }).catch(error => {
 
+      })
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    batchDeletionScheduled() { //批量删除
+      let defaultarray = []
+      this.multipleSelection.forEach((item, index, array) => {
+        defaultarray.push(item.id)
+      })
+      removereservation({ids:defaultarray}).then(res => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(error => {
+        this.$message({
+            type: 'info',
+            message: '已取消删除'
+        })
       })
     },
     removereservation(index, row) {

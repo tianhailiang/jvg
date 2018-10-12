@@ -77,7 +77,7 @@
       <!--  -->
       <el-row :gutter="20">
         <el-col :span="14">
-          <section class="advert-detail_left" style="display:none;">
+          <section class="advert-detail_left">
             <h3 style="margin-bottom:20px;">默认广告设置</h3>
             <el-form label-width="80px" size="small">
                 <el-form-item label="创建时间">
@@ -104,37 +104,22 @@
                 <el-form-item label="轮播帧数">
                     <el-input v-model="dataForm.NumberOfFrameFrames"></el-input>
                 </el-form-item>
-              <div class="add-commpontent">
-                  <el-row>
-                  <el-col :span="13" style="padding-right:10px;">
-                      <el-form-item label="轮播帧数1">
-                          <el-input type="text" placeholder="URL"></el-input>
-                      </el-form-item>
-                  </el-col>
-                  <el-col :span="4">
-                      <el-input type="text" placeholder="人民币" size="small"></el-input>
-                  </el-col>
-                  </el-row>
-              </div>
-              <div class="add-commpontent">
-                  <el-row>
-                      <el-col :span="13" style="padding-right:10px;">
-                          <el-form-item label="">
-                              <el-button type="primary" icon="el-icon-plus" style="position:absolute;left:-76px;">添加</el-button>
-                              <el-input type="text" placeholder="URL"></el-input>
-                              <el-upload class="upload-demo upload-btn" action="">
-                                  <el-button size="small" type="primary">上传</el-button>
-                              </el-upload>
-                          </el-form-item>
-                      </el-col>
-                      <el-col :span="4">
-                          <el-input type="text" placeholder="美金" size="small"></el-input>
-                      </el-col>
-                  </el-row>
-              </div>
+                <!--  -->
+                <div class="commpont-group">
+                    <el-form-item v-for="(item, index) in formInline.variableList" :key="index" style="display: flex">
+                        <el-input type="text" placeholder="图片" size="small" v-model="item.tempUrl"></el-input>
+                        <el-upload class="upload-demo upload-btn" action="https://jsonplaceholder.typicode.com/posts/">
+                            <el-button size="small" type="primary">上传</el-button>
+                        </el-upload>
+                        <el-input type="text" placeholder="美元" size="small" v-model="item.dollarsPrice"></el-input>
+                        <el-input type="text" placeholder="URL" size="small" v-model="item.tempUrl"></el-input>
+                        <el-input type="text" placeholder="人民币" size="small" v-model="item.dollarsPrice"></el-input>
+                        <el-button type="primary" icon="el-icon-plus" @click="addNewTodo()">添加</el-button>
+                    </el-form-item>
+                </div>
             </el-form>
           </section>
-          <section class="advert-detail_left" >
+          <section class="advert-detail_left" style="display:none;">
               <h3 style="margin-bottom:20px;">默认广告设置</h3>
               <el-form label-width="80px" size="small">
                   <el-form-item label="创建时间">
@@ -161,36 +146,19 @@
                   <el-form-item label="位置数">
                       <el-input placeholder="5"></el-input>
                   </el-form-item>
-                <div class="commpont-group">
-                    <div class="add-commpontent">
-                      <el-row>
-                        <el-col :span="13" style="padding-right:10px;">
-                          <el-form-item label="第一条">
-                            <el-input type="text" placeholder="URL"></el-input>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="4">
-                            <el-input type="text" placeholder="人民币" size="small"></el-input>
-                        </el-col>
-                      </el-row>
-                    </div>
-                    <div class="add-commpontent">
-                        <el-row>
-                            <el-col :span="13" style="padding-right:10px;">
-                                <el-form-item label="">
-                                    <el-button type="primary" icon="el-icon-plus" style="position:absolute;left:-76px;">添加</el-button>
-                                    <el-input type="text" placeholder="URL"></el-input>
-                                    <el-upload class="upload-demo upload-btn" action="https://jsonplaceholder.typicode.com/posts/">
-                                        <el-button size="small" type="primary">上传</el-button>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="4">
-                                <el-input type="text" placeholder="美金" size="small"></el-input>
-                            </el-col>
-                        </el-row>
-                    </div>
-                </div>
+                  <!-- 添加 -->
+                  <div class="commpont-group">
+                    <el-form-item v-for="(item, index) in formInline.variableList" :key="index" style="display: flex">
+                        <el-input type="text" placeholder="图片" size="small" v-model="item.tempUrl"></el-input>
+                        <el-upload class="upload-demo upload-btn" action="https://jsonplaceholder.typicode.com/posts/">
+                            <el-button size="small" type="primary">上传</el-button>
+                        </el-upload>
+                        <el-input type="text" placeholder="美元" size="small" v-model="item.dollarsPrice"></el-input>
+                        <el-input type="text" placeholder="URL" size="small" v-model="item.tempUrl"></el-input>
+                        <el-input type="text" placeholder="人民币" size="small" v-model="item.dollarsPrice"></el-input>
+                        <el-button type="primary" icon="el-icon-plus" @click="addNewTodo()">添加</el-button>
+                    </el-form-item>
+                  </div>
               </el-form>
             </section>
           <section class="advert-detail_left" style="display:none;">
@@ -218,84 +186,35 @@
                           :value="item.value" v-for="(item, index) in adressData"></el-option>
                         </el-select>
                   </el-form-item>
+                  <!-- 添加 -->
                 <div class="commpont-group">
-                    <div class="add-commpontent">
-                        <el-row>
-                        <el-col :span="13" style="padding-right:10px;">
-                            <el-form-item label="第一条">
-                                <el-input type="text" placeholder="URL"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="4">
-                            <el-input type="text" placeholder="人民币" size="small"></el-input>
-                        </el-col>
-                        </el-row>
-                    </div>
-                    <div class="add-commpontent">
-                        <el-row>
-                            <el-col :span="13" style="padding-right:10px;">
-                                <el-form-item label="">
-                                    <el-button type="primary" icon="el-icon-plus" style="position:absolute;left:-76px;">添加</el-button>
-                                    <el-input type="text" placeholder="URL"></el-input>
-                                    <el-upload class="upload-demo upload-btn" action="https://jsonplaceholder.typicode.com/posts/">
-                                        <el-button size="small" type="primary">上传</el-button>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="4">
-                                <el-input type="text" placeholder="美金" size="small"></el-input>
-                            </el-col>
-                        </el-row>
-                    </div>
-                </div>
-                <div class="commpont-group">
-                    <div class="add-commpontent">
-                        <el-row>
-                        <el-col :span="13" style="padding-right:10px;">
-                            <el-form-item label="其他">
-                                <el-input type="text" placeholder="URL"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="4">
-                            <el-input type="text" placeholder="人民币" size="small"></el-input>
-                        </el-col>
-                        </el-row>
-                    </div>
-                    <div class="add-commpontent">
-                        <el-row>
-                            <el-col :span="13" style="padding-right:10px;">
-                                <el-form-item label="">
-                                    <el-button type="primary" icon="el-icon-plus" style="position:absolute;left:-76px;">添加</el-button>
-                                    <el-input type="text" placeholder="URL"></el-input>
-                                    <el-upload class="upload-demo upload-btn" action="https://jsonplaceholder.typicode.com/posts/">
-                                        <el-button size="small" type="primary">上传</el-button>
-                                    </el-upload>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="4">
-                                <el-input type="text" placeholder="美金" size="small"></el-input>
-                            </el-col>
-                        </el-row>
-                    </div>
+                    <el-form-item v-for="(item, index) in formInline.variableList" :key="index" style="display: flex">
+                        <el-input type="text" placeholder="图片" size="small" v-model="item.tempUrl"></el-input>
+                        <el-upload class="upload-demo upload-btn" action="https://jsonplaceholder.typicode.com/posts/">
+                            <el-button size="small" type="primary">上传</el-button>
+                        </el-upload>
+                        <el-input type="text" placeholder="美元" size="small" v-model="item.dollarsPrice"></el-input>
+                        <el-input type="text" placeholder="URL" size="small" v-model="item.tempUrl"></el-input>
+                        <el-input type="text" placeholder="人民币" size="small" v-model="item.dollarsPrice"></el-input>
+                        <el-button type="primary" icon="el-icon-plus" @click="addNewTodo()">添加</el-button>
+                    </el-form-item>
                 </div>
               </el-form>
             </section>
         </el-col>
         <el-col :span="6">
+          <!-- 图片上传区域 -->
           <section class="advert-detail_right" style="position:relative;">
             <h3 style="margin-bottom:20px;">广告位模板</h3>
-            <!-- <el-button size="medium" type="primary" class="add-upload">上传广告位模板</el-button> -->
-            <el-upload _style="position:absolute;top:46px;right:52px;"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
+            <el-upload
+            :show-file-list="false"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :before-upload="beforeAvatarUpload"
+            :on-success="handleAvatarSuccess">
+            <el-button size="medium" type="primary" class="add-upload">上传广告位模板</el-button>
             </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="">
-              </el-dialog>
-            <img :src="dataForm.adsImg" alt="" height="350" width="400">
+            <img :src="tempUrl" alt="">
+            <img :src="dataForm.adsImg" alt="" height="350" width="400" v-if="isshow = false">
           </section>
         </el-col>
       </el-row>
@@ -341,14 +260,22 @@ export default {
         channel:'',
         source:''
       },
+      formInline:{
+        variableList:[{
+          dollarsPrice: '',
+          tempUrl: ''
+        }]
+      },
       type: '',
+      channel : '',
+      tempUrl: 'http://cdn6.jjl.cn/assets/img/logo_red-326a8e4bf5.png',
+      advert: '',
       adressdata:[
         {label: '固定', value: '1'},
         {label: '类目', value: '2'},
         {label: '列表', value: '3'},
         {label: '全部', value: '4'}
       ],
-      channel : '',
       yewuData: [
         {label: '留学', value: '1'},
         {label: '语培', value: '2'},
@@ -356,7 +283,6 @@ export default {
         {label: '移民', value: '4'},
         {label: '全部', value: '5'}
       ],
-      advert: '',
       advertData: [
         {value: '1', label: '全部'},
         {value: '2', label: '冻结'},
@@ -451,14 +377,27 @@ export default {
 
       })
     },
-    handleRemove(file, fileList) {
-        console.log(file, fileList)
+    handleAvatarSuccess(res, file) {
+      console.log(URL.createObjectURL(file.raw))
+      this.tempUrl = URL.createObjectURL(file.raw)
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      
-      this.dialogVisible = true
-    }
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M;
+    },
+    addNewTodo() {
+      this.formInline.variableList.push({
+        dollarsPrice: '',
+        tempUrl: ''
+      })
+    },
   }
 }
 </script>

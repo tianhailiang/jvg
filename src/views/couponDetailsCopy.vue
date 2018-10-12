@@ -244,7 +244,7 @@
         coupon: {
           title: '',
           id: '',
-          number: 0,
+          number: '',
           sourceVal: '',
           channelName: '',
           couponTypeVal: '',
@@ -292,8 +292,8 @@
       }
     },
     created() {
-
-      this.searchgoodDetail()
+      // this.addCoupon()
+      // this.searchgoodDetail()
     },
     methods: {
       onSubmit() {
@@ -334,25 +334,25 @@
       addCoupon() {
         addCoupon({
             title:this.coupon.title,
-            source:1,
-            channel:1,
-            couponType:1,
+            source:this.coupon.source,
+            channel:this.coupon.channel,
+            couponType:this.couponType,
             fullPrice:this.coupon.fullPrice,
             // dollarsFullPrice:this.coupon.dollarsFullPrice,
             courseIds:1,
             price:this.coupon.price,
             dollarsPrice:this.coupon.dollarsPrice,
             ratio:0.5,
-            issuer:1,
+            issuer:this.coupon.issuer,
             number:this.coupon.number,
-            useNumber:200,
+            useNumber:this.coupon.useNumber,
             productType:1,
             productData:[
-                {
-                    productId:1,
-                    productName:'商品A',
-                    productPrice:200
-                }
+              {
+                productId:this.productId,
+                productName:this.productName,
+                productPrice: this.productPrice
+              }
             ]
         }).then(res => {
           console.log(res)
@@ -374,31 +374,6 @@
 
         })
       },
-      searchgoodDetail() {
-        const DEFAULT = this.$route.params.id
-        console.log(DEFAULT)
-        this.coupon.id = DEFAULT
-
-        searchgoodDetail({
-          id: DEFAULT
-        }).then(res => {
-          console.log(res)
-          this.coupon.title = res.result.title,
-          this.coupon.id = res.result.id,
-          this.number = res.result.number,
-          this.coupon.sourceVal = res.result.sourceVal,
-          this.coupon.channelName = res.result.channelName,
-          this.coupon.couponTypeVal = res.result.couponTypeVal,
-          this.coupon.issuerVal = res.result.issuerVal,
-          this.coupon.userName = res.result.userName,
-          this.coupon.useNumber = res.result.useNumber,
-          this.coupon.price = res.result.price,
-          this.coupon.dollarsPrice = res.result.dollarsPrice,
-          this.dataCounpon = res.result.productData
-        }).catch(error => {
-          console.log(`请求出现错误`)
-        })
-      }
     }
   }
 </script>

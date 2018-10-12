@@ -3,14 +3,20 @@
     <h3 >帮助栏目列表</h3>
     <el-row :gutter="20">
       <el-form label-width="100px" class="demo-ruleForm" size="small">
-          <el-col :span="6"><div class="grid-content bg-purple">
+          <el-col :span="6">
+            <div class="grid-content bg-purple">
               <el-form-item label="栏目名称">
                   <el-input type="text" v-model="helpData.name"></el-input>
-              </el-form-item></div></el-col>
-          <el-col :span="6"><div class="grid-content bg-purple">
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="grid-content bg-purple">
               <el-form-item label="创建人">
                   <el-input type="text" v-model="helpData.adminName"></el-input>
-              </el-form-item></div></el-col></div></el-col>
+              </el-form-item>
+            </div>
+          </el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
             <el-form-item label="所属频道" >
                 <el-select v-model="helpData.channel">
@@ -33,11 +39,11 @@
           </div></el-col>
           <el-col :span="20">
               <el-form-item label="创建时间">
-                  <el-col :span="5">
+                  <el-col :span="6">
                     <el-date-picker type="datetime" v-model="helpData.createdFrom" placeholder="开始时间" style="width: 100%;"></el-date-picker>
                   </el-col>
                   <el-col class="line" :span="2">-</el-col>
-                  <el-col :span="5">
+                  <el-col :span="6">
                     <el-date-picker type="datetime" v-model="helpData.createdTo" placeholder="结束时间" style="width: 100%;"></el-date-picker>
                   </el-col>
                   <div class="btn-group">
@@ -48,7 +54,7 @@
           </el-col>
       </el-form>
     </el-row>
-    <el-table :data="tableData3" border v-loading="loading">
+    <el-table :data="tableData3" border v-loading="loading" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center"></el-table-column>
       <el-table-column label="栏目名称" width="175" prop="name" align="center"></el-table-column>
       <el-table-column prop="source" label="渠道" width="175" align="center"></el-table-column>
@@ -57,7 +63,7 @@
       <el-table-column prop="adminName" label="创建人" width="175" align="center"></el-table-column>
       <el-table-column label="操作" width="170" align="center">
         <template slot-scope="scope">
-            <el-button size="small" type="danger" @click="removeMore()">删除</el-button>
+            <el-button size="small" type="danger" @click="removeMore(scope.$index, scope.row)">删除</el-button>
             <el-button size="small" type="danger" @click="openedithelp(scope.$index, scope.row)">编辑</el-button>
         </template>
       </el-table-column>
@@ -86,13 +92,13 @@
     <el-dialog title="创建栏目" :visible.sync="dialogFormVisible">
         <el-form size="small">
           <el-form-item label="栏目ID" :label-width="formLabelWidth">
-            <el-input auto-complete="off" :disabled="true"></el-input>
+            <el-input :disabled="true" v-model="id"></el-input>
           </el-form-item>
           <el-form-item label="创建人" :label-width="formLabelWidth">
-              <el-input auto-complete="off" :disabled="true"></el-input>
+              <el-input :disabled="true" v-model="adminName"></el-input>
             </el-form-item>
             <el-form-item label="创建时间" :label-width="formLabelWidth">
-                <el-input auto-complete="off" :disabled="true"></el-input>
+                <el-input :disabled="true" v-model="createdAt"></el-input>
             </el-form-item>
             <el-form-item label="栏目名称" :label-width="formLabelWidth">
                 <el-input v-model="name"></el-input>
@@ -105,7 +111,7 @@
                           v-for="(items, index) in qdData" 
                           :key=index
                           :label="items.label"
-                          :value="items.label">
+                          :value="items.value">
                         </el-option>
                       </el-select>
                   </el-form-item>
@@ -133,12 +139,12 @@
             <el-row :gutter="22">
               <el-col :span="9"><div class="grid-content bg-purple-dark">
                   <el-form-item label="渠道">
-                      <el-select placeholder="" v-model="source">
+                      <el-select v-model="source">
                         <el-option 
                           v-for="(items, index) in qdData" 
                           :key=index
                           :label="items.label"
-                          :value="items.label">
+                          :value="items.value">
                         </el-option>
                       </el-select>
                   </el-form-item>
@@ -175,31 +181,35 @@
           {name: '测试demo'}
         ],
         qdData: [
-          {value: '1',label: 'APP'},
-          {value: '2',label: 'PC'},
-          {value: '3',label: 'WAP'},
-          {value: '4',label: '全部'}
+          {value: '1', label: 'APP'},
+          {value: '2', label: 'PC'},
+          {value: '3', label: 'WAP'},
+          {value: '4', label: '全部'}
         ],
         helpData: {
           name: '',
-          source:1,
-          channel:1,
+          source:this.source,
+          channel:this.channel,
           type:1,
           createdFrom:'',
           createdTo:'',
           adminName: '',
         },
+        id:'',
+        adminName: '',
+        createdAt: '',
         dialogFormVisible: false,
         isShow: false,
         formLabelWidth: '120px',
         name: '',
-        source:1,
-        channel:1,
+        source:this.source,
+        channel:this.channel,
         type:1,
         loading: false,
         total: null,
         pageSize: 20,
         pageNo: 0,
+        multipleSelection: [],
         qudaodate: [
           {value: '1',label: 'APP'},
           {value: '2',label: 'PC'},
@@ -238,6 +248,7 @@
           pageSize: this.pageSize
         }
         searchHelp(objectData).then(res => {
+          console.log(res)
           this.tableData3 = res.result.modelData
           this.total = res.result.total
           this.$message({
@@ -247,6 +258,9 @@
         }).catch(error => {
 
         })
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
       },
       addHelpCenter() {
         let objectData = {
@@ -266,25 +280,37 @@
 
         })
       },
-      removeHelpCenter() {
-        removeHelpCenter({idList: [2]}).then(res => {
+      removeHelpCenter() { //批量删除
+        let defaultArray = []
+        this.multipleSelection.forEach((items, index, array) => {
+          defaultArray.push(items.id)
+        })
+        removeHelpCenter({idList: defaultArray}).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.searchHelp()
+        }).catch(error => {
+          this.$message({
+            type: 'info',
+            message: '删除失败'
+          })
+        })
+      },
+      removeMore(index, row) {
+        removeMore({ids:[row.id]}).then(res => {
           console.log(res)
           this.$message({
             type: 'success',
             message: '删除成功!'
           })
         }).catch(error => {
-          console.log(error)
-        })
-      },
-      removeMore() {
-        removeMore().then(res => {
-          console.log(res)
           this.$message({
-            type: 'success',
-            message: '删除成功!'
+            type: 'info',
+            message: '删除失败'
           })
-        }).catch(error => {})
+        })
       },
       sorthelp() { //排序
         sorthelp({
@@ -298,7 +324,9 @@
       },
       openedithelp(index, row) { //编辑
         this.dialogFormVisible = true
-        this.name = row.name
+        this.id = row.id
+        this.adminName = row.adminName
+        this.createdAt = row.createdAt
       },
       edithelp() { //编辑
         let objectData = {
@@ -310,6 +338,7 @@
           languages: 'zh'
         }
         edithelp(objectData).then(res => {
+          console.log(res)
           this.dialogFormVisible = false
           this.name = ''
           this.channel = 1,

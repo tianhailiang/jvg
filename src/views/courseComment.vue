@@ -38,9 +38,7 @@
     <el-table :data=courseComentTabel border v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column prop="date" label="NO" width="80" align="center" type="index">
             <template slot-scope="scope">
-                    <el-button
-                    size="mini"
-                    @click="handleShow()">{{scope.$index + 1}}</el-button>
+              <el-button size="mini" @click="handleShow(scope.$index, scope.row)">{{scope.row.userId}}</el-button>
             </template>
         </el-table-column>
         <el-table-column prop="id" label="课程ID" width="80" align="center"></el-table-column>
@@ -72,22 +70,22 @@
           <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
             <el-col :span="6">
                 <el-form-item label="课程ID">
-                    <el-input type="text" v-model="copyId" :disabled="true"></el-input>
+                    <el-input type="text" v-model="id" :disabled="true"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="6">
                 <el-form-item label="课程标题">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" :disabled="true" v-model="title"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="6">
                 <el-form-item label="讲师名称">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" :disabled="true" v-model="realName"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="6">
                 <el-form-item label="好评度">
-                    <el-input type="text" :disabled="true"></el-input>
+                    <el-input type="text" :disabled="true" v-model="raveDegree"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -197,6 +195,7 @@ export default {
         title: '',
         realName: '',
         raveFrom: '',
+        raveDegree: '',
         raveTo: '',
         CourseDetailData: [],
         courseId: '',
@@ -217,11 +216,6 @@ export default {
   },
   created() {
     // this.getCourseComent ()
-  },
-  computed: {
-    copyId () {
-        return this.courseId = this.id
-    }
   },
   methods: {
     handleCurrentChange(val) {
@@ -290,6 +284,10 @@ export default {
         }
     },
     handleShow(index, row) {
+        this.id = row.id
+        this.title = row.title
+        this.raveDegree = row.raveDegree
+        this.realName = row.realName
         this.formVisible = true
     }
   }

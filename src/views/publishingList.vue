@@ -92,7 +92,7 @@
               ></el-pagination>
           </el-col>
           <el-col :span="5">
-              <el-button size="small" type="primary" @click="clearAll">批量删除</el-button>
+              <el-button size="small" type="primary" @click="clearAll()">批量删除</el-button>
               <el-button size="small" type="primary" @click="dialogVisible = true">批量冻结</el-button>
           </el-col>
       </el-row>
@@ -187,10 +187,9 @@ export default {
         removePublish({
             ids:[row.id]
         }).then(res => {
-            // console.log(res)
             this.$message({
-                type: 'success',
-                message: '删除成功'
+              type: 'success',
+               message: '删除成功'
             })
         }).catch(error => {
             console.log(`请求出错啦`)
@@ -216,10 +215,24 @@ export default {
     },
     handleSelectionChange (val) {
         this.multipleSelection = val
+        console.log(val)
     },
     clearAll () {
-      this.multipleSelection.forEach((el) => {
-        
+      let defaultVal = []
+      this.multipleSelection.forEach((items, index, array) => {
+        defaultVal.push(items.id)
+      })
+      removePublish({ids:defaultVal}).then(res => {
+        this.$message({
+          type: 'success',
+          message: '删除成功'
+        })
+        this.getOrderdata()
+      }).catch(error => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
     getOrderdata() {

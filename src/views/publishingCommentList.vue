@@ -33,9 +33,9 @@
       </el-row>
       <!-- 表格 -->
       <el-table :data="tableData3" border v-loading="loading" element-loading-text="努力奔跑中...">
-          <el-table-column type="selection"width="55" align="center">
+          <el-table-column type="selection"width="58" align="center">
             <template slot-scope="scope">
-                <el-button size="mini" @click="openDeatail()">{{scope.$index + 1}}</el-button>
+                <el-button size="mini" @click="openDeatail(scope.$index, scope.row)">{{scope.row.userId}}</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="id" label="出版物ID" align="center" width="80"></el-table-column>
@@ -61,109 +61,107 @@
       </div>
         <!-- 弹窗 -->
         <el-dialog title="出版物评论详情" :visible.sync="formVisible">
-                    <el-row :gutter="20">
-                        <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
-                            <el-col :span="6">
-                                <el-form-item label="出版物ID">
-                                    <el-input type="text" :disabled="true" v-model="id"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-form-item label="讲师名称">
-                                    <el-input type="text" :disabled="true"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6" class="publish-name">
-                                <el-form-item label="出版物名称">
-                                    <el-input type="text" :disabled="true"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-form-item label="好评度">
-                                    <el-input type="text" :disabled="true"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-form>
-                    </el-row>
-                    <el-row :gutter="20">
-                            <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
-                                <el-col :span="6">
-                                    <el-form-item label="评论内容">
-                                        <el-input type="text"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                    <el-form-item label="评论人">
-                                        <el-input type="text"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                    <el-form-item label="评论ID">
-                                        <el-input type="text"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                    <el-form-item label="评论时间">
-                                        <el-input type="text"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                    <el-form-item label="回复内容">
-                                        <el-input type="text"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                    <el-form-item label="回复时间">
-                                        <el-input type="text"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="6">
-                                    <el-form-item label="评论类型">
-                                      <el-select v-model="value" placeholder="全部">
-                                        <el-option 
-                                        v-for="(item, index) in comment" 
-                                        :label="item.label" 
-                                        :value="item.value" 
-                                        :key="index"></el-option>
-                                      </el-select>
-                                    </el-form-item>
-                                </el-col>
-                            <el-button size="small" type="primary" style="margin-top:25px;" @click="getreviewDetail()">搜索</el-button>
-                            <div class="comment-total">
-                                <span>评论总数：<span class="comment-num">1000个</span></span>
-                            </div>
-                        </el-form>
-                    </el-row>
-                    <!--  -->
-                    <el-table :data="tableData4" border>
-                        <el-table-column type="selection" width="45"></el-table-column>
-                        <el-table-column prop="commentId" label="评论ID" width="105" align="center"></el-table-column>
-                        <el-table-column prop="details" label="评论内容" width="105" align="center"></el-table-column>
-                        <el-table-column prop="userName" label="评论人" width="100" align="center"></el-table-column>
-                        <el-table-column prop="createdAt" label="评论时间" width="100" align="center"></el-table-column>
-                        <el-table-column prop="source" label="评论渠道" width="100" align="center"></el-table-column>
-                        <el-table-column prop="replyDetails" label="回复内容" width="105" align="center"></el-table-column>
-                        <el-table-column prop="replyCreatedAt" label="回复时间" width="105" align="center"></el-table-column>
-                        <el-table-column prop="replySourceValue" label="回复渠道" width="105" align="center"></el-table-column>
-                        <el-table-column prop="numValue" label="评论类型" width="105" align="center"></el-table-column>
-                        <el-table-column label="操作" show-overflow-tooltip>
-                            <template slot-scope="scope">
-                            <el-button size="small" type="danger" @click="removePublishing()">删除</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <!--  -->
-            <el-row :gutter="20" style="margin-top:20px;" v-if="tableData4.length">
-                <el-col :span="11">
-                  <el-pagination
-                  background 
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :page-size="20"
-                  :total="total"></el-pagination>
-                </el-col>
-              <el-col :span="7"><el-button size="small" type="primary">确定</el-button></el-col>
-              <el-col :span="5"><el-button size="small" type="primary">批量删除</el-button></el-col>
-            </el-row>
+              <el-row :gutter="20">
+                  <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
+                      <el-col :span="6">
+                          <el-form-item label="出版物ID">
+                              <el-input type="text" :disabled="true" v-model="id"></el-input>
+                          </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                          <el-form-item label="讲师名称">
+                              <el-input type="text" :disabled="true" v-model="realName"></el-input>
+                          </el-form-item>
+                      </el-col>
+                      <el-col :span="6" class="publish-name">
+                          <el-form-item label="出版物名称">
+                              <el-input type="text" :disabled="true" v-model="title"></el-input>
+                          </el-form-item>
+                      </el-col>
+                      <el-col :span="6">
+                          <el-form-item label="好评度">
+                              <el-input type="text" :disabled="true" v-model="raveDegree"></el-input>
+                          </el-form-item>
+                      </el-col>
+                  </el-form>
+              </el-row>
+              <el-row :gutter="20">
+                      <el-form :inline="true" class="demo-form-inline" label-width="80px" size="small">
+                          <el-col :span="6">
+                              <el-form-item label="评论内容">
+                                  <el-input type="text"></el-input>
+                              </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                              <el-form-item label="评论人">
+                                  <el-input type="text"></el-input>
+                              </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                              <el-form-item label="评论ID">
+                                  <el-input type="text"></el-input>
+                              </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                              <el-form-item label="评论时间">
+                                  <el-input type="text"></el-input>
+                              </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                              <el-form-item label="回复内容">
+                                  <el-input type="text"></el-input>
+                              </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                              <el-form-item label="回复时间">
+                                  <el-input type="text"></el-input>
+                              </el-form-item>
+                          </el-col>
+                          <el-col :span="6">
+                              <el-form-item label="评论类型">
+                                <el-select v-model="value" placeholder="全部">
+                                  <el-option 
+                                  v-for="(item, index) in comment" 
+                                  :label="item.label" 
+                                  :value="item.value" 
+                                  :key="index"></el-option>
+                                </el-select>
+                              </el-form-item>
+                          </el-col>
+                      <el-button size="small" type="primary" style="margin-top:25px;" @click="getreviewDetail()">搜索</el-button>
+                      <div class="comment-total">
+                          <span>评论总数：<span class="comment-num">1000个</span></span>
+                      </div>
+                  </el-form>
+              </el-row>
+              <el-table :data="tableData4" border>
+                  <el-table-column type="selection" width="45"></el-table-column>
+                  <el-table-column prop="commentId" label="评论ID" width="105" align="center"></el-table-column>
+                  <el-table-column prop="details" label="评论内容" width="105" align="center"></el-table-column>
+                  <el-table-column prop="userName" label="评论人" width="100" align="center"></el-table-column>
+                  <el-table-column prop="createdAt" label="评论时间" width="100" align="center"></el-table-column>
+                  <el-table-column prop="source" label="评论渠道" width="100" align="center"></el-table-column>
+                  <el-table-column prop="replyDetails" label="回复内容" width="105" align="center"></el-table-column>
+                  <el-table-column prop="replyCreatedAt" label="回复时间" width="105" align="center"></el-table-column>
+                  <el-table-column prop="replySourceValue" label="回复渠道" width="105" align="center"></el-table-column>
+                  <el-table-column prop="numValue" label="评论类型" width="105" align="center"></el-table-column>
+                  <el-table-column label="操作" show-overflow-tooltip>
+                      <template slot-scope="scope">
+                      <el-button size="small" type="danger" @click="removePublishing()">删除</el-button>
+                      </template>
+                  </el-table-column>
+              </el-table>
+              <el-row :gutter="20" style="margin-top:20px;" v-if="tableData4.length">
+                  <el-col :span="11">
+                    <el-pagination
+                    background 
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :page-size="20"
+                    :total="total"></el-pagination>
+                  </el-col>
+                <el-col :span="7"><el-button size="small" type="primary">确定</el-button></el-col>
+                <el-col :span="5"><el-button size="small" type="primary">批量删除</el-button></el-col>
+              </el-row>
         </el-dialog>
     </section>
   </template>
@@ -185,6 +183,7 @@ export default {
         {value: '3',label: '差评'}
       ],
       tableData4: [],
+      raveDegree:'',
       formVisible: false,
       id: '',
       title: '',
@@ -225,8 +224,9 @@ export default {
       })
   },
   getreviewDetail() {
-      reviewDetail({goodsId: this.id}).then(res => {
-          // console.log(res.data.result)
+      reviewDetail({goodsId: this.id})
+      .then(res => {
+          console.log(res)
           this.tableData4 = res.result.commentList
       }).catch(error => {
           console.log(`请求出错啦`)
@@ -241,8 +241,12 @@ export default {
           console.log(`请求出错啦`)
       })
   },
-    openDeatail() {
+    openDeatail(index, row) {
         this.formVisible = true
+        this.id = row.id
+        this.raveDegree = row.raveDegree
+        this.realName = row.realName
+        this.title = row.title
     },
     handleSizeChange(val) {
       this.pageSize = val

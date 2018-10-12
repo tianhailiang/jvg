@@ -92,7 +92,7 @@
     </el-form>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="tabeladvert" border v-loading="loading">
+    <el-table :data="tabeladvert" @selection-change="handleSelectionChange" border v-loading="loading">
       <el-table-column type="selection" width="66"></el-table-column>
       <el-table-column prop="id" label="广告ID" width="65" align="center"></el-table-column>
       <el-table-column prop="name" label="广告名称" width="110" align="center"></el-table-column>
@@ -130,8 +130,8 @@
           <el-button size="small" type="primary">确定</el-button>
       </el-col>
       <el-col :span="6">
-          <el-button size="small" type="primary">批量删除</el-button>
-          <el-button size="small" type="primary">批量通过</el-button>
+          <el-button size="small" type="primary" @click="deleteReview()">批量删除</el-button>
+          <el-button size="small" type="primary" @click="batchPass()">批量通过</el-button>
       </el-col>
     </el-row>
     <el-dialog title="不通过编辑提示窗口" :visible.sync="dialogVisible" width="30%">
@@ -158,7 +158,7 @@
   </section>
 </template>
 <script>
-  import {advertreviewList, passadvert} from '@/api/url.js'
+  import {advertreviewList, passadvert, removeAdvertlist} from '@/api/url.js'
 export default {
   name: 'advertReview',
   data () {
@@ -179,6 +179,7 @@ export default {
       dialogVisible: false,
       totalval: '',
       tabeladvert: [],
+      multipleSelection: [],
       total:null,
       pageSize: 20,
       pageNo: 1,
@@ -242,10 +243,6 @@ export default {
       }).then(res => {
         this.tabeladvert = res.result.modelData
         this.total = res.result.total
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
       }).catch(error => {
         this.$message({
           type: 'info',
@@ -253,7 +250,7 @@ export default {
         })
       })
     },
-    openPassadvert() {
+    openPassadvert() { // 广告审核通过
       passadvert({
         id: this.dataGroup.id,
         statusMemo: this.dataGroup.statusMemo
@@ -270,6 +267,39 @@ export default {
       this.pageNo = val
       console.log(val)
       this.advertreviewList()
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+      console.log(val)
+    },
+    deleteReview() { // 批量删除
+      let reviewArray = []
+      this.multipleSelection.forEach((items, index, array) => {
+        reviewArray.push(items.id)
+      })
+      removeAdvertlist({id:reviewArray}).then(res => {
+        this.$message({
+          type: 'success',
+          message: '批量删除成功'
+        })
+        this.advertreviewList()
+      }).catch(error => {
+
+      })
+    },
+    batchPass() {
+      let passArray = []
+      this.multipleSelection.forEach((items, index, array) => {
+        passArray.push(items.id)
+      })
+      passadvert({id:passArray}).then(res => {
+        this.$message({
+          type: 'success',
+          message: '批量通过成功'
+        })
+      }).catch(error => {
+
+      })
     }
   }
 }

@@ -4,9 +4,9 @@
     <el-form label-width="80px" size="small">
         <el-row :gutter="20">
             <el-col :span="6">
-                <el-form-item label="课程ID">
-                    <el-input v-model="id" :disabled="true"></el-input>
-                  </el-form-item>
+              <el-form-item label="课程ID">
+                  <el-input v-model="id"></el-input>
+                </el-form-item>
             </el-col>
             <el-col :span="6">
                 <el-form-item label="课程标题">
@@ -99,22 +99,31 @@
         </el-row>
         <!--  -->
         <el-form-item label="课程封面">
-          <img :src="coverImage" alt="" srcset="" height=200 width=300>
+          <img :src="this.coverImage" alt="" height=300 width=400>
         </el-form-item>
         <el-form-item label="课程简介">
-            <el-input type="textarea" v-model="memo"></el-input>
+            <el-input type="textarea" v-model="memo" style="max-width:500px;"></el-input>
         </el-form-item>
         <el-form-item label="上传课件">
             <div class="upload-course">
-                <el-upload class="upload-demo" 
-                action="https://jsonplaceholder.typicode.com/posts/">
+              <el-input type="text" v-model="directory.videoName" placeholder="课件名称"></el-input>
+              <!-- <el-upload class="upload-demo" 
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :show-file-list="false"
+                :before-upload="beforeAvatarUpload"
+                :on-success="handleAvatarSuccess">
                 <el-button 
                 size="small"
                 type="primary"
-                :on-change="handleChange"
-                :file-list="fileList3" 
                 style="position:absolute;right:0;top:0;" class="handle-load">点击上传</el-button>
-              </el-upload>
+              </el-upload> -->
+              <el-upload class="upload-demo"
+              :show-file-list="false"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :before-upload="beforeAvatarUpload"
+              :on-success="handleAvatarSuccess">
+              <el-button size="small" type="primary" style="position:absolute;right:0;top:0;">点击上传</el-button>
+            </el-upload>
             </div>
         </el-form-item>
         <el-row :gutter="20">
@@ -138,9 +147,11 @@
                 </el-col>
                 <el-col :span="5">
                     <el-form-item>
-                        <el-input type="text"></el-input>
+                        <el-input type="text" v-model="directory.video"></el-input>
                         <div class="upload-btn">
-                          <el-upload action=""><el-button size="small" type="primary">点击上传</el-button></el-upload>
+                          <el-upload action="">
+                            <el-button size="small" type="primary">点击上传</el-button>
+                          </el-upload>
                         </div>
                     </el-form-item>
                 </el-col>
@@ -289,7 +300,7 @@ export default {
       nextCouresTime: '',
       beginTime: '',
       number: '',
-      coverImage: '',
+      coverImage: 'http://cdn6.jjl.cn/assets/img/logo_red-326a8e4bf5.png',
       form: '',
       memo: '',
       title: '',
@@ -342,11 +353,27 @@ export default {
     }
   },
   created() {
-      this.searchCourseDetail()
+      // this.searchCourseDetail()
   },
   methods: {
     handleChange(file, fileList) {
       this.fileList3 = fileList.slice(-3)
+    },
+    handleAvatarSuccess(res, file) {
+      console.log(URL.createObjectURL(file.raw))
+      this.coverImage = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     },
     onSubmit () {
       console.log('submit!')
@@ -370,7 +397,7 @@ export default {
     hanldeladdCourse() {
         addCourse({
             title: this.title,
-            userId: this.id,
+            id: this.id,
             categorySigns: this.categorySigns,
             label: [2],
             featuresArr: this.featuresArr,
@@ -403,44 +430,6 @@ export default {
             console.log(`创建失败`)
         })
     },
-    searchCourseDetail() {
-        let routerParams = this.$route.params.id
-        this.id = routerParams
-        searchCourseDetail({id:this.id}).then(res => {
-            console.log(res)
-            // this.r = res.dat.result
-            // const r = res.result
-            this.memo = res.result.memo
-            this.realName = res.result.realName
-            this.title = res.result.title
-            this.number = res.result.number
-            this.nextCouresTime = res.result.nextCouresTime
-            this.price = res.result.price
-            this.dollarsPrice = res.result.dollarsPrice
-            this.coverImage = res.result.coverImage
-            this.profession = res.result.profession
-            this.isSerial = res.result.isSerial
-            this.beginTime = res.result.beginTime
-            this.labelValue = res.result.labelValue
-            this.label = res.result.label
-            this.categorySigns = res.result.categorySigns
-            this.isSerialValue = res.result.isSerialValue
-            this.tabledata3.push(res.result.editStatusAttr)
-
-            // let { liveStatusValue, statusValue, classHour, upDownValue } = r.editStatusAttr
-            //     r.liveStatusValue = liveStatusValue
-            //     r.statusValue = statusValue
-            //     r.classHour = classHour
-            //     r.upDownValue = upDownValue
-            //     this.courseDateGroup = r
-            this.$message({
-                type: 'success',
-                message: '查询课程详情成功!'
-            })
-        }).catch(error => {
-
-        })
-    }
   }
 }
 </script>

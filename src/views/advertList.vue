@@ -106,7 +106,7 @@
             <el-button type="primary" size="medium" @click="isShow = true">一键替换</el-button>
           </el-row>
       </div>
-    <el-table :data="advertTableData" style="width: 100%" border v-loading="loading" element-loading-text="努力奔跑中...">
+    <el-table :data="advertTableData" @selection-change="handleSelectionChange" style="width: 100%" border v-loading="loading" element-loading-text="努力奔跑中...">
         <el-table-column type="selection" width="50" align="center"></el-table-column>
         <el-table-column label="广告位ID" width="65" align="center" prop="id">
           <template slot-scope="scope">
@@ -147,7 +147,7 @@
               <el-button size="small" type="primary">确定</el-button>
           </el-col>
           <el-col :span="5">
-              <el-button size="small" type="primary">批量删除</el-button>
+              <el-button size="small" type="primary" @click="batchDeletAdvert()">批量删除</el-button>
               <el-button size="small" type="primary">批量冻结</el-button>
           </el-col>
       </el-row>
@@ -359,6 +359,7 @@ export default {
         {label: '留学首页', value: '2'},
         {label: '问答详情页', value: '3'}
       ],
+      multipleSelection: [],
       pageNo: 0,
       pageSize: 20,
       form: {
@@ -392,12 +393,29 @@ export default {
 
       })
     },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+      console.log(val)
+    },
+    batchDeletAdvert() {
+      let advertarray = []
+      this.multipleSelection.forEach((items, index, array) => {
+        advertarray.push(items.id)
+      })
+      removeAdvert({id:advertarray}).then(res => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        this.searchAdvert()
+      }).catch()
+    },
     removeAdvert(index, rows) {
       removeAdvert({id: [rows.id]}).then(res => {
         this.$message({
           type: 'success',
           message: '删除成功!'
-        });
+        })
       }).catch(error => {
 
       })

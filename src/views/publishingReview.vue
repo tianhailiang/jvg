@@ -63,13 +63,6 @@
         </el-table>
         <!-- 分页 -->
         <div class="row-container" v-if="tableData3.length" style="margin:30px 0;">
-          <!-- <el-pagination 
-          layout="prev, pager, next, jumper" 
-          :total="total" 
-          background 
-          :page-size="20" 
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"></el-pagination> -->
           <el-pagination background
           layout="total, sizes, prev, pager, next, jumper"
           :page-size="20"
@@ -91,7 +84,7 @@
                     <el-input type="text" size="small" :disabled="true" v-model="title"></el-input>
                 </el-form-item>
                 <el-form-item label="发布用户名">
-                    <el-input type="text" size="small" :disabled="true"></el-input>
+                    <el-input type="text" size="small" :disabled="true" v-model="realName"></el-input>
                 </el-form-item>
                 <el-form-item label="原因">
                 <el-input type="textarea" size="small" v-model="statusMemo"></el-input>
@@ -135,7 +128,8 @@ export default {
       loading: false,
       dialogVisible: false,
       pageNo: 0,
-      pageSize: 20
+      pageSize: 20,
+      realName: ''
     }
   },
   mounted() {
@@ -179,6 +173,7 @@ export default {
       this.dialogVisible = true
       this.id = row.id
       this.title = row.title
+      this.realName = row.realName
     },
     reviewInfo() {
       reviewListInfo({
