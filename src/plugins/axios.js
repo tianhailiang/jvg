@@ -42,6 +42,7 @@ _axios.interceptors.request.use(
         }
       }
     } else {
+      loginT = true
       config.headers = {
         'Content-Type': 'application/json;charset=UTF-8',
         'X-Api-Ver': '1.0'

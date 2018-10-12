@@ -85,6 +85,7 @@
         <el-menu-item index="/divideIntoRules">分成规则管理列表</el-menu-item>
         <el-menu-item index="/divideIntoRulesDetail">分成规则详情</el-menu-item>
         <el-menu-item index="/rebateRule">返利规则列表</el-menu-item>
+        <el-menu-item index="/rebateDetail">注册详情</el-menu-item>
       </el-submenu>
       <el-submenu index="10-7">
         <template slot="title"><i class="el-icon-menu"></i>运营活动管理</template>
@@ -202,8 +203,8 @@ export default {
     if(this.activeIndex.includes('/divideIntoRulesDetail')){
       this.activeIndex = '/divideIntoRulesDetail' /*分成规则详情新建和分成规则详情编辑匹配一个路由 */
     }
-    if(this.activeIndex.includes('/rebateRegister')){
-      this.activeIndex = '/rebateRule' /* 返利规则列表和返利新建注册匹配一个路由 */
+    if(this.activeIndex.includes('/rebateDetail')){
+      this.activeIndex = '/rebateDetail' /* 返利规则详情新建和返利规则详情编辑匹配一个路由 */
     }
   }
 }
