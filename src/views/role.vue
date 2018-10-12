@@ -92,8 +92,8 @@
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="角色类型：" label-width="100px">
-                        <el-select v-model="region_jiao" placeholder="空" style="width: 100px;">
-                            <el-option v-for="(item) in option_jiao" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                        <el-select v-model="region_jiao" placeholder="空" style="width: 160px;">
+                            <el-option v-for="(item) in option_jiao" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -195,7 +195,37 @@ export default {
         label: '管理后台中心'
       }],
       region_jiao: '',
-      option_jiao: [],
+      option_jiao: [{
+        value: '700',
+        label: '院校机构管理人员'
+      }, {
+        value: '800',
+        label: '普通个人'
+      }, {
+        value: '810',
+        label: '个人讲师'
+      }, {
+        value: '820',
+        label: '机构讲师（语培，留学）'
+      }, {
+        value: '830',
+        label: '顾问（留学，移民）'
+      }, {
+        value: '840',
+        label: '院校讲师（留学）'
+      }, {
+        value: '900',
+        label: '运维人员'
+      }, {
+        value: '910',
+        label: '运营人员'
+      }, {
+        value: '920',
+        label: '财务人员'
+      }, {
+        value: '999',
+        label: '超级管理员'
+      }],
       addid: '',
       addname: '',
       addshou: '',
@@ -331,17 +361,17 @@ export default {
       }).catch(error => {
         console.log(`请求错误`)
       })
-      // 角色
-      codeRole().then(res => {
-        console.log('data', res)
-        if (res.success) {
-          this.option_jiao = res.result
-        } else {
-          this.$message(res.message)
-        }
-      }).catch(error => {
-        console.log(`请求错误`)
-      })
+      // // 角色
+      // codeRole().then(res => {
+      //   console.log('data', res)
+      //   if (res.success) {
+      //     this.option_jiao = res.result
+      //   } else {
+      //     this.$message(res.message)
+      //   }
+      // }).catch(error => {
+      //   console.log(`请求错误`)
+      // })
     }
   },
   mounted () {

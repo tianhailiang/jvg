@@ -27,7 +27,7 @@
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <el-table :data="tableData" stripe width="100%" border>
-                <el-table-column prop="role_id" label="成员ID" align="center"></el-table-column>
+                <el-table-column prop="employeeNumber" label="成员ID" align="center"></el-table-column>
                 <el-table-column prop="username" label="成员名称" align="center"></el-table-column>
                 <el-table-column prop="roleName" label="角色" align="center"></el-table-column>
                 <el-table-column prop="phone" label="电话" align="center"></el-table-column>
@@ -258,6 +258,11 @@ export default {
     },
     onDisableClik () {
       // 新建成员弹窗
+      this.addname = ''
+      this.addpass = ''
+      this.addiphone = ''
+      this.addgong = ''
+      this.addemail = ''
       this.isDialogShow2 = true
     },
     ondisable () {
@@ -358,19 +363,19 @@ export default {
     queryClik () {
       // 查询按钮
       var data = {'employeeNumber': parseInt(this.qu_id), 'username': this.qu_name, 'roleId': this.region_jiaoname_qu, 'status': parseInt(this.region_zhuang)}
-      if (this.qu_id === '') {
-        this.$message('请输入成员ID')
-        return false
-      } else if (this.qu_name === '') {
-        this.$message('请输入成员姓名')
-        return false
-      } else if (this.region_jiaoname_qu === '') {
-        this.$message('请选择角色类型')
-        return false
-      } else if (this.region_zhuang === '') {
-        this.$message('请选状态')
-        return false
-      }
+      // if (this.qu_id === '') {
+      //   this.$message('请输入成员ID')
+      //   return false
+      // } else if (this.qu_name === '') {
+      //   this.$message('请输入成员姓名')
+      //   return false
+      // } else if (this.region_jiaoname_qu === '') {
+      //   this.$message('请选择角色类型')
+      //   return false
+      // } else if (this.region_zhuang === '') {
+      //   this.$message('请选状态')
+      //   return false
+      // }
       memberList(data).then(res => {
         console.log('data', res)
         if (res.success) {
