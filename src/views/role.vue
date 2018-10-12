@@ -98,6 +98,13 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
+                    <el-form-item label="默认角色：" label-width="100px">
+                        <el-select v-model="region_se" placeholder="空" style="width: 100px;">
+                            <el-option v-for="(item) in option_se" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
                     <el-button size="small" type="primary" @click="isDialogShow1 = true">添加权限管理</el-button>
                     <el-button v-if="addid == ''" size="small" type="primary" @click="onDisableClik">提交</el-button>
                     <el-button v-if="addid != ''" size="small" type="primary" @click="onDisableClik1">提交</el-button>
@@ -226,6 +233,14 @@ export default {
         value: '999',
         label: '超级管理员'
       }],
+      region_se: '',
+      option_se: [{
+        value: '0',
+        label: '否'
+      }, {
+        value: '1',
+        label: '是'
+      }],
       addid: '',
       addname: '',
       addshou: '',
@@ -259,7 +274,7 @@ export default {
     onDisableClik () {
       // 新建角色
       console.log('roleAuthorities', this.rolequanxian)
-      var data = {'name': this.addname, 'category': this.region_jiao, 'description': this.addshou, 'roleAuthorities': this.rolequanxian}
+      var data = {'name': this.addname, 'category': this.region_jiao, 'description': this.addshou, 'roleAuthorities': this.rolequanxian, 'isDefault': this.region_se}
       roleCreate(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -306,7 +321,7 @@ export default {
         this.$message('您选择了管理后台站点，请选择所属页面为管理后台中心')
         return false
       }
-      var data = {'category': 0, 'channel': 1, 'page': 2}
+      var data = {'category': this.region_qu, 'channel': this.region_pin, 'page': this.region_page}
       resourceList(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -365,7 +380,7 @@ export default {
       // codeRole().then(res => {
       //   console.log('data', res)
       //   if (res.success) {
-      //     this.option_jiao = res.result
+      //     this.option_se = res.result
       //   } else {
       //     this.$message(res.message)
       //   }
