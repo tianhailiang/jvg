@@ -94,7 +94,7 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('operation-activity/product/list.json', {
+      axios.post('/api/c/operation-activity/product/list.json', {
         name: this.name,
         productType: this.dialogForm,
         pageNo: this.currentPage,

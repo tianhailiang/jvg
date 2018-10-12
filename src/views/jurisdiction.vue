@@ -8,17 +8,17 @@
     <el-row :gutter="24">
         <el-form :inline="true" class="demo-form-inline" label-width="100px" size="small">
               <el-form-item label="站点选择：">
-                  <el-select v-model="region_category" placeholder="管理后台（pc）" style="width: 150px;">
+                  <el-select v-model="region_category" @change="choose(region_category)" placeholder="管理后台（pc）" style="width: 150px;">
                       <el-option v-for="(item, index) in option_category" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="所属频道：">
-                  <el-select v-model="region_channel" placeholder="空" style="width: 80px;">
+                  <el-select v-model="region_channel" @change="choose1(region_channel)" placeholder="空" style="width: 80px;">
                       <el-option v-for="(item, index) in option_channel" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
               <el-form-item label="所属页面：">
-                  <el-select v-model="region_page" placeholder="空" style="width: 120px;">
+                  <el-select v-model="region_page" @change="choose2(region_page)" placeholder="空" style="width: 120px;">
                       <el-option v-for="(item,index) in option_page" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
               </el-form-item>
@@ -28,6 +28,7 @@
         </el-form>
     </el-row>
     <el-row :gutter="24">
+      <div v-if="tableDatak.length > 0">
         <el-col v-for="(item,index) in tableDatak" :span='24' style="margin-right: 5%;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
             <div style="float: left;text-align: left;" >
@@ -58,6 +59,8 @@
             </el-table>
             <!-- </div> -->
         </el-col>
+      </div>
+      <div style="margin-right: 5%;margin-bottom: 20px;" v-else>暂无数据</div>
     </el-row>
         <!-- 删除窗口 -->
         <el-dialog v-model="isDialogShow" size="small" :visible.sync="isDialogShow">
@@ -259,10 +262,61 @@ export default {
       ziname: '',
       zishuo: '',
       ziurl: '',
-      zitype: ''
+      zitype: '',
+      category_qu_view: '',
+      channel_qu_view: '',
+      page_qu_view: ''
     }
   },
   methods: {
+    choose (value) {
+      this.category_qu_view = value
+      var data = {'category': this.category_qu_view, 'channel': this.channel_qu_view, 'page': this.page_qu_view}
+      resourceList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          if (res.result.length > 0) {
+            this.tableDatak = res.result
+          } else {
+            this.tableDatak = []
+          }
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    choose1 (value) {
+      this.channel_qu_view = value
+      var data = {'category': this.category_qu_view, 'channel': this.channel_qu_view, 'page': this.page_qu_view}
+      resourceList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          if (res.result.length > 0) {
+            this.tableDatak = res.result
+          } else {
+            this.tableDatak = []
+          }
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    choose2 (value) {
+      this.page_qu_view = value
+      var data = {'category': this.category_qu_view, 'channel': this.channel_qu_view, 'page': this.page_qu_view}
+      resourceList(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          if (res.result.length > 0) {
+            this.tableDatak = res.result
+          } else {
+            this.tableDatak = []
+          }
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val
       console.log('val',val)
@@ -273,7 +327,7 @@ export default {
     onDisableClik (type) { 
       if (type === 1) {
         // 追加父节点
-        if (this.region_category === '' || this.region_channel === '' || this.region_page === '') {
+        if (this.region_category === '' || this.region_page === '') {
           this.$message('请先选择筛选条件')
           return false
         } else if (this.region_category === '4' && this.region_page !== '9') {

@@ -308,7 +308,7 @@ export default {
     NotThroughDialog
   },
   created () {
-    axios.post('common/code/channel/list.json', {
+    axios.post('/api/c/common/code/channel/list.json', {
     })
     .then(res => {
       this.channelList = res.data.result
@@ -322,7 +322,7 @@ export default {
       if (origin == 1) {
         this.currentPage = 1
       }
-      axios.post('operation-activity/verify/list.json', {
+      axios.post('/api/c/operation-activity/verify/list.json', {
         id: this.id,
         title: this.title,
         auditStatus: this.examineState,
@@ -346,7 +346,7 @@ export default {
       })
     },
     handleAdopt (index, row) {
-      axios.post('operation-activity/verify/verify.json', {
+      axios.post('/api/c/operation-activity/verify/verify.json', {
         id: row.id,
         auditStatus: 2
       })
@@ -375,7 +375,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post('operation-activity/list/delete.json', {
+        axios.post('/api/c/operation-activity/list/delete.json', {
           id: arrId
         })
         .then(res => {
@@ -405,10 +405,18 @@ export default {
       })
     },
     batchDelete () {
-
-    },
-    batchFrozen () {
-
+      let multipleId = []
+      this.multipleSelection.forEach((item, index) => {
+        multipleId.push(item.id)
+      })
+      if (multipleId.length == 0) {
+        this.$message({
+          type: 'warning',
+          message: '请勾选至少一个'
+        })
+        return false
+      }
+      this.handleDelete(multipleId)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val

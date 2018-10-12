@@ -6,15 +6,14 @@ import router from '../router'
 // axios.defaults.timeout = 10000
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www=form-urlencoded'
 // axios.defaults.headers.common['X-Api-Ver'] = '1.0'
-
+var loginT = true
+setInterval(() => {
+  loginT = false
+}, 1000 * 60 * 50)
 // POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use(config => {
   // 在发送请求之前做某件事
   // const loginT = true
-  var loginT = true
-  setInterval(() => {
-    loginT = false
-  }, 1000 * 60 * 50)
   var dxzjjltoken = sessionStorage.getItem('dxzjjltoken')
   console.log('dxzjjltoken', dxzjjltoken)
   if (loginT) {
@@ -32,6 +31,7 @@ axios.interceptors.request.use(config => {
       }
     }
   } else {
+    loginT = true
     config.headers = {
       'Content-Type': 'application/json;charset=UTF-8',
       'X-Api-Ver': '1.0'

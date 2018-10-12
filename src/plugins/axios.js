@@ -19,14 +19,13 @@ let config = {
 }
 
 const _axios = axios.create(config)
-
+var loginT = true
+setInterval(() => {
+  loginT = false
+}, 1000 * 60 * 50)
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
-    var loginT = true
-    setInterval(() => {
-      loginT = false
-    }, 1000 * 60 * 50)
     var dxzjjltoken = sessionStorage.getItem('dxzjjltoken')
     if (loginT) {
       // 首次登陆系统
@@ -43,6 +42,7 @@ _axios.interceptors.request.use(
         }
       }
     } else {
+      loginT = true
       config.headers = {
         'Content-Type': 'application/json;charset=UTF-8',
         'X-Api-Ver': '1.0'

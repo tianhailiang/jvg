@@ -73,7 +73,7 @@ export default {
           // sessionStorage.setItem('dxzjjltoken', 'ee90b3e3874dda89ad643498112cc7ec')
           console.log('token', sessionStorage.getItem('dxzjjltoken'))
           console.log('rou', _this.url)
-          if (_this.url !== undefined && _this.url !== '') {
+          if (_this.url !== undefined && _this.url !== '' && _this.url !== '/') {
             console.log('1111')
             _this.$router.push({ path: _this.url })
             // this.postData()
@@ -137,7 +137,7 @@ export default {
       console.log('rou', this.$router.history.current.query.redirect)
       this.url = this.$router.history.current.query.redirect
       if (/redirect=/.test(this.url)) {
-        this.url = this.url.replace('?redirect=%2F', '')
+        this.url = this.url.replace('?redirect=', '')
       }
     },
     postData () {

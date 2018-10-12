@@ -1,16 +1,13 @@
 <template>
-  <div >
-    <div class="nav" >
-      返利新建
+  <div class="vue-right-box">
+    <div class="vue-nav" >
+      返利新建-注册
     </div>
-    <el-form :model="formInline" :inline="true" style="float:left">
-      <el-form-item label="ID：" :label-width="formLabelWidth" style="display:block">
-        {{formInline.id}}
-      </el-form-item>
+    <el-form :inline="true">
       <el-form-item label="渠道：" :label-width="formLabelWidth" >
-        <el-select v-model="formInline.platform" >
+        <el-select v-model="platform" >
           <el-option
-            v-for="item in formInline.platformList"
+            v-for="item in platformList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -18,9 +15,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="邀请分类：">
-        <el-select v-model="formInline.classify" >
+        <el-select v-model="type" >
           <el-option
-            v-for="item in formInline.classifyList"
+            v-for="item in typeList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -29,25 +26,25 @@
       </el-form-item>
       <div style="display:block">
         <el-form-item label="创建人：" :label-width="formLabelWidth">
-          {{formInline.creater}}
+          {{creater}}
         </el-form-item>
         <el-form-item label="创建时间：" style="display: inline-block"> 
           {{dialogForm.createTime}}
         </el-form-item>
       </div>
       <el-form-item label="返利名称：" :label-width="formLabelWidth" style="display:block">
-        <el-input v-model="formInline.rebateName" size="small"></el-input>
+        <el-input v-model="rebateName" size="small"></el-input>
       </el-form-item>
       <el-form-item label="启用时间：" :label-width="formLabelWidth" style="display:block">
         <el-date-picker
-          v-model="formInline.startTime"
+          v-model="startTime"
           type="datetime"
           placeholder="选择日期时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="结束时间：" :label-width="formLabelWidth" style="display:block">
         <el-date-picker
-          v-model="formInline.endTime"
+          v-model="endTime"
           type="datetime"
           placeholder="选择日期时间">
         </el-date-picker>
@@ -57,10 +54,10 @@
       </el-form-item>
       <div style="display:block">
         <el-form-item  label="优惠券ID：" :label-width="formLabelWidth">
-          {{formInline.couponId1}}
+          {{couponId1}}
         </el-form-item>
         <el-form-item  label="优惠券描述：" :label-width="formLabelWidth">
-          {{formInline.couponDescribe1}}
+          {{couponDescribe1}}
         </el-form-item>
       </div>
       <el-form-item label="邀请第二个好友：" :label-width="formLabelWidth" style="display:block">
@@ -68,10 +65,10 @@
       </el-form-item>
       <div style="display:block">
         <el-form-item  label="优惠券ID：" :label-width="formLabelWidth">
-          {{formInline.couponId2}}
+          {{couponId2}}
         </el-form-item>
         <el-form-item  label="优惠券描述：" :label-width="formLabelWidth">
-          {{formInline.couponDescribe2}}
+          {{couponDescribe2}}
         </el-form-item>
       </div>
       <el-form-item label="邀请第三个好友：" :label-width="formLabelWidth" style="display:block">
@@ -79,24 +76,24 @@
       </el-form-item>
       <div style="display:block">
         <el-form-item  label="优惠券ID：" :label-width="formLabelWidth">
-          {{formInline.couponId3}}
+          {{couponId3}}
         </el-form-item>
         <el-form-item  label="优惠券描述：" :label-width="formLabelWidth">
-          {{formInline.couponDescribe3}}
+          {{couponDescribe3}}
         </el-form-item>
       </div>
       <el-form-item label="邀请第四个好友：" :label-width="formLabelWidth" style="display:block">
-        赠送会员金额：<el-input v-model="formInline.giveMoney" size="small" style="display:inline-block;width:110px"></el-input>
+        赠送会员金额：<el-input v-model="giveMoney" size="small" style="display:inline-block;width:110px"></el-input>
       </el-form-item>
       <el-form-item label="被邀请人优惠：" :label-width="formLabelWidth" style="display:block">
         <el-button @click="selectCoupon4">选择优惠券</el-button>
       </el-form-item>
       <div style="display:block">
         <el-form-item  label="优惠券ID：" :label-width="formLabelWidth">
-          {{formInline.couponId4}}
+          {{couponId4}}
         </el-form-item>
         <el-form-item  label="优惠券描述：" :label-width="formLabelWidth">
-          {{formInline.couponDescribe4}}
+          {{couponDescribe4}}
         </el-form-item>
       </div>
       <el-form-item style="padding-left:100px">
@@ -115,57 +112,38 @@ export default {
   name: 'rebateRegister',
   data () {
     return {
-      formInline: {
-        id: '',
-        platform: '0',
-        platformList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: 'APP'
-        }, {
-          value: '2',
-          label: 'WAP'
-        }, {
-          value: '3',
-          label: 'PC'
-        }],
-        channel: '0',
-        channelList: [{
-          value: '0',
-          label: '全部'
-        }, {
-          value: '1',
-          label: '语培'
-        }, {
-          value: '2',
-          label: '留学'
-        }],
-        creater: '',
-        createTime: '',
-        rebateName: '',
-        startTime: '',
-        endTime: '',
-        classify: '0',
-        classifyList: [{
-          value: '0',
-          label: '注册'
-        }, {
-          value: '1',
-          label: '课程'
-        }],
-        couponId1: '',
-        couponDescribe1: '',
-        couponId2: '',
-        couponDescribe2: '',
-        couponId3: '',
-        couponDescribe3: '',
-        couponId4: '',
-        couponDescribe4: '',
-        giveMoney: ''
-      },
       formLabelWidth: '125px',
+      platform: null,
+      platformList: [{
+        value: 1,
+        label: 'APP'
+      }, {
+        value: 2,
+        label: 'WAP'
+      }, {
+        value: 3,
+        label: 'PC'
+      }],
+      type: null,
+      typeList: [{
+        value: 1,
+        label: '注册'
+      }, {
+        value: 2,
+        label: '课程'
+      }],
+      rebateName: '',
+      startTime: '',
+      endTime: '',
+      couponId1: '',
+      couponDescribe1: '',
+      couponId2: '',
+      couponDescribe2: '',
+      couponId3: '',
+      couponDescribe3: '',
+      couponId4: '',
+      couponDescribe4: '',
+      giveMoney: '',
       dialogFormVisible: false,
       dialogForm: ''
     }

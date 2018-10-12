@@ -7,9 +7,9 @@
             <p class="hui-title">订单数据分析</p>
             <el-row style="float: left;width: 90%;">
                 <div style="width: 90%;height: 50px;margin-top: 20px;line-height: 40px;">
-                  <el-date-picker style="height: 40px;line-height: 40px;float: left;margin-left: 10px;" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" size="small"></el-date-picker>
+                  <el-date-picker style="height: 40px;line-height: 40px;float: left;margin-left: 10px;" v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" align="center" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                   <el-input style="float: left;width: 100px;margin-left: 10px;line-height: 33px;height: 33px;" placeholder="对比时段" disabled></el-input>
-                  <el-button style="margin-left: 10px" size="small" type="primary">查询</el-button>
+                  <el-button style="margin-left: 10px" size="small" type="primary" @click="queryClik">查询</el-button>
                 </div>
                 <div id='userChart' style='height: 400px;width: 90%;margin-left: 10px;' >图表加载失败</div>
                 <div class="tab-left">
@@ -74,10 +74,85 @@ export default {
       kecheng: '',
       xuanshang: '',
       vip: '',
-      liuxue: ''
+      liuxue: '',
+      dataTime: ''
     }
   },
   methods: {
+    queryClik () {
+      // 查询渠道
+      if (this.dataTime === '' || this.dataTime === null) {
+        this.$message('请选择筛选日期')
+        return false
+      }
+      var data = {"startTime": this.dataTime[0] + ' 00:00:00', "endTime": this.dataTime[1] + ' 00:00:00'}
+      businessQuery(data).then(res => {
+        console.log('data', res)
+        if (res.success) {
+          // 加载新增趋势图表
+          var data = res.result
+          var type = []
+          var count = []
+          var totalPrice = []
+          if (data.length > 0) {
+            for (var i = 0;i < data.length;i++) {
+              type.push(data[i].typeName)
+              count.push(data[i].count)
+              totalPrice.push(data[i].price)
+              if (data[i].type === 1002) {
+                this.chubanwu = data[i].type
+                this.tableData[0].chubanwu = data[i].count
+                this.tableData[1].chubanwu = data[i].price
+              } else if (data[i].type === 1003) {
+                this.dashang = data[i].type
+                this.tableData[0].dashang = data[i].count
+                this.tableData[1].dashang = data[i].price
+              } else if (data[i].type === 1001) {
+                this.kecheng = data[i].type
+                this.tableData[0].kecheng = data[i].count
+                this.tableData[1].kecheng = data[i].price
+              } else if (data[i].type === 1004) {
+                this.xuanshang = data[i].type
+                this.tableData[0].xuanshang = data[i].count
+                this.tableData[1].xuanshang = data[i].price
+              } else if (data[i].type === 1005) {
+                this.vip = data[i].type
+                this.tableData[0].vip = data[i].count
+                this.tableData[1].vip = data[i].price
+              } else if (data[i].type === 1006) {
+                this.liuxue = data[i].type
+                this.tableData[0].liuxue = data[i].count
+                this.tableData[1].liuxue = data[i].price
+              }
+            }
+          } else {
+            this.tableData = [{
+              kecheng: '',
+              chubanwu: '',
+              vip: '',
+              liuxue: '',
+              dashang: '',
+              xuanshang: ''
+            }, {
+              kecheng: '',
+              chubanwu: '',
+              vip: '',
+              liuxue: '',
+              dashang: '',
+              xuanshang: ''
+            }]
+          }
+          console.log('tab',this.tableData)
+          this.$nextTick(function () {
+            this.userChartInit (count, totalPrice)
+          })
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
     getUserChartInit () {
       // 渠道
       var data = {"startTime": "2018-09-02 00:00:00", "endTime": "2018-09-10 00:00:00"}
@@ -119,7 +194,21 @@ export default {
               this.tableData[1].liuxue = data[i].price
             }
           }
+          if (data.length === 0) {
+            this.tableData = []
+          }
           console.log('tab',this.tableData)
+          this.$nextTick(function () {
+            this.userChartInit (count, totalPrice)
+          })
+        } else {
+          this.$message(res.message)
+        }
+      }).catch(error => {
+        console.log(`请求错误`)
+      })
+    },
+    userChartInit (count, totalPrice) {
       const myChart = echarts.init(document.getElementById('userChart'))
       myChart.showLoading()
       var option = {
@@ -168,12 +257,6 @@ export default {
       }
       myChart.setOption(option)
       myChart.hideLoading()
-        } else {
-          this.$message(res.message)
-        }
-      }).catch(error => {
-        console.log(`请求错误`)
-      })
     }
   },
   mounted () {
