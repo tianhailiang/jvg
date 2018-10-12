@@ -269,7 +269,7 @@ export default {
     onquan () {
       // 添加页面查询权限
     //   var data = {'category': this.region_qu, 'channel': this.region_pin, 'page': this.region_page}
-      if (this.region_qu === '' || this.region_pin === '' || this.region_page === '') {
+      if (this.region_qu === '' || this.region_page === '') {
         this.$message('请先选择筛选条件')
         return false
       } else if (this.region_qu === '4' && this.region_page !== '9') {

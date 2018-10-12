@@ -327,7 +327,7 @@ export default {
     onDisableClik (type) { 
       if (type === 1) {
         // 追加父节点
-        if (this.region_category === '' || this.region_channel === '' || this.region_page === '') {
+        if (this.region_category === '' || this.region_page === '') {
           this.$message('请先选择筛选条件')
           return false
         } else if (this.region_category === '4' && this.region_page !== '9') {
