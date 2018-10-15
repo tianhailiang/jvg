@@ -38,12 +38,13 @@
         <el-input v-model="name" size="small"></el-input>
       </el-form-item>
       <el-form-item label="分成类型：">
-        <el-select v-model="dividedTypeId" size="small" style="width:130px">
+        <el-select v-model="dividedTypeId" size="small" style="width:130px"
+          @change="onDividedType">
           <el-option
             v-for="item in dividedTypeIdList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -51,9 +52,9 @@
         <el-select v-model="twoDividedTypeId" size="small" style="width:130px">
           <el-option
             v-for="item in twoDividedTypeIdList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -101,6 +102,7 @@
 </template>
 
 <script>
+import allAxios from 'axios'
 export default {
   name: 'divideIntoRulesDetailBuild',
   data () {
@@ -174,16 +176,30 @@ export default {
   components: {
   },
   created () {
-    axios.post('/api/c/common/code/channel/list.json', {
-    })
-    .then(res => {
-      this.channelList = res.data.result
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    allAxios.all([this.postChannelList(), this.postDivided()])
+      .then(allAxios.spread((res1, res2) => {
+        this.channelList = res1.data.result
+        this.dividedTypeIdList = res2.data.result
+      }))
   },
   methods: {
+    postChannelList () {
+      return axios.post('/api/c/common/code/channel/list.json')
+    },
+    postDivided () {
+      return axios.post('/api/c/operation-management/extract-rule/divided.json')
+    },
+    onDividedType () {
+      axios.post('/api/c/operation-management/extract-rule/divided-2.json', {
+        id: this.dividedTypeId
+      })
+      .then(res => {
+        this.twoDividedTypeIdList = res.data.result
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
     onChange () {
       if (this.isStart == 1) {
         this.timeVal = []
