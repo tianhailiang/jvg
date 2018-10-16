@@ -35,6 +35,11 @@ export const ipdizhi = (params) => {
   // return http.fetchGet(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8', params)
   return http.fetchGet('http://pv.sohu.com/cityjson?ie=utf-8', params)
 }
+// 第三方上传图片
+export const logourl = (params) => {
+  // return http.fetchGet(API_PROXY + 'http://pv.sohu.com/cityjson?ie=utf-8', params)
+  return http.fetchGet('https://jsonplaceholder.typicode.com/posts/', params)
+}
 // 获取验证码
 export const loginCode = (params) => {
   return http.fetchPost('/api/c/member/login/code.json', params)

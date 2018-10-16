@@ -38,7 +38,7 @@
                     <el-date-picker v-model="dataTime" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="float: left;"></el-date-picker>
                 </el-form-item>
               <el-button size="small" type="primary" @click="queryClik">搜索</el-button>
-              <el-button @click="onEditClick" size="small" type="primary">新增</el-button>
+              <el-button @click="onEditClick(1)" size="small" type="primary">新增</el-button>
         </el-form>
         <el-col :span='24' style="margin-left: 10px;margin-bottom: 20px;">
             <!-- <div style="float: right;"> -->
@@ -213,10 +213,12 @@
                 <el-input type="textarea" :rows="5" placeholder="请输入机构院校介绍" style="width: 400px;" v-model="addjieshao"></el-input>
             </el-form-item>
         </el-col>
-        <el-col :span="20">
-            <el-form-item label="机构院校logo：" label-width="130px">
-                <div class="shangchuan"><i>+</i></div>
-            </el-form-item>
+        <el-col :span="20" style="">
+            <p style="width: 110px;font-size: 14px;color: #606266;float: left;line-height: 30px;text-align: right;padding-right: 12px;">机构院校logo：</p>
+                <el-upload style="width: 178px;height: 178px;margin-bottom: 20px;" class="avatar-up-institutions" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-up-institutions-icon"></i>
+                </el-upload>
         </el-col>
         <el-col :span="10">
             <el-form-item label="创立时间：">
@@ -246,15 +248,15 @@
         </el-form>
         <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
-                <el-button v-if="addid == ''" @click="onadd">提 交</el-button>
-                <el-button v-if="addid != ''" @click="onEdit">提 交</el-button>
+                <el-button v-if="type == 1" @click="onadd">提 交</el-button>
+                <el-button v-if="type != 1" @click="onEdit">提 交</el-button>
                 <el-button type="primary" @click="isDialogShow2 = false">取 消</el-button>
             </span>
         </el-dialog>
     </section>
 </template>
 <script>
-import { institudeDetail,institudeCreate,institudeUpdate,institudeDelete,institudeSet,institudeList,codeCountry } from '@/api/url.js'
+import { institudeDetail,institudeCreate,institudeUpdate,institudeDelete,institudeSet,institudeList,codeCountry,logourl } from '@/api/url.js'
 export default {
   data () {
     return {
@@ -332,13 +334,36 @@ export default {
       dataTime: '',
       pageNo: '',
       multipleSelection: '',
-      allpi: []
+      allpi: [],
+      imageUrl: '',
+      type: ''
     }
   },
   methods: {
     choose (value) {
       this.choosenItem = this.option_yuanxiao.filter(item => item.value === value)[0];
       console.log('choose', this.choosenItem)
+    },
+    handleAvatarSuccess (res, file) {
+      console.log('file', file.raw)
+      // logourl().then(res => {
+      //   console.log('resimg',res)
+      // }).catch(error => {
+      //   console.log(`请求错误`)
+      // })
+      this.imageUrl = URL.createObjectURL(file.raw);
+      console.log('imgurl', this.imageUrl)
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
     },
     handleSelectionChange (val) {
       // 表格监听
@@ -418,6 +443,7 @@ export default {
     },
     onEditClick1 (id) {
       // 编辑机构院校
+      this.type = ''
       var data = {'id': id}
       institudeDetail(data).then(res => {
         console.log('data', res)
@@ -464,8 +490,9 @@ export default {
         console.log(`请求错误`)
       })
     },
-    onEditClick () {
+    onEditClick (type) {
       // 新建机构院校
+      this.type = type
       this.addid = '自动生成'
       this.region_jigou = ''
       this.addname = ''
@@ -489,7 +516,7 @@ export default {
     },
     onadd () {
       // 新建接口
-      var data = {'type': this.region_jigou, 'city': this.adddi, 'title': this.addname, 'linkName': this.addlian, 'mobile': this.addiphone, 'tel': this.addtel, 'email': this.addemail, 'worldRanking': this.addpai, 'academyNature': this.choosenItem.label, 'countryId': this.region_guo, 'schoolWebsite': this.addnetwork, 'description': this.addjieshao, 'schoolTime': this.addchuangli, 'legalPerson': this.addfaren}
+      var data = {'type': this.region_jigou, 'city': this.adddi, 'title': this.addname, 'linkName': this.addlian, 'mobile': this.addiphone, 'tel': this.addtel, 'email': this.addemail, 'worldRanking': this.addpai, 'academyNature': this.choosenItem.label, 'countryId': this.region_guo, 'schoolWebsite': this.addnetwork, 'description': this.addjieshao, 'schoolTime': this.addchuangli, 'legalPerson': this.addfaren, 'schoolImage': this.imageUrl}
       console.log('data',data)
       institudeCreate(data).then(res => {
         console.log('data', res)
@@ -621,5 +648,28 @@ export default {
     font-size: 40px;
     font-weight: bold;
     line-height: 150px;
+}
+.avatar-up-institutions {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-up-institutions:hover {
+  border-color: #409EFF;
+}
+.avatar-up-institutions-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

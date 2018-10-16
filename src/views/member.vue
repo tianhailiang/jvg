@@ -12,7 +12,7 @@
               </el-form-item>
                 <el-form-item label="角色类型：" label-width="100px">
                     <el-select v-model="region_jiaoname_qu" placeholder="空" style="width: 100px;">
-                        <el-option v-for="(item) in option_jiaoname_qu" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                        <el-option v-for="(item) in option_jiao" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="状态：" label-width="80px">
@@ -99,7 +99,7 @@
             <el-form label-position="left" :inline="true" class="demo-form-inline" label-width="150px" size="mini" style="width: 100%">
                 <el-col :span="10">
                     <el-form-item label="ID：" label-width="80px">
-                        <el-input placeholder="自动生成" disabled></el-input>
+                        <el-input placeholder="自动生成" disabled v-model="addid"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -150,7 +150,8 @@
             <p style="color: #fff;">———————————————————————————————</p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="isDialogShow2 = false">取 消</el-button>
-                <el-button type="primary" @click="ondisable">确 定</el-button>
+                <el-button v-if="addname == ''" type="primary" @click="ondisable">确 定</el-button>
+                <el-button v-else type="primary" @click="ondisable1">确 定</el-button>
             </span>
         </el-dialog>
         <!-- 清除窗口 -->
@@ -183,14 +184,35 @@ export default {
       option_jiaoname_qu: '',
       region_jiao: '',
       option_jiao: [{
-        value: '0',
-        label: '空'
+        value: '700',
+        label: '院校机构管理人员'
       }, {
-        value: '1',
-        label: '运维类型'
+        value: '800',
+        label: '普通个人'
       }, {
-        value: '2',
-        label: '运营类型'
+        value: '810',
+        label: '个人讲师'
+      }, {
+        value: '820',
+        label: '机构讲师（语培，留学）'
+      }, {
+        value: '830',
+        label: '顾问（留学，移民）'
+      }, {
+        value: '840',
+        label: '院校讲师（留学）'
+      }, {
+        value: '900',
+        label: '运维人员'
+      }, {
+        value: '910',
+        label: '运营人员'
+      }, {
+        value: '920',
+        label: '财务人员'
+      }, {
+        value: '999',
+        label: '超级管理员'
       }],
       region_jiaoname: '',
       option_jiaoname: [],
@@ -201,6 +223,7 @@ export default {
       isDialogShow4: false,
       tableData: [],
       total: null,
+      addid: '',
       addname: '',
       addpass: '',
       addque: '',
@@ -234,6 +257,7 @@ export default {
     },
     onDisableClik1 (index) {
       // 编辑成员弹窗
+      this.addid = this.tableData[index].id
       this.addname = this.tableData[index].username
       this.addpass = this.tableData[index].password
       this.addiphone = this.tableData[index].phone
@@ -241,9 +265,9 @@ export default {
       this.addemail = this.tableData[index].email
       this.isDialogShow2 = true
     },
-    ondisable () {
+    ondisable1 () {
       // 编辑成员接口
-      var data = {'username': this.addname, 'password': this.addpass, 'email': this.addemail, 'affairsRoles': this.addgong, 'phone': this.addiphone, 'affairsRoles': this.choosenItem.label, 'roleId': this.choosenItem.value, 'channel': this.choosenItem1.id, 'channelName': this.choosenItem1.name}
+      var data = {'id': this.addid, 'username': this.addname, 'password': this.addpass, 'phone': this.addiphone, 'roleId': this.choosenItem1.id, 'type': this.choosenItem.value}
       memberUpdate(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -390,7 +414,7 @@ export default {
     },
     postData () {
       var data = {'employeeNumber': 1222223, 'username': '王子', 'roleId': 1, "pageNo":1, "pageSize":20}
-      memberList(data).then(res => {
+      memberList().then(res => {
         console.log('data', res)
         if (res.success) {
           this.tableData = res.result.modelData

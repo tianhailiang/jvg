@@ -104,7 +104,7 @@
     </section>
 </template>
 <script>
-import { seosList,seosUpdate,seosDelete,seosCreate,codeSource } from '@/api/url.js'
+import { seosList,seosUpdate,seosDelete,seosCreate,codeChannel } from '@/api/url.js'
 export default {
   data () {
     return {
@@ -124,11 +124,15 @@ export default {
   methods: {
     onshowadd () {
       // 显示追加SEO
+      if (this.region_pin === '') {
+        this.$message('请选择频道')
+        return false
+      }
       this.isDialogShow2 = true
     },
     onadd () {
       // 追加SEO
-      var data = {'keyword': this.bianguan, 'memo': this.bianshuo}
+      var data = {'keyword': this.bianguan, 'memo': this.bianshuo, 'channel': this.region_pin}
       seosCreate(data).then(res => {
         console.log('data', res)
         if (res.success) {
@@ -137,8 +141,9 @@ export default {
         } else {
           if (/system.seo.createSeo.already/.test(res.message)) {
             this.$message('一个频道只能有一个SEO')
+          } else {
+            this.$message(res.message)
           }
-          this.$message(res.message)
         }
       }).catch(error => {
         console.log(`请求错误`)
@@ -168,7 +173,7 @@ export default {
       })
     },
     onDelClick (index) {
-      //显示删除框
+      // 显示删除框
       this.isDialogShow = true
       this.bianid = this.tableData[index].id
     },
@@ -213,7 +218,7 @@ export default {
         console.log(`请求错误`)
       })
       // 频道
-      codeSource().then(res => {
+      codeChannel().then(res => {
         console.log('data', res)
         if (res.success) {
           this.option_pin = res.result
